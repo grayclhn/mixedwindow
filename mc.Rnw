@@ -1,0 +1,15 @@
+We will also conduct a brief Monte Carlo experiment to demonstrate
+that this modified statistic performs essentially the same as Clark
+and West's.  We draw observations from their \dgp\ 1:
+
+\begin{gather*}
+  y_t = 0.5 + \gamma^{*} z_{t-1} + e_t \qquad\qquad
+  z_t = 0.15 + 0.95 z_{t-1} + v_t \\
+  (e_t, v_t)' \sim iid\ N(0, \begin{pmatrix} 18 & - 0.5 \\ \cdot & 0.025 \end{pmatrix}.
+\end{gather*}
+Both models are estimated by \ols. The benchmark model regresses $y_t$
+on a constant, and the alternative regresses $y_t$ on a constant and
+$z_{t-1}$.  We run the same size and power simulations as
+\citet{ClW:07}; $\gamma^{*}$ equals zero for the size simulations and
+0.35 in the power simulations.
+
