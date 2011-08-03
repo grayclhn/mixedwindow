@@ -60,32 +60,35 @@
 
 \begin{document}
 
-\author{Gray Calhoun\thanks{Address: 467 Heady Hall, Economics
-    Department; Iowa State University; Ames, IA 50011. Telephone:
-    (515) 294-6271.  Email: \texttt{gcalhoun@iastate.edu}.} \\ Iowa
-  State University}
+\author{Gray
+  Calhoun\thanks{\texttt{http://www.econ.iastate.edu/$\sim$gcalhoun};
+    Economics Department; Iowa State University; Ames, IA 50011.
+    Telephone: (515) 294-6271.  Email: \texttt{gcalhoun@iastate.edu}.}
+  \\ Iowa State University}
 
 \title{An asymptotically normal out-of-sample
   test of equal predictive accuracy for nested models} \date{\today}
 \maketitle
 
 \begin{abstract} 
-  \noindent This paper proposes a modification of \citepos[J.
-  Econom.]{ClW:07} adjusted out-of-sample $t$-test.  The
+  \noindent This paper proposes a modification of \citepos[\textit{J.
+      Econom.}]{ClW:07} adjusted out-of-sample $t$-test.  The
   alternative model is still estimated with a fixed-length rolling
   window, but the benchmark is estimated with a recursive window. The
   resulting statistic is asymptotically normal even when the models
   are nested.  Moreover, the alternative model can be estimated using
   popular model selection methods, such as the \aic\ or \bic.  This
   paper also presents a new bootstrap procedure based on
-  \citet[Econometrica]{RoW:05} to compare multiple models while
-  controlling family-wise error, and demonstrates this procedure by
-  analyzing \citepos[Rev. Finan. Stud.]{GoW:08} excess returns dataset.
+  \citet[\textit{Econometrica}]{RoW:05} to compare multiple models
+  while controlling family-wise error that substantially improves
+  existing block bootstrap methods for out-of-sample statistics.  This
+  procedure is then used to analyze
+  \citepos[\textit{Rev. Finan. Stud.}]{GoW:08} excess returns dataset.
 
 \strut
 
 \noindent Keywords: Forecast Evaluation, Martingale Difference
-Sequence, Model Selection, Family-wise Error; Multiple Testing;
+Sequence, Model Selection, Family-Wise Error Rate; Multiple Testing;
 Bootstrap; Reality Check
 
 \strut
@@ -107,13 +110,13 @@ popular,\footnote{As of 03 June 2011, \citet{ClW:06} has been cited by
 is due in part to the statistic's convenience.  The statistic is
 approximately normal after adjusting for the estimation error of the
 larger model.  Normality comes from a fixed-length rolling window, as
-in \citet{GiW:06}, and the adjustment centers the statistic at the
-appropriate population quantities.  This statistic is especially
-convenient because other tests for similar hypotheses \citep[among
-others]{Mcc:07,ClM:05,ClM:01,CoS:04,CoS:02,CCS:01} have a nonstandard
-limit distribution and place restrictions on the models under
-consideration, while other asymptotically normal statistics test a
-different null hypothesis \citep{GiW:06} or place assumptions on the
+in \citet{GiW:06}, and the adjustment centers the statistic
+appropriately.  This statistic is especially convenient because other
+tests for similar hypotheses \citep[among
+  others]{Mcc:07,ClM:05,ClM:01,CoS:04,CoS:02,CCS:01} have a
+nonstandard limit distribution and place restrictions on the models
+under consideration, while other asymptotically normal statistics test
+a different null hypothesis \citep{GiW:06} or place assumptions on the
 models and \dgp\ that are rarely appropriate in empirical work
 \citep{Wes:96,WeM:98,Mcc:00,DiM:95}.
 
@@ -124,7 +127,7 @@ asymptotically normal when the benchmark model is a random walk
 \citep{ClW:06}. Estimating the parameters of the smaller model
 invalidates their proof.
 
-In this paper, I prove that a modified version of their statistic is
+In this paper, I show that a modified version of their statistic is
 asymptotically normal even when the smaller model is estimated.  To
 achieve normality, we need a consistent estimate of the pseudo-true
 benchmark model, while maintaining an inconsistent estimate of the
@@ -186,7 +189,7 @@ Statistics for comparing two models are useful, but a researcher often
 has a set of potential models, and wants to know which of them
 significantly outperform the benchmark.  As \citet{Whi:00} shows,
 looking at the naive $p$-values is misleading, but bootstrapping the
-statistics can give a valid test (White calls this procedure the
+statistics can lead to a valid test (White calls this procedure the
 ``bootstrap reality check'').  So I present a test for equal
 predictive ability of multiple models based on \citepos{RoW:05} StepM,
 which uses a step-down procedure that iteratively rejects models to
@@ -196,22 +199,24 @@ benchmark.
 
 I also present a new result for the validity of using the stationary
 boostrap with \oos\ statistics, which is necessary to verify that the
-StepM is appropriate.  Existing results on boostrapping \oos\
-statistics have some drawbacks.  \citet{Whi:00} and \citet{Han:05} use
-the stationary bootstrap, but require the test sample to be much
-smaller than the training sample, which is obviously inappropriate
-here.  \citet{CoS:07} relax that requirement, but only consider the
-moving block bootstrap \citep{LiS:92,Kun:89} and make the statistic
-more complicated than necessary by adjusting the objective function of
-the bootstrapped statistic to center it correctly.\footnote{Their
-  recentering is required for consistency and does not give higher
-  order accuracy.}  A parametric bootstrap, such as that used by
-\citet{ClM:11}, would be difficult to implement here since we want to
-test whether several different null hypotheses hold individually (as
-I'll discuss later, Clark and McCracken test a single null hypothesis
-that describes the behavior of all of the models under consideration).
-So this paper's result for the stationary bootstrap of \oos\ statistics
-improves on existing procedures.
+StepM is appropriate.  Existing results on boostrapping
+\oos\ statistics have some drawbacks.  \citet{Whi:00} and
+\citet{Han:05} use the stationary bootstrap, but require the test
+sample to be much smaller than the training sample, which is obviously
+inappropriate here.  \citet{CoS:07} relax that requirement, but only
+consider the moving block bootstrap \citep{LiS:92,Kun:89} and make the
+statistic more complicated than necessary by adjusting the objective
+function of the bootstrapped statistic to center it
+correctly.\footnote{Their recentering is required for consistency and
+  does not give higher order accuracy.}  A parametric bootstrap, such
+as that used by \citet{ClM:11}, would be difficult to implement here
+since we want to test whether several different null hypotheses hold
+individually (as I'll discuss later, Clark and McCracken test a single
+null hypothesis that describes the behavior of all of the models under
+consideration and does not let the researcher know which of the models
+outperforms, only that at least one does).  So this paper's result for
+the stationary bootstrap of \oos\ statistics considerably improves on
+existing procedures.
 
 The next section presents our theoretical result and
 Section~\ref{sec:2} presents two simulations that compare our pairwise
@@ -250,14 +255,15 @@ parameter estimation error.
     function and $z_t$ is a sequence of predictors that includes
     $x_t$.
   \item \label{item:3} The series $y_t$ and $z_t$ are \ned\ of size
-    $-1/2$ on a strong mixing series of size $-r/(r-2)$ for $r>2$.
-    Also, $y_t$, $\hat{y}_{1t}$, and $x_t$ have uniformly bounded $2
-    r+\delta$ moments for some positive $\delta$.
+    $-1/2$ on a strong mixing series of size $-r/(r-2)$ for $r>2$ or a
+    uniform mixing series of size $-r/2(r-1)$.  Also, $y_t$,
+    $\hat{y}_{1t}$, and $x_t$ have uniformly bounded $2 r+\delta$
+    moments for some positive $\delta$.
   \item \label{item:4} Define \[f_t(\beta) = (y_{t+1} - x_t'\beta)^2 -
     (y_{t+1} - \hat{y}_{1,t+1})^2 + (x_t'\beta - \hat{y}_{1,t+1})^2,\]
     $\bar{f}(\beta) = P^{-1} \sum_{t=R+1}^T f_t(\beta)$, and $\bar f =
     P^{-1} \sum_{t=R+1}^{T} f_t(\hat{\beta}_t)$, with $P = T - R$. The
-    processes $f_t(\beta_0)$ and $x_t(y_{t+1} - x_t'\beta)_0$ are
+    processes $f_t(\beta_0)$ and $x_t(y_{t+1} - x_t'\beta_0)$ are
     covariance stationary and $\bar f(\beta_0)$ has uniformly positive
     long run variance.
   \end{enumerate}
@@ -336,92 +342,10 @@ The following remarks are relevant to Theorem~\ref{res:1}:
   Lemma~\ref{res:a5} can cover these other applications.
 \end{rem}
 
-Before presenting the method for testing multiple models, I'll give a
-version of \citepos{PoR:94} stationary bootstrap for the \oos\
-statistic of Theorem~\ref{res:1}.  Note that the result holds as well
-for the moving blocks bootstrap of \citet{Kun:89} and \citet{LiS:92}.
-This result will be used in Theorem~\ref{res:2} to derive the joint
-distribution of several models' \oos\ statistics.  The
-boostrap-induced probability measure is denoted $\pr^{*}$.
 
-\begin{lem}\label{res:3}
-  Suppose the conditions of Theorem~\ref{res:1} hold, but strengthen
-  condition~\ref{item:3} so that $y_t$ and $z_t$ are \ned\ of size
-  $-1$ on a strong mixing series of size $-(2r + \rho)/(r-2)$ with
-  $\rho > 0$ and $r > 2$.  Consider the following procedure:
-  \begin{enumerate}
-  \item Define the data matrices $\X_\R = (X_1,\dots,X_R)'$ and $\X_{\p} =
-    (X_{R+1},\dots,X_{T-1})$ with
-    \begin{equation*}
-      X_t = \begin{cases}
-        (y_{t+1}, x_t')' & t \leq R \\
-        (y_{t+1}, x_t', \hat{y}_{1,t+1})' & t > R.
-      \end{cases}
-    \end{equation*}
-  \item Draw $B$ samples of $P$ observations from $\X_{\p}$ using the
-    stationary bootstrap with expected block size $b$ and denote each
-    sample as $\X_{\p, l}^{*}$; let $\X_l^{*} = [\X_{\R}', \X_{\p,l}^{*\prime}]'$.
-  \item Estimate $\bar{f}^{*}_l$ and $\hat{\sigma}_l^{*}$ as in
-    Theorem~\ref{res:1} for each bootstrap sample $\X^{*}_l$.
-  \end{enumerate}
-
-  Let $(\bar{f}^{*},\hat{\sigma}^{*})$ be random variables with the
-  same (conditional) distribution as $(\bar{f}_l^{*},
-  \hat{\sigma}^{*}_l)$.  If $b \to \infty$ and $b^2/P \to 0$
-  \begin{gather}
-    \pr\big[\sup_x \big| \pr^{*}\big[\sqrt{P}(\bar{f}^{*} -
-    \bar{f}(\hat{\beta}_{T+1})) \leq x \big] - \pr\big[\sqrt{P}
-    (\bar{f} - \E \bar{f}(\beta_0)) \leq x\big] \big| > \epsilon\big]
-    \to 0 \intertext{and} \pr\Bigg[\sup_x \Bigg|
-    \pr^{*}\Bigg[\frac{\bar{f}^{*} -
-      \bar{f}(\hat{\beta}_{T+1})}{\hat{\sigma}^{*}/\sqrt{P}} \leq x
-    \Bigg] - \pr\Bigg[\frac{\bar{f} - \E
-      \bar{f}(\beta_0)}{\hat{\sigma}/\sqrt{P}} \leq x\Bigg] \Bigg| >
-    \epsilon\Bigg] \to 0
-  \end{gather}
-  for all $\epsilon>0$.
-\end{lem}
-
-\begin{rem}
-  \citet{Whi:00}, \citet{Han:05}, and \citet{CoS:07} use the
-  distribution of $\sqrt{P}(\bar{f}^{*} - \bar{f})$ to approximate
-  that of $\sqrt{P}(\bar{f} - \E \bar{f}(\beta_0))$, while
-  Lemma~\ref{res:3} uses the distribution of $\sqrt{P}(\bar{f}^{*} -
-  \bar{f}(\hat{\beta}_{T+1}))$; $\hat{\beta}_{T+1}$ plays the same
-  role as $\beta_0$ under the bootstrap-induced probability measure.
-  Since $\hat{\beta}_t - \hat{\beta}_{T+1} = O_p(\sqrt{T-t})$, using
-  their bootstrap distribution is inconsistent unless $P/T$ vanishes
-  asymptotically, as in White and Hansen's
-  papers\footnote{\citet{Whi:00} and \citet{Han:05} actually require
-    that $P$ grow a little bit slower than $o(T)$.} or unless
-  $\hat{\beta}_t^{*}$ is further modified, as in Corradi and Swanson's
-  paper.
-\end{rem}
-
-\begin{rem}
-  It is likely that Lemma~\ref{res:3} holds even if $\sqrt{P} \bar{f}$
-  is not asymptotically normal, but I leave that case to future
-  research as it's not necessary for this paper's results.
-\end{rem}
-
-\begin{rem}
-  How we handle the first $R$ observations does not affect the
-  asymptotic properties since $R$ is finite.  I've chosen to put them
-  at the beginning of each bootstrap sample so that sample means
-  correspond to population means of the bootstrap distribution.  Note
-  that the alternative forecasts are not defined for the first $R$
-  observations, so running the stationary bootstrap over the full
-  dataset is not possible.
-\end{rem}
-
-\begin{rem}
-  See \citet{RoW:05,RoW:06} for guidance on block length
-  selection.
-\end{rem}
-
-Finally, I use Lemma~\ref{res:3} to test multiple models at once.
-There are two approaches one can take.  The first is to test whether
-any of the models can improve on the benchmark; \citet{Whi:00},
+I also use Lemma~\ref{res:1} to test multiple models at once.  There
+are two approaches one can take.  The first is to test whether any of
+the models can improve on the benchmark; \citet{Whi:00},
 \citet{Han:05}, and \citet{ClM:11} take this approach.  This approach
 requires testing a single null hypothesis, that the best model is no
 better than the benchmark, and one wants a test statistic to control
@@ -441,11 +365,32 @@ incorrectly believe that the second model beats the benchmark.
 While methods like \citepos{Whi:00} and \citepos{Han:05} control the
 family-wise error, \citepos{RoW:05} StepM procedure will typically find
 more outperforming models while still controlling the family-wise error
-rate.  Theorem~\ref{res:2} shows how the \oos\ bootstrap of
-Lemma~\ref{res:3} can be used with the StepM procedure.  
+rate.  All of these methods rely on the bootstrap to estimate the
+joint dependence between the test statistic associated with each
+model.  The bootstrap we will use in this paper is new, and is
+outlined in Algorithm~\ref{alg:1}.
+\begin{alg}\label{alg:1}
+  \begin{enumerate}
+  \item Define the data matrices $\X_\R = (X_1,\dots,X_R)'$ and $\X_{\p} =
+    (X_{R+1},\dots,X_{T-1})$ with
+    \begin{equation*}
+      X_t = \begin{cases}
+        (y_{t+1}, x_t')' & t \leq R \\
+        (y_{t+1}, x_t', \hat{y}_{1,t+1})' & t > R.
+      \end{cases}
+    \end{equation*}
+  \item Draw $B$ samples of $P$ observations from $\X_{\p}$ using the
+    stationary bootstrap with expected block size $b$ and denote each
+    sample as $\X_{\p, l}^{*}$; let $\X_l^{*} = [\X_{\R}', \X_{\p,l}^{*\prime}]'$.
+  \item Estimate $\bar{f}^{*}_l$ and $\hat{\sigma}_l^{*}$ as in
+    Theorem~\ref{res:1} for each bootstrap sample $\X^{*}_l$.
+  \end{enumerate}
+\end{alg}
+
+Theorem~\ref{res:2} details the final procedure.
 
 \begin{thm}\label{res:2}
-  Suppose the conditions of Lemma~\ref{res:3} hold, with assumptions
+  Suppose the conditions of Lemma~\ref{res:1} hold, with assumptions
   on the alternative model, $\hat{y}_{1t}$, holding for each of the
   $m$ models $\hat{y}_{1t}, \dots, \hat{y}_{mt}$, let the subscript
   $l$ denote the different quantities associated with $\hat{y}_{lt}$
@@ -457,7 +402,7 @@ Lemma~\ref{res:3} can be used with the StepM procedure.
 
   Let the $*$-superscript denote a random variable with the
   distribution induced by the stationary bootstrap of
-  Lemma~\ref{res:3}, letting $X_t = (y_{t+1}, x_t', \hat{y}_{1,t+1},
+  Algorithm~\ref{alg:1}, letting $X_t = (y_{t+1}, x_t', \hat{y}_{1,t+1},
   \dots, \hat{y}_{m, t+1})'$ for $t > R$ (and unchanged for $t \leq
   R$).  Define $M_j$ as follows:
   \begin{enumerate}
@@ -470,7 +415,7 @@ Lemma~\ref{res:3} can be used with the StepM procedure.
   and reject all of the hypotheses $H_i$ with $i \in \bigcup_{j=0}^m
   M_j$.
 
-  If $b \to \infty$ and $b^2/P \to 0$, this algorithm controls the
+  If $b \to \infty$ and $b/P \to 0$, this algorithm controls the
   \fwe\ at level $\alpha$ for the family of null hypotheses $H_i$
   ($i=1,\dots,m$): the probability of rejecting any true $H_i$ is less
   than or equal to $\alpha$.  Moreover, the probability that $H_i$ is
@@ -515,65 +460,57 @@ The following remarks apply to Theorem~\ref{res:2}.
 \end{rem}
 
 \begin{rem}
+  How we handle the first $R$ observations does not affect the
+  asymptotic properties since $R$ is finite.  I've chosen to put them
+  at the beginning of each bootstrap sample so that sample means
+  correspond to population means of the bootstrap distribution.  Note
+  that the alternative forecasts are not defined for the first $R$
+  observations, so running the stationary bootstrap over the full
+  dataset is not possible.
+\end{rem}
+
+\begin{rem}
+  See \citet{RoW:05,RoW:06} for guidance on block length
+  selection.
+\end{rem}
+
+\begin{rem}
   If the number of alternative models is large, controlling the \fwe\
   may be too strict a criterion.  \citet{RSW:08} discuss procedures to
   control criteria other than the \fwe, and one can use their
   generalizations of the StepM procedure here as well.
 \end{rem}
 
-\section{Monte Carlo Results}\label{sec:2}
-\input{mc}
-\section{Empirical Illustration}\label{sec:3}
-\input{empirics}
-\section{Conclusion}\label{sec:4}
-In this paper, we present an \oos\ test statistic similar to \poscw\
-that is asymptotically normal when comparing nested models.  We do so
-by estimating the alternative model using a fixed-length rolling
-window---as Clark and West do---but estimating the benchmark model
-with a recursive window.  We also present simulations that indicate
-the new statistic behaves similarly to Clark and West's original test,
-suggesting that the new statistic is a suitable replacement in applied
-research.  
+\section{General Results for the Bootstrap}\label{sec:1b}
+The validity of the stationary boostrap in Theorem~\ref{res:2} is a
+special case of a result of independent interest---the validity in
+general of the stationary bootstrap when \oos\ statistics are
+asymptotically normal.  Existing results---\citet{Whi:00},
+\citet{Han:05}, and \citet{CoS:07}---are not appropriate here;
+\citet{Whi:00} and \citet{Han:05} require that $R$ be very large,
+while this paper requires $R$ to be finite; and \citet{CoS:07} require
+a complicated modification of the statistic of interest be used to
+create the bootstrap distribution.  Instead of using these results,
+I'll present one more general.  The proof largely follows the approach
+of \citet{Wes:96}, \citet{WeM:98}, and \citet{Mcc:00}, using the
+arguments of \citet{Cal:11d} for asymptotic normality.
 
-\appendix
-\section*{Appendix}
-
-This Appendix restates \citepos{Mcc:00} results (which themselves
-weaken \citepos{Wes:96} assumptions) under the dependence conditions of
-Theorem~\ref{res:1}, which is fairly trivial.  It also presents a new
-stationary bootstrap for \oos\ statistics based on the recursive
-window that uses results in \citet{GoJ:03} to weaken \citepos{CoS:07}
-assumptions.  I'll use the same notation as in the main body of the
-paper, but functional forms and definitions are different here to
-reflect the increased generality.  By and large, a variable in the
-main paper (say $f_t$) is a special case of the same variable in this
-subsection.  We'll also use array notation in this section.
-
-In this appendix, let $\to^{p^{*}}$ and $\to^{d^{*}}$ refer to
+In this section, let $\to^{p^{*}}$ and $\to^{d^{*}}$ refer to
 convergence in probability or distribution conditional on the observed
 data.  Similarly, $\E^{*}$, $\var^{*}$, and $\cov^{*}$ refer to the
 expectation, variance, and covariance with respect to the probability
 measure induced by the stationary bootstrap, and $y_t^{*}$, etc. is
 the random variable $y_t$ but under the bootstrap-induced \cdf.
 
-\section{General Assumptions}
+Note that the notation in this section is more general than that of
+Section~\ref{sec:1}.  The assumptions required are generalizations of
+the conditions of Theorems~\ref{res:1} and~\ref{res:2}.  See
+\citet{Wes:96,Wes:06}, \citet{WeM:98}, and \citet{Mcc:00} for a
+discussion of these conditions, as theirs are nearly identical.
 
-This section's lemmas depend on the following assumptions, which are
-generalizations of the conditions of Theorems~\ref{res:1}
-and~\ref{res:2}.  See \citet{Wes:96,Wes:06}, \citet{WeM:98}, and
-\citet{Mcc:00} for a discussion of these conditions, as theirs are
-nearly identical.
-
-\begin{asmp}\label{asmp:a1}  We need two versions of the weak-dependence and moment
-  conditions; the first for the asymptotic distribution of the \oos\
-  statistic, and the second for the bootstrap distribution.
-  \begin{enumerate}
-  \item[a.] Let $\{y_t, z_t\}$ be an $L_2$-\ned\ process of size $-1/2$ on
-    a strong mixing series $\{V_t\}$ of size $-r/(r-2)$, with $r > 2$.
-  \item[b.] Let $\{y_t, z_t\}$ be an $L_{2+\delta}$-\ned\ process of
-    size $-1$ on a strong mixing series $\{V_t\}$ of size $-(2r +
-    \delta)/(r - 2)$, with $r > 2$ and $\delta > 0$.
-  \end{enumerate}
+\begin{asmp}\label{asmp:a1} 
+  Let $\{y_t, z_t\}$ be an $L_2$-\ned\ process of size $-1/2$ on a
+  strong mixing series $\{V_t\}$ of size $-r/(r-2)$, with $r > 2$.
 \end{asmp}
 
 \begin{asmp}\label{asmp:a2}  This assumption defines the series of
@@ -628,6 +565,62 @@ nearly identical.
   h_{t} \|_Q \leq C \epsilon^{\phi},\] where $N(\beta, \epsilon) =
   \{b : |b - \beta| < \epsilon\}$.
 \end{asmp}
+
+\begin{thm}\label{res:3}
+  If Assumptions~\ref{asmp:a1}--\ref{asmp:a5} hold , $P, b \to \infty$
+  and $b/P \to 0$ as $T \to \infty$, and (p.d. assumption holds) then
+  \begin{equation}
+    \pr[\sup_x | \pr^*[\sqrt{P} (\bar{f}^* - \bar{f}(\hat{\beta}_{T+1}))
+        \leq x] - \pr[\sqrt{P}( \bar{f} - \E f(\beta_0)) \leq x] | >
+      \epsilon] \to 0
+  \end{equation}
+  for all $\epsilon > 0$.
+\end{thm}
+
+\begin{rem}
+  \citet{Whi:00}, \citet{Han:05}, and \citet{CoS:07} use the
+  distribution of $\sqrt{P}(\bar{f}^{*} - \bar{f})$ to approximate
+  that of $\sqrt{P}(\bar{f} - \E \bar{f}(\beta_0))$, while
+  Lemma~\ref{res:3} uses the distribution of $\sqrt{P}(\bar{f}^{*} -
+  \bar{f}(\hat{\beta}_{T+1}))$; $\hat{\beta}_{T+1}$ plays the same
+  role as $\beta_0$ under the bootstrap-induced probability measure.
+  Since $\hat{\beta}_t - \hat{\beta}_{T+1} = O_p(\sqrt{T-t})$, using
+  their bootstrap distribution is inconsistent unless $P/T$ vanishes
+  asymptotically, as in White and Hansen's
+  papers\footnote{\citet{Whi:00} and \citet{Han:05} actually require
+    that $P$ grow a little bit slower than $o(T)$.} or unless
+  $\hat{\beta}_t^{*}$ is further modified, as in Corradi and Swanson's
+  paper.
+\end{rem}
+
+
+\section{Monte Carlo Results}\label{sec:2}
+\input{mc}
+\section{Empirical Illustration}\label{sec:3}
+\input{empirics}
+\section{Conclusion}\label{sec:4}
+In this paper, we present an \oos\ test statistic similar to \poscw\
+that is asymptotically normal when comparing nested models.  We do so
+by estimating the alternative model using a fixed-length rolling
+window---as Clark and West do---but estimating the benchmark model
+with a recursive window.  We also present simulations that indicate
+the new statistic behaves similarly to Clark and West's original test,
+suggesting that the new statistic is a suitable replacement in applied
+research.  
+
+\appendix
+\section*{Appendix}
+
+This Appendix restates \citepos{Mcc:00} results (which themselves
+weaken \citepos{Wes:96} assumptions) under the dependence conditions of
+Theorem~\ref{res:1}, which is fairly trivial.  It also presents a new
+stationary bootstrap for \oos\ statistics based on the recursive
+window that uses results in \citet{GoJ:03} to weaken \citepos{CoS:07}
+assumptions.  I'll use the same notation as in the main body of the
+paper, but functional forms and definitions are different here to
+reflect the increased generality.  By and large, a variable in the
+main paper (say $f_t$) is a special case of the same variable in this
+subsection.  We'll also use array notation in this section.
 
 \section{General Results}
 
@@ -724,8 +717,17 @@ dependence conditions.  Note that we allow $R$ to diverge to infinity
 or to remain finite.
 
 \begin{lema}\label{res:a5}
-  If Assumptions~\ref{asmp:a1}a, \ref{asmp:a2}a, \ref{asmp:a3},
-  \ref{asmp:a4}, and \ref{asmp:a5} hold and $P \to \infty$ as $T \to
+  If Assumptions~\ref{asmp:a1}, \ref{asmp:a3}, \ref{asmp:a4}, and
+  \ref{asmp:a5} hold, and instead of \ref{asmp:a2} we have the weaker
+  condition: The estimator $\hat{\beta}_t$ of $\beta_0$ satisfies
+  $\hat{\beta}_{t} - \beta_{0} = \hat{B}_{t} H_t$; $\hat{B}_{t}$ is a
+  sequence of $k$ by $q$ matrices that converges almost surely to the
+  deterministic sequence $B_{t}$, in the sense that $\sup_{t \in
+    \{S_T,\dots,T\}} | \hat{B}_{t} - B | \to 0$ almost surely for any
+  sequence $S_T$ that diverges to $\infty$ with $T$; $H_{t}$ is a
+  sequence of $q$-vectors such that $H_{t} = (1/t) \sum_{s=1}^t
+  h_{s}(\beta_{0})$, $h_{s}(\beta) = h(y_{s}, z_{s}, \beta)$, and $\E
+  h_{s}(\beta_{0}) = 0$ for all $s$.  And $P \to \infty$ as $T \to
   \infty$, (add p.d. assumption too) then
   \begin{equation}
     P^{-1/2} \sum_{t=R+1}^T
@@ -742,37 +744,6 @@ or to remain finite.
   and $R'$ in the preceding equations without changing the asymptotic
   distributions of the statistics.  Note that $P'/R' \to \infty$.  The
   proof then follows exactly as in \citet[Theorem 2.3.1]{Mcc:00}
-\end{proof}
-
-The next Lemma presents our recursive window bootstrap scheme.
-\begin{lema}\label{res:a6}
-  If Assumptions~\ref{asmp:a1}b, \ref{asmp:a2}b, \ref{asmp:a3},
-  \ref{asmp:a4}, and \ref{asmp:a5} hold , $P \to \infty$ as $T \to
-  \infty$, and (p.d. assumption holds) then
-  \begin{equation}
-    P^{-1/2} \sum_{t=R+1}^T
-    (f_{t}^{*}(\hat{\beta}_{t}^{*}) - \E^{*} f^{*}_{t}(\beta_{0}^{*})) \to^{d^{*}} N(0, \Omega^{*})
-  \end{equation}
-  and $\Omega^{*} \to^p \Omega$, where
-  \begin{align}
-    \Omega^{*} =     
-  \end{align}
-\end{lema}
-
-\begin{proof}[Proof of Lemma~\ref{res:a6}]
-  Replace $R$ and $P$ with $\tilde{R}$ and $\tilde{P}$ as in the proof
-  of Lemma~\ref{res:a5}, and expand $\E^{*}
-  f_t^{*}(\hat{\beta}_t^{*})$ around $\hat{\beta}_{T+1}$ to get
-  \begin{equation}
-    \sqrt{P'} (\bar{f}^{*} - \bar{f}(\hat{\beta}_{T+1})) =
-    \frac{1}{\sqrt{P'}} \sum_{t=R'+1}^T
-    \big[f_t^{*}(\hat{\beta}_{T+1}) - \bar{f}(\hat{\beta}_{T+1}) +
-    F^{*} B^{*} a_t h_t^{*} \big] + o_{p^{*}},
-  \end{equation}
-  with the proof following exactly in \citet[Theorem 2.3.1]{Mcc:00}.
-  Note that $F^{*} = \hat{F} + o_{p^{*}}$ and $B^{*} = \hat{B}_{T+1} +
-  o_{p^{*}}$.  The result then follows from Lemma~\ref{res:a3} and the
-  consistency of these estimators.
 \end{proof}
 
 \section{Proofs of Main Theoretical Results}
@@ -795,11 +766,27 @@ The next Lemma presents our recursive window bootstrap scheme.
   which converges to the same limit as $\hat{\sigma}_i$.
 \end{proof}
 
+\begin{proof}[Proof of Theorem~\ref{res:3}]
+  Replace $R$ and $P$ with $R'$ and $P'$ as in the proof
+  of Lemma~\ref{res:a5}, and expand $\E^{*}
+  f_t^{*}(\hat{\beta}_t^{*})$ around $\hat{\beta}_{T+1}$ to get
+  \begin{equation}
+    \sqrt{P'} (\bar{f}^{*} - \bar{f}(\hat{\beta}_{T+1})) =
+    \frac{1}{\sqrt{P'}} \sum_{t=R'+1}^T
+    \big[f_t^{*}(\hat{\beta}_{T+1}) - \bar{f}(\hat{\beta}_{T+1}) +
+    F^{*} B^{*} a_t h_t^{*} \big] + o_{p^{*}},
+  \end{equation}
+  with the proof following exactly in \citet[Theorem 2.3.1]{Mcc:00}.
+  Note that $F^{*} = \hat{F} + o_{p}$ and $B^{*} = \hat{B}_{T+1} +
+  o_{p}$.  The result then follows from Lemma~\ref{res:a3} and the
+  consistency of these estimators.
+\end{proof}
+
 \bibliography{AllRefs}
 \end{document}
 
 % LocalWords:  ClW JEL ISI Google GiW Mcc ClM CoS CCS StW IMA GiR WeM fh X'X hh
 % LocalWords:  PaT AllRefs isi ima uc sv PeT GoW lm il GoK RoW Econometrica PoR
-% LocalWords:  Finan StepM studentizing studentization Whi HuW RSW
+% LocalWords:  Finan StepM studentizing studentization Whi HuW RSW recentering
 % LocalWords:  DiM LiS Kun McCracken lt filtrations GoJR JoD McCracken's Econom
-% LocalWords:  Corradi unstudentized studentized
+% LocalWords:  Corradi unstudentized studentized fg gg GoJ
