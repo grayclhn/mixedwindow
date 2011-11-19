@@ -1,11 +1,12 @@
-\documentclass[12pt,fleqn]{article}
+\documentclass[10pt,fleqn,draft]{article}
 
 \usepackage{amsfonts}
-\usepackage{amsmath,amsthm,amssymb,graphicx,setspace,url,booktabs,tabularx,enumerate,eco}
+\usepackage{amsmath,amsthm,amssymb,graphicx,setspace,url,booktabs,tabularx,enumerate,slantsc}
 \usepackage[T1]{fontenc}
+\usepackage{lmodern}
 \usepackage[nolists,nomarkers]{endfloat}
 \usepackage[sort,round]{natbib}
-\usepackage[margin=1.25in]{geometry}
+\usepackage[top=1in,left=1.75in,right=1.75in,bottom=1.25in]{geometry}
 \usepackage[small]{caption}
 \newcolumntype{C}{>{\centering\arraybackslash}X}
 
@@ -16,6 +17,13 @@
 \frenchspacing
 \input{tex/simulationdefinitions}
 \input{tex/empiricalresults}
+
+% redfine heading styles
+\makeatletter
+\renewcommand\section{\@startsection%
+{section}{1}{0pt}{-\baselineskip}{0.5\baselineskip}%
+{\normalfont\normalsize\bfseries\large\raggedright}}
+\makeatother
 
 \newtheorem{thm}{Theorem}
 \newtheorem{lem}[thm]{Lemma}
@@ -385,7 +393,7 @@ Please see the original papers for a discussion of these assumptions.
     \psi(y_t,z_t,\dots,y_{t-R+1}, z_{t-R+1})$ where $\psi$ is a known
     function and $z_t$ is a sequence of predictors that includes
     $x_t$.
-  \item \label{item:3} The series $y_t$ and $z_t$ are \ned\ of size
+  \item \label{item:3} The series $y_t$ and $z_t$ are \textsl{\ned} of size
     $-\frac12$ on a strong mixing series of size $-\frac{r}{r-2}$ for $r>2$ or a
     uniform mixing series of size $-\frac{r}{2r-2}$.  Also, $y_t$,
     $\hat{y}_{1t}$, and $x_t$ have uniformly bounded $2 r+\delta$
@@ -617,13 +625,13 @@ Theorem~\ref{res:2} presents the final procedure.
   \item\label{it:1} For each $G \subset \{1,\dots,m\}$, let
     $\mathcal{F}_t^G$ be the smallest $\sigma$-field containing
     $\mathcal{F}_{lt}$ for all $l \in G$.  Under the null hypothesis
-    that $y_t - \hat{y}_{0t}$ is an \mds\ with respect to
+    that $y_t - \hat{y}_{0t}$ is an \textsl{\mds} with respect to
     $\mathcal{F}_t^I$ for some $I \subset \{1,\dots,m\}$, the
     procedure outlined above, but using the moving block bootstrap
     with block length $1$, has probability at most $\alpha$ of rejecting
     one or more models in $I$.
   \item\label{it:2} Let $H_l$ be the null hypothesis that $y_t -
-    \hat{y}_{0t}$ is an \mds\ with respect to $\mathcal{F}_{lt}$
+    \hat{y}_{0t}$ is an \textsl{\mds} with respect to $\mathcal{F}_{lt}$
     against the one-sided alternative $\E \bar f_i(\beta_0) > 0$.  If
     $p \to 0$ and $P p \to \infty$ as $T \to \infty$ (for the
     stationary bootstrap) or $b \to \infty$ and $\frac{b}{P} \to 0$
@@ -768,7 +776,7 @@ Theorem~\ref{res:3} gives the result.
 \begin{thm}\label{res:3}
   Suppose the following conditions hold:
   \begin{enumerate}
-  \item Let $\{y_t, z_t\}$ be an $L_2$-\ned\ process of size $-\frac12$ on
+  \item Let $\{y_t, z_t\}$ be an $L_2$-\textsl{\ned} process of size $-\frac12$ on
     a strong mixing series $\{V_t\}$ of size $-\frac{r}{r-2}$, with $r
     > 2$.
   \item The estimator $\hat{\beta}_t$ of $\beta_0$ is estimated with a
@@ -851,12 +859,13 @@ Theorem~\ref{res:3} gives the result.
 I'll conduct two brief Monte Carlo experiments to demonstrate that the
 modified version of \citepos{ClW:07} statistic performs similarly to
 their original test in the situations they study.\footnote{All of
-  these simulations were programmed in R \citep{R:2-13-0} and use the
-  \textsc{MASS} \citep{VeR:02}, xtable \citep{Dah:09}, and dbframe
-  \citep{Cal:10b} packages.  Version
-  information is listed in the bibliography.}  I'll use both of the
-\dgp s they consider as well as a modification to study the
-performance of the statistics if there is instability.  
+  these simulations were programmed in R \citep[version 2.14.0]{R} and
+  use the \textsc{MASS} \citep[version info]{VeR:02}, xtable
+  \citep[version info]{Dah:09}, and dbframe \citep[version
+  0.2.1]{Cal:10b} packages.  For details on the programming, please
+  see the supplemental appendices \citep{Cal:11f,Cal:11g,Cal:11h}.}
+I'll use both of the \dgp s they consider as well as a modification to
+study the performance of the statistics if there is instability.
 
 The first \dgp\ has three different parametrizations; one to study the
 tests' size, one to study power under stationarity, and one to study
@@ -984,9 +993,10 @@ combination forecasts, the mean and the median (over both the original
 and the non-negative forecasts).  The data set is annual data
 beginning in 1927 and ending in 2009, and the rolling window uses 10
 observations.\footnote{This statistical analysis was conducted in R
-  \citep{R:2-13-0} using the xtable \citep{Dah:09}, Hmisc
-  \citep{Har:10}, and dbframe \citep{Cal:10b} packages; version
-  information for each package is listed in the bibliography.}
+  \citep{R} using the xtable \citep[version]{Dah:09}, Hmisc
+  \citep[version]{Har:10}, and dbframe \citep[version 0.2.1]{Cal:10b}
+  packages; please see the supplemental appendices for details on the
+  programming \citep{Cal:11f,Cal:11g,Cal:11h}.}
 
 Table~\ref{tab:em1} presents the results for each model.  The column
 ``value'' gives the value of the test statistic for each model, while

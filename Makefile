@@ -13,12 +13,8 @@
 #
 # -Gray Calhoun <gcalhoun@iastate.edu>
 
-Rscript := Rscript
-RFLAGS  := --vanilla
-
-.PHONY: all
-all: Paper.pdf Documentation.pdf
-
+.PHONY: all clean burn
+all:
 Makefile.mk: Documentation.nw
 	notangle -t1 -R$@ $< | sed 's/^ /\t/' > $@
 

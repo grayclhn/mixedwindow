@@ -1,159 +1,193 @@
 % -*- mode: noweb; noweb-default-code-mode: R-mode -*-
-\documentclass[11pt,draft]{article}
-\usepackage{noweb,setspace,amsmath,amsthm,amssymb,microtype,natbib}
+\documentclass[10pt,draft]{article}
+\usepackage{noweb,setspace,amsmath,amsthm,amssymb,microtype,ae,url}
+\usepackage[round]{natbib}
 \usepackage[T1]{fontenc}
-\usepackage[margin = 1in]{geometry}
-\usepackage{hyperref}
-% \bibliographystyle{abbrvnat}
+\usepackage[top=1in,left=1.75in,right=1.75in,bottom=1.25in]{geometry}
+\bibliographystyle{abbrvnat}
 \frenchspacing
 \DisableLigatures{family=tt*}
 \noweboptions{longxref}
-\def\nwendcode{\endtrivlist \endgroup}
-\let\nwdocspar=\par
+\let\nowebsize=\small
+% \def\nwendcode{\endtrivlist \endgroup}
+% \let\nwdocspar=\par
+
+\makeatletter
+\renewcommand\section{\@startsection%
+{section}{1}{0pt}{-\baselineskip}{0.5\baselineskip}%
+{\normalfont\normalsize\bfseries\large\raggedright}}
+\renewcommand\subsection{\@startsection%
+{subsection}{2}{0pt}{-0.5\baselineskip}{0.5\baselineskip}%
+{\normalfont\small\bfseries\raggedright}}
+\makeatother
 
 \newcommand{\dgp}{\textsc{dgp}}
 
 \begin{document}
 
-\title{Code and documentation appendix: An asymptotically normal
+\title{Supplemental appendix 1 for ``An asymptotically normal
   out-of-sample test of equal predictive ability for nested
-  models\footnote{Copyright \textcopyright\ 2011 by
-    Gray Calhoun \texttt{<gcalhoun@iastate.edu>}}}
+  models.''\\{\large Code and documentation for Monte Carlo and data
+    analysis}}
 
 \author{Gray Calhoun\\Iowa State University} \date{Version~0.1.1\\\today}
 
 \maketitle
 
 \tableofcontents
+\newpage
 
-\begin{abstract}\noindent
-  This file describes all of the commands necessary to create the
-  final pdf of the paper, including running the empirical analysis and
-  the Monte Carlo simulations.  Section~\ref{sec:mc} describes all of
-  the files necessary to do the simulations.
-  Section~\ref{sec:empirical-analysis} describes the files necessary
-  to do the data analysis.  Section~\ref{sec:gmake} runs the shell
-  commands necessary to actually execute the code that does the
-  analysis.  This code is written as a Makefile (using \textsc{gnu}
-  Make).  One kind of tricky thing about this code is that I've set it
-  up to parallelize the Monte Carlo (so that, if you have $n$
-  processors, you can run the code $n$ times as fast), but I've
-  implemented the parallelization through the Makefile.  So there is
-  code in the Makefile to start an arbitrary number of R processes,
-  assign a portion of the simulations to each one, and then
-  consolidate the results at the end.  I think this approach is more
-  transparent than using R's parallelization methods.  (Although that
-  may not be true in the most recent versions of R).
-\end{abstract}
+\section{Introduction}
+
+This file describes all of the commands necessary to create the final
+pdf of the paper, including running the empirical analysis and the
+Monte Carlo simulations.  Section~\ref{sec:mc} describes all of the
+files necessary to do the simulations.
+Section~\ref{sec:empirical-analysis} describes the files necessary to
+do the data analysis.  Both are written in R \citep{R}.
+Section~\ref{sec:gmake} runs the shell commands necessary to actually
+execute the code that does the analysis.  This code is written as a
+Makefile (using \textsc{gnu} Make).  One kind of tricky thing about
+this code is that I've set it up to parallelize the Monte Carlo (so
+that, if you have $n$ processors, you can run the code $n$ times as
+fast), but I've implemented the parallelization through the Makefile.
+So there is code in the Makefile to start an arbitrary number of R
+processes, assign a portion of the simulations to each one, and then
+consolidate the results at the end.  I think this approach is more
+transparent than using R's parallelization methods.  (Although that
+may not be true in the most recent versions of R).
+
+This document was assembled by noweb \citep[see][]{JoJ:97,Ram:94},
+which also writes the source code described here to individual files.
+Noweb is a tool for \emph{literate programming} as proposed by
+\citet{Knu:84}, a programming style that combines the code and its
+documentation to make a program that can be read and understood by
+other people (hopefully).  The angled brackets followed by the
+``equivalence'' symbol, \LA{}\textit{label}\RA{}$\equiv$, indicate a
+code chunk---a small piece of the program.  If the label is a file
+name, that code is meant to be written to that file.  If the label
+isn't a file name, that code is meant to be inserted wherever
+\LA{}\textit{label}\RA{} appears in the other code chunks, possibly
+in multiplte places.\footnote{For a better understanding, it's probably
+  best to open, for example, the file \textit{R/montecarlo.R} and
+  compare the code there to the code as it is written in
+  \LA{}\textit{R/montecarlo.R}\RA{} in this document.}  I'm using this
+approach as an experiment and welcome any feedback or comments you
+might have---especially if you see bugs or errors I missed in the
+code.
+
+It's worth emphasizing that the file Documentation.nw contains
+the real source code for this analysis, and that the other code files
+are derived directly from this one.  As a reminder, the following text
+is also pasted to the beginning of each of those other files.
+<<license, copyright, and warning>>=
+ # This file was generated automatically by noweb. You probably should not 
+ # edit it. Edit the original source code in Documentation.nw instead, and 
+ # see Documentation.pdf for documentation.
+@ %
+Moreover, this is open-source/free software and
+the following licensing and copying restrictions apply to all of the
+code described in this document.  The following text is pasted to the
+beginning of each code file and obviously applies to this document as
+well:
+<<license, copyright, and warning>>=
+ # Copyright (c) 2011 Gray Calhoun.
+
+ # This program is free software: you can redistribute it and/or modify it 
+ # under the terms of the GNU General Public License as published by the 
+ # Free Software Foundation, either version 3 of the License, or (at your 
+ # option) any later version.
+
+ # This program is distributed in the hope that it will be useful, but 
+ # WITHOUT ANY WARRANTY; without even the implied warranty of 
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+ # General Public License for more details.
+
+ # You should have received a copy of the GNU General Public License along 
+ # with this program.  If not, see <http://www.gnu.org/licenses/>.
+@ 
 
 \section{Monte Carlo code}\label{sec:mc}
 
 \subsection{Overall structure of code}
-All of the simulations have a similar structure.  The outline of the
-programs are (for \textsc{dgp} 1):
+All of the simulations have a similar structure.  The number at the
+beginning of the [[simulationtype]] column is there to make it easy to
+set the ordering I want to use to sort the results.  The outline of
+the programs are (for \textsc{dgp} 1):
 
 <<R/montecarlo.R>>=
 ### -*- mode: R -*-
-options(error=quote({cat(.lec.WriteState(LETTERS[1:<<number of jobs>>])),
-                     dump.frames(dumpto = sprintf("db/dgp1job%d.Rda", jjob),
-                                 to.file=TRUE); q()}))
+<<license, copyright, and warning>>
 mcdesign <- expand.grid(P = c(120, 240, 360, 720), R = c(120, 240),
-                        simulationtype = c("size", "stable", "breaks"))
+              simulationtype = c("0.size", "1.stable", "2.breaks"),
+              stringsAsFactors = FALSE)
 <<Load libraries used in simulations>>
 <<Initialize random number generator for Monte Carlo 1>>  
 <<Define models and DGPs for Monte Carlo 1>>
 <<Connect to results database for Monte Carlo 1>>
 for (r in rows(mcdesign)) {
-  insert(mcdata) <-
-    data.frame(r, row.names = seq_len(<<number of simulations for each process>>),
-      t(replicate(<<number of simulations for each process>>, {
-        randomdata <- with(r, generate.data.mc1(R + P, simulationtype))
-
-        c(clarkwestrolling = 
-            clarkwest(null, alt, randomdata, r$R, window = "rolling")$pvalue,
-          clarkwestrecursive = 
-            clarkwest(null, alt, randomdata, r$R, window = "recursive")$pvalue,
-          mixed = 
-            mixedwindow(null, alt, randomdata, r$R, window = "rolling")$pvalue)
-      })))}
+  print(r)
+  insert(mcdata) <- data.frame(r, 
+    row.names = seq_len(<<number of simulations for each process>>),
+    t(replicate(<<number of simulations for each process>>, {
+      randomdata <- with(r, generate.data.mc1(R + P, simulationtype))
+      c(clarkwestrolling = 
+          clarkwest(null, alt, randomdata, r$R, window = "rolling")$pvalue,
+        clarkwestrecursive = 
+        clarkwest(null, alt, randomdata, r$R, window = "recursive")$pvalue,
+        mixed = 
+        mixedwindow(null, alt, randomdata, r$R, window = "rolling")$pvalue)
+    })))}
 @ and for \textsc{dgp} 2:
 <<R/montecarlo2.R>>=
 ### -*- mode: R -*-
+<<license, copyright, and warning>>
 mcdesign <- expand.grid(P = c(40, 80, 120, 160), R = c(80, 120), 
-                        simulationtype = c("size", "power"))
+                        simulationtype = c("0.size", "1.power"),
+                        stringsAsFactors = FALSE)
 <<Load libraries used in simulations>>
 <<Initialize random number generator for Monte Carlo 2>>
 <<Define models and DGPs for Monte Carlo 2>>
 <<Connect to results database for Monte Carlo 2>>
 for (r in rows(mcdesign)) {
   print(r)
-  insert(mcdata) <-
-    data.frame(r, row.names = seq_len(<<number of simulations for each process>>),
-      t(replicate(<<number of simulations for each process>>, {
-        randomdata <- with(r, generate.data.mc2(R + P, simulationtype))
-
-        c(clarkwestrolling1 = clarkwest(null1, alt1, randomdata, 
-                                        r$R, window = "rolling")$pvalue,
-          clarkwestrecursive1 = clarkwest(null1, alt1, randomdata, 
-                                          r$R, window = "recursive")$pvalue,
-          mixed1 = mixedwindow(null1, alt1, randomdata, 
-                               r$R, window = "rolling")$pvalue,
-          clarkwestrolling2 = clarkwest(null2, alt2, randomdata, 
-                                        r$R, window = "rolling")$pvalue,
-          clarkwestrecursive2 = clarkwest(null2, alt2, randomdata, 
-                                          r$R, window = "recursive")$pvalue,
-          mixed2 = mixedwindow(null2, alt2, randomdata, r$R, 
-                               window = "rolling")$pvalue)
-      })))}
+  insert(mcdata) <- data.frame(r, 
+    row.names = seq_len(<<number of simulations for each process>>),
+    t(replicate(<<number of simulations for each process>>, {
+      randomdata <- with(r, generate.data.mc2(R + P, simulationtype))
+      c(clarkwestrolling1 = clarkwest(null1, alt1, randomdata, 
+                                          r$R, window = "rolling")$pvalue,
+        clarkwestrecursive1 = clarkwest(null1, alt1, randomdata, 
+                                        r$R, window = "recursive")$pvalue,
+        mixed1 = mixedwindow(null1, alt1, randomdata, 
+                                          r$R, window = "rolling")$pvalue,
+        clarkwestrolling2 = clarkwest(null2, alt2, randomdata, 
+                                          r$R, window = "rolling")$pvalue,
+        clarkwestrecursive2 = clarkwest(null2, alt2, randomdata, 
+                                        r$R, window = "recursive")$pvalue,
+        mixed2 = mixedwindow(null2, alt2, randomdata, r$R, 
+                                               window = "rolling")$pvalue)
+    })))}
 @ %
 The first Monte Carlo has more variations of the \dgp\ and the second
 has more variations of the models.
 
-The [[oosanalysis]] package defines most of the new functions that I
-use to run the simulations.  [[dbframe]] is a convenient interface for
-the SQLite database package.  [[rlecuyer]] is used to generate
-pseudo-random numbers that are valid with parallel processes.  And
-[[dse]] will be used to generate random data for the simulations.
+The [[oosanalysis]] package was developed to support this paper and
+defines most of the new functions that I use to run the simulations.
+[[dbframe]] \citep{Cal:10b} is a convenient interface to SQLite
+databases that help with data management \citep[see also][]{Jam:10}.
+[[dse]] \citep{Gil:93,Gil:95,Gil:00,Gil:06} will be used to generate
+random data for the simulations.  And [[rlecuyer]] handles random
+number generation for parallel processes \citep{Lec:99,LSC:02,SeR:09}
 
 <<Load libraries used in simulations>>=
 ### -*- mode: R -*-
-library(oosanalysis)
 library(dbframe)
-library(rlecuyer)
 library(dse)
-@ %def insert clarkwest mixedwindow rows publictable dbframe .lec.SetPackageSeed ARMA simulate .lec.CreateStream .lec.CurrentStream
-
-The next chunks of R code set up and seed the random number generators
-(these functions are defined in the [[rlecuyer]] package).
-<<Initialize random number generator for Monte Carlo 1>>=
-### -*- mode: R -*-
-.lec.SetPackageSeed(c(89, 7345, 0909, 17593, 8759, 76))
-jobnames <- LETTERS[1:<<number of jobs>>]
-.lec.CreateStream(jobnames)
-.lec.CurrentStream(jobnames[jjob])
-@ 
-
-<<Initialize random number generator for Monte Carlo 2>>=
-### -*- mode: R -*-
-.lec.SetPackageSeed(c(819, 3475, 9090, 75139, 78599, 67))
-jobnames <- LETTERS[1:<<number of jobs>>]
-.lec.CreateStream(jobnames)
-.lec.CurrentStream(jobnames[jjob])
-@ 
-
-
-<<Connect to results database for Monte Carlo 1>>=
-### -*- mode: R -*-
-mcdata <- dbframe("dgp1", sprintf("db/dgp1db%d", jjob))
-clear(mcdata)
-@
-
-<<Connect to results database for Monte Carlo 2>>=
-### -*- mode: R -*-
-mcdata <- dbframe("dgp2", sprintf("db/dgp2db%d", jjob))
-clear(mcdata)
-@ 
-\subsection{DGP and models for Monte Carlo 1}
+library(oosanalysis)
+library(rlecuyer)
+@ %def insert clarkwest clear mixedwindow rows publictable dbframe ARMA simulate .lec.SetPackageSeed .lec.CreateStream .lec.CurrentStream
+\subsection{Monte Carlo 1 details}
 
 The first Monte Carlo mimics an excess returns prediction exercise.
 The benchmark model is the prevailing mean and the alternative is a
@@ -164,254 +198,396 @@ stable alternative and an alternative with a break.
 null <- function(d) lm(y ~ 1, data = d)
 alt <- function(d) lm(y ~ zlag, data = d)
 
-generate.data.mc1 <- function(nobs, simulationtype, nburn = 1000)
+generate.data.mc1 <- function(nobs, simulationtype, nburn = 1000) {
+  mean.gamma <- 0.35
+  innovation.vcv <- matrix(c(18, -0.5, -0.5, 0.025), 2, 2)
   switch(simulationtype,
-         size   = generate.mc1.stable(nobs, 0, nburn),
-         stable = generate.mc1.stable(nobs, 0.35, nburn),
-         breaks = generate.mc1.break(nobs/2, nobs/2, 0, 0.7, nburn))
-
+    "0.size"   = generate.mc1.stable(nobs, 0, innovation.vcv, nburn),
+    "1.stable" = generate.mc1.stable(nobs, mean.gamma, 
+                                     innovation.vcv, nburn),
+    "2.breaks" = generate.mc1.break(nobs/2, nobs/2, 0, 2 * mean.gamma, 
+                                    innovation.vcv, nburn))
+}
 <<Define [[generate.mc1.stable]]>>
 <<Define [[generate.mc1.break]]>>
 @ %def null alt generate.data.mc1
 
 The stable \dgp\ is simply a Vector Autoregression; the variable
-[[zlag]] affects [[y]] under the alternative but not under the
-null.  Out of laziness, I draw an additional [[nburn]] observations
-before drawing the random sample, rather than draw the initial values
-of the series from the stationary (marginal) distribution.
+[[zlag]] affects [[y]] under the alternative but not under the null.
+Out of laziness, I draw and discard an additional [[nburn]]
+observations before drawing the random sample, rather than draw the
+initial values of the series from the stationary (marginal)
+distribution.
 <<Define [[generate.mc1.stable]]>>=
 ### -*- mode: R -*-
-generate.mc1.stable <- function(nobs, gammastar, nburn) {
-  d <- simulate(
-         ARMA(A = array(c(1, 0, 0, 0, 0, - gammastar, 1, - 0.95), c(2, 2, 2)), 
-              B = diag(2), output.names = c("y", "z")),
-         sampleT = nobs + nburn, 
-         Cov = matrix(c(18, -0.5, -0.5, 0.025), 2))$output
+generate.mc1.stable <- function(nobs, gammastar, innovation.vcv, nburn) {
+  d <- simulate(compiled = FALSE,
+    ARMA(A = array(c(1, 0, 0, 0, 0, - gammastar, 1, - 0.95), c(2, 2, 2)), 
+         B = diag(2), output.names = c("y", "z")),
+    sampleT = nobs + nburn, Cov = innovation.vcv)$output
   after.burnin <- seq_len(nobs) + nburn
-  data.frame(y    = d[after.burnin,     "y"], z    = d[after.burnin,     "z"],
-             ylag = d[after.burnin - 1, "y"], zlag = d[after.burnin - 1, "z"])
+  data.frame(y    = d[after.burnin,     "y"],
+             ylag = d[after.burnin - 1, "y"],
+             z    = d[after.burnin,     "z"],
+             zlag = d[after.burnin - 1, "z"])
 }
 @ %def generate.mc1.stable 
 
 The unstable \dgp\ is also a Vector Autoregression; under the paper's
-parametrization, the coefficient on [[zlag]] (in the [[y]] equation)
+setup, the coefficient on [[zlag]] (in the [[y]] equation)
 is zero before the break and nonzero after the break.  
 <<Define [[generate.mc1.break]]>>=
 ### -*- mode: R -*-
-generate.mc1.break <- function(prebreak.nobs, postbreak.nobs,
-                               prebreak.gammastar, postbreak.gammastar,
-                               nburn) {
+generate.mc1.break <- function(prebreak.nobs, postbreak.nobs, 
+                               prebreak.gammastar, postbreak.gammastar, 
+                               innovation.vcv, nburn) {
   <<Simulate prebreak data for Monte Carlo 1>>
   <<Simulate postbreak data for Monte Carlo 1>>
   d <- rbind(prebreak.data, postbreak.data)
   after.burnin <- seq_len(prebreak.nobs + postbreak.nobs) + nburn
-  data.frame(y    = d[after.burnin,     "y"], z    = d[after.burnin,     "z"],
-             ylag = d[after.burnin - 1, "y"], zlag = d[after.burnin - 1, "z"])    
+  data.frame(y    = d[after.burnin,     "y"],
+             ylag = d[after.burnin - 1, "y"],
+             z    = d[after.burnin,     "z"],
+             zlag = d[after.burnin - 1, "z"])    
 }
 @ %def generate.mc1.break
-For the prebreak data, I again draw a burn-in sample of [[nburn]] observations.
+For the prebreak data, I again draw a burn-in sample of [[nburn]]
+observations as well as the prebreak observations.
 <<Simulate prebreak data for Monte Carlo 1>>=
-prebreak.data <- simulate(
-  ARMA(A = array(c(1, 0, 0, 0, 0, - prebreak.gammastar, 1, - 0.95), c(2, 2, 2)),
+prebreak.data <- simulate(compiled = FALSE,
+  ARMA(A = array(c(1, 0, 0, 0, 0, - prebreak.gammastar, 1, - 0.95),
+                 c(2, 2, 2)),
        B = diag(2), output.names = c("y", "z")),
   sampleT = prebreak.nobs + nburn, 
-  Cov = matrix(c(18, -0.5, -0.5, 0.025), 2))$output
+  Cov = innovation.vcv)$output
 @ %
 The postbreak data is initialized at the last observation of the
 prebreak data, but is otherwise generated in the same way as the
 prebreak data (using different coefficient values, obviously).
 <<Simulate postbreak data for Monte Carlo 1>>=
-postbreak.data <- simulate(
-  ARMA(A = array(c(1, 0, 0, 0, 0, - postbreak.gammastar, 1, - 0.95), c(2, 2, 2)), 
+postbreak.data <- simulate(compiled = FALSE,
+  ARMA(A = array(c(1, 0, 0, 0, 0, - postbreak.gammastar, 1, - 0.95), 
+                 c(2, 2, 2)), 
        B = diag(2), output.names = c("y", "z")),
-  y0 = tail(prebreak.data, 1), sampleT = postbreak.nobs, 
-  Cov = matrix(c(18, -0.5, -0.5, 0.025), 2))$output
+  y0 = tail(prebreak.data, 1), 
+  sampleT = postbreak.nobs, 
+  Cov = innovation.vcv)$output
 @
 
-\subsection{DGP and models for Monte Carlo 2}
+Finally, we use some standard code to initialize the random number
+streams and the databases we use to collect the simulation results.
+<<Initialize random number generator for Monte Carlo 1>>=
+### -*- mode: R -*-
+.lec.SetPackageSeed(c(89, 7345, 0909, 17593, 8759, 76))
+jobnames <- LETTERS[1:<<number of jobs>>]
+.lec.CreateStream(jobnames)
+.lec.CurrentStream(jobnames[jjob])
+@ 
+
+<<Connect to results database for Monte Carlo 1>>=
+### -*- mode: R -*-
+mcdata <- dbframe("mc1", sprintf("db/mc1db%d.db", jjob))
+clear(mcdata)
+@
+
+
+\subsection{Monte Carlo 2 details}
 
 For the second Monte Carlo we look at a tightly parametrized benchmark
-as well as a benchmark with several regressors.  As for Monte Carlo 1,
+as well as a benchmark with several regressors.  As in Monte Carlo 1,
 I draw and discard a burn-in sample of [[nburn]] observations.
 <<Define models and DGPs for Monte Carlo 2>>=
 ### -*- mode: R -*-
 null1 <- function(d) lm(y ~ y1, data = d)
 null2 <- function(d) lm(y ~ y1 + y2 + y3 + y4, data = d)
 alt1 <-  function(d) lm(y ~ y1 + z1 + z2 + z3 + z4, data = d)
-alt2 <-  function(d) lm(y ~ y1 + y2 + y3 + y4 + z1 + z2 + z3 + z4, data = d)
+alt2 <-  function(d) lm(y ~ y1 + y2 + y3 + y4 + z1 + z2 + z3 + z4, 
+                        data = d)
 
 generate.data.mc2 <- function(nobs, simulationtype, nburn = 1000) {
-  gammastar <- switch(simulationtype, size = rep(0, 4),
-                      power = c(3.363, -0.633, -0.377, -0.529))
-  d <- simulate(
-         ARMA(A = array(c(1,-0.261, rep(0, 3), rep(0,5), 0, -gammastar, 
+  gammastar <- switch(simulationtype,
+                      "0.size" = rep(0, 4),
+                      "1.power" = c(3.363, -0.633, -0.377, -0.529))
+  d <- simulate(compiled = FALSE,
+         ARMA(A = array(c(1, -0.261, rep(0, 3), rep(0,5), 0, -gammastar, 
                         c(1, -0.804, 0.221, -0.226, 0.205)), c(5, 2, 2)), 
               B = diag(2), output.names = c("y", "z")),
          sampleT = nobs + nburn, 
          Cov = matrix(c(10.505, 1.036, 1.036, 0.366), 2))$output
   after.burnin <- seq_len(nobs) + nburn
-  data.frame(y  = d[after.burnin,     "y"], z  = d[after.burnin,     "z"],
-             y1 = d[after.burnin - 1, "y"], z1 = d[after.burnin - 1, "z"],
-             y2 = d[after.burnin - 2, "y"], z2 = d[after.burnin - 2, "z"],
-             y3 = d[after.burnin - 3, "y"], z3 = d[after.burnin - 3, "z"],
-             y4 = d[after.burnin - 4, "y"], z4 = d[after.burnin - 4, "z"])
+  data.frame(y  = d[after.burnin,     "y"],
+             y1 = d[after.burnin - 1, "y"],
+             y2 = d[after.burnin - 2, "y"],
+             y3 = d[after.burnin - 3, "y"],
+             y4 = d[after.burnin - 4, "y"],
+             z  = d[after.burnin,     "z"],
+             z1 = d[after.burnin - 1, "z"],
+             z2 = d[after.burnin - 2, "z"],
+             z3 = d[after.burnin - 3, "z"],
+             z4 = d[after.burnin - 4, "z"])
 }
 @ %def null1 null2 alt1 alt2 generate.data.mc2
+
+As in Monte Carlo 1, we need to initialize the random number streams
+and the results databases.
+<<Initialize random number generator for Monte Carlo 2>>=
+### -*- mode: R -*-
+.lec.SetPackageSeed(c(819, 3475, 9090, 75139, 78599, 67))
+jobnames <- LETTERS[1:<<number of jobs>>]
+.lec.CreateStream(jobnames)
+.lec.CurrentStream(jobnames[jjob])
+@ 
+
+<<Connect to results database for Monte Carlo 2>>=
+### -*- mode: R -*-
+mcdata <- dbframe("mc2", sprintf("db/mc2db%d.db", jjob))
+clear(mcdata)
+@ 
 
 \subsection{Monte Carlo design parameters}
 
 The simulations depend on the following self-explanatory parameters.
 Defining these parameters as macros makes it easy to embed them in
-different files.
+different files, which helps ensure that (for example) the number of
+simulatinos I claim to run in the paper matches the number I actually
+did.
+
+Be aware that changing the parameter \LA{}\textit{number of jobs}\RA{}
+will change the results slightly since it changes the random number
+seeding.  This parameter does not need to equal the number of
+processors on your computer.  It will be somewhat less efficient than
+it could be if they are different, but should run fine.
 <<total number of simulations>>= 
-3
+800
 @ 
 
 <<number of jobs>>=
-2
+4
 @ 
 
-<<test size (percent)>>=
+<<test size in MC (percent)>>=
 10
 @ 
-
-<<number of simulations for each process>>=
-(<<total number of simulations>> %/% <<number of jobs>> 
- + (jjob <= <<total number of simulations>> %% <<number of jobs>>))
-@
 
 I also define these parameters as Latex macros that can be imported
 into the main paper.
 <<tex/simulationdefinitions.tex>>=
 \newcommand{\totalsims}{<<total number of simulations>>}
 \newcommand{\njobs}{<<number of jobs>>}
-\newcommand{\testsize}{<<test size (percent)>>}
+\newcommand{\testsize}{<<test size in MC (percent)>>}
 @ 
+
+The next R code determines how to split the simulations across the
+processes.  If they can't be balanced exactly, the lower numbered
+processes are assigned an additional simulation.
+<<number of simulations for each process>>=
+(<<total number of simulations>> %/% <<number of jobs>> 
+ + (jjob <= <<total number of simulations>> %% <<number of jobs>>))
+@
+
 \subsection{Print tables summarizing the simulations}
 Printing Latex tables summarizing the simulation results is pretty
 straightforward.  The function [[publictable]] in the [[dbframe]]
 package takes (essentially) an \textsc{sql} query and returns nicely
-formatted results.  The query here just looks at the fraction of
+formatted results.  Please see the help file for [[publictable]] in
+the [[dbframe]] package for details.  Obviously, the paper gives an
+example of its output.  The query here just looks at the fraction of
 rejections for each parametrization and test statistic.
 <<R/simulationtable1.R>>=
 ### -*- mode: R -*-
+<<license, copyright, and warning>>
 library(dbframe)
-mcdata1 <- dbframe("dgp1", "data/mcdata.db")
+mcdata1 <- dbframe("mc1", "data/mcdata.db")
 cat(file = "floats/simulation1.tex", publictable(mcdata1, 
       group.by = c("simulationtype", "R", "P"), 
       digits = c(0, 0, 0, 0, 1, 1, 1), align = c("l", "l", rep("C", 5)),
       cols = c("simulationtype", "R", "P", 
-        "100 * avg(clarkwestrolling >= 1 - (<<test size (percent)>> / 100))
-         as 'Pr[\\textsc{cw}~roll.]'",
-        "100 * avg(clarkwestrecursive >= 1 - (<<test size (percent)>> / 100)) 
-         as 'Pr[\\textsc{cw}~rec.]'",
-        "100 * avg(mixed >= 1 - (<<test size (percent)>> / 100)) as 'Pr[new]'")))
+        "100 * avg(clarkwestrolling 
+                                 >= 1 - (<<test size in MC (percent)>> / 100))
+         AS 'Pr[\\textsc{cw}~roll.]'",
+        "100 * avg(clarkwestrecursive 
+                                 >= 1 - (<<test size in MC (percent)>> / 100))
+         AS 'Pr[\\textsc{cw}~rec.]'",
+        "100 * avg(mixed >= 1 - (<<test size in MC (percent)>> / 100))
+         AS 'Pr[new]'")))
 @ %
 Table construction for the second simulation is the same as for the
 first, with a minor change because this simulation uses several
 different models.
 <<R/simulationtable2.R>>=
 ### -*- mode: R -*-
+<<license, copyright, and warning>>
 library(dbframe)
-mcdata2 <- dbframe("dgp2", "data/mcdata.db")
+mcdata2 <- dbframe("mc2", "data/mcdata.db")
 cat(file = "floats/simulation2.tex", publictable(mcdata2, 
       group.by = c("simulationtype", "R", "P"),
-      digits = c(0, 0, 0, 0, 1, 1, 1), align = c( "l", "l", rep("C", 5),
+      digits = c(rep(0,4), rep(1,6)), align = c( "l", "l", rep("C", 8)),
       cols = c("simulationtype", "R", "P", 
-        "100 * avg(clarkwestrolling1 >= 1 - (<<test size (percent)>> / 100))
-         as 'Pr[\\textsc{cw}~roll.~1]'",
-        "100 * avg(clarkwestrecursive1 >= 1 - (<<test size (percent)>> / 100)) 
-         as 'Pr[\\textsc{cw}~rec.~1]'",
-        "100 * avg(mixed1 >= 1 - (<<test size (percent)>> / 100)) as 'Pr[new]~1'",
-        "100 * avg(clarkwestrolling2 >= 1 - (<<test size (percent)>> / 100))
-         as 'Pr[\\textsc{cw}~roll.~2]'",
-        "100 * avg(clarkwestrecursive2 >= 1 - (<<test size (percent)>> / 100)) 
-         as 'Pr[\\textsc{cw}~rec.~2]'",
-        "100 * avg(mixed2 >= 1 - (<<test size (percent)>> / 100)) as 'Pr[new]~2'"))))
+        "100 * avg(clarkwestrolling1 
+                                 >= 1 - (<<test size in MC (percent)>> / 100))
+         AS 'Pr[\\textsc{cw}~roll.~1]'",
+        "100 * avg(clarkwestrecursive1 
+                                 >= 1 - (<<test size in MC (percent)>> / 100)) 
+         AS 'Pr[\\textsc{cw}~rec.~1]'",
+        "100 * avg(mixed1 >= 1 - (<<test size in MC (percent)>> / 100)) 
+         AS 'Pr[new]~1'",
+        "100 * avg(clarkwestrolling2 
+                                 >= 1 - (<<test size in MC (percent)>> / 100))
+         AS 'Pr[\\textsc{cw}~roll.~2]'",
+        "100 * avg(clarkwestrecursive2 
+                                 >= 1 - (<<test size in MC (percent)>> / 100)) 
+         AS 'Pr[\\textsc{cw}~rec.~2]'",
+        "100 * avg(mixed2 >= 1 - (<<test size in MC (percent)>> / 100)) 
+         AS 'Pr[new]~2'")))
 @ %
 I need to change this code so that the two sets of results are stacked
 on top of each other instead of side by side.
-\section{Empirical analysis}\label{sec:empirical-analysis}
+\section{Code to implement data analysis}\label{sec:empirical-analysis}
 \subsection{Overall structure of code}
-
-I need to figure out how to accomodate the Campbell-Thompson
-restrictions and how to add average and median forecasts as well.
+The code to implement the data analysis is pretty straightforward.
+This analysis is based on that of \citet{GoW:08} and \citet{CaT:08}.
 <<R/empirics.R>>=
 ### -*- mode: R -*-
+<<license, copyright, and warning>>
 <<Load libraries and initialize variables>>
-<<Load and format Goyal and Welch data>>
+<<Load and format annual Goyal and Welch [[financial.data]]>>
 <<Define benchmark and alternative models>>
-oos.statistics <- sapply(alternative_models, function(alt)
-                         mixedwindow(benchmark, alt, financial.data, R, 
-                                     window = "rolling")$tstat)
-oos.replications <- mixedbootstrap(benchmark, alternative_models, financial.data,
-                                   R, nboot = <<number of bootstrap replications>>,
-                                   blocklength = 1, window = "rolling", 
-                                   bootstrap = "circular")
-stepm.results <- stepm(oos.statistics, oos.replications, 
+  
+oos.statistics <- sapply(alternatives, function(alt)
+  mixedwindow(benchmark, alt, financial.data, <<window length>>,
+              window = "rolling")$tstat)
+
+oos.bootstrap.replications <- mixedbootstrap(benchmark, 
+  alternatives, financial.data, R = <<window length>>, 
+  nboot = <<number of bootstrap replications>>, blocklength = 1, 
+  window = "rolling", bootstrap = "circular")
+
+stepm.results <- stepm(oos.statistics, oos.bootstrap.replications, 
                        <<test size in empirics (percent)>> / 100)
-<<Write empirical results to Latex>>
+
+<<Write empirical results to Latex table>>
 @
 
+The functions that actually do the analysis are defined in the
+[[oosanalysis]] package that I developed in conjunction with this
+paper.  Please see that package's help files and implementation
+documentation for details.  We'll use [[dbframe]] to format the
+results in a Latex table.
+<<Load libraries and initialize variables>>=
+library(oosanalysis)
+library(dbframe)
+@ %def dbframe publictable
+
+\subsection{Set up data and models}
+
+The benchmark is that the equity premium is unpredictable white noise
+with non\-zero mean.  Each of the alternatives uses a single lag of a
+different variable as a predictor.
 <<Define benchmark and alternative models>>=
 benchmark <- function(d) lm(equity.premium ~ 1, data = d)
-alternative_models <- lapply(predictor.names, function(n) 
-  eval(parse(text = sprintf("function(d) lm(equity.premium ~ %s, data = d)", n))))
-@ %def benchmark alternative_models
+alternatives_gw <- lapply(predictor.names, function(n) eval(parse(
+      text = sprintf("function(d) lm(equity.premium ~ %s, data = d)", n))))
+alternatives_ct <- lapply(predictor.names, function(n) eval(parse(
+      text = sprintf("function(d) CT(lm(equity.premium ~ %s, data = d))", n))))
+names(alternatives_ct) <- paste(names(alternatives_ct), "CT", sep = ".")
 
-<<Load and format Goyal and Welch data>>=
+alternatives_mean <- eval(parse(text =
+  sprintf("function(d) Aggregate(%s, mean)", <<list of all alternatives>>)))
+alternatives_median <- eval(parse(text =
+  sprintf("function(d) Aggregate(%s, median)", <<list of all alternatives>>)))
+
+alternatives <- c(alternatives_gw, alternatives_ct,
+                  average = alternatives_mean, median = alternatives_median)
+@ %def benchmark alternatives
+
+<<list of all alternatives>>=
+sprintf("list(%s)", paste(collapse = ",\n ",
+  sapply(sprintf("lm(equity.premium ~ %s, data = d)", predictor.names),
+         function(lmstring) c(lmstring, sprintf("CT(%s)", lmstring)))))
+@
+
+The data are loaded from a \textsc{csv} data file---this should be
+available from my
+webpage\footnote{\url{http://www.econ.iastate.edu/~gcalhoun}} or from
+Amit Goyal's.  I don't think that I have the authority to make this
+data available under the \textsc{gpl} but the data should be
+accessible to any one who wants to reproduce or build on this
+analysis.
+<<Load and format annual Goyal and Welch [[financial.data]]>>=
 # -*- mode: R -*-
 gwdata <- ts(read.csv("data/yearlyData2009.csv")[,-1], start = 1871, 
             frequency = 1)
 stock.returns <- ((gwdata[,"price"] + gwdata[,"dividend"]) / 
-                  lag(gwdata[,"price"], -1) - 1)
-
-financial.data <- data.frame(window(start = 1927, end = 2009, lag(k = -1, cbind(
-  equity.premium =        lag(log1p(stock.returns) - log1p(gwdata[,"risk.free.rate"]), 1),
-  default.yield.spread =  gwdata[,"baa.rate"] - gwdata[,"aaa.rate"],
-  inflation =             gwdata[,"inflation"],
-  stock.variance =        gwdata[,"stock.variance"],
-  dividend.payout.ratio = log(gwdata[,"dividend"]) - log(gwdata[,"earnings"]),
-  long.term.yield =       gwdata[,"long.term.yield"],
-  term.spread =           gwdata[,"long.term.yield"] - gwdata[,"t.bill"],
-  treasury.bill =         gwdata[,"t.bill"],
-  default.return.spread = gwdata[,"corp.bond"] - gwdata[,"long.term.rate"],
-  dividend.price.ratio =  log(gwdata[,"dividend"]) - log(gwdata[,"price"]),
-  dividend.yield =        log(gwdata[,"dividend"]) - log(lag(gwdata[,"price"], -1)),
-  long.term.rate =        gwdata[,"long.term.rate"],
-  earnings.price.ratio =  log(gwdata[,"earnings"]) - log(gwdata[,"price"]),
-  book.to.market =        gwdata[,"book.to.market"],
-  net.equity =            gwdata[,"net.equity"]))))
-
+                                           lag(gwdata[,"price"], -1) - 1)
+<<variable by variable definition of [[financial.data]]>>
 predictor.names <- setdiff(names(financial.data), "equity.premium")
 names(predictor.names) <- predictor.names
 @ 
 
-<<Load libraries and initialize variables>>=
-library(oosanalysis)
-library(dbframe)
-R <- 10
+To make it easier to generate the \textsc{oos} forecasts, we construct
+each of the predictors from Goyal and Welch's original series.
+<<variable by variable definition of [[financial.data]]>>=
+financial.data <- 
+  data.frame(window(start = 1927, end = 2009, lag(k = -1, cbind(
+    equity.premium =        lag(log1p(stock.returns) 
+                                   - log1p(gwdata[,"risk.free.rate"]), 1),
+    default.yield.spread =  gwdata[,"baa.rate"] - gwdata[,"aaa.rate"],
+    inflation =             gwdata[,"inflation"],
+    stock.variance =        gwdata[,"stock.variance"],
+    dividend.payout.ratio = log(gwdata[,"dividend"]) 
+                                               - log(gwdata[,"earnings"]),
+    long.term.yield =       gwdata[,"long.term.yield"],
+    term.spread =           gwdata[,"long.term.yield"] 
+                                                      - gwdata[,"t.bill"],
+    treasury.bill =         gwdata[,"t.bill"],
+    default.return.spread = gwdata[,"corp.bond"] 
+                                              - gwdata[,"long.term.rate"],
+    dividend.price.ratio =  log(gwdata[,"dividend"]) 
+                                                  - log(gwdata[,"price"]),
+    dividend.yield =        log(gwdata[,"dividend"]) 
+                                         - log(lag(gwdata[,"price"], -1)),
+    long.term.rate =        gwdata[,"long.term.rate"],
+    earnings.price.ratio =  log(gwdata[,"earnings"]) 
+                                                  - log(gwdata[,"price"]),
+    book.to.market =        gwdata[,"book.to.market"],
+    net.equity =            gwdata[,"net.equity"]))))
 @ 
 
+\subsection{Write results to a Latex file}
+This subsection takes the empirical results generated by the
+preceding code (mostly the variables defined in the main body) and
+writes them as a Latex table.  One consideration is that I want to be
+able to refer to the StepM critical value in the body of the paper,
+but I also want to produce only one file from this code (otherwise
+parallel make can be fussy).  So I write the results table to a Latex
+macro, and then invoke that macro at the appropriate place in the
+paper.
+
 This stuff needs to be rewritten to use toLatex.
-<<Write empirical results to Latex>>=
+<<Write empirical results to Latex table>>=
 ### -*- mode: R -*-
 <<Format empirical results>>
 cat(file = "tex/empiricalresults.tex", 
-    c("\\newcommand{\\empiricalcriticalvalue}{", round(stepm.results$crit, 2), "}",
-      "\\newcommand{\\empiricaltable}{", 
-      publictable(results.data, align = c(rep("l", 3), rep("C", 3)), digits = rep(2, 6), 
-                  numberformat = c(rep(FALSE, 3), TRUE, rep(FALSE, 2))),"}"))
+    c("\\newcommand{\\empiricalcriticalvalue}{", 
+      round(stepm.results$crit, 2), "}",
+      "\\newcommand{\\empiricaltable}{",
+      publictable(results.data, align = c(rep("l", 3), rep("C", 3)), 
+                  numberformat = c(rep(FALSE, 3), TRUE, rep(FALSE, 2)),
+                  digits = rep(2, 6)),"}"))
 @
 
+To ``format'' the empirical results, I just put them into a data
+frame, clean up the column names (since they'll be column headings in
+the table) and make a few changes to the column text to improve
+legibility.
 <<Format empirical results>>=
 results.data <- data.frame("",
   predictor = predictor.names,
   value = oos.statistics,
-  naive = ifelse(oos.statistics > qnorm(1 - (<<test size in empirics (percent)>>)), 
-                 "sig.", ""),
-  corrected = ifelse(oos.statistics > stepm.results$criticalvalue, "sig.", ""))
-
+  naive = ifelse(oos.statistics > 
+                 qnorm(1 - (<<test size in empirics (percent)>>)), "sig.", ""),
+  corrected = ifelse(oos.statistics > 
+                                 stepm.results$criticalvalue, "sig.", ""))
 names(results.data)[1] <- " "
 results.data$predictor <- gsub("\\.", " ", results.data$predictor)
 @ 
@@ -419,38 +595,90 @@ results.data$predictor <- gsub("\\.", " ", results.data$predictor)
 
 \subsection{Define parameters for data analysis}
 
+Just like I did for the Monte Carlo, I define the variables governing
+data analysis as macros/chunks so that I can ensure consistency across
+different files.  Writing these variables to Latex macros also lets us
+refer to them in the paper.
 <<tex/empiricsdefinitions.tex>>=
 \newcommand{\nboot}{<<number of bootstrap replications>>}
 \newcommand{\bootsize}{<<test size in empirics (percent)>>}
+\newcommand{\windowlength}{<<window length>>}
 @ 
 
 <<number of bootstrap replications>>=
-9
+599
 @ 
 
 <<test size in empirics (percent)>>=
 10
 @ 
 
+<<window length>>=
+10
+@ 
+
 \section{Makefile}\label{sec:gmake}
 \subsection{Overall structure of Makefile}
-
+This ``makefile'' defines the sequence of shell commands that need to
+be executed to generate the final document.  I use \textsc{gnu} Make
+\citep[see][]{SMS:10}; other versions of Make may work as well, but no
+guarantees.  Assuming you have the necessary programms installed (see
+the \textsc{readme} file), you should be able to redo all of the
+analysis from my paper by typing [[make Paper.pdf]] in the main
+directory.  [[make Document.pdf]] creates this document, and [[make]]
+creates both, along with a zip archive of the intermediate files.  Of
+course, you can run all of the individual commands defined in this
+section by typing them into a prompt at the command line, but ``make''
+is easier.
 <<Makefile.mk>>=
 # -*- mode: makefile-gmake -*-
+<<license, copyright, and warning>>
 all: Documentation.pdf Paper.pdf zip
 <<Set paths and flags for binaries>>
 <<Extract individual files from Documentation.nw>>
-<<Execute empirical analysis>>
+<<Execute empirical analysis and create results table>>
 <<Execute Monte Carlo simulations>>
-<<Create tables for simulations>>
+<<Create tables for simulation results>>
 <<Build the paper and documentation>>
-<<Define targets for archiving and dissemination>>
-@ 
+<<Define targets for file management>>
+@ %def all
+
+All of the source code is contained in this document, as well as some
+macro definitions for the main paper.  That code is extracted and sent
+to individual text files by notangle.
+
+<<Extract individual files from Documentation.nw>>=
+# -*- mode: makefile-gmake -*-
+R/empirics.R R/montecarlo.R R/montecarlo2.R R/empiricaltable.R \
+R/simulationtable1.R R/simulationtable2.R tex/simulationdefinitions.tex \
+tex/empiricsdefinitions.tex: Documentation.nw
+	mkdir -p $(@D)
+	$(notangle) -t -R$@ $< | cpif $@ 
+@ %def R/empirics.R R/montecarlo.R R/montecarlo2.R R/empiricaltable.R R/simulationtable1.R R/simulationtable2.R tex/simulationdefinitions.tex tex/empiricsdefinitions.tex
+
+These are the commands to actually create the documentation and main
+pdf files.  The \texttt{sed} command strips comment lines out of the
+output---this is helpful because each code chunk as a comment that
+sets an Emacs mode for that code.
+<<Build the paper and documentation>>=
+# -*- mode: makefile-gmake -*-
+Paper.pdf Documentation.pdf:
+	$(latexmk) $(LATEXMKFLAGS) $< && $(latexmk) $(LATEXMKFLAGS) -c $<
+Paper.pdf: Paper.tex floats/simulation1.tex tex/empiricalresults.tex \
+           floats/simulation2.tex tex/simulationdefinitions.tex \
+           tex/empiricsdefinitions.tex
+Documentation.pdf: tex/Documentation.tex
+tex/Documentation.tex: Documentation.nw
+	mkdir -p $(@D)
+	$(noweave) -latex -index -delay $< | sed /^#/d | cpif $@
+@ %def Paper.pdf Documentation.pdf tex/Documentation.tex
+
+\subsection{Shell comands to run data anlaysis}
 
 The empirical analysis is contained in the file [[R/emprics.R]] and
 executing this analysis is done by a single command on the command
 line.  The same command builds the Latex table, too.
-<<Execute empirical analysis>>=
+<<Execute empirical analysis and create results table>>=
 # -*- mode: makefile-gmake -*-
 tex/empiricalresults.tex: R/empirics.R
 	mkdir -p $(@D)
@@ -460,125 +688,104 @@ tex/empiricalresults.tex: R/empirics.R
 \subsection{Dependencies for the Monte Carlo}
 
 I use the makefile to parallelize the simulations (this is kind of
-ghetto, but effective and easy).  Basically, we're giong to create
+ghetto, but effective and easy).  Basically, we're going to create
 several different temporary databases and store simulation results in
-each one, then insert the values into a table in the main database --
-the reason is to get around problems that SQLite has with concurrent
-write access.  All of the dependencies that manage that process will
-be contained in \texttt{Makefile.mk}, which is generated from this
-document (Section~\ref{sec:gmake}).
+each one, then insert the values into a table in the main
+database---the reason is to get around problems that SQLite has with
+concurrent write access.
 
-[[dgp1_files]] lists several SQLite databases; each one will store the
-intermediate results of a subset of the simulations for the first
-Monte Carlo exercise.  [[dgp2_files]] does the same for the second
-Monte Carlo.
+[[mc1_dummies]] are indicators for several SQLite databases; each one
+will store the intermediate results of a subset of the simulations for
+the first Monte Carlo exercise.  [[mc2_dummies]] does the same for the
+second Monte Carlo.  We keep track of when each subset of simulations
+was run by using empty text files (used just for their timestamp).
 <<Execute Monte Carlo simulations>>=
 # -*- mode: makefile-gmake -*-
-dgp1_files = $(foreach i, $(shell echo {1..<<number of jobs>>}), dgp1db$i)
-dgp2_files = $(foreach i, $(shell echo {1..<<number of jobs>>}), dgp2db$i)
-dgp1: $(addprefix db/, $(dgp1_files))
-dgp2: $(addprefix db/, $(dgp2_files))
+mc1_dummies = $(foreach i, $(shell echo {1..<<number of jobs>>}), mc1db$i)
+mc2_dummies = $(foreach i, $(shell echo {1..<<number of jobs>>}), mc2db$i)
+mc1: $(addprefix db/, $(mc1_dummies))
+mc2: $(addprefix db/, $(mc2_dummies))
 <<Split simulations for Monte Carlo 1 across processors and execute>>
 <<Split simulations for Monte Carlo 2 across processors and execute>>
 <<Move simulations into the main database>>
-@ %def dgp1 dgp2 dgp1_files dgp2_files
-
+@ %def mc1 mc2 mc1_dummies mc2_dummies
+The dummy files just indicate whether the corresponding subset of
+simulations has been run since the last time the R code was modified.
 <<Split simulations for Monte Carlo 1 across processors and execute>>=
 # -*- mode: makefile-gmake -*-
-$(addprefix db/,$(dgp1_files)): R/montecarlo.R db
+$(addprefix db/,$(mc1_dummies)): R/montecarlo.R
 	mkdir -p $(@D)
 	<<Cat R script with job number for Monte Carlo 1>> \
-	  | $(Rscript) $(RSCRIPTFLAGS) - &> $@.log
+                                  | $(Rscript) $(RSCRIPTFLAGS) - &> $@.log
 	touch $@
 @ 
 
 <<Split simulations for Monte Carlo 2 across processors and execute>>=
 # -*- mode: makefile-gmake -*-
-$(addprefix db/,$(dgp2_files)): R/montecarlo2.R db
+$(addprefix db/,$(mc2_dummies)): R/montecarlo2.R
 	mkdir -p $(@D)
 	<<Cat R script with job number for Monte Carlo 2>> \
-	  | $(Rscript) $(RSCRIPTFLAGS) - &> $@.log
+                                  | $(Rscript) $(RSCRIPTFLAGS) - &> $@.log
 	touch $@
 @ 
 
+When we split the simulations across processes, it's important that
+each process knwo which job it is. If the number of simulations is not
+a multiple of the number of jobs, some processes will run more
+simulations than others.  So we take the job number from the database
+name and add it to teh beginning of the R script file.
 <<Cat R script with job number for Monte Carlo 1>>=
-echo 'jjob <- $(patsubst db/dgp1db%,%,$@);' | cat - $<
+echo 'jjob <- $(patsubst db/mc1db%,%,$@);' | cat - $<
 @
 
 <<Cat R script with job number for Monte Carlo 2>>=
-echo 'jjob <- $(patsubst db/dgp2db%,%,$@);' | cat - $<
+echo 'jjob <- $(patsubst db/mc2db%,%,$@);' | cat - $<
 @ 
 
 After all of the simulations have been executed, they get
-consolidated into a single database.  The files [[dgp1]] and [[dgp2]]
+consolidated into a single database.  The files [[mc1]] and [[mc2]]
 dummies that just indicate when the consolidation happened.
 <<Move simulations into the main database>>=
 # -*- mode: makefile-gmake -*-
-dgp1 dgp2:
+mc1 mc2:
 	echo <<Attach databases with intermediate results>>\
 	     <<Empty existing results from main database>>\
 	     <<Insert intermediate results into database>>\
 	     <<Detach databases with intermediate results>>\
 	  | $(sqlite) data/mcdata.db
 	touch $@
-@ 
-
+@ %
+Each of these individual commands is a somewhat impenetrable
+combination of \textsc{sql} and Make commands.  Sorry.
 <<Attach databases with intermediate results>>=
-"$(foreach d, $^, attach database '$d' as $(notdir $d);)"
+"$(foreach d, $^, attach database '$d.db' as $(notdir $d);)"
 @ 
 
 <<Empty existing results from main database>>=
-"drop table if exists main.$@;"\
-"create table main.$@ as select * from $(notdir $<).$@;"
+"drop table if exists main.$@;"
 @ 
 
 <<Insert intermediate results into database>>=
-"$(foreach d, $(notdir $(filter-out $<,$^)),insert into main.$@ select * from $d.$@;)"\
+"create table main.$@ as select * from $(notdir $<).$@;" \
+"$(foreach d, $(notdir $(filter-out $<,$^)), insert into main.$@ select * from $d.$@;)"
 @ 
 
 <<Detach databases with intermediate results>>=
 "$(foreach d, $^, detach database '$(notdir $d');)"
 @ 
 
-<<Create tables for Monte Carlo>>=
+After running the Monte Carlo and consolidating the simulations, we
+run the commands to generate summary Latex tables.
+<<Create tables for simulation results>>=
 # -*- mode: makefile-gmake -*-
-floats/simulation1.tex: R/simulationtable1.R dgp1
-floats/simulation2.tex: R/simulationtable2.R dgp2
+floats/simulation1.tex: R/simulationtable1.R mc1
+floats/simulation2.tex: R/simulationtable2.R mc2
 floats/simulation1.tex floats/simulation2.tex:
 	mkdir -p $(@D)
 	$(Rscript) $(RSCRIPTFLAGS) $< &> $<out
-@ %def floats/simulation1.tex floats/simulation2.tex tex/empiricalresults.tex
+@ %def floats/simulation1.tex floats/simulation2.tex
 
-\subsection{Other miscellaneous dependencies}
-There has to be a better name for this section.
-
-<<Extract individual files from Documentation.nw>>=
-# -*- mode: makefile-gmake -*-
-Rfiles := R/empirics.R R/montecarlo.R R/montecarlo2.R R/empiricaltable.R \
-          R/simulationtable1.R R/simulationtable2.R
-$(Rfiles): Documentation.nw
-	mkdir -p $(@D)
-	$(notangle) -t -R$@ $< | cpif $@ 
-tex/Documentation.tex: Documentation.nw
-	mkdir -p $(@D)
-	$(noweave) -latex -index -delay $< | sed /^#/d | cpif $@
-tex/simulationdefinitions.tex: Documentation.nw
-	mkdir -p $(@D)
-	$(notangle) -R$@ $< | cpif $@ 
-@ 
-
-These are the commands to actually create the documentation pdf file.
-The \texttt{sed} command strips comment lines out of the output---this
-is helpful because each code chunk as a comment that sets an Emacs mode for that code.
-<<Build the paper and documentation>>=
-# -*- mode: makefile-gmake -*-
-Paper.pdf: Paper.tex floats/empirics.tex floats/simulation1.tex \
-           floats/simulation2.tex tex/simulationdefinitions.tex \
-           tex/empiricalresults.tex
-Documentation.pdf: tex/Documentation.tex tex/simulationdefinitions.tex
-Paper.pdf Documentation.pdf:
-	$(latexmk) $(LATEXMKFLAGS) $<
-@
+\subsection{References to external programs}
 
 These paths include some hardcoded references to particular binaries
 on my computer---you'll have to change them if you want to build files
@@ -589,44 +796,48 @@ online).
 
 <<Set paths and flags for binaries>>=
 # -*- mode: makefile-gmake -*-
-latexmk := /usr/local/texlive/2009/bin/x86_64-linux/latexmk
+latexmk := /usr/local/texlive/2011/bin/x86_64-linux/latexmk
 notangle:= notangle
 noweave := noweave
-Rscript := Rscript
+Rscript := /home/gcalhoun/Desktop/R-devel/R-2-14-branch/bin/Rscript
 sqlite  := sqlite3
 LATEXMKFLAGS := -pdf -silent
 @ %def latexmk notangle noweave Rscript sqlite LATEXMKFLAGS
 
-<<Define targets for archiving and dissemination>>=
+\subsection{Commands and targets for file management}
+A few targets make it easy to create zip files to distribute this code
+and to delete unnecessary files.
+<<Define targets for file management>>=
 # -*- mode: makefile-gmake -*-
 archfile = calhoun-2011-mixedwindow.tar.gz
 zip: $(archfile)
-$(archfile): $(filter-out .bzrignore conference-stuff/ slides/, $(shell bzr ls -R -V --kind=file)) \
-             Paper.pdf AllRefs.bib
+$(archfile): $(filter-out .bzrignore conference-stuff/ slides/, \
+                           $(shell bzr ls -R -V --kind=file)) \
+             Paper.pdf Documentation.pdf AllRefs.bib
 	tar chzf $@ $^
+@ %def zip archfile
 
-# Put the archive file on my website
+The next chunk defines [[make Online]] as a command to post the
+zipfile to my website.
+<<Define targets for file management>>=
 Online: $(archfile)
-	$(scp) $? gcalhoun@econ22.econ.iastate.edu:public_html/software
-	$(touch) $@
-@ 
+	scp $? gcalhoun@econ22.econ.iastate.edu:public_html/software
+	touch $@
+@ %def Online
 
-\newpage
-\section*{Licensing information for this software}
-\addcontentsline{toc}{section}{Licensing information for this software}
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or (at
-your option) any later version.
+Finally, a few targets to clean up the directories.
+<<Define targets for file management>>=
+clean: 
+	rm -f *~ *.aux *.bbl *.blg *.fdb_latexmk *.log *.lot *.out *.toc \
+              *.ttt *.dvi slides/*~ data/*~
+burn: clean
+	rm -rf R auto floats tex db mc1 mc2 slides/*.tex data/mcdata.db
+@ %def clean burn
 
-This program is distributed in the hope that it will be useful, but
-\textsc{without any warranty}; without even the implied warranty of
-\textsc{merchantability} or \textsc{fitness for a particular purpose}.
-See the GNU General Public License for more details:
-\texttt{<http://www.gnu.org/licenses/>}.
+\bibliography{AllRefs}
+\addcontentsline{toc}{section}{References}
 
-
-\newpage \section*{Index}
+\section*{Index}
 \addcontentsline{toc}{section}{Index}
 \subsection*{Functions and variables}
 \addcontentsline{toc}{subsection}{Functions and variables}
@@ -634,7 +845,19 @@ See the GNU General Public License for more details:
 \subsection*{Code chunks}
 \addcontentsline{toc}{subsection}{Code chunks}
 \nowebchunks
-% \bibliography{AllRefs}
-%\addcontentsline{toc}{section}{References}
 
 \end{document}
+
+% LocalWords:  noweb simulationtype oosanalysis dbframe dse zlag nburn jjob tex
+% LocalWords:  publictable mc latexmk notangle noweave Rscript sqlite archfile
+% LocalWords:  LATEXMKFLAGS ve parallelize parallelization citep JoJ emph citet
+# LocalWords:  Knu textit isn nw textsc dgp mcdesign DGPs stringsAsFactors len
+# LocalWords:  mcdata randomdata clarkwestrolling clarkwest pvalue mixedwindow
+# LocalWords:  clarkwestrecursive SQLite rlecuyer Lec LSC SeR ARMA lec lm vcv
+# LocalWords:  SetPackageSeed CreateStream CurrentStream Autoregression diag
+# LocalWords:  gammastar sampleT Cov burnin ylag sql GoW CaT Goyal Welch oos
+# LocalWords:  sapply tstat mixedbootstrap nboot blocklength stepm empirics csv
+# LocalWords:  lapply eval sprintf webpage url Amit gpl gwdata setdiff cbind
+# LocalWords:  aaa StepM toLatex newcommand empiricalcriticalvalue crit sig
+# LocalWords:  empiricaltable numberformat makefile gmake cpif timestamp mkdir
+# LocalWords:  foreach addprefix RSCRIPTFLAGS patsubst notdir Texlive
