@@ -16,6 +16,7 @@
 \newcommand\citen[1]{\citeauthor{#1}, \citeyear{#1}}
 \frenchspacing
 \input{tex/simulationdefinitions}
+\input{tex/empiricsdefinitions}
 \input{tex/empiricalresults}
 
 % redfine heading styles
@@ -898,13 +899,13 @@ look at the stable case.
 \begin{table}[tb]
   \centering
   \input{floats/simulation1}
-\caption{Size and power of the \oos\ tests under \eqref{eq:dgp1} at
-  10\% confidence.  These percentages are calculated from 5000
-  samples.  Pr[\textsc{cw}] shows the fraction of simulations for which Clark
-  and West's (2007) statistic rejects; Pr[new] shows the fraction of
-  simulations for which this paper's test rejects; and Pr[disagree]
-  gives the fraction of simulations in which this paper's test and
-  Clark and West's (2007) give different conclusions.}
+  \caption{Size and power of the \oos\ tests under \eqref{eq:dgp1} at
+    \testsize\% confidence.  These percentages are calculated from \totalsims\
+    samples.  Pr[\textsc{cw}] shows the fraction of simulations for which Clark
+    and West's (2007) statistic rejects; Pr[new] shows the fraction of
+    simulations for which this paper's test rejects; and Pr[disagree]
+    gives the fraction of simulations in which this paper's test and
+    Clark and West's (2007) give different conclusions.}
 \label{tab:mc1}
 \end{table}
 
@@ -938,13 +939,13 @@ National Activity Index.
 \begin{table}[tb]
   \centering
   \input{floats/simulation2}
-\caption{Size and power of the \oos\ tests under \eqref{eq:dgp2} at
-  10\% confidence.  These percentages are calculated from 5000
-  samples.  Pr[\textsc{cw}] shows the fraction of simulations for which Clark
-  and West's (2007) statistic rejects; Pr[new] shows the fraction of
-  simulations for which this paper's test rejects; Pr[disagree] gives
-  the fraction of simulations in which this paper's test and Clark and
-  West's (2007) give different conclusions.}
+  \caption{Size and power of the \oos\ tests under \eqref{eq:dgp2} at
+    \testsize\% confidence.  These percentages are calculated from \totalsims\
+    samples.  Pr[\textsc{cw}] shows the fraction of simulations for which Clark
+    and West's (2007) statistic rejects; Pr[new] shows the fraction of
+    simulations for which this paper's test rejects; Pr[disagree] gives
+    the fraction of simulations in which this paper's test and Clark and
+    West's (2007) give different conclusions.}
 \label{tab:mc2}
 \end{table}
 
@@ -983,35 +984,35 @@ The benchmark model is the excess return's sample mean (as in the
 original) and the alternative models are of the form
 \[\text{excess return}_{t} = \alpha_{0} + \alpha_{1}\ 
 \text{predictor}_{t-1} + \varepsilon_{t},\] where $\alpha_{0}$ and
-$\alpha_{1}$ are estimated by \ols\ using a 10-year window.  The
-predictors used are listed in the ``predictor'' column of
+$\alpha_{1}$ are estimated by \ols\ using a \windowlength-year window.
+The predictors used are listed in the ``predictor'' column of
 Table~\ref{tab:em1} \citep[see][for a detailed description of the
 variables]{GoW:08}.  We also consider \citepos{CaT:08} proposed
 correction to the models, that the forecasts be bounded below by zero
 since negative forecasts are incredible, as well as two simple
 combination forecasts, the mean and the median (over both the original
 and the non-negative forecasts).  The data set is annual data
-beginning in 1927 and ending in 2009, and the rolling window uses 10
-observations.\footnote{This statistical analysis was conducted in R
-  \citep{R} using the xtable \citep[version]{Dah:09}, Hmisc
-  \citep[version]{Har:10}, and dbframe \citep[version 0.2.1]{Cal:10b}
-  packages; please see the supplemental appendices for details on the
-  programming \citep{Cal:11f,Cal:11g,Cal:11h}.}
+beginning in 1927 and ending in 2009, and the rolling window uses
+\windowlength\ observations.\footnote{This statistical analysis was
+  conducted in R \citep{R} using the xtable \citep[version]{Dah:09},
+  Hmisc \citep[version]{Har:10}, and dbframe \citep[version
+  0.2.1]{Cal:10b} packages; please see the supplemental appendices for
+  details on the programming \citep{Cal:11f,Cal:11g,Cal:11h}.}
 
 Table~\ref{tab:em1} presents the results for each model.  The column
 ``value'' gives the value of the test statistic for each model, while
 the ``naive'' and ``corrected'' columns indicate whether the statistic
-is greater than the standard size-10\% critical value (1.28) and the
-critical value estimated by the procedure of Theorem~\ref{res:2}
-(\empiricalcriticalvalue).\footnote{The bootstrap uses 999
-  replications with i.i.d. sampling, as proposed in Part~(\ref{it:1})
-  of Theorem~\ref{res:2}.}  Three predictors are significant at the
-naive critical values for both the original and bounded forecasts: the
-dividend yield, long term interest rate, and book to market ratio.
-But none are significant after accounting for data snooping, which
-highlights the importance of these methods.  The median forecast is
-significant using conventional critical values as well, but not the
-corrected values.
+is greater than the standard size-\bootsize\% critical value (1.28)
+and the critical value estimated by the procedure of
+Theorem~\ref{res:2} (\empiricalcriticalvalue).\footnote{The bootstrap
+  uses \nboot\ replications with i.i.d. sampling, as proposed in
+  Part~(\ref{it:1}) of Theorem~\ref{res:2}.}  Three predictors are
+significant at the naive critical values for both the original and
+bounded forecasts: the dividend yield, long term interest rate, and
+book to market ratio.  But none are significant after accounting for
+data snooping, which highlights the importance of these methods.  The
+median forecast is significant using conventional critical values as
+well, but not the corrected values.
 
 \begin{table}[tb!]
   \centering

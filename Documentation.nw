@@ -1,9 +1,9 @@
 % -*- mode: noweb; noweb-default-code-mode: R-mode -*-
-\documentclass[10pt,draft]{article}
+\documentclass[draft]{article}
 \usepackage{noweb,setspace,amsmath,amsthm,amssymb,microtype,ae,url}
 \usepackage[round]{natbib}
-\usepackage[T1]{fontenc}
-\usepackage[top=1in,left=1.75in,right=1.75in,bottom=1.25in]{geometry}
+% \usepackage[T1]{fontenc}
+% \usepackage[top=1in,left=1.75in,right=1.75in,bottom=1.25in]{geometry}
 \bibliographystyle{abbrvnat}
 \frenchspacing
 \DisableLigatures{family=tt*}
@@ -183,95 +183,53 @@ number generation for parallel processes \citep{Lec:99,LSC:02,SeR:09}
 <<Load libraries used in simulations>>=
 ### -*- mode: R -*-
 library(dbframe)
-library(dse)
 library(oosanalysis)
 library(rlecuyer)
-@ %def insert clarkwest clear mixedwindow rows publictable dbframe ARMA simulate .lec.SetPackageSeed .lec.CreateStream .lec.CurrentStream
+@ %def insert clarkwest clear mixedwindow rows booktabs dbframe .lec.SetPackageSeed .lec.CreateStream .lec.CurrentStream rvar
 \subsection{Monte Carlo 1 details}
 
 The first Monte Carlo mimics an excess returns prediction exercise.
 The benchmark model is the prevailing mean and the alternative is a
 single lag of a persistent regressor.  This simulation uses both a
-stable alternative and an alternative with a break.
+stable alternative and an alternative with a break.  The stable \dgp\
+is simply a Vector Autoregression; the variable [[zlag]] affects [[y]]
+under the alternative but not under the null.  The unstable \dgp\ is
+also a Vector Autoregression; under the paper's setup, the coefficient
+on [[zlag]] (in the [[y]] equation) is zero before the break and
+nonzero after the break.
 <<Define models and DGPs for Monte Carlo 1>>=
 ### -*- mode: R -*-
 null <- function(d) lm(y ~ 1, data = d)
-alt <- function(d) lm(y ~ zlag, data = d)
+alt <- function(d) lm(y ~ zL1, data = d)
 
 generate.data.mc1 <- function(nobs, simulationtype, nburn = 1000) {
   mean.gamma <- 0.35
   innovation.vcv <- matrix(c(18, -0.5, -0.5, 0.025), 2, 2)
   switch(simulationtype,
-    "0.size"   = generate.mc1.stable(nobs, 0, innovation.vcv, nburn),
-    "1.stable" = generate.mc1.stable(nobs, mean.gamma, 
-                                     innovation.vcv, nburn),
-    "2.breaks" = generate.mc1.break(nobs/2, nobs/2, 0, 2 * mean.gamma, 
-                                    innovation.vcv, nburn))
+    "0.size"   = rvar(nobs, list(y = c(0, 0), z = c(0, 0.95)), 
+                      c(0.5, 0.15), innovation.vcv),
+    "1.stable" = rvar(nobs, list(y = c(mean.gamma, 0), z = c(0, 0.95)), 
+                      c(0.5, 0.15), innovation.vcv),
+    "2.breaks" = {<<Simulate data for Monte Carlo 1 with break>>})
 }
-<<Define [[generate.mc1.stable]]>>
-<<Define [[generate.mc1.break]]>>
 @ %def null alt generate.data.mc1
 
-The stable \dgp\ is simply a Vector Autoregression; the variable
-[[zlag]] affects [[y]] under the alternative but not under the null.
-Out of laziness, I draw and discard an additional [[nburn]]
-observations before drawing the random sample, rather than draw the
-initial values of the series from the stationary (marginal)
-distribution.
-<<Define [[generate.mc1.stable]]>>=
-### -*- mode: R -*-
-generate.mc1.stable <- function(nobs, gammastar, innovation.vcv, nburn) {
-  d <- simulate(compiled = FALSE,
-    ARMA(A = array(c(1, 0, 0, 0, 0, - gammastar, 1, - 0.95), c(2, 2, 2)), 
-         B = diag(2), output.names = c("y", "z")),
-    sampleT = nobs + nburn, Cov = innovation.vcv)$output
-  after.burnin <- seq_len(nobs) + nburn
-  data.frame(y    = d[after.burnin,     "y"],
-             ylag = d[after.burnin - 1, "y"],
-             z    = d[after.burnin,     "z"],
-             zlag = d[after.burnin - 1, "z"])
-}
-@ %def generate.mc1.stable 
+For the prebreak data, I draw a burn-in sample of [[nburn]]
+observations as well as the prebreak observations.  The postbreak data
+is initialized at the last observation of the prebreak data, but is
+otherwise generated in the same way as the prebreak data (using
+different coefficient values, obviously).
+<<Simulate data for Monte Carlo 1 with break>>=
+prebreak.nobs <- floor(nobs / 2)
+postbreak.nobs <- nobs - prebreak.nobs
 
-The unstable \dgp\ is also a Vector Autoregression; under the paper's
-setup, the coefficient on [[zlag]] (in the [[y]] equation)
-is zero before the break and nonzero after the break.  
-<<Define [[generate.mc1.break]]>>=
-### -*- mode: R -*-
-generate.mc1.break <- function(prebreak.nobs, postbreak.nobs, 
-                               prebreak.gammastar, postbreak.gammastar, 
-                               innovation.vcv, nburn) {
-  <<Simulate prebreak data for Monte Carlo 1>>
-  <<Simulate postbreak data for Monte Carlo 1>>
-  d <- rbind(prebreak.data, postbreak.data)
-  after.burnin <- seq_len(prebreak.nobs + postbreak.nobs) + nburn
-  data.frame(y    = d[after.burnin,     "y"],
-             ylag = d[after.burnin - 1, "y"],
-             z    = d[after.burnin,     "z"],
-             zlag = d[after.burnin - 1, "z"])    
-}
-@ %def generate.mc1.break
-For the prebreak data, I again draw a burn-in sample of [[nburn]]
-observations as well as the prebreak observations.
-<<Simulate prebreak data for Monte Carlo 1>>=
-prebreak.data <- simulate(compiled = FALSE,
-  ARMA(A = array(c(1, 0, 0, 0, 0, - prebreak.gammastar, 1, - 0.95),
-                 c(2, 2, 2)),
-       B = diag(2), output.names = c("y", "z")),
-  sampleT = prebreak.nobs + nburn, 
-  Cov = innovation.vcv)$output
-@ %
-The postbreak data is initialized at the last observation of the
-prebreak data, but is otherwise generated in the same way as the
-prebreak data (using different coefficient values, obviously).
-<<Simulate postbreak data for Monte Carlo 1>>=
-postbreak.data <- simulate(compiled = FALSE,
-  ARMA(A = array(c(1, 0, 0, 0, 0, - postbreak.gammastar, 1, - 0.95), 
-                 c(2, 2, 2)), 
-       B = diag(2), output.names = c("y", "z")),
-  y0 = tail(prebreak.data, 1), 
-  sampleT = postbreak.nobs, 
-  Cov = innovation.vcv)$output
+prebreak.data <- rvar(prebreak.nobs, list(y = c(0, 0), z = c(0, .95)),
+                      c(0.5, 0.15), innovation.vcv)
+postbreak.data <- rvar(postbreak.nobs, 
+                       list(y = c(2 * mean.gamma, 0), z = c(0, .95)),
+                       c(0.5, 0.15), innovation.vcv, nburn = 0,
+                       y0 = prebreak.data[prebreak.nobs,c("y", "z")])
+rbind(prebreak.data, postbreak.data)
 @
 
 Finally, we use some standard code to initialize the random number
@@ -286,8 +244,8 @@ jobnames <- LETTERS[1:<<number of jobs>>]
 
 <<Connect to results database for Monte Carlo 1>>=
 ### -*- mode: R -*-
-mcdata <- dbframe("mc1", sprintf("db/mc1db%d.db", jjob))
-clear(mcdata)
+mcdata <- dbframe("mc1", dbdriver = "SQLite", clear = TRUE,
+                  dbname = sprintf("db/mc1db%d.db", jjob))
 @
 
 
@@ -298,33 +256,19 @@ as well as a benchmark with several regressors.  As in Monte Carlo 1,
 I draw and discard a burn-in sample of [[nburn]] observations.
 <<Define models and DGPs for Monte Carlo 2>>=
 ### -*- mode: R -*-
-null1 <- function(d) lm(y ~ y1, data = d)
-null2 <- function(d) lm(y ~ y1 + y2 + y3 + y4, data = d)
-alt1 <-  function(d) lm(y ~ y1 + z1 + z2 + z3 + z4, data = d)
-alt2 <-  function(d) lm(y ~ y1 + y2 + y3 + y4 + z1 + z2 + z3 + z4, 
+null1 <- function(d) lm(y ~ yL1, data = d)
+null2 <- function(d) lm(y ~ yL1 + yL2 + yL3 + yL4, data = d)
+alt1 <-  function(d) lm(y ~ yL1 + zL1 + zL2 + zL3 + zL4, data = d)
+alt2 <-  function(d) lm(y ~ yL1 + yL2 + yL3 + yL4 + zL1 + zL2 + zL3 + zL4, 
                         data = d)
 
 generate.data.mc2 <- function(nobs, simulationtype, nburn = 1000) {
   gammastar <- switch(simulationtype,
                       "0.size" = rep(0, 4),
                       "1.power" = c(3.363, -0.633, -0.377, -0.529))
-  d <- simulate(compiled = FALSE,
-         ARMA(A = array(c(1, -0.261, rep(0, 3), rep(0,5), 0, -gammastar, 
-                        c(1, -0.804, 0.221, -0.226, 0.205)), c(5, 2, 2)), 
-              B = diag(2), output.names = c("y", "z")),
-         sampleT = nobs + nburn, 
-         Cov = matrix(c(10.505, 1.036, 1.036, 0.366), 2))$output
-  after.burnin <- seq_len(nobs) + nburn
-  data.frame(y  = d[after.burnin,     "y"],
-             y1 = d[after.burnin - 1, "y"],
-             y2 = d[after.burnin - 2, "y"],
-             y3 = d[after.burnin - 3, "y"],
-             y4 = d[after.burnin - 4, "y"],
-             z  = d[after.burnin,     "z"],
-             z1 = d[after.burnin - 1, "z"],
-             z2 = d[after.burnin - 2, "z"],
-             z3 = d[after.burnin - 3, "z"],
-             z4 = d[after.burnin - 4, "z"])
+  return(rvar(nobs, list(y = c(0.261, rep(0, 3), gammastar),
+                         z = c(rep(0, 4), c(0.804, -0.221, 0.226, -0.205))),
+              c(2.237, 0), matrix(c(10.505, 1.036, 1.036, 0.366), 2)))
 }
 @ %def null1 null2 alt1 alt2 generate.data.mc2
 
@@ -340,8 +284,8 @@ jobnames <- LETTERS[1:<<number of jobs>>]
 
 <<Connect to results database for Monte Carlo 2>>=
 ### -*- mode: R -*-
-mcdata <- dbframe("mc2", sprintf("db/mc2db%d.db", jjob))
-clear(mcdata)
+mcdata <- dbframe("mc2", dbdriver = "SQLite", 
+                  dbname = sprintf("db/mc2db%d.db", jjob), clear = TRUE)
 @ 
 
 \subsection{Monte Carlo design parameters}
@@ -358,11 +302,11 @@ seeding.  This parameter does not need to equal the number of
 processors on your computer.  It will be somewhat less efficient than
 it could be if they are different, but should run fine.
 <<total number of simulations>>= 
-800
+3000
 @ 
 
 <<number of jobs>>=
-4
+6
 @ 
 
 <<test size in MC (percent)>>=
@@ -397,19 +341,22 @@ rejections for each parametrization and test statistic.
 ### -*- mode: R -*-
 <<license, copyright, and warning>>
 library(dbframe)
-mcdata1 <- dbframe("mc1", "data/mcdata.db")
-cat(file = "floats/simulation1.tex", publictable(mcdata1, 
-      group.by = c("simulationtype", "R", "P"), 
-      digits = c(0, 0, 0, 0, 1, 1, 1), align = c("l", "l", rep("C", 5)),
-      cols = c("simulationtype", "R", "P", 
-        "100 * avg(clarkwestrolling 
-                                 >= 1 - (<<test size in MC (percent)>> / 100))
-         AS 'Pr[\\textsc{cw}~roll.]'",
-        "100 * avg(clarkwestrecursive 
-                                 >= 1 - (<<test size in MC (percent)>> / 100))
-         AS 'Pr[\\textsc{cw}~rec.]'",
-        "100 * avg(mixed >= 1 - (<<test size in MC (percent)>> / 100))
-         AS 'Pr[new]'")))
+mcdata1 <- dbframe("mc1", dbdriver = "SQLite", dbname = "data/mcdata.db",
+                   readonly = TRUE)
+cat(file = "floats/simulation1.tex", booktabs(select(mcdata1, 
+        group.by = c("simulationtype", "R", "P"), 
+        cols = c("'Sim. type'" = "case simulationtype when '0.size' then 'size'
+                  when '1.stable' then 'power (stable)'
+                  when '2.breaks' then 'power (breaks)' end",
+          "R", "P",
+          "'Pr[\\textsc{cw}~roll.]'" = "100 * avg(clarkwestrolling 
+                                 >= 1 - (<<test size in MC (percent)>> / 100))",
+          "'Pr[\\textsc{cw}~rec.]'" = "100 * avg(clarkwestrecursive 
+                                 >= 1 - (<<test size in MC (percent)>> / 100))",
+          "'Pr[new]'" = "100 * avg(mixed >= 1 - (<<test size in MC (percent)>> / 100))")),
+      purgeduplicates = c(rep(TRUE, 3), rep(FALSE, 3)),
+      drop = "simulationtype", numberformat = c(FALSE, rep(TRUE, 5)),
+      digits = c(0, 0, 0, 1, 1, 1), align = c("l", rep("C", 5))))
 @ %
 Table construction for the second simulation is the same as for the
 first, with a minor change because this simulation uses several
@@ -418,30 +365,36 @@ different models.
 ### -*- mode: R -*-
 <<license, copyright, and warning>>
 library(dbframe)
-mcdata2 <- dbframe("mc2", "data/mcdata.db")
-cat(file = "floats/simulation2.tex", publictable(mcdata2, 
-      group.by = c("simulationtype", "R", "P"),
-      digits = c(rep(0,4), rep(1,6)), align = c( "l", "l", rep("C", 8)),
-      cols = c("simulationtype", "R", "P", 
-        "100 * avg(clarkwestrolling1 
-                                 >= 1 - (<<test size in MC (percent)>> / 100))
-         AS 'Pr[\\textsc{cw}~roll.~1]'",
-        "100 * avg(clarkwestrecursive1 
-                                 >= 1 - (<<test size in MC (percent)>> / 100)) 
-         AS 'Pr[\\textsc{cw}~rec.~1]'",
-        "100 * avg(mixed1 >= 1 - (<<test size in MC (percent)>> / 100)) 
-         AS 'Pr[new]~1'",
-        "100 * avg(clarkwestrolling2 
-                                 >= 1 - (<<test size in MC (percent)>> / 100))
-         AS 'Pr[\\textsc{cw}~roll.~2]'",
-        "100 * avg(clarkwestrecursive2 
-                                 >= 1 - (<<test size in MC (percent)>> / 100)) 
-         AS 'Pr[\\textsc{cw}~rec.~2]'",
-        "100 * avg(mixed2 >= 1 - (<<test size in MC (percent)>> / 100)) 
-         AS 'Pr[new]~2'")))
+mcdata2 <- dbframe("mc2", dbdriver = "SQLite",
+                   dbname = "data/mcdata.db", readonly = TRUE)
+cat(file = "floats/simulation2.tex", booktabs(rbind(
+      select(mcdata2, 
+        group.by = c("simulationtype", "R", "P"),
+        cols = c(Model = "'Model 1'",
+        "'Sim. type'" = "case simulationtype
+             when '0.size' then 'size'
+             else 'power' end", "R", "P",
+        "'Pr[\\textsc{cw}~roll.]'" = "100 * avg(clarkwestrolling1 
+                                 >= 1 - (10 / 100))",
+        "'Pr[\\textsc{cw}~rec.]'" = "100 * avg(clarkwestrecursive1 
+                                 >= 1 - (10 / 100))",
+        "'Pr[new]'" = "100 * avg(mixed1 >= 1 - (10 / 100))")),
+      select(mcdata2, 
+        group.by = c("simulationtype", "R", "P"),
+        cols = c(Model = "'Model 2'",
+        "'Sim. type'" = "case simulationtype
+             when '0.size' then 'size'
+             else 'power' end", "R", "P",
+        "'Pr[\\textsc{cw}~roll.]'" = "100 * avg(clarkwestrolling2 
+                                 >= 1 - (10 / 100))",
+        "'Pr[\\textsc{cw}~rec.]'" = "100 * avg(clarkwestrecursive2 
+                                 >= 1 - (10 / 100))",
+        "'Pr[new]'" = "100 * avg(mixed2 >= 1 - (10 / 100))"))),
+      drop = "simulationtype",
+      digits = c(rep(0,4), rep(1,3)), align = c("l", "l", rep("C", 5)),
+      purgeduplicates = c(rep(TRUE, 4), rep(FALSE, 3)),
+      numberformat = c(TRUE, TRUE, FALSE, FALSE, rep(TRUE, 3))))
 @ %
-I need to change this code so that the two sets of results are stacked
-on top of each other instead of side by side.
 \section{Code to implement data analysis}\label{sec:empirical-analysis}
 \subsection{Overall structure of code}
 The code to implement the data analysis is pretty straightforward.
@@ -453,16 +406,11 @@ This analysis is based on that of \citet{GoW:08} and \citet{CaT:08}.
 <<Load and format annual Goyal and Welch [[financial.data]]>>
 <<Define benchmark and alternative models>>
   
-oos.statistics <- sapply(alternatives, function(alt)
-  mixedwindow(benchmark, alt, financial.data, <<window length>>,
-              window = "rolling")$tstat)
+oos.bootstrap <- mixedbootstrap(benchmark, alternatives, financial.data,
+    R = <<window length>>, nboot = <<number of bootstrap replications>>,
+    blocklength = 1, window = "rolling", bootstrap = "circular")
 
-oos.bootstrap.replications <- mixedbootstrap(benchmark, 
-  alternatives, financial.data, R = <<window length>>, 
-  nboot = <<number of bootstrap replications>>, blocklength = 1, 
-  window = "rolling", bootstrap = "circular")
-
-stepm.results <- stepm(oos.statistics, oos.bootstrap.replications, 
+stepm.results <- stepm(oos.bootstrap$statistics, oos.bootstrap$replications, 
                        <<test size in empirics (percent)>> / 100)
 
 <<Write empirical results to Latex table>>
@@ -563,7 +511,6 @@ parallel make can be fussy).  So I write the results table to a Latex
 macro, and then invoke that macro at the appropriate place in the
 paper.
 
-This stuff needs to be rewritten to use toLatex.
 <<Write empirical results to Latex table>>=
 ### -*- mode: R -*-
 <<Format empirical results>>
@@ -571,9 +518,9 @@ cat(file = "tex/empiricalresults.tex",
     c("\\newcommand{\\empiricalcriticalvalue}{", 
       round(stepm.results$crit, 2), "}",
       "\\newcommand{\\empiricaltable}{",
-      publictable(results.data, align = c(rep("l", 3), rep("C", 3)), 
-                  numberformat = c(rep(FALSE, 3), TRUE, rep(FALSE, 2)),
-                  digits = rep(2, 6)),"}"))
+      booktabs(results.data, align = c("l", rep("C", 3)), 
+               numberformat = c(FALSE, TRUE, FALSE, FALSE),
+               digits = rep(2, 4)),"}"))
 @
 
 To ``format'' the empirical results, I just put them into a data
@@ -581,15 +528,17 @@ frame, clean up the column names (since they'll be column headings in
 the table) and make a few changes to the column text to improve
 legibility.
 <<Format empirical results>>=
-results.data <- data.frame("",
-  predictor = predictor.names,
-  value = oos.statistics,
-  naive = ifelse(oos.statistics > 
-                 qnorm(1 - (<<test size in empirics (percent)>>)), "sig.", ""),
-  corrected = ifelse(oos.statistics > 
-                                 stepm.results$criticalvalue, "sig.", ""))
-names(results.data)[1] <- " "
+results.data <- data.frame(stringsAsFactors = FALSE,
+  predictor = names(oos.bootstrap$statistics),
+  value = oos.bootstrap$statistics,
+  naive = ifelse(oos.bootstrap$statistics > 
+            qnorm(1 - (<<test size in empirics (percent)>>/100)), "sig.", ""),
+  corrected = ifelse(stepm.results$rejected, "sig.", ""))
+
+results.data <- results.data[order(results.data$value, decreasing = TRUE),]
+results.data$predictor <- gsub(" \\.CT", "(\\\\textsc{ct})", results.data$predictor)
 results.data$predictor <- gsub("\\.", " ", results.data$predictor)
+names(results.data)[1] <- " "
 @ 
 
 
