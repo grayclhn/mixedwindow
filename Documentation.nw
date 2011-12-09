@@ -128,7 +128,7 @@ mcdesign <- expand.grid(P = c(120, 240, 360, 720), R = c(120, 240),
 for (r in rows(mcdesign)) {
   print(r)
   insert(mcdata) <- data.frame(r, 
-    row.names = seq_len(<<number of simulations for each process>>),
+    row.names = NULL,
     t(replicate(<<number of simulations for each process>>, {
       randomdata <- with(r, generate.data.mc1(R + P, simulationtype))
       c(clarkwestrolling = 
@@ -152,7 +152,7 @@ mcdesign <- expand.grid(P = c(40, 80, 120, 160), R = c(80, 120),
 for (r in rows(mcdesign)) {
   print(r)
   insert(mcdata) <- data.frame(r, 
-    row.names = seq_len(<<number of simulations for each process>>),
+    row.names = NULL,
     t(replicate(<<number of simulations for each process>>, {
       randomdata <- with(r, generate.data.mc2(R + P, simulationtype))
       c(clarkwestrolling1 = clarkwest(null1, alt1, randomdata, 
@@ -310,7 +310,7 @@ it could be if they are different, but should run fine.
 @ 
 
 <<test size in MC (percent)>>=
-10
+10.0
 @ 
 
 I also define these parameters as Latex macros that can be imported
@@ -344,16 +344,17 @@ library(dbframe)
 mcdata1 <- dbframe("mc1", dbdriver = "SQLite", dbname = "data/mcdata.db",
                    readonly = TRUE)
 cat(file = "floats/simulation1.tex", booktabs(select(mcdata1, 
-        group.by = c("simulationtype", "R", "P"), 
-        cols = c("'Sim. type'" = "case simulationtype when '0.size' then 'size'
-                  when '1.stable' then 'power (stable)'
-                  when '2.breaks' then 'power (breaks)' end",
-          "R", "P",
-          "'Pr[\\textsc{cw}~roll.]'" = "100 * avg(clarkwestrolling 
-                                 >= 1 - (<<test size in MC (percent)>> / 100))",
-          "'Pr[\\textsc{cw}~rec.]'" = "100 * avg(clarkwestrecursive 
-                                 >= 1 - (<<test size in MC (percent)>> / 100))",
-          "'Pr[new]'" = "100 * avg(mixed >= 1 - (<<test size in MC (percent)>> / 100))")),
+        group.by = c("simulationtype", R = "R", P = "P"), 
+        cols = c(
+          "'Sim. type'" = "case simulationtype when '0.size' then 'size'
+              when '1.stable' then 'power (stable)'
+              when '2.breaks' then 'power (breaks)' end",
+          R = "R", P = "P",
+          "'Pr[\\textsc{cw}~roll.]'" = 
+            "100 * avg(clarkwestrolling <= <<test size in MC (percent)>> / 100.0)",
+          "'Pr[\\textsc{cw}~rec.]'" = 
+            "100 * avg(clarkwestrecursive <= <<test size in MC (percent)>> / 100.0)",
+          "'Pr[new]'" = "100 * avg(mixed <= <<test size in MC (percent)>> / 100.0)")),
       purgeduplicates = c(rep(TRUE, 3), rep(FALSE, 3)),
       drop = "simulationtype", numberformat = c(FALSE, rep(TRUE, 5)),
       digits = c(0, 0, 0, 1, 1, 1), align = c("l", rep("C", 5))))
@@ -369,31 +370,31 @@ mcdata2 <- dbframe("mc2", dbdriver = "SQLite",
                    dbname = "data/mcdata.db", readonly = TRUE)
 cat(file = "floats/simulation2.tex", booktabs(rbind(
       select(mcdata2, 
-        group.by = c("simulationtype", "R", "P"),
+        group.by = c("simulationtype", R = "R", P = "P"),
         cols = c(Model = "'Model 1'",
-        "'Sim. type'" = "case simulationtype
-             when '0.size' then 'size'
-             else 'power' end", "R", "P",
-        "'Pr[\\textsc{cw}~roll.]'" = "100 * avg(clarkwestrolling1 
-                                 >= 1 - (10 / 100))",
-        "'Pr[\\textsc{cw}~rec.]'" = "100 * avg(clarkwestrecursive1 
-                                 >= 1 - (10 / 100))",
-        "'Pr[new]'" = "100 * avg(mixed1 >= 1 - (10 / 100))")),
+          "'Sim. type'" = "case simulationtype
+              when '0.size' then 'size'
+              else 'power' end", R = "R", P = "P",
+          "'Pr[\\textsc{cw}~roll.]'" =
+            "100 * avg(clarkwestrolling1 <= <<test size in MC (percent)>> / 100.0)",
+          "'Pr[\\textsc{cw}~rec.]'" = 
+            "100 * avg(clarkwestrecursive1 <= <<test size in MC (percent)>> / 100.0)",
+          "'Pr[new]'" = "100 * avg(mixed1 <= <<test size in MC (percent)>> / 100.0)")),
       select(mcdata2, 
-        group.by = c("simulationtype", "R", "P"),
+        group.by = c("simulationtype",  R = "R", P = "P"),
         cols = c(Model = "'Model 2'",
-        "'Sim. type'" = "case simulationtype
-             when '0.size' then 'size'
-             else 'power' end", "R", "P",
-        "'Pr[\\textsc{cw}~roll.]'" = "100 * avg(clarkwestrolling2 
-                                 >= 1 - (10 / 100))",
-        "'Pr[\\textsc{cw}~rec.]'" = "100 * avg(clarkwestrecursive2 
-                                 >= 1 - (10 / 100))",
-        "'Pr[new]'" = "100 * avg(mixed2 >= 1 - (10 / 100))"))),
+          "'Sim. type'" = "case simulationtype
+              when '0.size' then 'size'
+              else 'power' end", R = "R", P = "P",
+          "'Pr[\\textsc{cw}~roll.]'" = 
+            "100 * avg(clarkwestrolling2 <= <<test size in MC (percent)>> / 100.0)",
+          "'Pr[\\textsc{cw}~rec.]'" = 
+            "100 * avg(clarkwestrecursive2 <= <<test size in MC (percent)>> / 100.0)",
+          "'Pr[new]'" = "100 * avg(mixed2 <= <<test size in MC (percent)>> / 100.0)"))),
       drop = "simulationtype",
       digits = c(rep(0,4), rep(1,3)), align = c("l", "l", rep("C", 5)),
       purgeduplicates = c(rep(TRUE, 4), rep(FALSE, 3)),
-      numberformat = c(TRUE, TRUE, FALSE, FALSE, rep(TRUE, 3))))
+      numberformat = c(rep(FALSE, 4), rep(TRUE, 3))))
 @ %
 \section{Code to implement data analysis}\label{sec:empirical-analysis}
 \subsection{Overall structure of code}
@@ -411,7 +412,7 @@ oos.bootstrap <- mixedbootstrap(benchmark, alternatives, financial.data,
     blocklength = 1, window = "rolling", bootstrap = "circular")
 
 stepm.results <- stepm(oos.bootstrap$statistics, oos.bootstrap$replications, 
-                       <<test size in empirics (percent)>> / 100)
+                       <<test size in empirics (percent)>> / 100.0)
 
 <<Write empirical results to Latex table>>
 @
@@ -532,7 +533,7 @@ results.data <- data.frame(stringsAsFactors = FALSE,
   predictor = names(oos.bootstrap$statistics),
   value = oos.bootstrap$statistics,
   naive = ifelse(oos.bootstrap$statistics > 
-            qnorm(1 - (<<test size in empirics (percent)>>/100)), "sig.", ""),
+            qnorm(1 - (<<test size in empirics (percent)>> / 100.0)), "sig.", ""),
   corrected = ifelse(stepm.results$rejected, "sig.", ""))
 
 results.data <- results.data[order(results.data$value, decreasing = TRUE),]
@@ -559,7 +560,7 @@ refer to them in the paper.
 @ 
 
 <<test size in empirics (percent)>>=
-10
+10.0
 @ 
 
 <<window length>>=
@@ -780,7 +781,8 @@ clean:
 	rm -f *~ *.aux *.bbl *.blg *.fdb_latexmk *.log *.lot *.out *.toc \
               *.ttt *.dvi slides/*~ data/*~
 burn: clean
-	rm -rf R auto floats tex db mc1 mc2 slides/*.tex data/mcdata.db
+	rm -rf R auto floats tex db mc1 mc2 slides/*.tex data/mcdata.db \
+               *.pdf *.gz 
 @ %def clean burn
 
 \bibliography{AllRefs}
