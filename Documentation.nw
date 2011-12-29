@@ -30,7 +30,8 @@
   models.''\\{\large Code and documentation for Monte Carlo and data
     analysis}}
 
-\author{Gray Calhoun\\Iowa State University} \date{Version~0.1.1\\\today}
+\author{Gray Calhoun\\Iowa State University} 
+\date{\input{VERSION}}
 
 \maketitle
 
@@ -584,6 +585,7 @@ is easier.
 # -*- mode: makefile-gmake -*-
 <<license, copyright, and warning>>
 all: Documentation.pdf Paper.pdf zip
+.DELETE_ON_ERROR:
 <<Set paths and flags for binaries>>
 <<Extract individual files from Documentation.nw>>
 <<Execute empirical analysis and create results table>>
@@ -802,13 +804,20 @@ burn: clean
 % LocalWords:  noweb simulationtype oosanalysis dbframe dse zlag nburn jjob tex
 % LocalWords:  publictable mc latexmk notangle noweave Rscript sqlite archfile
 % LocalWords:  LATEXMKFLAGS ve parallelize parallelization citep JoJ emph citet
-# LocalWords:  Knu textit isn nw textsc dgp mcdesign DGPs stringsAsFactors len
-# LocalWords:  mcdata randomdata clarkwestrolling clarkwest pvalue mixedwindow
-# LocalWords:  clarkwestrecursive SQLite rlecuyer Lec LSC SeR ARMA lec lm vcv
-# LocalWords:  SetPackageSeed CreateStream CurrentStream Autoregression diag
-# LocalWords:  gammastar sampleT Cov burnin ylag sql GoW CaT Goyal Welch oos
-# LocalWords:  sapply tstat mixedbootstrap nboot blocklength stepm empirics csv
-# LocalWords:  lapply eval sprintf webpage url Amit gpl gwdata setdiff cbind
-# LocalWords:  aaa StepM toLatex newcommand empiricalcriticalvalue crit sig
-# LocalWords:  empiricaltable numberformat makefile gmake cpif timestamp mkdir
-# LocalWords:  foreach addprefix RSCRIPTFLAGS patsubst notdir Texlive
+% LocalWords:  Knu textit isn nw textsc dgp mcdesign DGPs stringsAsFactors len
+% LocalWords:  mcdata randomdata clarkwestrolling clarkwest pvalue mixedwindow
+% LocalWords:  clarkwestrecursive SQLite rlecuyer Lec LSC SeR ARMA lec lm vcv
+% LocalWords:  SetPackageSeed CreateStream CurrentStream Autoregression diag ae
+% LocalWords:  gammastar sampleT Cov burnin ylag sql GoW CaT Goyal Welch oos tt
+% LocalWords:  sapply tstat mixedbootstrap nboot blocklength stepm empirics csv
+% LocalWords:  lapply eval sprintf webpage url Amit gpl gwdata setdiff cbind zL
+% LocalWords:  aaa StepM toLatex newcommand empiricalcriticalvalue crit sig yL
+% LocalWords:  empiricaltable numberformat makefile gmake cpif timestamp mkdir
+% LocalWords:  foreach addprefix RSCRIPTFLAGS patsubst notdir Texlive setspace
+% LocalWords:  documentclass amsmath amsthm amssymb microtype natbib fontenc gw
+% LocalWords:  bibliographystyle abbrvnat frenchspacing DisableLigatures rvar
+% LocalWords:  noweboptions longxref nowebsize nwendcode endtrivlist endgroup
+% LocalWords:  nwdocspar makeatletter baselineskip normalfont normalsize rbind
+% LocalWords:  bfseries raggedright makeatother maketitle tableofcontents njobs
+% LocalWords:  newpage booktabs prebreak postbreak jobnames dbdriver dbname
+% LocalWords:  totalsims testsize readonly purgeduplicates lmstring README
