@@ -1,11 +1,11 @@
-## seed, jjob, dbtable, and nsim are set in the file mc-setup.R
+## seed, jjob, dbtable, and nsim are set in the file MakeScript.R
 ## for debugging:
 ## seed <- 1; jjob <- 1; dbtable <- "temp"; nsim <- 3
 set.seed(seed)
 set.seed(sample(1:10000000, jjob)[jjob],
          kind = 'Mersenne-Twister', normal.kind = 'Inversion')
-source("R/mcsetup.R")
 
+source("R/mcsetup.R")
 library(MASS)
 library(OOS)
 library(dbframe)
@@ -14,46 +14,39 @@ mcdata <- dbframe(dbtable, paste("db/", dbtable, jjob, ".db", sep = ""),
                   overwrite = TRUE)
 clear(mcdata)
 
-mcdesign <- expand.grid(P = c(120, 240, 360, 720), R = c(120, 240),
+mcdesign <- expand.grid(P = c(40, 80, 120, 160), R = c(80, 120),
                         isPower = c(FALSE, TRUE))
-
 
 ## really basic function to generate our data; this could be written
 ## much better.
-rdgp <- function(n, isPower) {
+rdgp <- function(n, isPower, nburn = 1600) {
   ## The processes are
-  ## y_t = a %*% c(1, z_{t-1}) + e1
-  ## z_t = b %*% c(1, z_{t-1}) + e2
+  ## y_t = a %*% c(1, y_{t-1}, z_{t-1},...,z_{t-4}) + e1
+  ## z_t = b %*% c(z_{t-1},...,z_{t-4}) + e2
   ## with 
   ## (e1, e2) ~ N(0, v)
-  gam <- 0.35 * isPower
-  a <- c(.5, gam)
-  b <- c(.15, .95)
-  v <- matrix(c(18, -.5, -.5, .025), 2)
-  
-  Ez <- b[1] / (1 - b[2])
-  Ey <- a[1] + a[2] * Ez
+  a <- c(2.237, 0.261, isPower * c(3.363, -0.633, -0.377, -0.529))
+  b <- c(0, 0, 0.804, -0.221, 0.226, -0.205)
+  v <- matrix(c(10.505, 1.036, 1.036, 0.366), 2)
 
-  ## elements of the variance-covariance matrix
-  Vz <- v[2,2] / (1 - b[2]^2)
-  Vy <- v[1,1] + gam^2 * Vz
-  Cyz <- a[2] * b[2] * Vz + v[1,2]
-
+  ntot <- n + nburn
+  ret <- nburn + (5:n)
   ## we're going to let x_t = (y_t, z_t); draw from the stationary
   ## distribution and then populate the rest of the matrix with the
   ## innovations.
-  x <- rbind(mvrnorm(1, c(Ey, Ez), matrix(c(Vy, Cyz, Cyz, Vz), 2)),
-             mvrnorm(n, c(0,0), v))
-  A <- matrix(c(0, 0, a[2], b[2]), 2)
-  for (i in 1 + (1:n)) {
-    x[i,] = drop(c(a[1], b[1]) + A %*% x[i-1,] + x[i,])
+  x <- mvrnorm(ntot, c(0,0), v)
+  A <- rbind(a, b)
+  for (i in 5:ntot) {
+    x[i,] = c(A %*% c(1, x[i-1,], x[i - (2:4),2]) + x[i,])
   }
-  data.frame(y = x[-1,1], zlag = x[-n,2])
+  
+  data.frame(y = x[ret, 1], y1 = x[ret-1,1], z1 = x[ret-1, 2],
+             z2 = x[ret-2, 2], z3 = x[ret-3, 2], z4 = x[ret-4, 2])
 }
 
-null <- function(d) lm(y ~ 1, data = d)
-alt <- function(d) lm(y ~ zlag, data = d)
-xfn <- function(d) matrix(1, nrow(d))
+null <- function(d) lm(y ~ y1, data = d)
+alt <- function(d) lm(y ~ y1 + z1 + z2 + z3 + z4, data = d)
+xfn <- function(d) as.matrix(cbind(1, d[,"y1",drop=FALSE]))
 yfn <- function(d) as.matrix(d[,"y", drop = FALSE])
   
 for (r in rows(mcdesign)) {

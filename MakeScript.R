@@ -3,8 +3,8 @@
 # run in parallel.  Running this file will print out text for a
 # makefile, so it might be easiest to just look at its output.
 
-nsims <- 1000  # this is the number of simulations
-njobs <- 8     # I set this to equal the number of processors on my 
+nsims <- 5000  # this is the number of simulations
+njobs <- 6     # I set this to equal the number of processors on my 
                # computer.  Changing its value will change the results
                # of the simulations, since they'll be seeded differently.
 
@@ -22,7 +22,7 @@ dbfiles <- function(filename)
   paste(dbdir, "/", filename, ".db", sep = "")
 
 mkline <- function(...)
-    cat(paste("\n\t$(sqlite) $(sqliteflags) stardata.db \"",
+    cat(paste("\n\t$(sqlite) $(sqliteflags) mcdata.db \"",
               paste(...,sep = ""), ";\"", sep = ""))
 
 mergetables <- function(table) {
@@ -45,9 +45,11 @@ writeMake <- function(x, Rfile, seed) {
   cat("\n.SECONDARY: ", dbf, collapse = "", sep = " ")
   mergetables(x)
   for (job in seq.int(njobs)) {
-    cat(sprintf("\n%s: %s\n\tmkdir -p db\n\techo 'seed <- %d; jjob <- %d; nsim <- %d; dbtable <- \"%s\";' | cat - $< | $(Rscript) $(RSCRIPTFLAGS) - &> %s/%s.Rout",
+    cat(sprintf("\n%s: %s R/mcsetup.R\n\tmkdir -p db\n\techo 'seed <- %d; jjob <- %d; nsim <- %d; dbtable <- \"%s\";' | cat - $< | $(Rscript) $(RSCRIPTFLAGS) - &> %s/%s.Rout",
                 dbf[job], Rfile, seed, job, jsims[job], x, dbdir, dbn[job]))
   }
 }
 
-writeMake("dgp1", "R/montecarlo.R", 99120)
+writeMake("dgp1", "R/montecarlo.R",  1023)
+writeMake("dgp2", "R/montecarlo2.R", 1023)
+writeMake("dgp3", "R/montecarlo3.R", 1023)

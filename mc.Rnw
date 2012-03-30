@@ -1,15 +1,143 @@
-We will also conduct a brief Monte Carlo experiment to demonstrate
-that this modified statistic performs essentially the same as Clark
-and West's.  We draw observations from their \dgp\ 1:
+<<echo=F>>=
+library(dbframe)
+library(xtable)
+mcdata1 <- dbframe("dgp1", "mcdata.db")
+mcdata2 <- dbframe("dgp2", "mcdata.db")
+groups <- c( "isPower", "R", "P")
+size <- .1
 
-\begin{gather*}
-  y_t = 0.5 + \gamma^{*} z_{t-1} + e_t \qquad\qquad
-  z_t = 0.15 + 0.95 z_{t-1} + v_t \\
-  (e_t, v_t)' \sim iid\ N(0, \begin{pmatrix} 18 & - 0.5 \\ \cdot & 0.025 \end{pmatrix}.
-\end{gather*}
+printbooktabs <- function(x,...){
+  print(xtable(x,...),
+        floating=F,
+        hline.after=NULL, 
+        add.to.row=list(pos=list(-1,0, nrow(x)), 
+          command=c(
+            '\\toprule ',
+            '\\midrule ',
+            '\\bottomrule ')),...)
+}
+
+fspace <- function(x) gsub(" ", "\\\\enskip", format(round(x, 1)))
+
+printall <- function(mcdb,...) {
+  d <- subset(select(mcdb, group.by = groups, 
+                     sprintf(c("case isPower when 0 then 'size' else 'power' end as 'type'",
+                               "R", "P", 
+                               "100 * avg(pOld <= %f) as 'Pr[CW]'",
+                               "100 * avg(pNew1 <= %f) as 'Pr[New]'",
+                               "100 * (avg(pOld <= %f and pNew1 > %f) + avg(pOld > %f and pNew1 <= %f)) as 'Pr[tests disagree]'"),
+                             size, size, size, size)), select = -isPower)
+  d$R <- fspace(d$R)
+  d$P <- fspace(d$P)
+  d[[4]] <- fspace(d[[4]])
+  d[[5]] <- fspace(d[[5]])
+  d[[6]] <- fspace(d[[6]])
+  d$R[duplicated(subset(d, select = c(type, R)))] <- NA
+  d$type[duplicated(d$type)] <- NA
+  printbooktabs(d, include.rownames = FALSE, digits = c(0,0,0,0,1,1,1), 
+                align = c("l","l","c","c","c","c","c"), 
+                sanitize.text.function = function(x) x)
+}
+@ 
+We will also conduct two brief Monte Carlo experiments to demonstrate
+that this modified statistic performs similarly to
+\possessivecite{ClW:07}.  We'll use both of the \dgp s they consider.
+For the first, we have
+\begin{align}\label{eq:dgp1}\tag{\dgp\ 1}
+  y_t &= 0.5 + \gamma^{*} z_{t-1} + e_t &
+  \gamma^{*} &=
+  \begin{cases}
+    0 & \text{size simulations} \\
+    0.35 & \text{power simulations}
+  \end{cases}\\\nonumber
+  z_t &= 0.15 + 0.95 z_{t-1} + v_t &
+  (e_t, v_t)' &\sim iid\ N\Bigg(\begin{pmatrix} 0 \\ 0
+  \end{pmatrix}
+   , \begin{pmatrix} 18 & -
+    0.5 \\ -0.5 & 0.025 \end{pmatrix}\Bigg)
+\end{align}
 Both models are estimated by \ols. The benchmark model regresses $y_t$
 on a constant, and the alternative regresses $y_t$ on a constant and
-$z_{t-1}$.  We run the same size and power simulations as
-\citet{ClW:07}; $\gamma^{*}$ equals zero for the size simulations and
-0.35 in the power simulations.
+$z_{t-1}$.  We use both \poscw\ original statistic and our new
+statistic to test the null that the benchmark model's innovation is an
+\mds.\footnote{\citet{ClW:07} report the performance of the tests
+  proposed by \citet{CCS:01} and \citet{ClM:05} as well, and of tests
+  based on the naive Gaussian statistic.}
 
+
+\begin{table}[tb]
+  \centering
+<<mc1, echo=F, results=tex>>=
+printall(mcdata1)
+@ 
+\caption{Size and power of the \oos\ tests under \eqref{eq:dgp1} at
+  10\% confidence.  These percentages are calculated from 5000
+  samples.  Pr[CW] shows the fraction of simulations for which Clark
+  and West's (2007) statistic rejects; Pr[New] shows the fraction of
+  simulations for which this paper's test rejects; and Pr[tests
+  disagree] gives the fraction of simulations in which this paper's
+  test and Clark and West's (2007) give different conclusions.}
+\label{tab:mc1}
+\end{table}
+
+The second \dgp\ is
+\begin{align} \label{eq:dgp2}\tag{\dgp\ 2}
+  y_{t} &= 2.237 + 0.261 + \gamma^{*}_{1} z_{t-1} + \gamma_{2}^{*}
+  z_{t-2} + \gamma_{3}^{*} z_{t-3} + \gamma_{4}^{*} z_{t-4} + e_{t} \\
+  z_{t} &= 0.804 z_{t-1} - 0.221 z_{t-2} + 0.226 z_{t-3} - 0.205
+  z_{t-4} + v_{t} \nonumber \\
+  \binom{e_{t}}{v_{t}} &\sim N\Bigg(
+  \begin{pmatrix}
+    0 \\ 0
+  \end{pmatrix},
+  \begin{pmatrix}
+    10.505 & 1.036 \\ 1.036 & 0.366
+  \end{pmatrix}
+  \Bigg) \nonumber\\\nonumber
+  \gamma^{*} &=
+  \begin{cases}
+    0 & \text{size simulations}\\
+    (3.363, -0.633, -0.377, -0.529)' & \text{power simulations}.
+  \end{cases}
+\end{align}
+The benchmark model for $y_{t}$ is an AR(1) and the alternative model
+includes all four lags of $z_{t}$.  For this simulation, $R$ is 80 or
+120 and $P$ is 40, 80, 120, or 160.  \citet{ClW:07} argue that the
+first \dgp\ mimics an asset pricing application and the second mimics
+\gdp\ growth forecasting using the Federal Reserve Bank of Chicago's
+National Activity Index.
+
+\begin{table}[tb]
+  \centering
+<<mc2, echo=F, results=tex>>=
+printall(mcdata2)
+@ 
+\caption{Size and power of the \oos\ tests under \eqref{eq:dgp2} at
+  10\% confidence.  These percentages are calculated from 5000
+  samples.  Pr[CW] shows the fraction of simulations for which Clark
+  and West's (2007) statistic rejects; Pr[New] shows the fraction of
+  simulations for which this paper's test rejects; Pr[tests disagree]
+  gives the fraction of simulations in which this paper's test and
+  Clark and West's (2007) give different conclusions.}
+\label{tab:mc2}
+\end{table}
+
+Table~\ref{tab:mc1} presents the simulation results
+for~(\ref{eq:dgp1}) and Table~\ref{tab:mc2} for~(\ref{eq:dgp2}).  For
+all of the parameter values, our proposed new statistic has slightly
+lower rejection probability than \possessivecite{ClW:07}.  For both
+\dgp s the statistics are slightly undersized.  In~\eqref{eq:dgp1},
+this translates to relatively low power and the power difference
+between the two statistics may be noticeable.  In~\eqref{eq:dgp2},
+though, the evidence against the benchmark is strong enough under the
+alternative that the tests reject almost all of the time.  In that
+setting, the lower power of our new test is essentially irrelevant.
+
+%%% Local Variables:
+%%% TeX-master: "Paper"
+%%% End:
+% LocalWords:  dbframe xtable mcdata dgp printbooktabs hline pos nrow toprule
+% LocalWords:  midrule bottomrule printall mcdb dsize isPower sprintf pOld pNew
+% LocalWords:  dpower qs dadj dfapply rownames tb tex oos eqref eq mc ClW dgp's
+% LocalWords:  possessivecite nonumber sim iid Bigg binom pmatrix ols poscw CCS
+% LocalWords:  ClM

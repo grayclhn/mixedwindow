@@ -1,13 +1,15 @@
 \documentclass[12pt]{article}
 
 \usepackage{amsfonts}
-\usepackage{amsmath,amsthm,amssymb,graphicx,setspace,url}
+\usepackage{amsmath,amsthm,amssymb,graphicx,setspace,url,booktabs,tabularx}
 \usepackage[sort,round]{natbib}
 \usepackage[margin=1in]{geometry}
 \usepackage[small]{caption}
 
 \bibliographystyle{abbrvnat}
 \newcommand\possessivecite[1]{\citeauthor{#1}'s \citeyearpar{#1}}
+\newcommand\poscw{\citeauthor{ClW:06}'s \citeyearpar{ClW:06,ClW:07}}
+\newcommand\citen[1]{\citeauthor{#1} \citeyear{#1}}
 \frenchspacing
 \onehalfspacing
 
@@ -18,6 +20,7 @@
 \newtheorem{asmp}{Assumption}
 \newtheorem{example}{Example}
 \newtheorem{defn}{Definition}
+\newtheorem{rem}{Remark}
 
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator{\E}{E}
@@ -26,93 +29,104 @@
 \newcommand{\bic}{\textsc{bic}}
 \newcommand{\dgp}{\textsc{dgp}}
 \newcommand{\ols}{\textsc{ols}}
+\newcommand{\mds}{\textsc{mds}}
+\newcommand{\oos}{\textsc{oos}}
+\newcommand{\gdp}{\textsc{gdp}}
+\newcommand{\hac}{\textsc{hac}}
+\newcommand{\ma}{\textsc{ma}}
 
 \begin{document}
 
-\author{Gray Calhoun}
-\title{A comment on ``Approximately normal tests for equal predictive
-  accuracy in nested models''}
+\author{Gray Calhoun} \title{An asymptotically normal out-of-sample
+  test\\ of equal predictive accuracy for nested models} 
 \date{\today}
 \maketitle
 
 \begin{abstract} 
-  \noindent This paper proposes a slight modification of
+  \noindent This paper proposes a modification of
   \possessivecite{ClW:07} adjusted out-of-sample $t$-test. We continue
   to estimate the alternative model under a fixed-length rolling
   window, but estimate the benchmark model under a recursive
   window. The resulting statistic gives an asymptotically normal test
   statistic that the benchmark model is correctly specified, even when
   it is nested in the alternative.  Moreover, the alternative model
-  can be estimated using populare model selection methods, such as the
+  can be estimated using popular model selection methods, such as the
   \aic\ or \bic.
 
 \strut
 
-\noindent Keywords: Out-of-Sample
+\noindent Keywords: Out-of-Sample, Forecast Evaluation, Martingale
+Difference Sequence, Model Selection
 
 \strut
 
-\noindent JEL Classification Numbers:
+\noindent JEL Classification Numbers: C22, C53
 
 \end{abstract}
 
 \newpage \noindent In a pair of papers, \citet{ClW:06,ClW:07} develop
-an out-of-sample test of the null hypothesis that a small benchmark
-model is correctly specified.  Their test compares the forecasting
-performance of a pair of nested models, and the null hypothesis is
-that the innovations in the smaller model are a martingale difference
-sequence.  This test procedure is quite popular,\footnote{As of 19
-  April 2011, \citet{ClW:06} has been cited by 25 papers indexed by
-  the ISI Web of Knowledge, and \citet{ClW:07} by 35.} and one assumes
-that this is due in part to the statistic's convenience.  The
-statistic is approximately normal after adjusting for the estimation
-error of the larger model.  Normality comes from a fixed-length
-rolling window, as in \citet{GiW:06}, and the adjustment centers the
-statistic at the appropriate population quantities.  This statistic is
-especially convenient because other tests for similar hypotheses
-\citep[see][among others]{Mcc:07,ClM:05,ClM:01,CoS:04,CoS:02,CCS:01}
-lead to a nonstandard limit distribution and place restrictions on the
-models under consideration, while other asymptotically normal
-statistics \citep{GiW:06} test a different null hypothesis.
+an out-of-sample (\oos) test of the null hypothesis that a small
+benchmark model is correctly specified.  Their test compares the
+forecasting performance of a pair of nested models, and the null
+hypothesis is that the innovations in the smaller model form a
+martingale difference sequence.  This test procedure is
+popular,\footnote{As of 03 June 2011, \citet{ClW:06} has been cited by
+  26 papers indexed by the \textsc{isi} Web of Knowledge, and
+  \citet{ClW:07} by 37. They have been cited by 113 and 165 papers
+  respectively indexed by Google Scholar.} and one assumes that this
+is due in part to the statistic's convenience.  The statistic is
+approximately normal after adjusting for the estimation error of the
+larger model.  Normality comes from a fixed-length rolling window, as
+in \citet{GiW:06}, and the adjustment centers the statistic at the
+appropriate population quantities.  This statistic is especially
+convenient because other tests for similar hypotheses \citep[among
+others]{Mcc:07,ClM:05,ClM:01,CoS:04,CoS:02,CCS:01} have a nonstandard
+limit distribution and place restrictions on the models under
+consideration, while other asymptotically normal statistics
+\citep{GiW:06} test a different null hypothesis.
 
 However, Clark and West's statistic is only ``approximately normal''
-in an informal sense.  Clark and West present monte carlo evidence of
+in an informal sense.  Clark and West present Monte Carlo evidence of
 the statistic's distribution, but only prove that the statistic is
 asymptotically normal when the benchmark model is a random walk
 \citep{ClW:06}. Estimating the parameters of the smaller model
 invalidates the proof.
 
-In this note, I prove that a slightly modified version of their
+In this paper, I prove that a slightly modified version of their
 statistic is asymptotically normal even when the smaller model is
-estimated.  Essentially, we need a consistent estimate of the forecast
-errors of the pseudo-true version of the benchmark models, while
-maintaining inconsistent estimates of the larger model's errors so
-that we can ignore the fact that the models are nested.  We can meet
-both needs by using different window strategies for each model.  We
-estimate the benchmark model using a recursive window scheme, and
-estimate the alternative using a fixed-length rolling window.
+estimated.  To achieve normality, we need a consistent estimate of the
+pseudo-true benchmark model, while maintaining an inconsistent
+estimate of the larger model so that we can ignore nesting.  We can
+meet both needs by using different window strategies for each model;
+the benchmark model is estimated using a recursive window and the
+alternative with a fixed-length rolling window.
 
-Mixing window strategies is uncommon but it shouldn't be. In most
+Mixing window strategies is uncommon but needn't be. In most
 applications, the null hypothesis imposes both equal accuracy between
 the two models and stability.  The benchmark model rarely allows for
-breaks, parameter drift, or other instability,\footnote{An exception
-  might be \possessivecite{StW:08} IMA(1,1) model of inflation.} but
-the researcher is typically concerned about instability.  Indeed,
-concern about instability is often given as a reason for doing an
-out-of-sample analysis, especially with a short rolling window
-\citep{GiW:06,GiR:09,GiR:10}.  So using a different window strategy
-for each model--a recursive window for the model that imposes
-stability, and a rolling window for the model that relaxes
-stability--is a natural approach and is similar in spirit to the
-Likelihood Ratio Test\footnote{Using a rolling window for both models
-  would be analagous to a Wald test and using recursive window for
-  both would be like the LM test.}
+breaks, parameter drift, or other forms of
+instability,\footnote{Exceptions are \possessivecite{StW:07}
+  \textsc{ima}(1,1) and \textsc{uc-sv} models of inflation.} but the
+researcher is typically concerned about instability.  Indeed, concern
+about instability is often given as a reason for doing an \oos\
+analysis, especially with a short rolling window.\footnote{This is
+  discussed in \citet{StW:03}, \citet{PeT:05,PeT:07}, \cite{GiW:06},
+  \citet{GoW:08}, \citet{ClM:09c}, and \cite{GiR:09,GiR:10}, among
+  others.} A researcher could impose stability on both models by using
+a recursive window or relax stability for both by using a rolling
+window; both approaches should not affect the test's size, but may
+affect power.  But the researcher could instead impose stability on
+the benchmark and relax it for the alternative by using a recursive
+window for the benchmark and a rolling window for the alternative
+model.  This approach could have a power advantage and is similar in
+spirit to using a likelihood ratio test instead of an \textsc{lm} or
+Wald test.
 
-Our statistic has a substantial advantage over existing out-of-sample
-statistics for nested models: the benchmark can be essentially
+This statistic has a substantial advantage over existing \oos\
+statistics for nested models: the alternative can be essentially
 arbitrary, as long as it obeys the necessary moment conditions.  In
-particular, it can use model selection techniques like the \aic\ or
-\bic\ to determine things like the number of lags to include, the
+particular, researchers can use model selection techniques like the
+\aic\ or \bic\ to determine the number of lags to include, the
 particular exogenous variables to include, etc.  Other methods that
 test a similar hypothesis are unable to handle these models
 \citep[except][which does not allow the benchmark to be
@@ -120,71 +134,143 @@ estimated]{ClW:06}; \citet{GiW:06} are able to handle such models for
 both the alternative and the benchmark, but they test a different
 aspect of forecasting performance.
 
+This paper focuses on nested models, as they have received the most
+attention in the empirical and theoretical literature, but the
+statistic can be used with non-nested models as well.  This generality
+is useful, since \possessivecite{Wes:96} results do not apply to
+non-nested models if they both encompass the true \dgp, which is
+allowable under the null, and so the naive \oos\ $t$-test is not
+asymptotically normal (in the limit, both models will converge to the
+\dgp\ and give identical foreasts).  Constructing an \oos\ test for
+non-nested models using \possessivecite{ClM:01} approach would be
+difficult.  To my knowledge, this paper gives the first \oos\ test
+of equal predictive ability for non-nested models that does not
+implicitly rule out both models encompassing the
+\dgp.\footnote{Again, \citet{GiW:06} does not make this implicit
+  assumption, but their statistic tests a different null hypothesis.}
+
+The next section presents our theoretical result and
+Section~\ref{sec:2} presents two simulations that compare our
+statistic to \poscw\ original test.  Section~\ref{sec:3} concludes.
+
+\section{Theoretical Result}\label{sec:1}
 We'll present our results as a single theorem.  The conditions are
-essentially the same as
-\citet{ClW:07,ClW:06,Wes:96,WeM:98,Mcc:00,GiW:06}, but with a modified
-window scheme.  We require that the benchmark model be estimated by
-least squares, but that is for convenience and could be relaxed.
-Changing the estimation strategy of the benchmark model would amount
-to changing the null hypothesis.
+essentially the same in existing papers
+\citep[e.g.][]{ClW:07,ClW:06,Wes:96,WeM:98,Mcc:00,GiW:06}, but with a
+modified window scheme.  Our result follows from \citet{Wes:96},
+treating the alternative model's forecasts as additional data. Note
+that asymptotic equivalence does not hold so we need to account for
+parameter estimation error.
 
 \begin{thm}\label{thm:1}
-  Suppose that the following hold:
+  Suppose that we have two models $\hat{y}_{1t}$ and $\hat{y}_{2t}$ to
+  forecast the variable $y_t$, and have observations for
+  $t=1,\dots,T$.  Assume the following hold:
   \begin{enumerate}
-  \item The coefficients for the benchmark forecast,
-    $\hat{y}_{1,t}(\beta_1)$, are estimated with least-squares over a
-    recursive window:
-    \[\hat{\beta}_{1t} = \argmin_{\beta} \sum_{s=1}^{t} (y_t -
-    \hat{y}_{1t}(\beta))^2, \qquad t = R,\dots,T-1.\]
+  \item The benchmark forecast $\hat{y}_{1,t}$, is estimated using
+    \ols\ with a recursive window: $\hat{y}_{1,t+1} =
+    x_t'\hat{\beta}_t$ for some vector of predictors $x_t$ with
+    \[\hat{\beta}_t = \Big(\sum_{s=1}^{t} x_{t-1} x_{t-1}'\Big)^{-1}
+    \sum_{s=1}^t x_{t-1} y_t, \qquad t = R,\dots,T.\]
+    Also define $\beta^{*} = \big(\sum_{t=1}^{T} \E x_{t-1} x_{t-1}'\big)^{-1}
+    \sum_{t=1}^T \E x_{t-1} y_t$.
   \item The alternative forecast, $\hat{y}_{2,t}$, is estimated using
-    a rolling window of fixed length $R$: $\hat{y}_{2,t} \in
-    \sigma(y_{t-R+1},\dots,y_t)$
-  \item $z_t \equiv (y_t, \hat{y}_{1,t}(\beta_1^{*}), \hat{y}_{2t})$
-    is strong mixing of size $-r/(r-2)$ and has uniformly bounded
-    $r+\delta$ moments for some positive $\delta$, with $\beta^{*} =
-    \argmin_{\beta} \E (y_t - \hat{y}_{1t}(\beta))^2$.
-
+    a rolling window of fixed length $R$ ($R < T$), so $\hat{y}_{2,t+1} =
+    \psi(y_t,z_t,\dots,y_{t-R+1}, z_{t-R+1})$ where $\psi$ is a known
+    function and $z_t$ is a sequence of predictors that includes $x_t$.
+  \item The series $y_t$ and $z_t$ are strong mixing of size
+    $-r/(r-2)$ for $r>2$ and $y_t$, $\hat{y}_{2t}$, and $x_t$ have
+    uniformly bounded $2 r+\delta$ moments for some positive $\delta$.
+  \item Define \[f_t(\beta) = (y_{t+1} - x_t'\beta)^2 - (y_{t+1} -
+    \hat{y}_{2,t+1})^2 + (x_t'\beta - \hat{y}_{2,t+1})^2\] and $\bar f
+    = P^{-1} \sum_{t=R}^{T-1} f_t(\hat{\beta}_t)$. Then $f(\beta^{*})$
+    is covariance stationary and $\bar f$ has uniformly positive long
+    run variance.
   \end{enumerate}
   Under the null hypothesis that $y_t - \hat{y}_{1t}(\beta^{*})$ is a
-  martingale difference sequence, $\sqrt{P} \bar f / \hat{\sigma}
-  \to^d N(0,1)$, where
+  martingale difference sequence with respect to the filtration
+  $\sigma(y_t, z_{t-1}, y_{t-1}, z_{t-2},\dots)$, $\sqrt{P} \bar f /
+  \hat{\sigma} \to^d N(0,1)$, where $P = T-R$ and
   \begin{align*}
-  \bar f
-  &\equiv P^{-1} \sum_{t=R+1}^T f_t(\hat{\beta}_{t-1}),&  \hat{\sigma} &\equiv \Big(P^{-1}
-  \sum_{t=R+1}^T (f_t(\hat{\beta}_{t-1}) - \bar f)^2\Big)^{1/2},
+    \hat{\sigma}^2 &= \hat{S}_{ff} + 2 \hat{S}_{fh} (T^{-1}X'X)^{-1}
+    \hat{F}' +
+    2\hat{F} (T^{-1} X'X)^{-1} \hat{S}_{hh} (T^{-1}X'X)^{-1} \hat{F}'\\
+    \hat{F} &= 2 P^{-1} \sum_{t=R}^{T-1} x_t (2 x_t'\hat{\beta}_t -
+    y_{t+1} - \hat{y}_{2,t+1}) \\
+    \hat{S}_{ff} &= P^{-1}\sum_{t=R}^{T-1} (f_t(\hat{\beta}_t) - \bar
+    f)^2 \\
+    \hat{S}_{fh} &= P^{-1} \sum_{t=R}^{T-1} (f_t(\hat{\beta}_t) -
+    \bar{f})(h_t(\hat{\beta}_t) - \bar h)' \\
+    \hat{S}_{hh} &= P^{-1} \sum_{t=R}^{T-1} (h_t(\hat{\beta}_t) - \bar h)(h_t(\hat{\beta}_t) - \bar h)' \\
+    h_t(\beta) &= x_t(y_{t+1} - x_t'\beta) \\
+    \intertext{and} \bar h &= P^{-1} \sum_{t=R}^{T-1}
+    h_t(\hat{\beta}_t).
   \end{align*}
- and    
-  \begin{equation*}
-    f_t(\hat{\beta}_{t-1}) \equiv (y_t - \hat{y}_{1t}(\hat{\beta}_{t-1}))^2
-    - (y_t - \hat{y}_{2t})^2 +
-    (\hat{y}_{1t}(\hat{\beta}_{1,t-1}) - \hat{y}_{2t})^2
-  \end{equation*}
 \end{thm}
 
-\begin{proof}[Proof of Theorem \ref{thm:1}] Let $\tilde{R}_T$ satisfy $\tilde{R}_T \to \infty$ and
-  $\tilde{R}_T/T \to 0$ and define $\tilde{P} = T - \tilde{R}$ Then
-  \begin{equation*}
-    P^{-1/2}\sum_{t=R+1}^T f_t(\hat{\beta}_{t-1}) = \tilde{P}^{-1/2}
-    \sum_{t=\tilde{R}+1}^T f_t(\hat{\beta}_{t-1}) + o_p(T^{-1/2}).
-  \end{equation*}
-  Now, $\hat{\beta}_t = B(t) H(t)$ with
-  \begin{gather*}
-    B(t) = \Big(t^{-1} \sum_{s=1}^t \Big\{\Big(\dd{\beta} \hat{y}_{1t}(\bar{\beta}_t)\Big)
-    \Big(\dd{\beta} \hat{y}_{1t}(\bar{\beta}_t)\Big)' - (y_t -
-    \hat{y}_{1t}(\bar{\beta}_t))\frac{\partial^2}{\partial\beta \partial\beta'}
-    \hat{y}_{1t}(\bar{\beta}_t)\Big\}\Big)^{-1}, \\
-    H(t) = t^{-1} \sum_{s=1}^t (y_t - \hat{y}_{1t}(\beta^{*}))
-    \dd{\beta} \hat{y}_{1t}(\beta^{*}),
-  \end{gather*}
-  where $\bar{\beta}_t$ is between $\beta^{*}$ and $\hat{\beta}_t$
-  element-by-element.  Then our new out-of-sample average satisfies
-  the conditions of \citet[Theorem 4.1]{Wes:96} (with the moment and
-  weak dependence conditions weakened as in \citet[Theorem
-  2.3.1]{Mcc:00}).
+\begin{proof}[Proof of Theorem \ref{thm:1}] Let $\tilde{R}_T$ satisfy
+  $\tilde{R}_T \to \infty$ and $\tilde{R}_T/T \to 0$ and define
+  $\tilde{P} = T - \tilde{R}$.  Then we can replace $P$ and $R$ with
+  $\tilde{P}$ and $\tilde{R}$ in the preceding equations without
+  changing the asymptotic distributions of the statistics. Note that
+  $\tilde{P}/\tilde{R} \to \infty$. It is straightforward to verify
+  that the assumptions of Theorem 4.1 of \citet{Wes:96} are satisfied
+  (with the moment and mixing conditions weakened as in
+  \citet{Mcc:00}).  Note that \[f_t(\beta^{*})= 2 (y_{t+1} -
+  x_t'\beta^{*})(x_t'\beta^{*} - \hat{y}_{2,t+1}) \quad \text{a.s.}\]
+  under the null, as in \citet{ClW:07}, so we do not need to use a
+  \hac\ estimator of the variance.
 \end{proof}
+The following remarks are relevant to Theorem~\ref{thm:1}:
 
+\begin{rem}
+  Forecasters will almost always be interested in the one-sided
+  alternative that $\E f_t(\beta^{*}) > 0$; i.e. that the alternative
+  model is expected to forecast better than the benchmark.
+\end{rem}
+
+\begin{rem}
+  These results are presented for one-period-ahead forecasting for
+  simplicity.  They can be extended to forecasting at a longer horizon
+  by appropriately modifying the variance-covariance matrix to account
+  for the correlation structure of the forecast errors. (i.e. for
+  $\tau$-step-ahead forecasts the errors will be an \ma($\tau-1$) process).
+\end{rem}
+
+\begin{rem}
+  The requirement that the asymptotic variance of $\bar f$ be
+  uniformly positive is much less restrictive than in \cite{Wes:96}.
+  As in \cite{GiW:06} and \citet{ClW:06,ClW:07}, the assumption only
+  serves to rule out pathological cases---for example, letting both
+  the benchmark and the alternative model be white noise. In
+  \citet{Wes:96}, this assumption is a restriction on the \dgp\ as
+  well as the forecasting models, but in this paper it is a
+  restriction only on the models.
+\end{rem}
+
+\begin{rem}
+  The statistic we present tests the null hypothesis that the forecast
+  errors from the population version of the benchmark model are a
+  martingale difference sequence.  This may not be appropriate,
+  depending on the loss function or utility function of interest.  Our
+  statistic can be modified to test implications of optimal forecasts
+  under other loss functions \citep[see][]{PaT:07,PaT:07b}.
+\end{rem}
+
+\section{Monte Carlo Results}\label{sec:2}
 \input{mc}
+\section{Conclusion}\label{sec:3}
+In this paper, we present an \oos\ test statistic similar to \poscw\
+that is asymptotically normal when comparing nested models.  We do so
+by estimating the alternative model using a fixed-length rolling
+window---as Clark and West do---but estimating the benchmark model
+with a recurisve window.  We also present simulations that indicate
+the new statistic behaves similarly to Clark and West's original test,
+suggesting that the new statistic is a suitable replacement in applied
+research.  
 
 \bibliography{AllRefs}
-
 \end{document}
+
+% LocalWords:  ClW JEL ISI Google GiW Mcc ClM CoS CCS StW IMA GiR WeM fh X'X hh
+% LocalWords:  PaT AllRefs
