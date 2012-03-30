@@ -11,7 +11,14 @@ all: Paper.pdf # zip Online
 
 Paper.pdf: Paper.tex mc.tex empirics.tex
 	texi2dvi $< $(TeXFLAGS)
-mc.tex:  db/dgp1.done db/dgp2.done db/dgp3.done
+mc.tex: floats db/dgp1.done db/dgp2.done db/dgp3.done
+empirics.tex: floats empirics.RData
+
+floats: 
+	mkdir -p $@
+
+empirics.RData: R/empirics.R
+	$(Rscript) $(RSCRIPTFLAGS) $< &> R/empirics.Rout
 
 %.pdf: %.tex
 	$(R) CMD texi2dvi $< $(TeXFLAGS)

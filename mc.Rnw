@@ -1,4 +1,6 @@
 \newcolumntype{C}{>{\centering\arraybackslash}X}
+\SweaveOpts{prefix.string=floats/mc}
+\SweaveOpts{split=TRUE}
 
 <<echo=F>>=
 library(dbframe)
@@ -45,14 +47,14 @@ printall <- function(mcdb,...) {
 }
 @ 
 
-I'll also conduct two brief Monte Carlo experiments to demonstrate
-that the modified version of \citepos{ClW:07} statistic performs
-similarly to their original test.\footnote{All of these simulations
-  were programmed in R \citep{R:2-13-0} and use the \textsc{MASS}
-  \citep[ver. 7.3-12]{VeR:02}, xtable \citep[ver. 1.5-6]{Dah:09},
-  dbframe \citep[ver. 0.1.1]{Cal:10b}, and \textsc{oos}
-  \citep[ver. 0.01]{Cal:11b} packages.}  We'll use both of the \dgp s
-they consider.  For the first, we have
+I'll conduct two brief Monte Carlo experiments to demonstrate that the
+modified version of \citepos{ClW:07} statistic performs similarly to
+their original test.\footnote{All of these simulations were programmed
+  in R \citep{R:2-13-0} and use the \textsc{MASS} \citep{VeR:02},
+  xtable \citep{Dah:09}, dbframe \citep{Cal:10b}, and \textsc{oos}
+  \citep{Cal:11b} packages.  Version information is listed in the
+  bibliography.}  We'll use both of the \dgp s they consider.  For the
+first, we have
 \begin{align}\label{eq:dgp1}\tag{\dgp\ 1}
   y_t &= 0.5 + \gamma^{*} z_{t-1} + e_t &
   \gamma^{*} &=
@@ -68,7 +70,7 @@ they consider.  For the first, we have
 \end{align}
 Both models are estimated by \ols. The benchmark model regresses $y_t$
 on a constant, and the alternative regresses $y_t$ on a constant and
-$z_{t-1}$.  We use both \poscw\ original statistic and our new
+$z_{t-1}$.  We use both \poscw\ original statistic and the new
 statistic to test the null that the benchmark model's innovation is an
 \mds.\footnote{\citet{ClW:07} report the performance of the tests
   proposed by \citet{CCS:01} and \citet{ClM:05} as well, and of tests
@@ -134,14 +136,12 @@ printall(mcdata2)
 
 Table~\ref{tab:mc1} presents the simulation results
 for~(\ref{eq:dgp1}) and Table~\ref{tab:mc2} for~(\ref{eq:dgp2}).  For
-all of the parameter values, our proposed new statistic has slightly
-lower rejection probability than \citepos{ClW:07}.  For both \dgp s
-the statistics are slightly undersized.  In~\eqref{eq:dgp1}, this
-translates to relatively low power and the power difference between
-the two statistics may be noticeable.  In~\eqref{eq:dgp2}, though, the
-evidence against the benchmark is strong enough under the alternative
-that the tests reject almost all of the time.  In that setting, the
-lower power of our new test is essentially irrelevant.
+all of the parameter values, the proposed new statistic has similar
+rejection probability to \citepos{ClW:07}.  Clark and West's test is
+slightly more undersized than the new test, but has a little higher
+power under the alternative.  Moreover, the statistics give different
+results in less than 10\% of the simulations for most parametrizations
+of the \dgp s.  In general, the statistics perform similarly well.
 
 % This table presents results for an auxiliary simulation that has R
 % very low and P very high, and basically works as a check
@@ -188,4 +188,4 @@ lower power of our new test is essentially irrelevant.
 % LocalWords:  midrule bottomrule printall mcdb dsize isPower sprintf pOld pNew
 % LocalWords:  dpower qs dadj dfapply rownames tb tex oos eqref eq mc ClW dgp's
 % LocalWords:  citepos nonumber sim iid Bigg binom pmatrix ols poscw CCS gsub
-% LocalWords:  ClM tabularx textwidth fspace enskip
+% LocalWords:  ClM tabularx textwidth fspace enskip VeR Dah
