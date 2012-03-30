@@ -63,6 +63,6 @@ for (r in rows(mcdesign)) {
       d <- with(r, rdgp(R + P, isPower))
       cals <- calstat(d, r$R, null, alt, xfn, yfn)
       c(pOld = oos.t(null, alt, d, r$R, method = "ClW:07", conf.level = .9)$p.value,
-        pNew1 = cals[1], pNew2 = cals[2])
+        pNew = cals)
     })), row.names = seq_len(nsim))
 }

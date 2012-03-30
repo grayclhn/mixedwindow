@@ -3,8 +3,8 @@
 # run in parallel.  Running this file will print out text for a
 # makefile, so it might be easiest to just look at its output.
 
-nsims <- 5000  # this is the number of simulations
-njobs <- 6     # I set this to equal the number of processors on my 
+nsims <- 800  # this is the number of simulations
+njobs <- 8     # I set this to equal the number of processors on my 
                # computer.  Changing its value will change the results
                # of the simulations, since they'll be seeded differently.
 

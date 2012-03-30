@@ -1,3 +1,5 @@
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
 <<echo=F>>=
 library(dbframe)
 library(xtable)
@@ -7,14 +9,15 @@ groups <- c( "isPower", "R", "P")
 size <- .1
 
 printbooktabs <- function(x,...){
-  print(xtable(x,...),
-        floating=F,
-        hline.after=NULL, 
+  tab <- gsub("\\\\begin\\{tabularx\\}", "\\\\begin\\{tabularx\\}\\{\\\\textwidth\\}",
+       print(xtable(x,...), file = "/dev/null", floating=F, hline.after=NULL, 
         add.to.row=list(pos=list(-1,0, nrow(x)), 
           command=c(
             '\\toprule ',
             '\\midrule ',
-            '\\bottomrule ')),...)
+            '\\bottomrule ')),...))
+  cat(tab)
+  invisible(tab)
 }
 
 fspace <- function(x) gsub(" ", "\\\\enskip", format(round(x, 1)))
@@ -23,9 +26,9 @@ printall <- function(mcdb,...) {
   d <- subset(select(mcdb, group.by = groups, 
                      sprintf(c("case isPower when 0 then 'size' else 'power' end as 'type'",
                                "R", "P", 
-                               "100 * avg(pOld <= %f) as 'Pr[CW]'",
-                               "100 * avg(pNew1 <= %f) as 'Pr[New]'",
-                               "100 * (avg(pOld <= %f and pNew1 > %f) + avg(pOld > %f and pNew1 <= %f)) as 'Pr[tests disagree]'"),
+                               "100 * avg(pOld <= %f) as 'Pr[\\textsc{cw}]'",
+                               "100 * avg(pNew <= %f) as 'Pr[new]'",
+                               "100 * (avg(pOld <= %f and pNew > %f) + avg(pOld > %f and pNew <= %f)) as 'Pr[disagree]'"),
                              size, size, size, size)), select = -isPower)
   d$R <- fspace(d$R)
   d$P <- fspace(d$P)
@@ -35,14 +38,21 @@ printall <- function(mcdb,...) {
   d$R[duplicated(subset(d, select = c(type, R)))] <- NA
   d$type[duplicated(d$type)] <- NA
   printbooktabs(d, include.rownames = FALSE, digits = c(0,0,0,0,1,1,1), 
-                align = c("l","l","c","c","c","c","c"), 
-                sanitize.text.function = function(x) x)
+                align = c("l","X","C","C","C","C","C"), 
+                sanitize.text.function = function(x) x,
+                tabular.environment = "tabularx")
+  invisible(d)
 }
 @ 
-We will also conduct two brief Monte Carlo experiments to demonstrate
-that this modified statistic performs similarly to
-\possessivecite{ClW:07}.  We'll use both of the \dgp s they consider.
-For the first, we have
+
+I'll also conduct two brief Monte Carlo experiments to demonstrate
+that the modified version of \citepos{ClW:07} statistic performs
+similarly to their original test.\footnote{All of these simulations
+  were programmed in R \citep{R:2-13-0} and use the \textsc{MASS}
+  \citep[ver. 7.3-12]{VeR:02}, xtable \citep[ver. 1.5-6]{Dah:09},
+  dbframe \citep[ver. 0.1.1]{Cal:10b}, and \textsc{oos}
+  \citep[ver. 0.01]{Cal:11b} packages.}  We'll use both of the \dgp s
+they consider.  For the first, we have
 \begin{align}\label{eq:dgp1}\tag{\dgp\ 1}
   y_t &= 0.5 + \gamma^{*} z_{t-1} + e_t &
   \gamma^{*} &=
@@ -72,11 +82,11 @@ printall(mcdata1)
 @ 
 \caption{Size and power of the \oos\ tests under \eqref{eq:dgp1} at
   10\% confidence.  These percentages are calculated from 5000
-  samples.  Pr[CW] shows the fraction of simulations for which Clark
-  and West's (2007) statistic rejects; Pr[New] shows the fraction of
-  simulations for which this paper's test rejects; and Pr[tests
-  disagree] gives the fraction of simulations in which this paper's
-  test and Clark and West's (2007) give different conclusions.}
+  samples.  Pr[\textsc{cw}] shows the fraction of simulations for which Clark
+  and West's (2007) statistic rejects; Pr[new] shows the fraction of
+  simulations for which this paper's test rejects; and Pr[disagree]
+  gives the fraction of simulations in which this paper's test and
+  Clark and West's (2007) give different conclusions.}
 \label{tab:mc1}
 \end{table}
 
@@ -114,24 +124,62 @@ printall(mcdata2)
 @ 
 \caption{Size and power of the \oos\ tests under \eqref{eq:dgp2} at
   10\% confidence.  These percentages are calculated from 5000
-  samples.  Pr[CW] shows the fraction of simulations for which Clark
-  and West's (2007) statistic rejects; Pr[New] shows the fraction of
-  simulations for which this paper's test rejects; Pr[tests disagree]
-  gives the fraction of simulations in which this paper's test and
-  Clark and West's (2007) give different conclusions.}
+  samples.  Pr[\textsc{cw}] shows the fraction of simulations for which Clark
+  and West's (2007) statistic rejects; Pr[new] shows the fraction of
+  simulations for which this paper's test rejects; Pr[disagree] gives
+  the fraction of simulations in which this paper's test and Clark and
+  West's (2007) give different conclusions.}
 \label{tab:mc2}
 \end{table}
 
 Table~\ref{tab:mc1} presents the simulation results
 for~(\ref{eq:dgp1}) and Table~\ref{tab:mc2} for~(\ref{eq:dgp2}).  For
 all of the parameter values, our proposed new statistic has slightly
-lower rejection probability than \possessivecite{ClW:07}.  For both
-\dgp s the statistics are slightly undersized.  In~\eqref{eq:dgp1},
-this translates to relatively low power and the power difference
-between the two statistics may be noticeable.  In~\eqref{eq:dgp2},
-though, the evidence against the benchmark is strong enough under the
-alternative that the tests reject almost all of the time.  In that
-setting, the lower power of our new test is essentially irrelevant.
+lower rejection probability than \citepos{ClW:07}.  For both \dgp s
+the statistics are slightly undersized.  In~\eqref{eq:dgp1}, this
+translates to relatively low power and the power difference between
+the two statistics may be noticeable.  In~\eqref{eq:dgp2}, though, the
+evidence against the benchmark is strong enough under the alternative
+that the tests reject almost all of the time.  In that setting, the
+lower power of our new test is essentially irrelevant.
+
+% This table presents results for an auxiliary simulation that has R
+% very low and P very high, and basically works as a check
+
+% \begin{table}[tb]
+%  \centering
+% <<mc3, echo=F, results=tex>>=
+% % mcdata3 <- dbframe("dgp3", "mcdata.db")
+
+% d <- subset(select(mcdata3, group.by = c("R", "P"), 
+%                    sprintf(c("R", "P", 
+%                              "100 * avg(pOld <= %f) as 'Pr[\\textsc{cw}]'",
+%                              "100 * avg(pNew <= %f) as 'Pr[new]'",
+%                              "100 * (avg(pOld <= %f and pNew > %f) + avg(pOld > %f and pNew <= %f)) as 'Pr[disagree]'"),
+%                            size, size, size, size)))
+% d$R <- fspace(d$R)
+% d$P <- fspace(d$P)
+% d[[3]] <- fspace(d[[3]])
+% d[[4]] <- fspace(d[[4]])
+% d[[5]] <- fspace(d[[5]])
+% printbooktabs(d, include.rownames = FALSE, digits = c(0,0,0,1,1,1), 
+%               align = c("l","C","C","C","C","C"), 
+%               sanitize.text.function = function(x) x,
+%               tabular.environment = "tabularx")
+% @ 
+% \caption{Size and power of the \oos\ tests under sanity-check \dgp\ at
+%   10\% confidence.  These percentages are calculated from 5000
+%   samples.  Pr[\textsc{cw}] shows the fraction of simulations for which Clark
+%   and West's (2007) statistic rejects; Pr[new] shows the fraction of
+%   simulations for which this paper's test rejects; Pr[disagree] gives
+%   the fraction of simulations in which this paper's test and Clark and
+%   West's (2007) give different conclusions.}
+% \label{tab:mc3}
+% \end{table}
+% Table~\ref{tab:mc3} presents one more simulation; the alternative
+% model is $y_{t} = 0 + 0 x_{1t} + 0 x_{2t} + \varepsilon$ and the
+% benchmark model is just a constant.  This simulation is meant as a
+% sanity check on the previous results.
 
 %%% Local Variables:
 %%% TeX-master: "Paper"
@@ -139,5 +187,5 @@ setting, the lower power of our new test is essentially irrelevant.
 % LocalWords:  dbframe xtable mcdata dgp printbooktabs hline pos nrow toprule
 % LocalWords:  midrule bottomrule printall mcdb dsize isPower sprintf pOld pNew
 % LocalWords:  dpower qs dadj dfapply rownames tb tex oos eqref eq mc ClW dgp's
-% LocalWords:  possessivecite nonumber sim iid Bigg binom pmatrix ols poscw CCS
-% LocalWords:  ClM
+% LocalWords:  citepos nonumber sim iid Bigg binom pmatrix ols poscw CCS gsub
+% LocalWords:  ClM tabularx textwidth fspace enskip

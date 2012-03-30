@@ -9,9 +9,9 @@ sqliteFLAGS := $(empty)
 
 all: Paper.pdf # zip Online
 
-Paper.pdf: Paper.tex mc.tex
+Paper.pdf: Paper.tex mc.tex empirics.tex
 	texi2dvi $< $(TeXFLAGS)
-mc.tex:  db/dgp1.done db/dgp2.done # db/dgp3.done
+mc.tex:  db/dgp1.done db/dgp2.done db/dgp3.done
 
 %.pdf: %.tex
 	$(R) CMD texi2dvi $< $(TeXFLAGS)

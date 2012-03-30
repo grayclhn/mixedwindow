@@ -1,0 +1,53 @@
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+<<echo=F>>=
+library(dbframe)
+library(xtable)
+
+printbooktabs <- function(x,...){
+  tab <- gsub("\\\\begin\\{tabularx\\}", "\\\\begin\\{tabularx\\}\\{\\\\textwidth\\}",
+       print(xtable(x,...), file = "/dev/null", floating=F, hline.after=NULL, 
+        add.to.row=list(pos=list(-1,0, nrow(x)), 
+          command=c(
+            '\\toprule ',
+            '\\midrule ',
+            '\\bottomrule ')),...))
+  cat(tab)
+  invisible(tab)
+}
+
+fspace <- function(x) gsub(" ", "\\\\enskip", format(round(x, 1)))
+
+printall <- function(mcdb,...) {
+  d <- subset(select(mcdb, group.by = groups, 
+                     sprintf(c("case isPower when 0 then 'size' else 'power' end as 'type'",
+                               "R", "P", 
+                               "100 * avg(pOld <= %f) as 'Pr[\\textsc{cw}]'",
+                               "100 * avg(pNew1 <= %f) as 'Pr[new]'",
+                               "100 * (avg(pOld <= %f and pNew1 > %f) + avg(pOld > %f and pNew1 <= %f)) as 'Pr[disagree]'"),
+                             size, size, size, size)), select = -isPower)
+  d$R <- fspace(d$R)
+  d$P <- fspace(d$P)
+  d[[4]] <- fspace(d[[4]])
+  d[[5]] <- fspace(d[[5]])
+  d[[6]] <- fspace(d[[6]])
+  d$R[duplicated(subset(d, select = c(type, R)))] <- NA
+  d$type[duplicated(d$type)] <- NA
+  printbooktabs(d, include.rownames = FALSE, digits = c(0,0,0,0,1,1,1), 
+                align = c("l","X","C","C","C","C","C"), 
+                sanitize.text.function = function(x) x,
+                tabular.environment = "tabularx")
+  invisible(d)
+}
+@ 
+
+This is the empirical section
+
+%%% Local Variables:
+%%% TeX-master: "Paper"
+%%% End:
+% LocalWords:  dbframe xtable mcdata dgp printbooktabs hline pos nrow toprule
+% LocalWords:  midrule bottomrule printall mcdb dsize isPower sprintf pOld pNew
+% LocalWords:  dpower qs dadj dfapply rownames tb tex oos eqref eq mc ClW dgp's
+% LocalWords:  citepos nonumber sim iid Bigg binom pmatrix ols poscw CCS
+% LocalWords:  ClM
