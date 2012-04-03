@@ -31,7 +31,8 @@
     analysis}}
 
 \author{Gray Calhoun\\Iowa State University} 
-\date{\input{VERSION}}
+\date{\input{VERSION% <- allows VERSION to have comments
+}}
 
 \maketitle
 
@@ -618,8 +619,8 @@ Paper.pdf Documentation.pdf:
 	$(latexmk) $(LATEXMKFLAGS) $< && $(latexmk) $(LATEXMKFLAGS) -c $<
 Paper.pdf: Paper.tex floats/simulation1.tex tex/empiricalresults.tex \
            floats/simulation2.tex tex/simulationdefinitions.tex \
-           tex/empiricsdefinitions.tex
-Documentation.pdf: tex/Documentation.tex
+           tex/empiricsdefinitions.tex VERSION
+Documentation.pdf: tex/Documentation.tex VERSION
 tex/Documentation.tex: Documentation.nw
 	mkdir -p $(@D)
 	$(noweave) -latex -index -delay $< | sed /^#/d | cpif $@
