@@ -764,8 +764,8 @@ and to delete unnecessary files.
 # -*- mode: makefile-gmake -*-
 archfile = calhoun-2011-mixedwindow.tar.gz
 zip: $(archfile)
-$(archfile): $(filter-out .bzrignore conference-stuff/ slides/, \
-                           $(shell bzr ls -R -V --kind=file)) \
+$(archfile): $(filter-out .gitignore conference-stuff/ slides/, \
+                           $(shell git ls-tree HEAD -r --name-only)) \
              Paper.pdf Documentation.pdf AllRefs.bib
 	tar chzf $@ $^
 @ %def zip archfile
