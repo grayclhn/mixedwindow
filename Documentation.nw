@@ -414,7 +414,7 @@ oos.bootstrap <- mixedbootstrap(benchmark, alternatives, financial.data,
     blocklength = 1, window = "rolling", bootstrap = "circular")
 
 stepm.results <- stepm(oos.bootstrap$statistics, oos.bootstrap$replications, 
-                       <<test size in empirics (percent)>> / 100.0)
+                       NA, <<test size in empirics (percent)>> / 100.0)
 
 <<Write empirical results to Latex table>>
 @
@@ -517,13 +517,13 @@ paper.
 <<Write empirical results to Latex table>>=
 ### -*- mode: R -*-
 <<Format empirical results>>
-cat(file = "tex/empiricalresults.tex", 
-    c("\\newcommand{\\empiricalcriticalvalue}{", 
-      round(stepm.results$crit, 2), "}",
-      "\\newcommand{\\empiricaltable}{",
-      booktabs(results.data, align = c("l", rep("C", 3)), 
-               numberformat = c(FALSE, TRUE, FALSE, FALSE),
-               digits = rep(2, 4)),"}"))
+cat(file = "tex/empiricalresults.tex", sep = "\n",
+    sprintf("\\newcommand{\\empiricalcriticalvalue}{%.2f}",
+            stepm.results$rightcrit),
+    sprintf("\\newcommand{\\empiricaltable}{%s}",
+            booktabs(results.data, align = c("l", rep("C", 3)), 
+                     numberformat = c(FALSE, TRUE, FALSE, FALSE),
+                     digits = rep(2, 4)),"}"))
 @
 
 To ``format'' the empirical results, I just put them into a data
