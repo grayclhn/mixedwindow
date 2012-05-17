@@ -1,12 +1,12 @@
-\documentclass[10pt,fleqn,draft]{article}
+\documentclass[12pt,fleqn]{article}
 
 \usepackage{amsfonts}
 \usepackage{amsmath,amsthm,amssymb,graphicx,setspace,url,booktabs,tabularx,enumerate,slantsc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage[nolists,nomarkers]{endfloat}
-\usepackage[sort,round]{natbib}
-\usepackage[top=1in,left=1.75in,right=1.75in,bottom=1.25in]{geometry}
+\usepackage[sort,round,comma]{natbib}
+\usepackage[top=1.25in,left=1.25in,right=1.25in,bottom=1.25in]{geometry}
 \usepackage[small]{caption}
 \newcolumntype{C}{>{\centering\arraybackslash}X}
 
@@ -14,7 +14,7 @@
 \newcommand\citepos[2][]{\citeauthor{#2}'s \citeyearpar[#1]{#2}}
 \newcommand\poscw{\citeauthor{ClW:06}'s \citeyearpar{ClW:06,ClW:07}}
 \newcommand\citen[1]{\citeauthor{#1}, \citeyear{#1}}
-\frenchspacing
+\frenchspacing\onehalfspacing
 \input{tex/simulationdefinitions}
 \input{tex/empiricsdefinitions}
 \input{tex/empiricalresults}
@@ -134,23 +134,27 @@ Bootstrap; Reality Check
 
 \end{abstract}
 
-\newpage \noindent This paper proposes an out-of-sample (\oos) test
-statistic that is asymptotically normal with mean zero even when the
-models studied are nested, proves that common block bootstrap methods
-consistently estimate the statistic's distribution, and shows how the
-statistic can be used to study many models simultaneously while
-maintaining strong control of the familywise error (\fwe),
-i.e. ensuring that the probability that the hypothesis that the model
-has equal predictive ability to a benchmark is incorrectly rejected
-for any of the models is no higher than a prespecified level.  \oos\
-tests are commonly used in International Macroeconomics,
-Macroeconomics, and Finance \citep[see, for
-example,][]{MeR:83,StW:03,GoW:08} and there is a substantial
+\newpage 
+
+\section{Introduction} This paper proposes an out-of-sample (\oos)
+test statistic that is asymptotically normal with mean zero even when
+the models studied are nested.  This paper also proves that common
+block bootstrap methods consistently estimate the statistic's
+distribution, and shows how the statistic can be used to study many
+models simultaneously while maintaining strong control of the
+familywise error (\fwe), i.e. ensuring that the probability that the
+hypothesis that the model has equal predictive ability to a benchmark
+is incorrectly rejected for any of the models is no higher than a
+preset level.
+
+\oos\ tests are commonly used in International Macroeconomics,
+Macroeconomics, and Finance (see, for example, \citealt{MeR:83};
+\citealt{StW:03}; and \citealt{GoW:08}) and there is a substantial
 literature developing the theoretical properties of these statistics,
 beginning primarily with \citet{DiM:95} and
 \citet{Wes:96}.\footnote{Other papers in this literature include
   \citet{WeM:98}, \citet{Mcc:98,Mcc:00},
-  \citet{ClM:01,ClM:05-2,ClM:05,ClM:09b,ClM:11b,ClM:11},
+  \citet{ClM:01,ClM:05-2,ClM:05,ClM:11b,ClM:11,ClM:12},
   \citet{CCS:01}, \citet{CoS:02,CoS:04,CoS:07}, \citet{Whi:00},
   \citet{InK:04,InK:06}, \citet{Han:05}, \citet{Ros:05},
   \citet{ClW:06,ClW:07}, \citet{Ana:07}, \citet{GiR:09,GiR:10},
@@ -158,26 +162,27 @@ beginning primarily with \citet{DiM:95} and
   \cite{RoS:11,RoS:11b}, and \citet{Cal:11}, among others.  For recent
   reviews of this literature and additional references, see
   \citet{McW:02}, \citet{CoS:06}, \citet{Wes:06}, \citet{ClM:11c},
-  \citet{CoD:11}, and \citet{Gia:11}}
-
-In a pair of papers, \citet{ClW:06,ClW:07} develop an \oos\ test of
-the null hypothesis that a small benchmark model is correctly
-specified.  Their test compares the forecasting performance of a pair
-of nested models, and the null hypothesis is that the innovations in
-the smaller model form a martingale difference sequence.  This test
-procedure is popular, and one assumes that this is due in part to the
-statistic's convenience.  The statistic is approximately normal after
-adjusting for the estimation error of the larger model.  Normality
-comes from a fixed-length rolling window, as in \citet{GiW:06}, and
-the adjustment centers the statistic appropriately.  This statistic is
-especially convenient because other \oos\ tests for similar hypotheses
-\citep[among others]{Mcc:07,ClM:05,ClM:01,CoS:04,CoS:02,CCS:01} have a
-nonstandard limit distribution and place restrictions on the models
-under consideration, while other asymptotically normal statistics test
-a different null hypothesis \citep{GiW:06} or place assumptions on the
-models and \dgp\ that are often violated in empirical work
-\citep{Wes:96,WeM:98,Mcc:00,DiM:95}.\footnote{\citet{DiM:95} assume
-  that the models are not estimated. \citet{Wes:96,WeM:98,Mcc:00}
+  \citet{CoD:11}, and \citet{Gia:11}} In a pair of papers,
+\citet{ClW:06,ClW:07} develop an \oos\ test of the null hypothesis
+that a small benchmark model is correctly specified.  Their test
+compares the forecasting performance of a pair of nested models, and
+the null hypothesis is that the innovations in the smaller model form
+a martingale difference sequence.  This test procedure is popular, and
+one assumes that this is due in part to the statistic's convenience,
+the statistic is approximately normal after adjusting for the
+estimation error of the larger model.  Normality comes from a
+fixed-length rolling window, as in \citet{GiW:06}, and the adjustment
+centers the statistic appropriately.  This statistic is especially
+convenient because other \oos\ tests for similar hypotheses
+(\citealt{CCS:01}; \citealt{ClM:01,ClM:05}; \citealt{CoS:02,CoS:04};
+and \citealt{Mcc:07}; among others) have a nonstandard limit
+distribution and place restrictions on the models under consideration,
+while other asymptotically normal statistics test a different null
+hypothesis \citep{GiW:06} or place assumptions on the models and \dgp\
+that are often violated in empirical work (\citealt{DiM:95};
+\citealt{Wes:96}; \citealt{WeM:98};
+\citealt{Mcc:00}).\footnote{\citet{DiM:95} assume that the models are
+  not estimated. \citet{Wes:96}, \citet{WeM:98}, and \citet{Mcc:00}
   implicitly assume that the models do not converge to the same limit,
   which rules out nesting.}
 
@@ -215,15 +220,15 @@ not affect the test's size, but may affect power.  But the researcher
 could instead impose stability on the benchmark and relax it for the
 alternative by using a recursive window for the benchmark and a
 rolling window for the alternative model.  This approach could have a
-power advantage and is similar in spirit to using a likelihood ratio
-test instead of an \textsc{lm} or Wald test, which depend on just the
+power advantage and is similar in spirit to using a Likelihood Ratio
+Test instead of an \textsc{lm} or Wald test, which depend on just the
 restricted or unrestricted model respectively.  Simulations presented
-in Section~\ref{sec:2} show that mixing window strategies gives a
-substantial power advantage when there are breaks.
+in Section~\ref{sec:2} show that this approach gives a substantial
+power advantage when there are breaks.
 
 This paper's statistic has a substantial advantage over existing \oos\
-tests for nested models: the alternative can be essentially arbitrary,
-as long as it obeys the necessary moment conditions.  In particular,
+tests for nested models: the alternative can be essentially arbitrary
+as long as high level moment conditions hold.  In particular,
 researchers can use model selection techniques like the \aic\ or \bic\
 to determine the number of lags to include, the particular exogenous
 variables to include, etc.  Other methods that test a similar
@@ -253,36 +258,28 @@ under study and the true \dgp.
 
 Since researchers often have a set of potential models and want to
 know which of them significantly outperform the benchmark, procedures
-that compare a single pair of models are of limited practical use.  As
-\citet{Whi:00} demonstrates, looking at the naive $p$-values of the
+that compare a single pair of models are of limited practical value.
+As \citet{Whi:00} demonstrates, looking at the naive $p$-values of
 individual tests is misleading, but researchers can get a valid test
 by using the bootstrap to approximate the distribution of the largest
 individual test statistic under the null (White calls this procedure
-the ``bootstrap reality check'' or \brc).  This paper presents a test
+the \textit{Bootstrap Reality Check} or \brc).  This paper presents a test
 for equal predictive ability of multiple models based on
 \citepos{RoW:05} StepM, which uses a step-down procedure that
 iteratively rejects models to achieve higher power than the \brc\ and
 indicate which of the models improves on the benchmark (see
-Theorem~\ref{res:2} for details).  Since this paper is concerned with
-one-sided testing, I use the modified StepM procedure proposed by
-\citet{Cal:11e}; the original StepM procedure unnecessarily sacrifices
-power when testing one-sided hypotheses because, as \citet{Han:05}
-points out for \citepos{Whi:00} \brc, alternative models that
-substantially under-perform increase the test's critical values too
-much.\footnote{Note that the modification suggested by \citet{Cal:11e}
-  is different than \citepos{Han:05} and is explicitly designed for
-  stepwise testing.}
+Theorem~\ref{res:2} for details).
 
 This paper also presents a new result for the validity of block
 bootstraps with \oos\ statistics, which is necessary to verify that
 the StepM is valid.  Existing results on bootstrapping \oos\
 statistics have some drawbacks.  \citet{Whi:00} and \citet{Han:05} use
 the stationary bootstrap, but require the test sample to be much
-smaller than the training sample, which is obviously inappropriate
-here.  \citet{CoS:07} relax that requirement, but make the statistic
-more complicated than necessary by adjusting the objective function of
-the bootstrapped statistic to center it correctly.\footnote{Their
-  recentering is required for consistency and does not give higher
+smaller than the training sample, which obviously does not hold here.
+\citet{CoS:07} relax that requirement, but make the statistic more
+complicated than necessary by adjusting the objective function of the
+bootstrapped statistic to center it correctly.\footnote{Their
+  recentering is required for consistency and does not imply higher
   order accuracy.}  A parametric bootstrap, such as that used by
 \cite{Mar:95}, \cite{Lut:99}, and \citet{ClM:11}, is an alternative
 method, but requires the benchmark model to be correctly specified.
@@ -301,33 +298,32 @@ predictability. Section~\ref{sec:4} concludes.
 
 \section{Out-of-Sample Model Comparisons}\label{sec:1}
 This section presents the new \oos\ statistic.  I'll present the
-single-comparison statistic first and then the extension to multiple
+single-comparison statistic first and then extend it to multiple
 comparisons.  Suppose for now that a researcher is interested in
 predicting the target variable $y_{t+1}$ with a vector of regressors
-$x_t$; further, let $v_t$ be another random process and suppose that
+$x_t$; also let $v_t$ be another random process and suppose that
 $(y_t, x_t, v_t)$ is stationary and weakly dependent
-(Theorem~\ref{res:1} lists the detailed assumptions required).  In
-addition, let $\beta_0 = (\E x_t x_t')^{-1} \E x_t y_{t+1}$ be the
-pseudo-true coefficient of the regression of $y_{t+1}$ on $x_t$ and
-define $\varepsilon_{t+1} = y_{t+1} - x_t'\beta_0$.  If the linear
-model is correctly specified, so $\varepsilon_{t+1}$ is a martingale
-difference sequence with respect to $\mathcal{F}_t = \sigma((x_t, v_t,
-y_t), (x_{t-1}, v_{t-1}, y_{t-1}),\dots)$ then we can see immediately that
+(Theorem~\ref{res:1} lists the assumptions formally).  In addition,
+let $\beta_0 = (\E x_t x_t')^{-1} \E x_t y_{t+1}$ be the pseudo-true
+coefficient of the regression of $y_{t+1}$ on $x_t$ and define
+$\varepsilon_{t+1} = y_{t+1} - x_t'\beta_0$.  If the linear model is
+correctly specified, so $\varepsilon_{t+1}$ is a martingale difference
+sequence with respect to $\mathcal{F}_t \equiv \sigma((x_t, v_t, y_t),
+(x_{t-1}, v_{t-1}, y_{t-1}),\dots)$, then we can see immediately that
 \begin{equation}
   \label{eq:4}
-  \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T \varepsilon_{t+1} (x_t'\beta_0
-  - v_t) 
+  \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T \varepsilon_{t+1} (v_t - x_t'\beta_0)
 \end{equation}
-with $R$ an arbitrary starting value\footnote{You will see momentarily
-  why the summation begins at $R+1$ instead of $1$.} and $P = T - R$,
 obeys an \mds\ \clt\ (assuming that its variance is uniformly
-positive) and is asymptotically normal as $P \to \infty$.
+positive) and is asymptotically normal as $P \to \infty$, with $R$ an
+arbitrary starting value\footnote{It will be clear momentarily why the
+  summation begins at $R+1$ instead of $1$.} and $P = T - R$.
 Straightforward algebra \citep{ClW:07} shows that
 \begin{equation}
   \label{eq:5}
-  \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T \varepsilon_{t+1} (x_t'\beta_0
-  - v_t) = \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T \Big[(y_{t+1} -
-  x_t\beta_0)^2 + (y_{t+1} - v_t)^2 + (x_t'\beta_0 - v_t)^2 \Big].
+  \tfrac{2}{\sqrt{P}} \sum_{t=R+1}^T \varepsilon_{t+1} (v_t -
+  x_t'\beta_0) = \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T \Big[(y_{t+1} - 
+  x_t\beta_0)^2 - (y_{t+1} - v_t)^2 + (x_t'\beta_0 - v_t)^2 \Big].
 \end{equation}
 
 \citet{ClW:06,ClW:07} base their \oos\ statistic on the right side
@@ -339,24 +335,24 @@ function of $y_t, x_{t-1}, z_{t-1} \dots, y_{t-R+1}, x_{t-R}$ and
 $z_{t-R}$ where $z_t$ is another weakly dependent random process),
 which is kept finite as $T \to \infty$, so $\hat{y}_{t+1}$ inherits
 the weak dependence properties of the variables used to estimate it.
-Moreover, keeping $R$ finite ensures that the conditional variance
-remains positive, so the \clt\ holds.  This method of ensuring
-normality was introduced by \citet{GiW:06}.  The coefficients
-$\beta_0$ are assumed to be zero so $\varepsilon_{t+1}$ is observed
-directly (under the null hypothesis) and they propose using this
-statistic to test the null that $\beta_0 = 0$.  In \citet{ClW:07},
-$\beta_0$ is unknown but is estimated with a fixed-length rolling
-window as well, so
+Keeping $R$ finite ensures that the conditional variance remains
+positive, so the sum obeys a \clt.  This method of ensuring normality
+was introduced by \citet{GiW:06}.  The coefficients $\beta_0$ are
+assumed to be zero so $\varepsilon_{t+1}$ is observed directly (under
+the null hypothesis) and Clark and West propose using this statistic
+to test the null that $\varepsilon_{t+1}$ is an \mds\ with respect to
+$\mathcal{F}_t$.  In \citet{ClW:07}, $\beta_0$ is unknown but is
+estimated with a fixed-length rolling window as well, so
 \begin{equation*}
   \tilde{\beta}_t = \Big(\sum_{s=t-R+1}^t x_{t-1} x_{t-1}'\Big)^{-1}
   \sum_{s=t-R+1}^t x_{t-1} y_t
 \end{equation*}
 and $\hat{\varepsilon}_{t+1} = y_{t+1} - x_t'\tilde{\beta}_t$ replaces
-$\varepsilon_{t+1}$ in the test statistic for $\beta_0 = 0$.
-Unfortunately, $\hat{\varepsilon}_{t+1}$ is not an \mds, so the
-statistic is no longer asymptotically mean-zero normal, even though
-this approximation performs well in the simulations reported by
-\citet{ClW:07}.
+$\varepsilon_{t+1}$ in the test statistic for \mds.  Unfortunately,
+$\hat{\varepsilon}_{t+1}$ is not an \mds\ even when
+$\varepsilon_{t+1}$ is, so the statistic is no longer asymptotically
+mean-zero normal, even though this approximation performs well in the
+simulations reported by \citet{ClW:07}.
 
 This paper proposes using the same basic \oos\ statistic, 
 but using a recursive window to estimate $\beta_0$ and produce
@@ -369,17 +365,18 @@ $\hat{\varepsilon}_{t+1}$; i.e.
 \citepos{Wes:96} Theorem 4.1 implies that
 \begin{equation*}
   \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T \Big[(y_{t+1} -
-  x_t\hat{\beta}_t)^2 + (y_{t+1} - v_t)^2 + (x_t'\hat{\beta}_t - v_t)^2 \Big]
+  x_t\hat{\beta}_t)^2 - (y_{t+1} - v_t)^2 + (x_t'\hat{\beta}_t - v_t)^2 \Big]
 \end{equation*}
-is asymptotically normal for fairly arbitrary processes $v_t$, as long
-as $v_t$ is weakly dependent and the \oos\ statistic has uniformly
-positive variance.  Just as in \citet{ClW:06}, these conditions are
-ensured if $v_t$ is another forecast of $y_{t+1}$ based on a fixed
-length rolling window.  Theorem~\ref{res:1} presents the details of
-this result.  The assumptions required are essentially the same in
-existing papers (e.g. \citealp{Wes:96}; \citealp{WeM:98};
-\citealp{Mcc:00}; \citealp{GiW:06}; and \citealp{ClW:06,ClW:07}).
-Please see the original papers for a discussion of these assumptions.
+is asymptotically normal with mean zero under the null for fairly
+arbitrary processes $v_t$, as long as $v_t$ is weakly dependent and
+the \oos\ statistic has uniformly positive variance.  Just as in
+\citet{ClW:06}, these conditions are ensured if $v_t$ is another
+forecast of $y_{t+1}$ based on a fixed length rolling window.
+Theorem~\ref{res:1} presents the details of this result.  The
+assumptions required are essentially the same in existing papers
+(e.g. \citealp{Wes:96}; \citealp{WeM:98}; \citealp{Mcc:00};
+\citealp{GiW:06}; and \citealp{ClW:06,ClW:07}).  Please see the
+original papers for a discussion of these assumptions.
 
 \begin{thm}\label{res:1}
   Suppose that we have two models $\hat{y}_{0t}$ and $\hat{y}_{1t}$ to
@@ -387,16 +384,17 @@ Please see the original papers for a discussion of these assumptions.
   $t=1,\dots,T+1$.  Assume the following hold:
   \begin{enumerate}
   \item \label{item:1} The benchmark forecast $\hat{y}_{0,t+1}$, is
-    estimated using \ols\ with a recursive window: $\hat{y}_{0,t+1} =
-    x_t'\hat{\beta}_t$ for some vector of predictors $x_t$ with
-    $\hat{\beta}_t$ given by Equation~\eqref{eq:8}.  Also define
-    $\beta_0 = \big(\sum_{t=2}^{T} \E x_{t-1} x_{t-1}'\big)^{-1}
-    \sum_{t=2}^T \E x_{t-1} y_t$.
+    estimated using \textsl{\ols} with a recursive window:
+    $\hat{y}_{0,t+1} = x_t'\hat{\beta}_t$ for some vector of
+    predictors $x_t$ with $\hat{\beta}_t$ given by
+    Equation~\eqref{eq:8}.  Also define $\beta_0 = (\E x_{t-1}
+    x_{t-1}')^{-1} \E x_{t-1} y_t$ and assume that it does not depend
+    on~$t$.
   \item \label{item:2} The alternative forecast, $\hat{y}_{1t}$, is
     estimated using a rolling window of fixed length $R$ (which is
     less than $T$), so $\hat{y}_{1,t+1} =
     \psi(y_t,z_t,\dots,y_{t-R+1}, z_{t-R+1})$ where $\psi$ is a known
-    function and $z_t$ is a sequence of predictors that includes
+    function and $z_t$ is a sequence of predictors that may include
     $x_t$.
   \item \label{item:3} The series $y_t$ and $z_t$ are \textsl{\ned} of size
     $-\frac12$ on a strong mixing series of size $-\frac{r}{r-2}$ for $r>2$ or a
@@ -405,11 +403,11 @@ Please see the original papers for a discussion of these assumptions.
     moments for some positive $\delta$.
   \item \label{item:4} Define \[f_t(\beta) = (y_{t+1} - x_t'\beta)^2 -
     (y_{t+1} - \hat{y}_{1,t+1})^2 + (x_t'\beta - \hat{y}_{1,t+1})^2,\]
-    $\bar{f}(\beta) = \tfrac1P \sum_{t=R+1}^T f_t(\beta)$, and $\bar f =
-    \tfrac1P \sum_{t=R+1}^{T} f_t(\hat{\beta}_t)$, with $P = T - R$. The
-    processes $f_t(\beta_0)$ and $x_t(y_{t+1} - x_t'\beta_0)$ are
-    covariance stationary and $\bar f(\beta_0)$ has uniformly positive
-    long run variance.
+    $\bar{f}(\beta) = \tfrac1P \sum_{t=R+1}^T f_t(\beta)$, and $\bar f
+    = \tfrac1P \sum_{t=R+1}^{T} f_t(\hat{\beta}_t)$, with $P = T -
+    R$. The processes $f_t(\beta_0)$ and $x_t(y_{t+1} - x_t'\beta_0)$
+    are covariance stationary and $\bar f(\beta_0)$ has uniformly
+    positive and finite long run variance.
   \end{enumerate}
   Under the null hypothesis that $y_t - \hat{y}_{0t}(\beta_0)$ is a
   martingale difference sequence with respect to the filtration
@@ -471,10 +469,11 @@ The following remarks are relevant to Theorem~\ref{res:1}:
 
 \begin{rem}
   If one wants to test the less restrictive null hypothesis that
-  $y_{t} - \hat{y}_{0t}$ is uncorrelated with $\hat{y}_{1t}$, one can
-  replace $\hat{S}_{ff}$, $\hat{S}_{fg}$ and $\hat{S}_{gg}$ with their
-  \hac\ counterparts.  Lemma~\ref{res:a5} presents a more general
-  version of the theorem that can cover this case.
+  $y_{t} - \hat{y}_{0t}$ is uncorrelated with $\hat{y}_{1t}$ but not
+  necessarily an \mds, one can replace $\hat{S}_{ff}$, $\hat{S}_{fg}$
+  and $\hat{S}_{gg}$ with their \hac\ counterparts.
+  Lemma~\ref{res:a5} presents a more general version of the theorem
+  that can cover this case.
 \end{rem}
 
 \begin{rem}
@@ -499,12 +498,14 @@ The following remarks are relevant to Theorem~\ref{res:1}:
   that the forecast errors are weakly dependent because they are a
   function of a finite number of consecutive weakly dependent
   observations.  But using a fixed window introduces another source of
-  dependence.  All of the forecasts depend on the same coefficient
+  dependence, all of the forecasts depend on the same coefficient
   estimates.  One can prove that their results apply to fixed window
   forecasts by using a coupling argument similar to \citepos{Cal:11}.
   Interested readers should refer to \citet{Cal:11} for the argument
   and to \citet{MeP:02} for a review of the necessary coupling
-  results.
+  results.  Theorem~\ref{res:1} can be shown to hold when $\hat
+  y_{1t}$ is estimated with a fixed-length fixed window using the same
+  arguments.
 \end{rem}
 
 Since most empirical papers study more than one alternative model,
@@ -533,7 +534,7 @@ focuses instead on controlling the probability that at least one true
 hypothesis is rejected given any combination of true and false
 hypotheses, known as \textit{strong control of familywise error}
 (\sfwe).  For most empirical work, \sfwe\ is desired; fortunately,
-even though these papers only prove \wfwe, statistics based on
+even though the papers only prove \wfwe, statistics based on
 nonparametric block bootstraps \citep{Whi:00,Han:05} can be shown to
 control \sfwe\ as well \citep[this follows directly from][]{RoW:05}
 and those based on the parametric bootstrap \citep{ClM:11} essentially
@@ -542,25 +543,26 @@ slightly as below (see Part~(\ref{it:1}) of Theorem~\ref{res:2} as
 well as Remark~\ref{rem:2}).  \citet{HuW:10} propose that researchers
 construct critical values from the asymptotic joint distribution of
 the test statistics and can control \sfwe\ as long as there is a
-consistent estimate of that distribution.
+consistent estimator of that distribution.
 
-Only tests that have \sfwe\ can tell researchers which of the
-hypotheses are false.  To see why, imagine that there are only two
-hypotheses: $H_1$ is true and $H_2$ is false.  A test that rejects the
-true hypothesis, $H_1$, with arbitrarily high probability still can
-satisfy \wfwe: since not all of the hypotheses are true, the behavior
-of tests with weak control is essentially unconstrained.  Such a test
-would not satisfy \sfwe, though.  For \sfwe\ in this setting, a test
-must reject $H_1$ with probability at most $\alpha$ (letting $\alpha$
-be the desired level of control).  In most research, we would view
-rejection of the true hypothesis $H_1$ a mistake.
+Only tests with \sfwe\ can tell researchers which of the hypotheses
+are false.  To see why, imagine that there are only two hypotheses:
+$H_1$ is true and $H_2$ is false.  A test that rejects the true
+hypothesis, $H_1$, with arbitrarily high probability still can satisfy
+\wfwe: since not all of the hypotheses are true, the behavior of tests
+with weak control is essentially unconstrained.  Such a test would not
+satisfy \sfwe, though.  For \sfwe\ in this setting, a test must reject
+$H_1$ with probability at most $\alpha$ (letting $\alpha$ be the
+desired level of control).  In most research, we would view rejection
+of the true hypothesis $H_1$ as a mistake.
 
-This paper uses a variation of \citepos{RoW:05} StepM procedure, which
-is an iterated extension of \citepos{Whi:00} Reality Check designed to
-reject as many false hypotheses as possible while achieving \sfwe.
-This method relies on the bootstrap to estimate the joint dependence
-between the test statistic associated with each model.  The bootstrap
-used in this paper is new, and is outlined in Algorithm~\ref{alg:1}.
+
+This paper uses \citepos{RoW:05} StepM procedure, which is an iterated
+extension of \citepos{Whi:00} Reality Check designed to reject as many
+false hypotheses as possible while achieving \sfwe.  Their method
+relies on the bootstrap to estimate the joint dependence between the
+test statistic associated with each model.  The bootstrap used in this
+paper is new, and is outlined in Algorithm~\ref{alg:1}.
 Algorithm~\ref{alg:1} actually presents a more general version of the
 bootstrap that remains valid with a misspecified benchmark model.
 Imposing the null hypothesis of \mds\ leads to simpler version that
@@ -598,8 +600,8 @@ but requires us to drop the first $R$ observations from the bootstrap
 (the alternative forecasts are not defined for the first $R$
 observations).  I add those observations to the beginning of each
 bootstrap sample so that population means under the bootstrap-induced
-probability distribution equal sample means.  Note that the benchmark
-model needs to be reestimated in each bootstrap sample.
+probability distribution equal sample means.  The benchmark model
+still needs to be reestimated in each bootstrap sample.
 
 Theorem~\ref{res:2} presents the final procedure.
 
@@ -618,12 +620,11 @@ Theorem~\ref{res:2} presents the final procedure.
   consider the following procedure:
   \begin{enumerate}
   \item Define $M_0 = \emptyset$ and, for $j = 1,\dots,m$, let $M_j =
-    \{i : \tfrac1{\hat\sigma_i} |\bar{f}_{i}| > \hat{d}_j\}$, where
-    $\hat{d}_j$ is the $1-2 \alpha$ quantile of $\max_{i \notin
-      M_{j-1}} \tfrac{1}{\hat{\sigma}_i^{*}}|\bar{f}_{i}^{*} -
-    \bar{f_i}(\hat{\beta}_{T+1})|$.
-  \item Reject all of the models $i$ with $i \in \bigcup_{j=1}^m M_j$
-    and $\bar f_i > 0$.
+    \{i : \tfrac1{\hat\sigma_i} \bar{f}_{i} > \hat{d}_j\}$, where
+    $\hat{d}_j$ is the $1-\alpha$ quantile of $\max_{i \notin M_{j-1}}
+    \tfrac{1}{\hat{\sigma}_i^{*}}(\bar{f}_{i}^{*} -
+    \bar{f_i}(\hat{\beta}_{T+1}))$.
+  \item Reject all of the models $i$ with $i \in \bigcup_{j=1}^m M_j$.
   \end{enumerate}
   The following conclusions hold:
   \begin{enumerate}[i.]
@@ -633,24 +634,24 @@ Theorem~\ref{res:2} presents the final procedure.
     that $y_t - \hat{y}_{0t}$ is an \textsl{\mds} with respect to
     $\mathcal{F}_t^I$ for some $I \subset \{1,\dots,m\}$, the
     procedure outlined above, but using the moving block bootstrap
-    with block length $1$, has probability at most $\alpha$ of rejecting
-    one or more models in $I$.
+    with block length $1$, has probability at most $\alpha$ of
+    rejecting one or more models in $I$.
   \item\label{it:2} Let $H_l$ be the null hypothesis that $y_t -
-    \hat{y}_{0t}$ is an \textsl{\mds} with respect to $\mathcal{F}_{lt}$
-    against the one-sided alternative $\E \bar f_i(\beta_0) > 0$.  If
-    $p \to 0$ and $P p \to \infty$ as $T \to \infty$ (for the
-    stationary bootstrap) or $b \to \infty$ and $\frac{b}{P} \to 0$
-    (for the moving or circular block bootstraps) then the procedure
-    outlined above controls \sfwe\ at level $\alpha$ for the family of
-    null hypotheses $H_1,\dots,H_m$.
+    \hat{y}_{0t}$ is an \textsl{\mds} with respect to
+    $\mathcal{F}_{lt}$ against the one-sided alternative $\E \bar
+    f_i(\beta_0) > 0$.  If $p \to 0$ and $P p \to \infty$ as $T \to
+    \infty$ (for the stationary bootstrap) or $b \to \infty$ and
+    $\frac{b}{P} \to 0$ (for the moving or circular block bootstraps)
+    then the procedure outlined above controls \textsl{\sfwe} at level
+    $\alpha$ for the family of null hypotheses $H_1,\dots,H_m$.
   \item\label{it:3} Let $H_l$ be the null hypothesis that $y_t -
     \hat{y}_{0t}$ is uncorrelated with $\hat{y}_{lt}$ against the
     one-sided alternative $\E \bar f_i(\beta_0) > 0$.  If $p \to 0$
     and $P p \to \infty$ as $T \to \infty$ (for the stationary
     bootstrap) or $b \to \infty$ and $\frac{b}{P} \to 0$ (for the
     moving or circular block bootstraps) then the procedure outlined
-    above controls \sfwe\ at level $\alpha$ for the family of null
-    hypotheses $H_1,\dots,H_m$.
+    above controls \textsl{\sfwe} at level $\alpha$ for the family of
+    null hypotheses $H_1,\dots,H_m$.
   \end{enumerate}
 \end{thm}
 
@@ -730,11 +731,11 @@ before the bootstrap.
   $q$-vector;\footnote{If a researcher uses multiple benchmark models,
     it would be a mistake to assume that they are all correctly
     specified, so only the null hypothesis of Part~(\ref{it:3}) is
-    appropriate.} the first element of $\bar f_{i}$ compares the first
-  benchmark model to the $i$th alternative and the first element of
-  $\hat{\sigma}_i^2$ is the corresponding estimate of asymptotic
-  variance, the second element corresponds to the second benchmark
-  model, etc.
+    appropriate.} the first element of $\bar f_{i}$, written as $\bar
+  f_{i1}$, compares the first benchmark model to the $i$th alternative
+  and the first element of $\hat{\sigma}_i^2$ is the corresponding
+  estimate of asymptotic variance, the second element corresponds to
+  the second benchmark model, etc.
 
   Steps 1 and 2 of Theorem~\ref{res:2}'s procedure now become:
   \begin{enumerate}
@@ -744,14 +745,7 @@ before the bootstrap.
       \notin M_{j-1}} \tfrac1{\hat\sigma_{ik}^*} |\bar{f}_{ik}^{*} -
     \bar{f}_{ik}(\hat{\beta}_{k,T+1})|$.
   \item Reject all of the hypotheses $H_i$ such that $(i,k) \in
-    \bigcup_{j=1}^m M_j$ and $\bar{f}_{ik} > 0$ for all
-    $k$.\footnote{This approach is motivated by \citepos{DoH:11}
-      extension of Wolak's \citeyearpar{Wol:89b,Wol:91} tests of
-      inequality constraints.  Donald and Hsu use a threshold rule
-      based on \citepos{Han:05} \spa\ to discard nonbinding
-      inequalities.  One could, of course, use the two-sided stepdown
-      method proposed in this paper instead of the \spa\ to increase
-      the power of Donald and Hsu's test.}
+    \bigcup_{j=1}^m M_j$ for all $k$.
   \end{enumerate}
   Also note that the asymptotic variance-covariance matrix of each
   $\bar f_i$ does not need to be positive definite as long as the
@@ -771,7 +765,7 @@ respect to the probability measure induced by the bootstrap, and
 $y_t^{*}$, etc. is the random variable $y_t$ but under the
 bootstrap-induced \cdf.
 
-Note that the notation in this section is more general than that of
+The notation in this section is more general than that of
 Section~\ref{sec:1}.  The assumptions required are generalizations of
 the conditions of Theorems~\ref{res:1} and~\ref{res:2}.  See
 \citet{Wes:96,Wes:06}, \citet{WeM:98}, and \citet{Mcc:00} for a
@@ -861,22 +855,23 @@ Theorem~\ref{res:3} gives the result.
 \end{rem}
 
 \section{Monte Carlo Results}\label{sec:2}
-I'll conduct two brief Monte Carlo experiments to demonstrate that the
-modified version of \citepos{ClW:07} statistic performs similarly to
-their original test in the situations they study.\footnote{All of
-  these simulations were programmed in R \citep[version 2.14.0]{R} and
-  use the \textsc{MASS} \citep[version info]{VeR:02}, xtable
-  \citep[version info]{Dah:09}, and dbframe \citep[version
-  0.2.1]{Cal:10b} packages.  For details on the programming, please
-  see the supplemental appendices \citep{Cal:11f,Cal:11g,Cal:11h}.}
-I'll use both of the \dgp s they consider as well as a modification to
-study the performance of the statistics if there is instability.
+I'll conduct two brief Monte Carlo experiments to demonstrate that
+this paper's modified version of \citepos{ClW:07} statistic performs
+similarly to their original test in the situations they
+study.\footnote{All of these simulations were programmed in R
+  \citep[version 2.14.0]{R} and use the \textsc{MASS} \citep[version
+  info]{VeR:02}, xtable \citep[1.6-0]{Dah:09}, and dbframe
+  \citep[version 0.2.1]{Cal:10b} packages.  For details on the
+  programming, please see the supplemental appendices
+  \citep{Cal:11f,Cal:11g,Cal:11h}.}  I'll use both of the \dgp s they
+consider as well as a modification to study the performance of the
+statistics if there is instability.
 
 The first \dgp\ has three different parametrizations; one to study the
 tests' size, one to study power under stationarity, and one to study
 power if there is a single break in the relationship between the
 target and predictors.  The \dgp\ is:
-\begin{align}\label{eq:dgp1}\tag{\dgp\ 1}
+\begin{align*}
   y_t &= 0.5 + \gamma^{*}_t z_{t-1} + e_t &
   \gamma^{*}_t &=
   \begin{cases}
@@ -890,7 +885,7 @@ target and predictors.  The \dgp\ is:
   \end{pmatrix}
    , \begin{pmatrix} 18 & -
     0.5 \\ -0.5 & 0.025 \end{pmatrix}\Bigg).
-\end{align}
+\end{align*}
 Both models are estimated by \ols. The benchmark model regresses $y_t$
 on a constant, and the alternative regresses $y_t$ on a constant and
 $z_{t-1}$.  We use both \poscw\ original statistic and the new
@@ -914,7 +909,7 @@ look at the stable case.
 \end{table}
 
 The second \dgp\ is
-\begin{align} \label{eq:dgp2}\tag{\dgp\ 2}
+\begin{align*}
   y_{t} &= 2.237 + 0.261 y_{t-1} + \gamma^{*}_{1} z_{t-1} + \gamma_{2}^{*}
   z_{t-2} + \gamma_{3}^{*} z_{t-3} + \gamma_{4}^{*} z_{t-4} + e_{t} \\
   z_{t} &= 0.804 z_{t-1} - 0.221 z_{t-2} + 0.226 z_{t-3} - 0.205
@@ -932,7 +927,7 @@ The second \dgp\ is
     0 & \text{size simulations}\\
     (3.363, -0.633, -0.377, -0.529)' & \text{power simulations}.
   \end{cases}
-\end{align}
+\end{align*}
 The benchmark model for $y_{t}$ is an AR(1) and the alternative model
 includes all four lags of $z_{t}$.  For this simulation, $R$ is 80 or
 120 and $P$ is 40, 80, 120, or 160.  \citet{ClW:07} argue that the
@@ -953,15 +948,14 @@ National Activity Index.
 \label{tab:mc2}
 \end{table}
 
-Table~\ref{tab:mc1} presents the simulation results
-for~(\ref{eq:dgp1}) and Table~\ref{tab:mc2} for~(\ref{eq:dgp2}).  For
-all of the stable parameter values, the proposed new statistic has
-similar rejection probability to \citepos{ClW:07}.  Clark and West's
-test is slightly more undersized than the new test, but has a little
-higher power under the alternative.  Moreover, the statistics give
-different results in less than 10\% of the simulations for most
-parametrizations of the \dgp s.  In general, the statistics perform
-similarly well.
+Table~\ref{tab:mc1} presents the simulation results for~\textsc{dgp}~1
+and Table~\ref{tab:mc2} for~\textsc{dgp}~2.  For all of the stable
+parameter values, the proposed new statistic has similar rejection
+probability to \citepos{ClW:07}.  Clark and West's test is slightly
+more undersized than the new test, but has a little higher power under
+the alternative.  Moreover, the statistics give different results in
+less than 10\% of the simulations for most parametrizations of the
+\dgp s.  In general, the statistics perform similarly well.
 
 For the simulations with a single break, the new statistic has about
 twice the power of \poscw\ original test.  For most parametrizations
@@ -973,15 +967,15 @@ test when testing for stable outperformance.
 
 \section{Empirical Illustration}\label{sec:3}
 
-This section demonstrates the use of the statistics introduced earlier
-in the paper by revisiting \citepos{GoW:08} study of excess stock
-returns.  Goyal and Welch argue that many variables thought to predict
-excess returns (measured as the difference between the yearly log
-return of the S\&P 500 index and the T-bill interest rate) on the
-basis of in-sample evidence fail to do so out-of-sample.  To show
-this, Goyal and Welch look at the forecasting performance of models
-using a lag of the variable of interest, and show that these models do
-not significantly outperform the excess return's recursive sample mean.
+This section demonstrates the use of our new statistics by revisiting
+\citepos{GoW:08} study of excess stock returns.  Goyal and Welch argue
+that many variables thought to predict excess returns (measured as the
+difference between the yearly log return of the S\&P 500 index and the
+T-bill interest rate) on the basis of in-sample evidence fail to do so
+out-of-sample.  To show this, Goyal and Welch look at the forecasting
+performance of models using a lag of the variable of interest, and
+show that these models do not significantly outperform the excess
+return's recursive sample mean.
 
 Here, I conduct the same analysis, but using this paper's \mds\ test.
 The benchmark model is the excess return's sample mean (as in the
@@ -998,9 +992,9 @@ combination forecasts, the mean and the median (over both the original
 and the non-negative forecasts).  The data set is annual data
 beginning in 1927 and ending in 2009, and the rolling window uses
 \windowlength\ observations.\footnote{This statistical analysis was
-  conducted in R \citep{R} using the xtable \citep[version]{Dah:09},
-  Hmisc \citep[version]{Har:10}, and dbframe \citep[version
-  0.2.1]{Cal:10b} packages; please see the supplemental appendices for
+  conducted in R \citep{R} using the xtable
+  \citep[version~1.6-0]{Dah:09}, and dbframe \citep[version
+  0.2.5]{Cal:10b} packages; please see the supplemental appendices for
   details on the programming \citep{Cal:11f,Cal:11g,Cal:11h}.}
 
 Table~\ref{tab:em1} presents the results for each model.  The column
@@ -1052,9 +1046,9 @@ statistics.
 \appendix
 \section{Supporting Results}
 This Appendix restates \citepos{Mcc:00} results, which themselves
-weaken \citepos{Wes:96} assumptions, under the dependence conditions
-of Theorem~\ref{res:1}.  It also proves some of the Lemmas required
-for that result and the results in the main paper.
+weaken \citepos{Wes:96} assumptions, but under the dependence
+conditions of Theorem~\ref{res:1}.  It also proves some of the Lemmas
+required for that result and the results in the main paper.
 
 \begin{lema}\label{res:a2}
   Suppose $a \in [0,\frac12)$ and the conditions of Theorem~\ref{res:3}
@@ -1094,51 +1088,51 @@ for that result and the results in the main paper.
 \end{proof}
 
 \begin{lema}\label{res:a3}
-  Suppose the conditions of Theorem~\ref{res:3} hold; let $g_{t} =
-  (f_{t}' - \E f_{t}', a_t h_{t}')'$, $g_t^{*} =
+  Suppose the conditions of Theorem~\ref{res:3} hold; let $\psi_{t} =
+  (f_{t}' - \E f_{t}', a_t h_{t}')'$, $\psi_t^{*} =
   (f_t^{*}(\hat{\beta}_{T+1})' - \bar{f}(\hat{\beta}_{T+1})', a_t
   h_t^{*\prime})'$, and $a_t = \sum_{s=\max(R,t)}^T \tfrac{1}{s}$.  Then
   \begin{equation}\label{eq:1}
-    \pr\Big[\sup_x \Big| \pr^{*}\Big[ \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T g_{t}^{*}
-    \leq x \Big] - \pr\Big[ \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T g_{t}
+    \pr\Big[\sup_x \Big| \pr^{*}\Big[ \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T \psi_{t}^{*}
+    \leq x \Big] - \pr\Big[ \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T \psi_{t}
     \leq x \Big] \Big| > \epsilon \Big] \to 0
   \end{equation}
   for all positive $\epsilon$.
 \end{lema}
 
 \begin{proof}[Proof of Lemma~\ref{res:a3}]
-  Note that $g_t$ satisfies the conditions of a \clt,
-  \citep[Theorem~2]{Jon:97}, and so it suffices to prove that the
-  bootstrap average obeys a \clt\ as well.
+  Note that $\psi_t$ satisfies a \clt, \citep[Theorem~2]{Jon:97}, and
+  so it suffices to prove that the bootstrap average obeys a \clt\ as
+  well.
 
-  Suppose that $g_t^{**}$ is generated by the stationary bootstrap but
+  Suppose that $\psi_t^{**}$ is generated by the stationary bootstrap but
   with exactly $\lfloor p P \rfloor$ full blocks of length
   $M_1,\dots,M_{\lfloor p P \rfloor}$ (so that the number of
   observations $P^{**}$ is random).  As in \citet{Cal:11d}, $\sqrt{P}
-  \bar{g}^{*}$ and $\sqrt{P^{**}} \bar{g}^{**}$ converge in
-  distribution to the same limit; moreover, $P^{**} \bar{g}^{**}$ is a
+  \bar{\psi}^{*}$ and $\sqrt{P^{**}} \bar{\psi}^{**}$ converge in
+  distribution to the same limit; moreover, $P^{**} \bar{\psi}^{**}$ is a
   sum of $\lfloor p P \rfloor$ independent blocks that obey a central
   limit theorem conditional on $\mathcal{M} = (M_1,\dots,M_{\lfloor p
     P \rfloor}$), and the result follows if $P^{**}
-  \E^{**}(\bar{g}^{**} \bar{g}^{**\prime} \mid \mathcal{M}) \to^p
-  \Sigma$ where $\Sigma = P \E(\bar{g} \bar{g}')$.
+  \E^{**}(\bar{\psi}^{**} \bar{\psi}^{**\prime} \mid \mathcal{M}) \to^p
+  \Sigma$ where $\Sigma = P \E(\bar{\psi} \bar{\psi}')$.
 
   For $\tau = 1,\dots,P^{**}$, let $\kappa$ denote the block
   containing $\tau$, so $\sum_{i=1}^{\kappa-1} M_i < \tau \leq
   \sum_{i=1}^{\kappa} M_i$, and let $K_{\tau,i} = \sum_{j=\kappa+1}^i
   M_{(j \mod \lfloor p P \rfloor) + 1}$, $K_{\tau,0} = 0$.  Then we have
   \begin{multline}
-    P^{**} \E^{**}(\bar{g}^{**} \bar{g}^{**\prime} \mid \mathcal{M})
+    P^{**} \E^{**}(\bar{\psi}^{**} \bar{\psi}^{**\prime} \mid \mathcal{M})
     = \tfrac{1}{P^{**}} \sum_{i=1}^{\lfloor p P \rfloor} 
-    \sum_{s,t=K_{\tau,i-1}}^{K_{\tau,i}} \hat{g}_s \hat{g}_t' 
+    \sum_{s,t=K_{\tau,i-1}}^{K_{\tau,i}} \hat{\psi}_s \hat{\psi}_t' 
     \\ = \tfrac{1}{P^{**}} \sum_{i=1}^{\lfloor p P \rfloor}
-    \sum_{s,t=K_{\tau,i-1}}^{K_{\tau,i}} \big[g_s g_t' + g_s(\hat{g}_t
-    - g_{t})' + (\hat{g}_s - g_{s}) g_{t}' + (\hat{g}_s -
-    g_{s})(\hat{g}_t - g_{t}) \big],
+    \sum_{s,t=K_{\tau,i-1}}^{K_{\tau,i}} \big[\psi_s \psi_t' + \psi_s(\hat{\psi}_t
+    - \psi_{t})' + (\hat{\psi}_s - \psi_{s}) \psi_{t}' + (\hat{\psi}_s -
+    \psi_{s})(\hat{\psi}_t - \psi_{t}) \big],
   \end{multline}
-  with the first equality from \citet{Cal:11d} and $\hat{g}_s =
+  with the first equality from \citet{Cal:11d} and $\hat{\psi}_s =
   (f_t(\hat{\beta}_{T+1})' - \bar f(\hat{\beta}_{T+1})', h_t')'$.
-  Now, $\frac{1}{P^{**}} \sum_i \sum_{s,t} g_s g_t \to^p \var(\sqrt{P} \bar{g})$
+  Now, $\frac{1}{P^{**}} \sum_i \sum_{s,t} \psi_s \psi_t \to^p \var(\sqrt{P} \bar{\psi})$
   \citep[Lemma~5]{Cal:11d}, so it suffices to show that the remaining
   terms vanish, which is equivalent to showing
   \begin{equation}\label{eq:3}
@@ -1179,7 +1173,7 @@ for that result and the results in the main paper.
   statistic; this substitution does not affect its asymptotic
   distribution; the theorem is now an immediate consequence of
   Lemma~\ref{res:a5}.  Note that \[f_t(\beta_0)= 2 (y_{t+1} -
-  x_t'\beta_0)(x_t'\beta_0 - \hat{y}_{1,t+1}) \quad \text{a.s.},\] as
+  x_t'\beta_0)(\hat{y}_{1,t+1} - x_t'\beta_0) \quad \text{a.s.},\] as
   in \citet{ClW:07}, which is an \mds, so we do not need to use a
   \hac\ estimator of the variance under the null.
 \end{proof}
@@ -1198,10 +1192,10 @@ for that result and the results in the main paper.
     \big[f_t^{*}(\hat{\beta}_{T+1}) - \bar{f}(\hat{\beta}_{T+1}) +
     F^{*} B^{*} a_t h_t^{*} \big] + o_{p^{*}},
   \end{equation}
-  with $a_t = \sum_{s=\max\{t,R\}}^T \tfrac1s$.  The proof is the same as
-  in \citet[Theorem 2.3.1]{Mcc:00}.  Note that $F^{*} = \hat{F} +
-  o_{p} = F + o_p$ and $B^{*} = B + o_{p}$.  The result then follows
-  from Lemma~\ref{res:a3}.
+  with $a_t = \sum_{s=\max\{t,R\}}^T \tfrac1s$.  The proof is the same
+  as in \citet[Theorem 2.3.1]{Mcc:00}.  Note that $F^{*} = \hat{F} +
+  o_{p}(1) = F + o_p(1)$ and $B^{*} = B + o_{p}(1)$.  The result then
+  follows from Lemma~\ref{res:a3}.
 \end{proof}
 
 \begin{lem}[Formalization of Remark~\ref{rem:01}]
@@ -1209,7 +1203,7 @@ for that result and the results in the main paper.
   hold but $f_i = (f_{i1},\dots,f_{iq})$ and the asymptotic variance
   of $(\bar{f}_{1k}(\beta_k),\dots,\bar{f}_{mk}(\beta_k))$ is
   uniformly positive definite for each $k$.  Then the procedure
-  described in Remark~\ref{rem:01} achieves \sfwe.
+  described in Remark~\ref{rem:01} achieves \textsl{\sfwe}.
 \end{lem}
 
 The proof is similar to that of Theorem~\ref{res:2}. Note that we
