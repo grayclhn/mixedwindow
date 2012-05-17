@@ -154,7 +154,7 @@ literature developing the theoretical properties of these statistics,
 beginning primarily with \citet{DiM:95} and
 \citet{Wes:96}.\footnote{Other papers in this literature include
   \citet{WeM:98}, \citet{Mcc:98,Mcc:00},
-  \citet{ClM:01,ClM:05-2,ClM:05,ClM:11b,ClM:11,ClM:12},
+  \citet{ClM:01,ClM:05-2,ClM:05,ClM:11b,ClM:12,ClM:12b},
   \citet{CCS:01}, \citet{CoS:02,CoS:04,CoS:07}, \citet{Whi:00},
   \citet{InK:04,InK:06}, \citet{Han:05}, \citet{Ros:05},
   \citet{ClW:06,ClW:07}, \citet{Ana:07}, \citet{GiR:09,GiR:10},
@@ -281,7 +281,7 @@ complicated than necessary by adjusting the objective function of the
 bootstrapped statistic to center it correctly.\footnote{Their
   recentering is required for consistency and does not imply higher
   order accuracy.}  A parametric bootstrap, such as that used by
-\cite{Mar:95}, \cite{Lut:99}, and \citet{ClM:11}, is an alternative
+\cite{Mar:95}, \cite{Lut:99}, and \citet{ClM:12b}, is an alternative
 method, but requires the benchmark model to be correctly specified.
 Although I focus on the null hypothesis that the benchmark is
 correctly specified, this paper's block bootstrap methods remain valid
@@ -523,7 +523,7 @@ probability greater than the tests' nominal size of rejecting at least
 once.\footnote{Unless the statistics used for each test are completely
   interdependent, the probability will be strictly greater than the
   nominal size.}  Econometricians, e.g. \citet{Whi:00},
-\citet{Han:05}, \cite{HuW:10}, and \citet{ClM:11}, have emphasized
+\citet{Han:05}, \cite{HuW:10}, and \citet{ClM:12b}, have emphasized
 statistics that test families of hypotheses that control the
 probability any hypothesis is rejected given that they all are true,
 known as \textit{weak control of familywise error}
@@ -537,7 +537,7 @@ hypotheses, known as \textit{strong control of familywise error}
 even though the papers only prove \wfwe, statistics based on
 nonparametric block bootstraps \citep{Whi:00,Han:05} can be shown to
 control \sfwe\ as well \citep[this follows directly from][]{RoW:05}
-and those based on the parametric bootstrap \citep{ClM:11} essentially
+and those based on the parametric bootstrap \citep{ClM:12b} essentially
 control \sfwe\ if the individual null hypotheses are strengthened
 slightly as below (see Part~(\ref{it:1}) of Theorem~\ref{res:2} as
 well as Remark~\ref{rem:2}).  \citet{HuW:10} propose that researchers
@@ -686,7 +686,7 @@ before the bootstrap.
   estimates the joint distribution correctly as well.
 
   The same reasoning implies that a parametric bootstrap
-  \citep[i.e.][]{ClM:11} achieves control of \sfwe\ only under the
+  \citep[i.e.][]{ClM:12b} achieves control of \sfwe\ only under the
   stronger hypotheses of Part~(\ref{it:1}).  Fortunately,
   Part~(\ref{it:1}) seems to capture the goals of most empirical work,
   so researchers can make use of the considerable simplifications that
@@ -862,10 +862,9 @@ study.\footnote{All of these simulations were programmed in R
   \citep[version 2.14.0]{R} and use the \textsc{MASS} \citep[version
   info]{VeR:02}, xtable \citep[1.6-0]{Dah:09}, and dbframe
   \citep[version 0.2.1]{Cal:10b} packages.  For details on the
-  programming, please see the supplemental appendices
-  \citep{Cal:11f,Cal:11g,Cal:11h}.}  I'll use both of the \dgp s they
-consider as well as a modification to study the performance of the
-statistics if there is instability.
+  programming, please see the supplemental appendix \citep{Cal:11f}.}
+I'll use both of the \dgp s they consider as well as a modification to
+study the performance of the statistics if there is instability.
 
 The first \dgp\ has three different parametrizations; one to study the
 tests' size, one to study power under stationarity, and one to study
@@ -995,7 +994,7 @@ beginning in 1927 and ending in 2009, and the rolling window uses
   conducted in R \citep{R} using the xtable
   \citep[version~1.6-0]{Dah:09}, and dbframe \citep[version
   0.2.5]{Cal:10b} packages; please see the supplemental appendices for
-  details on the programming \citep{Cal:11f,Cal:11g,Cal:11h}.}
+  details on the programming \citep{Cal:11f}.}
 
 Table~\ref{tab:em1} presents the results for each model.  The column
 ``value'' gives the value of the test statistic for each model, while
