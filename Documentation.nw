@@ -1,5 +1,5 @@
 % -*- mode: noweb; noweb-default-code-mode: R-mode -*-
-\documentclass[draft]{article}
+\documentclass{article}
 \usepackage{noweb,setspace,amsmath,amsthm,amssymb,microtype,ae,url}
 \usepackage[round]{natbib}
 % \usepackage[T1]{fontenc}
@@ -25,12 +25,17 @@
 
 \begin{document}
 
-\title{Supplemental appendix 1 for ``An asymptotically normal
-  out-of-sample test of equal predictive ability for nested
-  models.''\\{\large Code and documentation for Monte Carlo and data
-    analysis}}
+\title{Supplemental appendix for ``An asymptotically normal out-of-sample test of equal predictive ability for nested models.''%
+\footnote{\protect\input{BOILERPLATE.txt}}}
 
-\author{Gray Calhoun\\Iowa State University} 
+\author{Gray Calhoun\thanks{Economics Department; Iowa State
+    University; Ames, IA 50011.  Telephone: (515) 294-6271.  Email:
+    \texttt{gcalhoun@iastate.edu}.  Web:
+    \texttt{http://www.econ.iastate.edu/$\sim$gcalhoun}. If you use
+    this software, please cite the original paper,
+    \protect{\citet{Cal:11b}}, as well as this appendix.}\\Iowa State
+  University} 
+
 \date{\input{VERSION% <- allows VERSION to have comments
 }}
 
@@ -55,9 +60,9 @@ that, if you have $n$ processors, you can run the code $n$ times as
 fast), but I've implemented the parallelization through the Makefile.
 So there is code in the Makefile to start an arbitrary number of R
 processes, assign a portion of the simulations to each one, and then
-consolidate the results at the end.  I think this approach is more
-transparent than using R's parallelization methods.  (Although that
-may not be true in the most recent versions of R).
+consolidate the results at the end.  This approach is more transparent
+than native parallelization methods available in R when I started the
+project.
 
 This document was assembled by noweb \citep[see][]{JoJ:97,Ram:94},
 which also writes the source code described here to individual files.
@@ -70,7 +75,7 @@ code chunk---a small piece of the program.  If the label is a file
 name, that code is meant to be written to that file.  If the label
 isn't a file name, that code is meant to be inserted wherever
 \LA{}\textit{label}\RA{} appears in the other code chunks, possibly
-in multiplte places.\footnote{For a better understanding, it's probably
+in multiple places.\footnote{For a better understanding, it's probably
   best to open, for example, the file \textit{R/montecarlo.R} and
   compare the code there to the code as it is written in
   \LA{}\textit{R/montecarlo.R}\RA{} in this document.}  I'm using this
@@ -78,14 +83,14 @@ approach as an experiment and welcome any feedback or comments you
 might have---especially if you see bugs or errors I missed in the
 code.
 
-It's worth emphasizing that the file Documentation.nw contains
-the real source code for this analysis, and that the other code files
-are derived directly from this one.  As a reminder, the following text
-is also pasted to the beginning of each of those other files.
+It's worth emphasizing that the file [[Documentation.nw]] contains the
+real source code for this analysis, and that the other code files are
+derived directly from it.  As a reminder, the following text is also
+pasted to the beginning of each of those other files.
 <<license, copyright, and warning>>=
- # This file was generated automatically by noweb. You probably should not 
- # edit it. Edit the original source code in Documentation.nw instead, and 
- # see Documentation.pdf for documentation.
+ # This file was generated automatically by noweb. You probably should
+ # not edit it. Edit the original source code in Documentation.nw 
+ # instead, and see Documentation.pdf for documentation.
 @ %
 Moreover, this is open-source/free software and
 the following licensing and copying restrictions apply to all of the
@@ -95,18 +100,19 @@ well:
 <<license, copyright, and warning>>=
  # Copyright (c) 2011 Gray Calhoun.
 
- # This program is free software: you can redistribute it and/or modify it 
- # under the terms of the GNU General Public License as published by the 
- # Free Software Foundation, either version 3 of the License, or (at your 
- # option) any later version.
+ # This program is free software: you can redistribute it and/or 
+ # modify it under the terms of the GNU General Public License as 
+ # published by the Free Software Foundation, either version 3 of the 
+ # License, or (at your option) any later version.
 
- # This program is distributed in the hope that it will be useful, but 
- # WITHOUT ANY WARRANTY; without even the implied warranty of 
+ # This program is distributed in the hope that it will be useful, 
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of 
  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
  # General Public License for more details.
 
- # You should have received a copy of the GNU General Public License along 
- # with this program.  If not, see <http://www.gnu.org/licenses/>.
+ # You should have received a copy of the GNU General Public License 
+ # along with this program.  If not, see 
+ # <http://www.gnu.org/licenses/>.
 @ 
 
 \section{Monte Carlo code}\label{sec:mc}
@@ -114,8 +120,8 @@ well:
 \subsection{Overall structure of code}
 All of the simulations have a similar structure.  The number at the
 beginning of the [[simulationtype]] column is there to make it easy to
-set the ordering I want to use to sort the results.  The outline of
-the programs are (for \textsc{dgp} 1):
+sort the results.  The outline of the programs are (for \textsc{dgp}
+1):
 
 <<R/montecarlo.R>>=
 ### -*- mode: R -*-
@@ -295,14 +301,14 @@ mcdata <- dbframe("mc2", dbdriver = "SQLite",
 The simulations depend on the following self-explanatory parameters.
 Defining these parameters as macros makes it easy to embed them in
 different files, which helps ensure that (for example) the number of
-simulatinos I claim to run in the paper matches the number I actually
+simulations I claim to run in the paper matches the number I actually
 did.
 
 Be aware that changing the parameter \LA{}\textit{number of jobs}\RA{}
 will change the results slightly since it changes the random number
 seeding.  This parameter does not need to equal the number of
-processors on your computer.  It will be somewhat less efficient than
-it could be if they are different, but should run fine.
+processors on your computer.  It will be slower than it could be if
+they are different, but should run fine.
 <<total number of simulations>>= 
 3000
 @ 
@@ -315,7 +321,7 @@ it could be if they are different, but should run fine.
 10.0
 @ 
 
-I also define these parameters as Latex macros that can be imported
+I also define these parameters as \LaTeX\ macros that can be imported
 into the main paper.
 <<tex/simulationdefinitions.tex>>=
 \newcommand{\totalsims}{<<total number of simulations>>}
@@ -332,10 +338,10 @@ processes are assigned an additional simulation.
 @
 
 \subsection{Print tables summarizing the simulations}
-Printing Latex tables summarizing the simulation results is pretty
-straightforward.  The function [[publictable]] in the [[dbframe]]
+Printing \LaTeX\ tables summarizing the simulation results is pretty
+straightforward.  The function [[booktabs]] in the [[dbframe]]
 package takes (essentially) an \textsc{sql} query and returns nicely
-formatted results.  Please see the help file for [[publictable]] in
+formatted results.  Please see the help file for [[booktabs]] in
 the [[dbframe]] package for details.  Obviously, the paper gives an
 example of its output.  The query here just looks at the fraction of
 rejections for each parametrization and test statistic.
@@ -423,11 +429,11 @@ The functions that actually do the analysis are defined in the
 [[oosanalysis]] package that I developed in conjunction with this
 paper.  Please see that package's help files and implementation
 documentation for details.  We'll use [[dbframe]] to format the
-results in a Latex table.
+results in a \LaTeX\ table.
 <<Load libraries and initialize variables>>=
 library(oosanalysis)
 library(dbframe)
-@ %def dbframe publictable
+@ %def dbframe booktabs
 
 \subsection{Set up data and models}
 
@@ -504,13 +510,13 @@ financial.data <-
     net.equity =            gwdata[,"net.equity"]))))
 @ 
 
-\subsection{Write results to a Latex file}
+\subsection{Write results to a \LaTeX\ file}
 This subsection takes the empirical results generated by the
 preceding code (mostly the variables defined in the main body) and
-writes them as a Latex table.  One consideration is that I want to be
+writes them as a \LaTeX\ table.  One consideration is that I want to be
 able to refer to the StepM critical value in the body of the paper,
 but I also want to produce only one file from this code (otherwise
-parallel make can be fussy).  So I write the results table to a Latex
+parallel make can be fussy).  So I write the results table to a \LaTeX\
 macro, and then invoke that macro at the appropriate place in the
 paper.
 
@@ -549,7 +555,7 @@ names(results.data)[1] <- " "
 
 Just like I did for the Monte Carlo, I define the variables governing
 data analysis as macros/chunks so that I can ensure consistency across
-different files.  Writing these variables to Latex macros also lets us
+different files.  Writing these variables to \LaTeX\ macros also lets us
 refer to them in the paper.
 <<tex/empiricsdefinitions.tex>>=
 \newcommand{\nboot}{<<number of bootstrap replications>>}
@@ -575,13 +581,12 @@ This ``makefile'' defines the sequence of shell commands that need to
 be executed to generate the final document.  I use \textsc{gnu} Make
 \citep[see][]{SMS:10}; other versions of Make may work as well, but no
 guarantees.  Assuming you have the necessary programms installed (see
-the \textsc{readme} file), you should be able to redo all of the
-analysis from my paper by typing [[make Paper.pdf]] in the main
-directory.  [[make Document.pdf]] creates this document, and [[make]]
-creates both, along with a zip archive of the intermediate files.  Of
-course, you can run all of the individual commands defined in this
-section by typing them into a prompt at the command line, but ``make''
-is easier.
+the [[README FILE]]), you should be able to redo all of the analysis
+from my paper by typing [[make Paper.pdf]] in the main directory.
+[[make Document.pdf]] creates this document, and [[make]] creates
+both, along with a zip archive of the intermediate files.  Of course,
+you can run all of the individual commands defined in this section by
+typing them into a prompt at the command line, but make is easier.
 <<Makefile.mk>>=
 # -*- mode: makefile-gmake -*-
 <<license, copyright, and warning>>
@@ -620,17 +625,17 @@ Paper.pdf Documentation.pdf:
 Paper.pdf: Paper.tex floats/simulation1.tex tex/empiricalresults.tex \
            floats/simulation2.tex tex/simulationdefinitions.tex \
            tex/empiricsdefinitions.tex VERSION
-Documentation.pdf: tex/Documentation.tex VERSION
-tex/Documentation.tex: Documentation.nw
+Documentation.pdf: Documentation.tex VERSION
+Documentation.tex: Documentation.nw
 	mkdir -p $(@D)
 	$(noweave) -latex -index -delay $< | sed /^#/d | cpif $@
-@ %def Paper.pdf Documentation.pdf tex/Documentation.tex
+@ %def Paper.pdf Documentation.pdf Documentation.tex
 
 \subsection{Shell comands to run data anlaysis}
 
 The empirical analysis is contained in the file [[R/emprics.R]] and
 executing this analysis is done by a single command on the command
-line.  The same command builds the Latex table, too.
+line.  The same command builds the \LaTeX\ table, too.
 <<Execute empirical analysis and create results table>>=
 # -*- mode: makefile-gmake -*-
 tex/empiricalresults.tex: R/empirics.R
@@ -640,12 +645,11 @@ tex/empiricalresults.tex: R/empirics.R
 
 \subsection{Dependencies for the Monte Carlo}
 
-I use the makefile to parallelize the simulations (this is kind of
-ghetto, but effective and easy).  Basically, we're going to create
-several different temporary databases and store simulation results in
-each one, then insert the values into a table in the main
-database---the reason is to get around problems that SQLite has with
-concurrent write access.
+I use the makefile to parallelize the simulations.  Basically, we're
+going to create several different temporary databases and store
+simulation results in each one, then insert the values into a table in
+the main database---the reason is to get around problems that SQLite
+has with concurrent write access.
 
 [[mc1_dummies]] are indicators for several SQLite databases; each one
 will store the intermediate results of a subset of the simulations for
@@ -683,7 +687,7 @@ $(addprefix db/,$(mc2_dummies)): R/montecarlo2.R
 @ 
 
 When we split the simulations across processes, it's important that
-each process knwo which job it is. If the number of simulations is not
+each process know which job it is. If the number of simulations is not
 a multiple of the number of jobs, some processes will run more
 simulations than others.  So we take the job number from the database
 name and add it to teh beginning of the R script file.
@@ -728,7 +732,7 @@ combination of \textsc{sql} and Make commands.  Sorry.
 @ 
 
 After running the Monte Carlo and consolidating the simulations, we
-run the commands to generate summary Latex tables.
+run the commands to generate summary \LaTeX\ tables.
 <<Create tables for simulation results>>=
 # -*- mode: makefile-gmake -*-
 floats/simulation1.tex: R/simulationtable1.R mc1
@@ -742,9 +746,9 @@ floats/simulation1.tex floats/simulation2.tex:
 
 These paths include some hardcoded references to particular binaries
 on my computer---you'll have to change them if you want to build files
-on your own.  I use Texlive for Latex, I don't know if other
+on your own.  I use Texlive for \LaTeX\, I don't know if other
 distributions include \texttt{latexmk}.  You may need to install the
-Latex package \texttt{noweb} to make the final pdfs (it can be found
+\LaTeX\ package \texttt{noweb} to make the final pdfs (it can be found
 online).
 
 <<Set paths and flags for binaries>>=
@@ -803,7 +807,7 @@ burn: clean
 \end{document}
 
 % LocalWords:  noweb simulationtype oosanalysis dbframe dse zlag nburn jjob tex
-% LocalWords:  publictable mc latexmk notangle noweave Rscript sqlite archfile
+% LocalWords:  mc latexmk notangle noweave Rscript sqlite archfile usepackage
 % LocalWords:  LATEXMKFLAGS ve parallelize parallelization citep JoJ emph citet
 % LocalWords:  Knu textit isn nw textsc dgp mcdesign DGPs stringsAsFactors len
 % LocalWords:  mcdata randomdata clarkwestrolling clarkwest pvalue mixedwindow
@@ -822,3 +826,4 @@ burn: clean
 % LocalWords:  bfseries raggedright makeatother maketitle tableofcontents njobs
 % LocalWords:  newpage booktabs prebreak postbreak jobnames dbdriver dbname
 % LocalWords:  totalsims testsize readonly purgeduplicates lmstring README
+
