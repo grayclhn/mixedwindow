@@ -1,9 +1,8 @@
 % -*- mode: noweb; noweb-default-code-mode: R-mode -*-
-\documentclass{article}
-\usepackage{noweb,setspace,amsmath,amsthm,amssymb,microtype,ae,url}
+\documentclass[10pt]{article}
+\usepackage{noweb,setspace,amsmath,amsthm,amssymb,microtype,ae,url,geometry}
 \usepackage[round]{natbib}
 % \usepackage[T1]{fontenc}
-% \usepackage[top=1in,left=1.75in,right=1.75in,bottom=1.25in]{geometry}
 \bibliographystyle{abbrvnat}
 \frenchspacing
 \DisableLigatures{family=tt*}
@@ -43,6 +42,7 @@
 
 \tableofcontents
 \newpage
+\newgeometry{top=1.2222in,left=0.9444in,right=1.8889in,bottom=2.4444in}
 
 \section{Introduction}
 

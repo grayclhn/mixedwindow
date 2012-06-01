@@ -1,4 +1,4 @@
-\documentclass[12pt,fleqn]{article}
+\documentclass[11pt,fleqn]{article}
 
 \usepackage{amsfonts}
 \usepackage{amsmath,amsthm,amssymb,graphicx,setspace,url,booktabs,tabularx,enumerate,slantsc}
@@ -6,7 +6,7 @@
 \usepackage{lmodern}
 \usepackage[nolists,nomarkers]{endfloat}
 \usepackage[sort,round,comma]{natbib}
-\usepackage[top=1.25in,left=1.25in,right=1.25in,bottom=1.25in]{geometry}
+\usepackage{geometry}
 \usepackage[small]{caption}
 \newcolumntype{C}{>{\centering\arraybackslash}X}
 
@@ -14,7 +14,7 @@
 \newcommand\citepos[2][]{\citeauthor{#2}'s \citeyearpar[#1]{#2}}
 \newcommand\poscw{\citeauthor{ClW:06}'s \citeyearpar{ClW:06,ClW:07}}
 \newcommand\citen[1]{\citeauthor{#1}, \citeyear{#1}}
-\frenchspacing\onehalfspacing
+\frenchspacing
 \input{tex/simulationdefinitions}
 \input{tex/empiricsdefinitions}
 \input{tex/empiricalresults}
@@ -135,6 +135,7 @@ Bootstrap; Reality Check
 \end{abstract}
 
 \newpage 
+\newgeometry{top=1.2222in,left=0.9444in,right=1.8889in,bottom=2.4444in}
 
 \section{Introduction} This paper proposes an out-of-sample (\oos)
 test statistic that is asymptotically normal with mean zero even when
