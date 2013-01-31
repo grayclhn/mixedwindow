@@ -25,7 +25,7 @@
 \begin{document}
 
 \title{Supplemental appendix for ``An asymptotically normal out-of-sample test of equal predictive ability for nested models.''%
-\footnote{\protect\input{BOILERPLATE.txt}}}
+\footnote{\protect\input{VERSION}}}
 
 \author{Gray Calhoun\thanks{Economics Department; Iowa State
     University; Ames, IA 50011.  Telephone: (515) 294-6271.  Email:
@@ -42,7 +42,6 @@
 
 \tableofcontents
 \newpage
-\newgeometry{top=1.2222in,left=0.9444in,right=1.8889in,bottom=2.4444in}
 
 \section{Introduction}
 
@@ -190,8 +189,8 @@ number generation for parallel processes \citep{Lec:99,LSC:02,SeR:09}
 
 <<Load libraries used in simulations>>=
 ### -*- mode: R -*-
-library(dbframe)
-library(oosanalysis)
+library(dbframe, lib.loc = "lib")
+library(oosanalysis, lib.loc = "lib")
 library(rlecuyer)
 @ %def insert clarkwest clear mixedwindow rows booktabs dbframe .lec.SetPackageSeed .lec.CreateStream .lec.CurrentStream rvar
 \subsection{Monte Carlo 1 details}
@@ -348,7 +347,7 @@ rejections for each parametrization and test statistic.
 <<R/simulationtable1.R>>=
 ### -*- mode: R -*-
 <<license, copyright, and warning>>
-library(dbframe)
+library(dbframe, lib.loc = "lib")
 mcdata1 <- dbframe("mc1", dbdriver = "SQLite", dbname = "data/mcdata.db",
                    readonly = TRUE)
 cat(file = "floats/simulation1.tex", booktabs(select(mcdata1, 
@@ -373,7 +372,7 @@ different models.
 <<R/simulationtable2.R>>=
 ### -*- mode: R -*-
 <<license, copyright, and warning>>
-library(dbframe)
+library(dbframe, lib.loc = "lib")
 mcdata2 <- dbframe("mc2", dbdriver = "SQLite",
                    dbname = "data/mcdata.db", readonly = TRUE)
 cat(file = "floats/simulation2.tex", booktabs(rbind(
@@ -431,8 +430,8 @@ paper.  Please see that package's help files and implementation
 documentation for details.  We'll use [[dbframe]] to format the
 results in a \LaTeX\ table.
 <<Load libraries and initialize variables>>=
-library(oosanalysis)
-library(dbframe)
+library(oosanalysis, lib.loc = "lib")
+library(dbframe, lib.loc = "lib")
 @ %def dbframe booktabs
 
 \subsection{Set up data and models}
@@ -753,10 +752,10 @@ online).
 
 <<Set paths and flags for binaries>>=
 # -*- mode: makefile-gmake -*-
-latexmk := /usr/local/texlive/2011/bin/x86_64-linux/latexmk
+latexmk := latexmk
 notangle:= notangle
 noweave := noweave
-Rscript := /home/gcalhoun/Desktop/R-devel/R-2-14-branch/bin/Rscript
+Rscript := Rscript
 sqlite  := sqlite3
 LATEXMKFLAGS := -pdf -silent
 @ %def latexmk notangle noweave Rscript sqlite LATEXMKFLAGS
@@ -770,7 +769,7 @@ archfile = calhoun-2011-mixedwindow.tar.gz
 zip: $(archfile)
 $(archfile): $(filter-out .gitignore conference-stuff/ slides/, \
                            $(shell git ls-tree HEAD -r --name-only)) \
-             Paper.pdf Documentation.pdf AllRefs.bib
+             Paper.pdf Documentation.pdf texextra/AllRefs.bib
 	tar chzf $@ $^
 @ %def zip archfile
 
@@ -792,7 +791,7 @@ burn: clean
                *.pdf *.gz 
 @ %def clean burn
 
-\bibliography{AllRefs}
+\bibliography{texextra/AllRefs}
 \addcontentsline{toc}{section}{References}
 
 \section*{Index}

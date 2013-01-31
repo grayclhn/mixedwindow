@@ -1,0 +1,9 @@
+[submodule "oosanalysis-R-library"]
+	path = oosanalysis-R-library
+	url = git://github.com/gcalhoun/oosanalysis-R-library.git
+[submodule "texextra"]
+	path = texextra
+	url = git@github.com:gcalhoun/texextra.git
+[submodule "dbframe-R-library"]
+	path = dbframe-R-library
+	url = git@github.com:gcalhoun/dbframe-R-library.git

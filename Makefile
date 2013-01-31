@@ -13,9 +13,17 @@
 #
 # -Gray Calhoun <gcalhoun@iastate.edu>
 
-.PHONY: all clean burn
+.PHONY: all clean burn libs
 all:
 Makefile.mk: Documentation.nw
 	notangle -t1 -R$@ $< | sed 's/^ /\t/' > $@
 
 include Makefile.mk
+
+ROPTS = --byte-compile
+libs: 
+	mkdir -p lib/oosanalysis.Rcheck lib/dbframe.Rcheck
+	R CMD check -o lib/oosanalysis.Rcheck oosanalysis-R-library
+	R CMD INSTALL $(ROPTS) --library=lib oosanalysis-R-library
+	R CMD check -o lib/dbframe.Rcheck dbframe-R-library
+	R CMD INSTALL $(ROPTS) --library=lib dbframe-R-library

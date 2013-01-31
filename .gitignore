@@ -24,10 +24,12 @@ goyal-code.zip
 *.tof
 *.tot
 
+lib/
 R/*
 tex/*
 auto/*
 floats
+*.Rcheck
 
 Documentation.tex
 definitions.tex
