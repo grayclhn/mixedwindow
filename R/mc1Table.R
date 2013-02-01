@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License along with 
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 
+source("R/mcSetup.R")
 library(dbframe, lib.loc = "lib")
 mcdata1 <- dbframe("mc1", dbdriver = "SQLite", dbname = "data/mcdata.db",
 		   readonly = TRUE)
@@ -22,12 +23,11 @@ displaycols <-
 		     when '1.stable' then 'power (stable)'
 		     when '2.breaks' then 'power (breaks)' end",
     R = "R", P = "P",
-    "'Pr[\\textsc{cw}~roll.]'" = "100 * avg(clarkwestrolling <= 10.0 / 100.0)",
-    "'Pr[\\textsc{cw}~rec.]'"
-      = "100 * avg(clarkwestrecursive <= 10.0 / 100.0)",
-    "'Pr[new]'" = "100 * avg(mixed <= 10.0 / 100.0)")
+    "'Pr[\\textsc{cw}~roll.]'" = sprintf("100 * avg(clarkwestrolling <= %f)", testsize),
+    "'Pr[\\textsc{cw}~rec.]'" = sprintf("100 * avg(clarkwestrecursive <= %f)", testsize),
+    "'Pr[new]'" = sprintf("100 * avg(mixed <= %f)", testsize))
 
-cat(file = "floats/simulation1.tex",
+cat(file = "tex/mc1.tex",
     booktabs(select(mcdata1, displaycols, group.by = c("simulationtype", "R", "P")),
 	     purgeduplicates = c(rep(TRUE, 3), rep(FALSE, 3)),
 	     drop = "simulationtype", numberformat = c(FALSE, rep(TRUE, 5)),

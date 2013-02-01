@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License along with 
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 
+source("R/mcSetup.R")
 mcdesign <- expand.grid(P = c(40, 80, 120, 160), R = c(80, 120),
 			simulationtype = c("0.size", "1.power"),
 			stringsAsFactors = FALSE)
@@ -43,22 +44,16 @@ generate.data.mc2 <- function(nobs, simulationtype, nburn = 1000) {
 
 mcdata <- dbframe("mc2", dbdriver = "SQLite",
 		  dbname = sprintf("db/mc2db%d.db", jjob), clear = TRUE)
-nsims <- 12
+
 for (r in rows(mcdesign)) {
   print(r)
   insert(mcdata) <- data.frame(r, row.names = NULL,
     t(replicate((nsims %/% 6 + (jjob <= nsims %% 6)), {
       randomdata <- with(r, generate.data.mc2(R + P, simulationtype))
-      c(clarkwestrolling1 = clarkwest(null1, alt1, randomdata,
-				      r$R, window = "rolling")$pvalue,
-	clarkwestrecursive1 = clarkwest(null1, alt1, randomdata, r$R,
-					window = "recursive")$pvalue,
-	mixed1 = mixedwindow(null1, alt1, randomdata, r$R,
-			     window = "rolling")$pvalue,
-	clarkwestrolling2 = clarkwest(null2, alt2, randomdata, r$R,
-				      window = "rolling")$pvalue,
-	clarkwestrecursive2 = clarkwest(null2, alt2, randomdata, r$R,
-					window = "recursive")$pvalue,
-	mixed2 = mixedwindow(null2, alt2, randomdata, r$R,
-			     window = "rolling")$pvalue)})))
+      c(clarkwestrolling1 = clarkwest(null1, alt1, randomdata, r$R, window = "rolling")$pvalue,
+	clarkwestrecursive1 = clarkwest(null1, alt1, randomdata, r$R, window = "recursive")$pvalue,
+	mixed1 = mixedwindow(null1, alt1, randomdata, r$R, window = "rolling")$pvalue,
+	clarkwestrolling2 = clarkwest(null2, alt2, randomdata, r$R, window = "rolling")$pvalue,
+	clarkwestrecursive2 = clarkwest(null2, alt2, randomdata, r$R, window = "recursive")$pvalue,
+	mixed2 = mixedwindow(null2, alt2, randomdata, r$R, window = "rolling")$pvalue)})))
 }

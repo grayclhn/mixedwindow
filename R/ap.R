@@ -16,26 +16,27 @@
 library(oosanalysis, lib.loc = "lib")
 library(dbframe, lib.loc = "lib")
 
-gwdata <- ts(read.csv("data/yearlyData2009.csv")[,-1], start = 1871, 
-            frequency = 1)
+## These parameters are going to be reported in the paper as well.
+nboot <- 599
+bootsize <- 0.10
+windowlength <- 10
+
+gwdata <- ts(read.csv("data/yearlyData2009.csv")[,-1], start = 1871, frequency = 1)
 stock.returns <- ((gwdata[,"price"] + gwdata[,"dividend"]) / 
                                            lag(gwdata[,"price"], -1) - 1)
 financial.data <- 
   data.frame(window(start = 1927, end = 2009, lag(k = -1, cbind(
-    equity.premium =        lag(log1p(stock.returns)
-                                   - log1p(gwdata[,"risk.free.rate"]), 1),
+    equity.premium =        lag(log1p(stock.returns) - log1p(gwdata[,"risk.free.rate"]), 1),
     default.yield.spread =  gwdata[,"baa.rate"] - gwdata[,"aaa.rate"],
     inflation =             gwdata[,"inflation"],
     stock.variance =        gwdata[,"stock.variance"],
-    dividend.payout.ratio = log(gwdata[,"dividend"])
-                                               - log(gwdata[,"earnings"]),
+    dividend.payout.ratio = log(gwdata[,"dividend"]) - log(gwdata[,"earnings"]),
     long.term.yield =       gwdata[,"long.term.yield"],
     term.spread =           gwdata[,"long.term.yield"] - gwdata[,"t.bill"],
     treasury.bill =         gwdata[,"t.bill"],
     default.return.spread = gwdata[,"corp.bond"] - gwdata[,"long.term.rate"],
     dividend.price.ratio =  log(gwdata[,"dividend"]) - log(gwdata[,"price"]),
-    dividend.yield =        log(gwdata[,"dividend"]) 
-                                         - log(lag(gwdata[,"price"], -1)),
+    dividend.yield =        log(gwdata[,"dividend"]) - log(lag(gwdata[,"price"], -1)),
     long.term.rate =        gwdata[,"long.term.rate"],
     earnings.price.ratio =  log(gwdata[,"earnings"]) - log(gwdata[,"price"]),
     book.to.market =        gwdata[,"book.to.market"],
@@ -69,29 +70,27 @@ alternatives <- c(alternatives_gw, alternatives_ct,
                   average = alternatives_mean, median = alternatives_median)
   
 oos.bootstrap <- mixedbootstrap(benchmark, alternatives, financial.data,
-				R = 10, nboot = 599, blocklength = 1,
+				R = windowlength, nboot = nboot, blocklength = 1,
 				window = "rolling", bootstrap = "circular")
 
 stepm.results <- stepm(oos.bootstrap$statistics, oos.bootstrap$replications, 
-                       NA, 10.0 / 100.0)
+                       NA, bootsize)
 
-results.data <-
-  data.frame(stringsAsFactors = FALSE,
-	     predictor = names(oos.bootstrap$statistics),
-	     value = oos.bootstrap$statistics,
-	     naive = ifelse(oos.bootstrap$statistics >
-			    qnorm(1 - (10.0 / 100.0)), "sig.", ""),
-	     corrected = ifelse(stepm.results$rejected, "sig.", ""))
+results.data <- data.frame(stringsAsFactors = FALSE,
+                           predictor = names(oos.bootstrap$statistics),
+                           value = oos.bootstrap$statistics,
+                           naive = ifelse(oos.bootstrap$statistics > qnorm(1 - bootsize), "sig.", ""),
+                           corrected = ifelse(stepm.results$rejected, "sig.", ""))
 
 results.data <- results.data[order(results.data$value, decreasing = TRUE),]
-results.data$predictor <- gsub(" \\.CT", "(\\\\textsc{ct})",
-			       results.data$predictor)
+results.data$predictor <- gsub(" \\.CT", "(\\\\textsc{ct})", results.data$predictor)
 results.data$predictor <- gsub("\\.", " ", results.data$predictor)
 names(results.data)[1] <- " "
 
-cat(file = "tex/empiricalresults.tex", sep = "\n",
-    sprintf("\\newcommand{\\empiricalcriticalvalue}{%.2f}",
-            stepm.results$rightcrit),
+cat(file = "tex/ap.tex", sep = "\n",
+    sprintf("\\newcommand{\\%s}{%.2f}",
+            c("empiricalcriticalvalue", "nboot", "bootsize", "windowlength"),
+            c(stepm.results$rightcrit, nboot, 100 * bootsize, windowlength)),
     sprintf("\\newcommand{\\empiricaltable}{%s}",
             booktabs(results.data, align = c("l", rep("C", 3)), 
                      numberformat = c(FALSE, TRUE, FALSE, FALSE),

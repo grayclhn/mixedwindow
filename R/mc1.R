@@ -13,9 +13,10 @@
 # You should have received a copy of the GNU General Public License along with 
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 
+source("R/mcSetup.R")
 mcdesign <- expand.grid(P = c(120, 240, 360, 720), R = c(120, 240),
-	      simulationtype = c("0.size", "1.stable", "2.breaks"),
-              stringsAsFactors = FALSE)
+                        simulationtype = c("0.size", "1.stable", "2.breaks"),
+                        stringsAsFactors = FALSE)
 
 library(dbframe, lib.loc = "lib")
 library(oosanalysis, lib.loc = "lib")
@@ -52,16 +53,12 @@ generate.data.mc1 <- function(nobs, simulationtype, nburn = 1000) {
 mcdata <- dbframe("mc1", dbdriver = "SQLite", clear = TRUE,
 		  dbname = sprintf("db/mc1db%d.db", jjob))
 
-nsims <- 12
 for (r in rows(mcdesign)) {
   print(r)
   insert(mcdata) <- data.frame(r, row.names = NULL,
     t(replicate((nsims %/% 6 + (jjob <= nsims %% 6)), {
       randomdata <- with(r, generate.data.mc1(R + P, simulationtype))
-      c(clarkwestrolling = clarkwest(null, alt, randomdata, r$R,
-				     window = "rolling")$pvalue,
-	clarkwestrecursive = clarkwest(null, alt, randomdata, r$R,
-				       window = "recursive")$pvalue,
-	mixed = mixedwindow(null, alt, randomdata, r$R,
-			    window = "rolling")$pvalue)})))
+      c(clarkwestrolling = clarkwest(null, alt, randomdata, r$R, window = "rolling")$pvalue,
+	clarkwestrecursive = clarkwest(null, alt, randomdata, r$R, window = "recursive")$pvalue,
+	mixed = mixedwindow(null, alt, randomdata, r$R, window = "rolling")$pvalue)})))
 }

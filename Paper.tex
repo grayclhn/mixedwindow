@@ -15,9 +15,8 @@
 \newcommand\poscw{\citeauthor{ClW:06}'s \citeyearpar{ClW:06,ClW:07}}
 \newcommand\citen[1]{\citeauthor{#1}, \citeyear{#1}}
 \frenchspacing
-\input{tex/simulationdefinitions}
-\input{tex/empiricsdefinitions}
-\input{tex/empiricalresults}
+\input{tex/mcDef}
+\input{tex/ap}
 
 % redfine heading styles
 \makeatletter
@@ -104,8 +103,8 @@
 \title{An asymptotically normal out-of-sample
   test of equal predictive accuracy for nested models} 
 
-\date{\input{VERSION% <- allows VERSION to have comments
-}}
+\date{December 9, 2011}
+
 \maketitle
 
 \begin{abstract} 
@@ -897,7 +896,7 @@ look at the stable case.
 
 \begin{table}[tb]
   \centering
-  \input{floats/simulation1}
+  \input{tex/mc1}
   \caption{Size and power of the \oos\ tests under \eqref{eq:dgp1} at
     \testsize\% confidence.  These percentages are calculated from \totalsims\
     samples.  Pr[\textsc{cw}] shows the fraction of simulations for which Clark
@@ -937,7 +936,7 @@ National Activity Index.
 
 \begin{table}[tb]
   \centering
-  \input{floats/simulation2}
+  \input{tex/mc2}
   \caption{Size and power of the \oos\ tests under \eqref{eq:dgp2} at
     \testsize\% confidence.  These percentages are calculated from \totalsims\
     samples.  Pr[\textsc{cw}] shows the fraction of simulations for which Clark

@@ -1,5 +1,5 @@
 .PHONY: all clean burn libs
-all: Paper.pdf zip
+all: Paper.pdf
 
 .DELETE_ON_ERROR:
 
@@ -8,7 +8,11 @@ Rscript := Rscript
 sqlite  := sqlite3
 LATEXMKFLAGS := -pdf -silent
 
-tex/empiricalresults.tex: R/empirics.R
+tex/ap.tex: R/ap.R
+tex/mcDef.tex: R/mcTex.R R/mcSetup.R
+tex/mc1.tex: R/mc1Table.R mc1
+tex/mc2.tex: R/mc2Table.R mc2
+tex/ap.tex tex/mcDef.tex tex/mc1.tex tex/mc2.tex:
 	mkdir -p $(@D)
 	$(Rscript) $(RSCRIPTFLAGS) $< &> $<out
 
@@ -17,16 +21,14 @@ mc2_dummies = $(foreach i, $(shell echo {1..6}), mc2db$i)
 mc1: $(addprefix db/, $(mc1_dummies))
 mc2: $(addprefix db/, $(mc2_dummies))
 
-$(addprefix db/,$(mc1_dummies)): R/montecarlo.R
+$(addprefix db/,$(mc1_dummies)): R/mc1.R
 	mkdir -p $(@D)
-	echo 'jjob <- $(patsubst db/mc1db%,%,$@);' | cat - $< \
-	                                 | $(Rscript) $(RSCRIPTFLAGS) - &> $@.log
+	echo 'jjob <- $(patsubst db/mc1db%,%,$@);' | cat - $< | $(Rscript) $(RSCRIPTFLAGS) - &> $@.log
 	touch $@
 
-$(addprefix db/,$(mc2_dummies)): R/montecarlo2.R
+$(addprefix db/,$(mc2_dummies)): R/mc2.R
 	mkdir -p $(@D)
-	echo 'jjob <- $(patsubst db/mc2db%,%,$@);' | cat - $< \
-	                                 | $(Rscript) $(RSCRIPTFLAGS) - &> $@.log
+	echo 'jjob <- $(patsubst db/mc2db%,%,$@);' | cat - $< | $(Rscript) $(RSCRIPTFLAGS) - &> $@.log
 	touch $@
 
 mc1 mc2:
@@ -38,15 +40,7 @@ mc1 mc2:
 	  | $(sqlite) data/mcdata.db
 	touch $@
 
-floats/simulation1.tex: R/simulationtable1.R mc1
-floats/simulation2.tex: R/simulationtable2.R mc2
-floats/simulation1.tex floats/simulation2.tex:
-	mkdir -p $(@D)
-	$(Rscript) $(RSCRIPTFLAGS) $< &> $<out
-
-Paper.pdf: Paper.tex floats/simulation1.tex tex/empiricalresults.tex \
-	          floats/simulation2.tex tex/simulationdefinitions.tex \
-	          tex/empiricsdefinitions.tex VERSION
+Paper.pdf: Paper.tex tex/mc1.tex tex/mc2.tex tex/mcDef.tex tex/ap.tex
 	$(latexmk) $(LATEXMKFLAGS) $< && $(latexmk) $(LATEXMKFLAGS) -c $<
 
 clean: 

@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License along with 
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 
+source("R/mcSetup.R")
 library(dbframe, lib.loc = "lib")
 mcdata2 <- dbframe("mc2", dbdriver = "SQLite",
 		   dbname = "data/mcdata.db", readonly = TRUE)
@@ -21,15 +22,15 @@ colsql <- lapply(1:2, function(i) {
   c(Model = sprintf("'Model %d'", i),
     "'Sim. type'" = "case when simulationtype = '0.size' then 'size' else 'power' end",
     "R", "P",
-    "'Pr[\\textsc{cw}~roll.]'" = sprintf("100 * avg(clarkwestrolling%d <= .1)", i),
-    "'Pr[\\textsc{cw}~rec.]'" = sprintf("100 * avg(clarkwestrecursive%d <= .1)", i),
-    "'Pr[new]'" = sprintf("100 * avg(mixed%d <= .1)", i))
+    "'Pr[\\textsc{cw}~roll.]'" = sprintf("100 * avg(clarkwestrolling%d <= %f)", i, testsize),
+    "'Pr[\\textsc{cw}~rec.]'" = sprintf("100 * avg(clarkwestrecursive%d <= %f)", i, testsize),
+    "'Pr[new]'" = sprintf("100 * avg(mixed%d <= %f)", i, testsize))
 })
     
 summary <- lapply(colsql, function(cs)
                   select(mcdata2, cs, group.by = c("simulationtype", "R", "P")))
 
-cat(file = "floats/simulation2.tex",
+cat(file = "tex/mc2.tex",
     booktabs(do.call(rbind, summary), drop = "simulationtype",
              digits = c(rep(0,4), rep(1,3)), align = c("l", "l", rep("C", 5)),
              purgeduplicates = c(rep(TRUE, 4), rep(FALSE, 3)),
