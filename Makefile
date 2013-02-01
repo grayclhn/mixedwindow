@@ -49,19 +49,12 @@ Paper.pdf: Paper.tex floats/simulation1.tex tex/empiricalresults.tex \
 	          tex/empiricsdefinitions.tex VERSION
 	$(latexmk) $(LATEXMKFLAGS) $< && $(latexmk) $(LATEXMKFLAGS) -c $<
 
-archfile = calhoun-2011-mixedwindow.tar.gz
-zip: $(archfile)
-$(archfile): $(filter-out .gitignore conference-stuff/ slides/, \
-	                          $(shell git ls-tree HEAD -r --name-only)) \
-	            Paper.pdf texextra/AllRefs.bib
-	tar chzf $@ $^
-
 clean: 
-	rm -f *~ *.aux *.bbl *.blg *.fdb_latexmk *.log *.lot *.out *.toc \
-	             *.ttt *.dvi slides/*~ data/*~
+	$(latexmk) -c Paper.tex
+	rm -f *~ slides/*~ data/*~
 burn: clean
-	rm -rf R auto floats tex db mc1 mc2 slides/*.tex data/mcdata.db \
-	              *.pdf *.gz 
+	$(latexmk) -C Paper.tex
+	rm -rf R auto floats tex db mc1 mc2 slides/*.tex data/mcdata.db lib 
 
 ROPTS = --byte-compile
 libs: 
