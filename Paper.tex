@@ -380,7 +380,7 @@ original papers for a discussion of these assumptions.
     $\hat{y}_{0,t+1} = x_t'\hat{\beta}_t$ for some vector of
     predictors $x_t$ with $\hat{\beta}_t$ given by
     Equation~\eqref{eq:8}.  Also define $\beta_0 = (\E x_{t-1}
-    x_{t-1}')^{-1} \E x_{t-1} y_t$ and assume that it does not depend
+    x_{t-1}')^{-1} \E x_{t-1} y_t$ and assume that $\beta_0$ does not depend
     on~$t$.
   \item \label{item:2} The alternative forecast, $\hat{y}_{1t}$, is
     estimated using a rolling window of fixed length $R$ (which is
@@ -778,15 +778,15 @@ Theorem~\ref{res:3} gives the result.
     = B + o_p$; $H_{t}$ is a sequence of $q$-vectors such that 
     \begin{equation}
       H_{t} = \begin{cases} 
-        \tfrac1t \sum_{s=1}^t h_{s}(\beta_{0}) & \text{recursive window} \\
-        \tfrac1R \sum_{s=t-R+1}^t h_{s}(\beta_{0}) & \text{rolling window} \\
-        \tfrac1R \sum_{s=1}^R h_{s}(\beta_{0}) & \text{fixed window} \\
+        \tfrac1t \sum_{s=1}^t h_{s} & \text{recursive window} \\
+        \tfrac1R \sum_{s=t-R+1}^t h_{s} & \text{rolling window} \\
+        \tfrac1R \sum_{s=1}^R h_{s} & \text{fixed window} \\
       \end{cases}
     \end{equation}
-    $h_{s}(\beta) = h(y_{s}, z_{s}, \beta)$, and $\E h_{s}(\beta_{0})
-    = 0$ for all $s$.
-  \item Let $f_{t}(\beta) = f(y_{t}, z_{t}, \beta)$ be an $l$-vector.
-    Then $\| \sup_{\beta \in N} f_{t}(\beta) \|_{r+\delta}$ and $\|
+    $h_{s}(\beta) = h(y_{s}, z_{s}, \beta)$, $h_s = h_s(\beta_0)$, and
+    $\E h_{s} = 0$ for all $s$.
+  \item Let $f_{t}(\beta) = f(y_{t}, z_{t}, \beta)$ be an $l$-vector;
+    $\| \sup_{\beta \in N} f_{t}(\beta) \|_{r+\delta}$ and $\|
     \sup_{\beta \in N} h_{t}(\beta) \|_{r+\delta}$ are uniformly
     finite in $t$, where $N$ is an open neighborhood of $\beta_{0}$.
   \item Each element of $\E f_{t}(\beta)$ is continuously
