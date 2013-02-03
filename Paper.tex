@@ -297,7 +297,7 @@ by reanalyzing \citepos{GoW:08} study of excess return
 predictability. Section~\ref{sec:4} concludes.
 
 \section{Out-of-Sample Model Comparisons}\label{sec:1}
-This section presents the new \oos\ statistic.  I'll present the
+This section presents the new \oos\ statistic.  I will present the
 single-comparison statistic first and then extend it to multiple
 comparisons.  Suppose for now that a researcher is interested in
 predicting the target variable $y_{t+1}$ with a vector of regressors
@@ -434,9 +434,9 @@ original papers for a discussion of these assumptions.
 The following remarks are relevant to Theorem~\ref{res:1}:
 
 \begin{rem}
-  Forecasters will be interested in the one-sided alternative that $\E
-  f_t(\beta_0) > 0$; i.e. that the alternative model is expected to
-  forecast better than the benchmark.
+  Forecasters are usually interested in the one-sided alternative that
+  $\E f_t(\beta_0) > 0$; i.e. that the alternative model is expected
+  to forecast better than the benchmark.
 \end{rem}
 
 \begin{rem}
@@ -490,22 +490,23 @@ The following remarks are relevant to Theorem~\ref{res:1}:
 \end{rem}
 
 \begin{rem}
-  \citet{GiW:06} and \citet{ClW:06,ClW:07} emphasize the rolling
-  window but claim that their results hold for a fixed-length fixed
-  window as well, where the unknown coefficients are estimated only
-  once using the first $R$ observations.  This claim is true but not
-  obviously so.  The proof for the rolling window is based on the idea
-  that the forecast errors are weakly dependent because they are a
-  function of a finite number of consecutive weakly dependent
-  observations.  But using a fixed window introduces another source of
-  dependence, all of the forecasts depend on the same coefficient
-  estimates.  One can prove that their results apply to fixed window
-  forecasts by using a coupling argument similar to \citepos{Cal:11}.
-  Interested readers should refer to \citet{Cal:11} for the argument
-  and to \citet{MeP:02} for a review of the necessary coupling
-  results.  Theorem~\ref{res:1} can be shown to hold when $\hat
-  y_{1t}$ is estimated with a fixed-length fixed window using the same
-  arguments.
+  \citet{GiW:06} and \citet{ClW:06,ClW:07} emphasize model comparison
+  using a rolling window but claim in passing that their results hold
+  for a fixed-length fixed window as well, where the unknown
+  coefficients are estimated only once using the first $R$
+  observations.  This claim is true but not obvious.  The proof for
+  the rolling window is based on weak dependence that arises because
+  the forecast errors are a function of a finite number of consecutive
+  weakly dependent observations.  But using a fixed window introduces
+  another source of dependence: all of the forecasts depend on the
+  same coefficient estimates and the estimation uncertainty introduced
+  by those estimates does not vanish when $R$ is bounded.  One can
+  prove that their results apply to fixed window forecasts by using a
+  coupling argument similar to \citepos{Cal:11}.  Interested readers
+  should refer to \citet{Cal:11} for the argument and to
+  \citet{MeP:02} for a review of the necessary coupling results.
+  Theorem~\ref{res:1} can be shown to hold when $\hat y_{1t}$ is
+  estimated with a fixed-length fixed window using the same arguments.
 \end{rem}
 
 Since most empirical papers study more than one alternative model,
