@@ -1043,6 +1043,51 @@ simultaneously and improves block bootstrap procedures of \oos\
 statistics.
 
 \appendix
+\section{Proofs of Main Theoretical Results}\label{sec:B}
+
+\begin{proof}[Proof of Theorem \ref{res:1}]
+  Replace $R$ with $\log(T)$ and $P$ with $T - \log(T)$ in the
+  statistic; this substitution does not affect its asymptotic
+  distribution; the theorem is now an immediate consequence of
+  Lemma~\ref{res:a5}.  Note that \[f_t(\beta_0)= 2 (y_{t+1} -
+  x_t'\beta_0)(\hat{y}_{1,t+1} - x_t'\beta_0) \quad \text{a.s.},\] as
+  in \citet{ClW:07}, which is an \mds, so we do not need to use a
+  \hac\ estimator of the variance under the null.
+\end{proof}
+
+\begin{proof}[Proof of Theorem \ref{res:2}]
+  Replace $R$ and $P$ as in the proof of Theorem~\ref{res:1}.
+  Theorem~\ref{res:3} of this paper, Theorem~3.1 and~4.1 of
+  \citet{RoW:05}, and Theorem~1 of \citet{Cal:11e} complete the proof.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{res:3}] Expand $\E^{*}
+  f_t^{*}(\hat{\beta}_t^{*})$ around $\hat{\beta}_{T+1}$ to get
+  \begin{equation}
+    \sqrt{P} (\bar{f}^{*} - \bar{f}(\hat{\beta}_{T+1})) =
+    \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T
+    \big[f_t^{*}(\hat{\beta}_{T+1}) - \bar{f}(\hat{\beta}_{T+1}) +
+    F^{*} B^{*} a_t h_t^{*} \big] + o_{p^{*}},
+  \end{equation}
+  with $a_t = \sum_{s=\max\{t,R\}}^T \tfrac1s$.  The proof is the same
+  as in \citet[Theorem 2.3.1]{Mcc:00}.  Note that $F^{*} = \hat{F} +
+  o_{p}(1) = F + o_p(1)$ and $B^{*} = B + o_{p}(1)$.  The result then
+  follows from Lemma~\ref{res:a3}.
+\end{proof}
+
+\begin{lem}[Formalization of Remark~\ref{rem:01}]
+  Suppose that the conditions of Theorem~\ref{res:2} Part~\ref{it:3}
+  hold but $f_i = (f_{i1},\dots,f_{iq})$ and the asymptotic variance
+  of $(\bar{f}_{1k}(\beta_k),\dots,\bar{f}_{mk}(\beta_k))$ is
+  uniformly positive definite for each $k$.  Then the procedure
+  described in Remark~\ref{rem:01} achieves \textsl{\sfwe}.
+\end{lem}
+
+The proof is similar to that of Theorem~\ref{res:2}. Note that we
+allow $\sqrt{P}(\bar{f}_{i1}(\beta_1),\dots,\bar{f}_{iq}(\beta_q))$ to
+converge to a normal with singular variance-covariance matrix as long
+as each element has positive variance.
+
 \section{Supporting Results}
 This Appendix restates \citepos{Mcc:00} results, which themselves
 weaken \citepos{Wes:96} assumptions, but under the dependence
@@ -1157,51 +1202,6 @@ required for that result and the results in the main paper.
   original proof requires stronger moment or weak dependence
   conditions.
 \end{proof}
-
-\section{Proofs of Main Theoretical Results}\label{sec:B}
-
-\begin{proof}[Proof of Theorem \ref{res:1}]
-  Replace $R$ with $\log(T)$ and $P$ with $T - \log(T)$ in the
-  statistic; this substitution does not affect its asymptotic
-  distribution; the theorem is now an immediate consequence of
-  Lemma~\ref{res:a5}.  Note that \[f_t(\beta_0)= 2 (y_{t+1} -
-  x_t'\beta_0)(\hat{y}_{1,t+1} - x_t'\beta_0) \quad \text{a.s.},\] as
-  in \citet{ClW:07}, which is an \mds, so we do not need to use a
-  \hac\ estimator of the variance under the null.
-\end{proof}
-
-\begin{proof}[Proof of Theorem \ref{res:2}]
-  Replace $R$ and $P$ as in the proof of Theorem~\ref{res:1}.
-  Theorem~\ref{res:3} of this paper, Theorem~3.1 and~4.1 of
-  \citet{RoW:05}, and Theorem~1 of \citet{Cal:11e} complete the proof.
-\end{proof}
-
-\begin{proof}[Proof of Theorem~\ref{res:3}] Expand $\E^{*}
-  f_t^{*}(\hat{\beta}_t^{*})$ around $\hat{\beta}_{T+1}$ to get
-  \begin{equation}
-    \sqrt{P} (\bar{f}^{*} - \bar{f}(\hat{\beta}_{T+1})) =
-    \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T
-    \big[f_t^{*}(\hat{\beta}_{T+1}) - \bar{f}(\hat{\beta}_{T+1}) +
-    F^{*} B^{*} a_t h_t^{*} \big] + o_{p^{*}},
-  \end{equation}
-  with $a_t = \sum_{s=\max\{t,R\}}^T \tfrac1s$.  The proof is the same
-  as in \citet[Theorem 2.3.1]{Mcc:00}.  Note that $F^{*} = \hat{F} +
-  o_{p}(1) = F + o_p(1)$ and $B^{*} = B + o_{p}(1)$.  The result then
-  follows from Lemma~\ref{res:a3}.
-\end{proof}
-
-\begin{lem}[Formalization of Remark~\ref{rem:01}]
-  Suppose that the conditions of Theorem~\ref{res:2} Part~\ref{it:3}
-  hold but $f_i = (f_{i1},\dots,f_{iq})$ and the asymptotic variance
-  of $(\bar{f}_{1k}(\beta_k),\dots,\bar{f}_{mk}(\beta_k))$ is
-  uniformly positive definite for each $k$.  Then the procedure
-  described in Remark~\ref{rem:01} achieves \textsl{\sfwe}.
-\end{lem}
-
-The proof is similar to that of Theorem~\ref{res:2}. Note that we
-allow $\sqrt{P}(\bar{f}_{i1}(\beta_1),\dots,\bar{f}_{iq}(\beta_q))$ to
-converge to a normal with singular variance-covariance matrix as long
-as each element has positive variance.
 
 \bibliography{texextra/AllRefs}
 \end{document}
