@@ -18,17 +18,21 @@ library(dbframe, lib.loc = "lib")
 mcdata1 <- dbframe("mc1", dbdriver = "SQLite", dbname = "data/mcdata.db",
 		   readonly = TRUE)
 displaycols <-
-  c("'Sim. type'" = "case simulationtype
-		     when '0.size' then 'size'
-		     when '1.stable' then 'power (stable)'
-		     when '2.breaks' then 'power (breaks)' end",
-    R = "R", P = "P",
-    "'Pr[\\textsc{cw}~roll.]'" = sprintf("100 * avg(clarkwestrolling <= %f)", testsize),
-    "'Pr[\\textsc{cw}~rec.]'" = sprintf("100 * avg(clarkwestrecursive <= %f)", testsize),
-    "'Pr[new]'" = sprintf("100 * avg(mixed <= %f)", testsize))
+  
+
+d <- select(mcdata1, c("'Sim. type'" = "case simulationtype
+	                                when '0.size' then 'size'
+		                        when '1.stable' then 'power (stable)'
+		                        when '2.breaks' then 'power (breaks)' end",
+                       R = "R", P = "P",
+                       "'Pr[\\textsc{cw}~roll.]'" =
+                       sprintf("100 * avg(clarkwestrolling <= %f)", testsize),
+                       "'Pr[\\textsc{cw}~rec.]'" =
+                       sprintf("100 * avg(clarkwestrecursive <= %f)", testsize),
+                       "'Pr[new]'" = sprintf("100 * avg(mixed <= %f)", testsize)),
+            group.by = c("simulationtype", R = "R", P = "P"))[,-1]
 
 cat(file = "tex/mc1.tex",
-    booktabs(select(mcdata1, displaycols, group.by = c("simulationtype", "R", "P")),
-	     purgeduplicates = c(rep(TRUE, 3), rep(FALSE, 3)),
-	     drop = "simulationtype", numberformat = c(FALSE, rep(TRUE, 5)),
+    booktabs(d, purgeduplicates = c(rep(TRUE, 3), rep(FALSE, 3)),
+	     numberformat = c(FALSE, rep(TRUE, 5)),
 	     digits = c(0, 0, 0, 1, 1, 1), align = c("l", rep("C", 5))))
