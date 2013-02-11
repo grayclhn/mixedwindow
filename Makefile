@@ -7,6 +7,7 @@ latexmk := latexmk
 Rscript := Rscript
 sqlite  := sqlite3
 LATEXMKFLAGS := -pdf -silent
+SHELL := /bin/bash
 
 tex/ap.tex: R/ap.R
 tex/mcDef.tex: R/mcTex.R R/mcSetup.R
