@@ -3,7 +3,6 @@
 \usepackage{amsfonts}
 \usepackage{amsmath,amsthm,amssymb,graphicx,setspace,url,booktabs,tabularx,enumerate,slantsc}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern}
 \usepackage[nolists,nomarkers]{endfloat}
 \usepackage[sort,round,comma]{natbib}
 \usepackage[margin=1.25in]{geometry}
@@ -84,7 +83,7 @@
 \author{Gray Calhoun\thanks{ Economics Department; Iowa State
     University; Ames, IA 50011.  Telephone: (515) 294-6271.  Email:
     \texttt{gcalhoun@iastate.edu}.  Web:
-    \texttt{http://www.econ.iastate.edu/$\sim$gcalhoun}.  I'd like to
+    \texttt{http://gray.clhn.co}.  I'd like to
     thank Helle Bunzel, Todd Clark, Graham Elliott, Yu-Chin Hsu,
     Michael McCracken, Pablo Pincheira, Allan Timmermann, Stephane
     Meng-Feng Yen and participants at the 2011 Midwest Econometrics
@@ -377,7 +376,7 @@ original papers for a discussion of these assumptions.
   $t=1,\dots,T+1$.  Assume the following hold:
   \begin{enumerate}
   \item \label{item:1} The benchmark forecast $\hat{y}_{0,t+1}$, is
-    estimated using \textsl{\ols} with a recursive window:
+    estimated using \ols\ with a recursive window:
     $\hat{y}_{0,t+1} = x_t'\hat{\beta}_t$ for some vector of
     predictors $x_t$ with $\hat{\beta}_t$ given by
     Equation~\eqref{eq:8}.  Also define $\beta_0 = (\E x_{t-1}
@@ -389,7 +388,7 @@ original papers for a discussion of these assumptions.
     \psi(y_t,z_t,\dots,y_{t-R+1}, z_{t-R+1})$ where $\psi$ is a known
     function and $z_t$ is a sequence of predictors that may include
     $x_t$.
-  \item \label{item:3} The series $y_t$ and $z_t$ are \textsl{\ned} of size
+  \item \label{item:3} The series $y_t$ and $z_t$ are \ned\ of size
     $-\frac12$ on a strong mixing series of size $-\frac{r}{r-2}$ for $r>2$ or a
     uniform mixing series of size $-\frac{r}{2r-2}$.  Also, $y_t$,
     $\hat{y}_{1t}$, and $x_t$ have uniformly bounded $2 r+\delta$
@@ -624,18 +623,18 @@ Theorem~\ref{res:2} presents the final procedure.
   \item\label{it:1} For each $G \subset \{1,\dots,m\}$, let
     $\mathcal{F}_t^G$ be the smallest $\sigma$-field containing
     $\mathcal{F}_{lt}$ for all $l \in G$.  Under the null hypothesis
-    that $y_t - \hat{y}_{0t}$ is an \textsl{\mds} with respect to
+    that $y_t - \hat{y}_{0t}$ is an \mds\ with respect to
     $\mathcal{F}_t^I$ for some $I \subset \{1,\dots,m\}$, the
     procedure outlined above, but using the moving block bootstrap
     with block length $1$, has probability at most $\alpha$ of
     rejecting one or more models in $I$.
   \item\label{it:2} Let $H_l$ be the null hypothesis that $y_t -
-    \hat{y}_{0t}$ is an \textsl{\mds} with respect to
+    \hat{y}_{0t}$ is an \mds\ with respect to
     $\mathcal{F}_{lt}$ against the one-sided alternative $\E \bar
     f_i(\beta_0) > 0$.  If $p \to 0$ and $P p \to \infty$ as $T \to
     \infty$ (for the stationary bootstrap) or $b \to \infty$ and
     $\frac{b}{P} \to 0$ (for the moving or circular block bootstraps)
-    then the procedure outlined above controls \textsl{\sfwe} at level
+    then the procedure outlined above controls \sfwe\ at level
     $\alpha$ for the family of null hypotheses $H_1,\dots,H_m$.
   \item\label{it:3} Let $H_l$ be the null hypothesis that $y_t -
     \hat{y}_{0t}$ is uncorrelated with $\hat{y}_{lt}$ against the
@@ -643,7 +642,7 @@ Theorem~\ref{res:2} presents the final procedure.
     and $P p \to \infty$ as $T \to \infty$ (for the stationary
     bootstrap) or $b \to \infty$ and $\frac{b}{P} \to 0$ (for the
     moving or circular block bootstraps) then the procedure outlined
-    above controls \textsl{\sfwe} at level $\alpha$ for the family of
+    above controls \sfwe\ at level $\alpha$ for the family of
     null hypotheses $H_1,\dots,H_m$.
   \end{enumerate}
 \end{thm}
@@ -789,7 +788,7 @@ Theorem~\ref{res:3} gives the result.
       \psi_t(\beta)}{\partial \beta'}|^r$ are uniformly bounded ($r$ is
     defined below).
   \item Both $\psi_t(\beta)$ and $\frac{\partial}{\partial \beta}
-    \psi_t(\beta)$ are $L_2$-\textsl{\ned} of size $-\frac12$ on the
+    \psi_t(\beta)$ are $L_2$-\ned\ of size $-\frac12$ on the
     series $V_t$ with bounded \ned-coefficients for $\beta$ uniformly
     in $N$; $V_t$ is strong mixing of size $-\frac{r}{r-2}$ or uniform
     mixing of size $-\frac{r}{2r-2}$ with $r > 2$.\footnote{For
@@ -1054,8 +1053,8 @@ statistics.
 
 \begin{proof}[Proof of Theorem \ref{res:2}]
   Replace $R$ and $P$ as in the proof of Theorem~\ref{res:1}.
-  Theorem~\ref{res:3} of this paper, Theorem~3.1 and~4.1 of
-  \citet{RoW:05}, and Theorem~1 of \citet{Cal:11e} complete the proof.
+  Theorem~\ref{res:3} of this paper and Theorems~3.1 and~4.1 of
+  \citet{RoW:05} complete the proof.
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{res:3}] Expand $\E^{*}
@@ -1077,7 +1076,7 @@ statistics.
   hold but $f_i = (f_{i1},\dots,f_{iq})$ and the asymptotic variance
   of $(\bar{f}_{1k}(\beta_k),\dots,\bar{f}_{mk}(\beta_k))$ is
   uniformly positive definite for each $k$.  Then the procedure
-  described in Remark~\ref{rem:01} achieves \textsl{\sfwe}.
+  described in Remark~\ref{rem:01} achieves \sfwe.
 \end{lem}
 
 The proof is similar to that of Theorem~\ref{res:2}. Note that we
