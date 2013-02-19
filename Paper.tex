@@ -44,6 +44,10 @@
 \newcommand{\R}{\ensuremath{\mathrm{R}}}
 \newcommand{\p}{\ensuremath{\mathrm{P}}}
 
+\newcommand{\osum}[1]{\sum_{#1=R+1}^T}
+\newcommand{\oavg}[1]{\tfrac{1}{P} \osum{#1}}
+\newcommand{\oclt}[1]{\tfrac{1}{\sqrt{P}} \osum{#1}}
+
 \newcommand{\aic}{\textsc{aic}}
 \newcommand{\bic}{\textsc{bic}}
 \newcommand{\brc}{\textsc{brc}}
@@ -304,7 +308,7 @@ sequence with respect to $\mathcal{F}_t \equiv \sigma((x_t, v_t, y_t),
 (x_{t-1}, v_{t-1}, y_{t-1}),\dots)$, then we can see immediately that
 \begin{equation}
   \label{eq:4}
-  \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T \varepsilon_{t+1} (v_t - x_t'\beta_0)
+  \oclt{t} \varepsilon_{t+1} (v_t - x_t'\beta_0)
 \end{equation}
 obeys an \mds\ \clt\ (assuming that its variance is uniformly
 positive) and is asymptotically normal as $P \to \infty$, with $R$ an
@@ -313,8 +317,8 @@ arbitrary starting value\footnote{It will be clear momentarily why the
 Straightforward algebra \citep{ClW:07} shows that
 \begin{equation}
   \label{eq:5}
-  \tfrac{2}{\sqrt{P}} \sum_{t=R+1}^T \varepsilon_{t+1} (v_t -
-  x_t'\beta_0) = \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T \Big[(y_{t+1} - 
+  \tfrac{2}{\sqrt{P}} \osum{t} \varepsilon_{t+1} (v_t -
+  x_t'\beta_0) = \oclt{t} \Big[(y_{t+1} - 
   x_t\beta_0)^2 - (y_{t+1} - v_t)^2 + (x_t'\beta_0 - v_t)^2 \Big].
 \end{equation}
 
@@ -356,7 +360,7 @@ $\hat{\varepsilon}_{t+1}$; i.e.
 \end{equation}
 \citepos{Wes:96} Theorem 4.1 implies that
 \begin{equation*}
-  \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T \Big[(y_{t+1} -
+  \oclt{t} \Big[(y_{t+1} -
   x_t\hat{\beta}_t)^2 - (y_{t+1} - v_t)^2 + (x_t'\hat{\beta}_t - v_t)^2 \Big]
 \end{equation*}
 is asymptotically normal with mean zero under the null for fairly
@@ -395,7 +399,7 @@ original papers for a discussion of these assumptions.
     moments for some positive $\delta$.
   \item \label{item:4} Define \[f_t(\beta) = (y_{t+1} - x_t'\beta)^2 -
     (y_{t+1} - \hat{y}_{1,t+1})^2 + (x_t'\beta - \hat{y}_{1,t+1})^2,\]
-    $\bar{f}(\beta) = \tfrac1P \sum_{t=R+1}^T f_t(\beta)$, and $\bar f
+    $\bar{f}(\beta) = \oavg{t} f_t(\beta)$, and $\bar f
     = \tfrac1P \sum_{t=R+1}^{T} f_t(\hat{\beta}_t)$, with $P = T - R$;
     $\bar f(\beta_0)$ has uniformly positive and finite long run
     variance.
@@ -406,15 +410,15 @@ original papers for a discussion of these assumptions.
   $\tfrac{\sqrt{P}}{\hat\sigma} \bar f \to^d N(0,1)$, where 
   \begin{align*}
     \hat{\sigma}^2 &= \hat{S}_{ff} + 2 \Pi (\hat{S}_{fg} + \hat{S}_{gg}), &
-    \hat{S}_{ff} &= \tfrac1P \sum_{t=R+1}^T (f_t(\hat{\beta}_t) - \bar
+    \hat{S}_{ff} &= \oavg{t} (f_t(\hat{\beta}_t) - \bar
     f)^2, \\
-    \hat{S}_{fg} &= \tfrac1P \sum_{t=R+1}^T (f_t(\hat{\beta}_t) -
+    \hat{S}_{fg} &= \oavg{t} (f_t(\hat{\beta}_t) -
     \bar{f})(g_t(\hat{\beta}_t) - \bar g)', &
-    \hat{S}_{gg} &= \tfrac1P \sum_{t=R+1}^T (g_t(\hat{\beta}_t) - \bar
+    \hat{S}_{gg} &= \oavg{t} (g_t(\hat{\beta}_t) - \bar
     g)(g_t(\hat{\beta}_t) - \bar g)',
   \end{align*}
   $\Pi = 1 - \tfrac{R}{P} \log(1 + \tfrac{P}{R})$, $\bar{g} = \tfrac1T
-  \sum_{t=R+1}^T g_t(\hat{\beta}_t)$, $\X' = [x_1,\dots,x_T]$, and
+  \osum{t} g_t(\hat{\beta}_t)$, $\X' = [x_1,\dots,x_T]$, and
   \begin{equation*}
     g_t(\beta) =
     \Big\{\tfrac{2}{P}\sum_{s=R}^T x_s (x_s'\beta - \hat{y}_{1,s+1}) \Big\}'
@@ -782,11 +786,14 @@ Theorem~\ref{res:3} gives the result.
     and $\E h_{s}(\beta_0) = 0$ for all $s$.
   \item Define $\psi_t(\beta) = (f_t(\beta), h_t(\beta))$;
     $\psi_t(\beta)$ is covariance stationary and twice continuously
-    differentiable with bounded second derivative in an open
-    neighborhood $N$ of $\beta_0$.  Also, $\E \sup_{\beta \in N}
-    |\psi_t(\beta)|^r$ and $\E\sup_{\beta \in N} |\frac{\partial
-      \psi_t(\beta)}{\partial \beta'}|^r$ are uniformly bounded ($r$ is
-    defined below).
+    differentiable in an open neighborhood $N$ of $\beta_0$.  Also,
+    $\E \sup_{\beta \in N} |\psi_t(\beta)|^r$ and $\E\sup_{\beta \in
+      N} |\frac{\partial}{\partial \beta} \psi_t(\beta)|^r$ are
+    uniformly bounded ($r$ is defined below), and there exists a
+    sequence of random variables $m_t$ such that $\sup_{i,\beta \in N}
+    |\tfrac{\partial^2}{\partial \beta \partial \beta'}
+    \psi_{it}(\beta)| \leq m_t$ almost surely and $\E m_t^2$ is
+    uniformly finite.
   \item Both $\psi_t(\beta)$ and $\frac{\partial}{\partial \beta}
     \psi_t(\beta)$ are $L_2$-\ned\ of size $-\frac12$ on the
     series $V_t$ with bounded \ned-coefficients for $\beta$ uniformly
@@ -817,7 +824,7 @@ Theorem~\ref{res:3} gives the result.
 
 \begin{rem}
   \citet{Mcc:00} proves asymptotic normality under weaker smoothness
-  condtions on $f_t(\beta)$ and $h_t(\beta)$: only their expectations
+  conditions on $f_t(\beta)$ and $h_t(\beta)$: only their expectations
   must be continuously differentiable.  It may be possible to extend
   Theorem~\ref{res:3} to those weaker conditions, but the current
   proof relies on a theorem of \citepos{JoD:00} establishing the
@@ -1057,18 +1064,39 @@ statistics.
   \citet{RoW:05} complete the proof.
 \end{proof}
 
-\begin{proof}[Proof of Theorem~\ref{res:3}] Expand $\E^{*}
-  f_t^{*}(\hat{\beta}_t^{*})$ around $\hat{\beta}_{T+1}$ to get
-  \begin{equation}
-    \sqrt{P} (\bar{f}^{*} - \bar{f}(\hat{\beta}_{T+1})) =
-    \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T
-    \big[f_t^{*}(\hat{\beta}_{T+1}) - \bar{f}(\hat{\beta}_{T+1}) +
-    F^{*} B^{*} a_t h_t^{*} \big] + o_{p^{*}},
-  \end{equation}
-  with $a_t = \sum_{s=\max\{t,R\}}^T \tfrac1s$.  The proof is the same
-  as in \citet[Theorem 2.3.1]{Mcc:00}.  Note that $F^{*} = \hat{F} +
-  o_{p}(1) = F + o_p(1)$ and $B^{*} = B + o_{p}(1)$.  The result then
-  follows from Lemma~\ref{res:a3}.
+\newcommand{\WesA}{\oclt{t} (\nabla
+  f_t^*(\hat\beta_{T}) - F^*) B^* H_t^*}
+\newcommand{\WesB}{\tfrac{1}{\sqrt{P}} F^* \osum{t} (B_t^* -
+  B^*) H_t^*}
+\newcommand{\WesC}{\oclt{t} (\nabla
+  f_t^*(\hat\beta_{T}) - F^*) (B_t^* - B^*) H_t^*}
+\begin{proof}[Proof of Theorem~\ref{res:3}]
+  Expand $\E^{*} f_t^{*}(\hat{\beta}_t^{*})$ around $\hat{\beta}_{T}$
+  to get
+  \begin{align*}
+    \sqrt{P} (\bar{f}^{*} - \bar{f}(\hat{\beta}_{T})) &= \oclt{t}
+    f_t^{*}(\hat{\beta}_{T}) - \bar{f}(\hat{\beta}_{T}) +
+    F^{*} B^{*} \oclt{t} H_t^* \\
+    & \quad + \WesA + \WesB \\ & \quad + \WesC + \oclt{t} w_t^*
+  \end{align*}
+  where (as in \citealp{Wes:96}) the $i$th element of $w_t^*$ is
+  \begin{equation*}
+    w_{it} = \tfrac12 (\hat\beta_t^* - \hat\beta_T)'
+    \Big[\tfrac{\partial^2}{\partial \beta \partial\beta'} 
+    f_{it}^*(\tilde\beta_{it}^*) \Big]
+    (\hat\beta_t^* - \hat\beta_T)
+  \end{equation*}
+  and each $\tilde\beta_{it}^*$ lies between $\hat\beta_t^*$ and
+  $\hat\beta_T$.  The argument that $\oclt{t} w_t^* = o_{p^*}(1)$ is
+  identical to West's, using our Lemma~\ref{res:a2} in place of his
+  Lemma A3.  Then
+  \begin{gather}
+    \WesA \to^{p^*} 0 \label{eq:7} \\
+    \WesB \to^{p^*} 0 \label{eq:9} \\
+  \intertext{and}
+    \WesC \to^{p^*} 0 \label{eq:10}
+  \end{gather}
+  from Lemma~\ref{res:a4} and the result follows from Lemma~\ref{res:a3}.
 \end{proof}
 
 \begin{lem}[Formalization of Remark~\ref{rem:01}]
@@ -1127,14 +1155,35 @@ that result and the results in the main paper.
   \end{enumerate}
 \end{proof}
 
+\begin{lema}\label{res:a4}
+  Under the conditions of Theorem~\ref{res:3}, \eqref{eq:7},
+  \eqref{eq:9}, and \eqref{eq:10} hold.
+\end{lema}
+\noindent For each of these results, I will present the proof for the
+recursive window and the circular block bootstrap only; extensions to
+the fixed and rolling window follow exactly as in \citet{WeM:98}.
+
+\begin{proof}[Proof of Lemma~\ref{res:a4}]
+We can write
+\begin{equation*}
+  \Big\lvert \WesA \Big\rvert \leq 
+  \Big\lvert \oclt{t} (\nabla f_t^*(\hat\beta_T) - F^*) B^* \Big\rvert
+  \sup_t | H_t^* |.
+\end{equation*}
+From Lemma~\ref{res:a2}, $\sup_t | H_t^* | \to^p 0$; $\oclt{t} (\nabla
+f_t^*(\hat\beta_T) - F^*)$ obeys a \clt\ \citep{Cal:11d} and is
+$O_{p^*}(1)$, establishing~\eqref{eq:7}.  The proofs of~\eqref{eq:9}
+and~\eqref{eq:10} are similar.
+\end{proof}
+
 \begin{lema}\label{res:a3}
   Suppose the conditions of Theorem~\ref{res:3} hold and let
   \[\psi_t^{*}(\beta) = 
   \binom{f_t^{*}(\beta) - \bar{f}(\beta)}{h_t^{*}(\beta) - \bar h(\beta)}.\]
   Then
   \begin{equation}\label{eq:1}
-    \pr\Big[\sup_x \Big| \pr^{*}\Big[ \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T \psi_{t}^{*}(\hat\beta_T)
-    \leq x \Big] - \pr\Big[ \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T \psi_{t}(\beta_0)
+    \pr\Big[\sup_x \Big| \pr^{*}\Big[ \oclt{t} \psi_{t}^{*}(\hat\beta_T)
+    \leq x \Big] - \pr\Big[ \oclt{t} \psi_{t}(\beta_0)
     \leq x \Big] \Big| > \epsilon \Big] \to 0
   \end{equation}
   for all positive $\epsilon$.
@@ -1144,8 +1193,8 @@ that result and the results in the main paper.
   Note that both $\psi_t(\beta_0)$ and $\psi_t^*(\hat\beta_T)$ satisfy
   \clt s, (\citealp[Theorem~2]{Jon:97} and
   \citealp[Theorem~1]{Cal:11d}) so it suffices to prove that
-  \[ \tfrac{ 1 }{ P } \var^* \Big( \sum_{t=R+1}^T \psi_t^*( \hat
-  \beta_T ) \Big) - \tfrac{ 1 }{ P } \var \Big( \sum_{t=R+1}^T \psi_t(
+  \[ \tfrac{ 1 }{ P } \var^* \Big( \osum{t} \psi_t^*( \hat
+  \beta_T ) \Big) - \tfrac{ 1 }{ P } \var \Big( \osum{t} \psi_t(
   \beta_0 ) \Big) \to^p 0. \]
   I will prove this result for the Circular Block Bootstrap
   \citep{PoR:92}---the proof for other block bootstraps is similar and
@@ -1180,7 +1229,7 @@ that result and the results in the main paper.
   \end{multline}
 
   The first term of \eqref{eq:6} can be shown to converge in
-  probability to $(1/P) \var \sum_{t=R+1}^T \psi_t( \beta_0 )$
+  probability to $(1/P) \var \osum{t} \psi_t( \beta_0 )$
   by Theorem 2.2 of \citet{JoD:00}.  Most of the necessary conditions
   hold by assumption and it suffices to prove their condition (2.9)
   holds, namely that
@@ -1238,7 +1287,7 @@ that result and the results in the main paper.
   If the conditions of Theorem~\ref{res:3} hold\footnote{The
     assumptions governing $\hat{\beta}_t^{*}$ are unnecessary.} then
   \begin{equation}
-    \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T
+    \oclt{t}
     (f_{t}(\hat{\beta}_{t}) - \E f_{t}(\beta_{0})) \to^d N(0, \Omega),
   \end{equation}
   with $\Omega$ given in \citet[Theorem 2.3.1]{Mcc:00}.
@@ -1263,4 +1312,5 @@ that result and the results in the main paper.
 % LocalWords:  Hsu's iq mk Ames Amit Goyal rfs Ivo Welch Wes covariance MeR McW
 % LocalWords:  familywise prespecified CoD Gia pointwise misspecified InK MeP
 % LocalWords:  VeR xtable Dah dbframe oos parametrizations iid dgp return's CaT
-% LocalWords:  outperformance Hmisc Har
+% LocalWords:  outperformance Hmisc Har nondifferentiable bT jt
+%  LocalWords:  stationarity mixingale mixingales texextra
