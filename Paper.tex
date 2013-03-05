@@ -40,6 +40,8 @@
 
 \DeclareMathOperator{\pr}{Pr}
 
+\newcommand{\btrue}[1][]{\if#1*\hat\beta_{T+1}\else\beta_0\fi}
+
 \newcommand{\X}{\ensuremath{\mathrm{X}}}
 \newcommand{\R}{\ensuremath{\mathrm{R}}}
 \newcommand{\p}{\ensuremath{\mathrm{P}}}
@@ -340,8 +342,8 @@ to test the null that $\varepsilon_{t+1}$ is an \mds\ with respect to
 $\mathcal{F}_t$.  In \citet{ClW:07}, $\beta_0$ is unknown but is
 estimated with a fixed-length rolling window as well, so
 \begin{equation*}
-  \tilde{\beta}_t = \Big(\sum_{s=t-R+1}^t x_{t-1} x_{t-1}'\Big)^{-1}
-  \sum_{s=t-R+1}^t x_{t-1} y_t
+  \tilde{\beta}_t = \Big(\sum_{s=t-R+1}^t x_{s-1} x_{s-1}'\Big)^{-1}
+  \sum_{s=t-R+1}^t x_{s-1} y_s
 \end{equation*}
 and $\hat{\varepsilon}_{t+1} = y_{t+1} - x_t'\tilde{\beta}_t$ replaces
 $\varepsilon_{t+1}$ in the test statistic for \mds.  Unfortunately,
@@ -392,11 +394,12 @@ original papers for a discussion of these assumptions.
     \psi(y_t,z_t,\dots,y_{t-R+1}, z_{t-R+1})$ where $\psi$ is a known
     function and $z_t$ is a sequence of predictors that may include
     $x_t$.
-  \item \label{item:3} The series $y_t$ and $z_t$ are \ned\ of size
-    $-\frac12$ on a strong mixing series of size $-\frac{r}{r-2}$ for $r>2$ or a
-    uniform mixing series of size $-\frac{r}{2r-2}$.  Also, $y_t$,
-    $\hat{y}_{1t}$, and $x_t$ have uniformly bounded $2 r+\delta$
-    moments for some positive $\delta$.
+  \item \label{item:3} The series $y_t$, $\hat{y}_{1t}$, and $x_t$
+    have uniformly bounded $2 r$ moments for some $r > 2$, and $\hat
+    y_t y_t$ $\hat y_t x_{t-1}$, $y_t x_{t-1}$, and $x_{t-1},
+    x_{t-1}'$ are $L_2$-\ned\ of size $-\frac12$ on a strong mixing
+    series of size $-\frac{r}{r-2}$ for $r>2$ or a uniform mixing
+    series of size $-\frac{r}{2r-2}$.
   \item \label{item:4} Define \[f_t(\beta) = (y_{t+1} - x_t'\beta)^2 -
     (y_{t+1} - \hat{y}_{1,t+1})^2 + (x_t'\beta - \hat{y}_{1,t+1})^2,\]
     $\bar{f}(\beta) = \oavg{t} f_t(\beta)$, and $\bar f
@@ -602,7 +605,7 @@ still needs to be reestimated in each bootstrap sample.
 Theorem~\ref{res:2} presents the final procedure.
 
 \begin{thm}\label{res:2}
-  Suppose the conditions of Lemma~\ref{res:1} hold, with assumptions
+  Suppose the conditions of Theorem~\ref{res:1} hold, with assumptions
   on the alternative model, $\hat{y}_{1t}$, holding for each of the
   $m$ models $\hat{y}_{1t}, \dots, \hat{y}_{mt}$ and let the subscript
   $l$ denote the different quantities associated with $\hat{y}_{lt}$
@@ -619,7 +622,7 @@ Theorem~\ref{res:2} presents the final procedure.
     \{i : \tfrac1{\hat\sigma_i} \bar{f}_{i} > \hat{d}_j\}$, where
     $\hat{d}_j$ is the $1-\alpha$ quantile of $\max_{i \notin M_{j-1}}
     \tfrac{1}{\hat{\sigma}_i^{*}}(\bar{f}_{i}^{*} -
-    \bar{f_i}(\hat{\beta}_{T+1}))$.
+    \bar{f_i}(\btrue[*]))$.
   \item Reject all of the models $i$ with $i \in \bigcup_{j=1}^m M_j$.
   \end{enumerate}
   The following conclusions hold:
@@ -789,11 +792,10 @@ Theorem~\ref{res:3} gives the result.
     differentiable in an open neighborhood $N$ of $\beta_0$.  Also,
     $\E \sup_{\beta \in N} |\psi_t(\beta)|^r$ and $\E\sup_{\beta \in
       N} |\frac{\partial}{\partial \beta} \psi_t(\beta)|^r$ are
-    uniformly bounded ($r$ is defined below), and there exists a
-    sequence of random variables $m_t$ such that $\sup_{i,\beta \in N}
-    |\tfrac{\partial^2}{\partial \beta \partial \beta'}
-    \psi_{it}(\beta)| \leq m_t$ almost surely and $\E m_t^2$ is
-    uniformly finite.
+    uniformly bounded, and there exists a sequence of random variables
+    $m_t$ such that $\sup_{i,\beta \in N} |\tfrac{\partial^2}{\partial
+      \beta \partial \beta'} \psi_{it}(\beta)| \leq m_t$ almost surely
+    and $\E m_t^2$ is uniformly finite.
   \item Both $\psi_t(\beta)$ and $\frac{\partial}{\partial \beta}
     \psi_t(\beta)$ are $L_2$-\ned\ of size $-\frac12$ on the
     series $V_t$ with bounded \ned-coefficients for $\beta$ uniformly
@@ -815,7 +817,7 @@ Theorem~\ref{res:3} gives the result.
   \end{enumerate}
   Then
   \begin{equation}
-    \pr[\sup_x | \pr^*[\sqrt{P} (\bar{f}^* - \bar{f}(\hat{\beta}_{T}))
+    \pr[\sup_x | \pr^*[\sqrt{P} (\bar{f}^* - \bar{f}(\btrue[*]))
         \leq x] - \pr[\sqrt{P}( \bar{f} - \E \bar{f}(\beta_0)) \leq x] | >
       \epsilon] \to 0
   \end{equation}
@@ -846,7 +848,7 @@ Theorem~\ref{res:3} gives the result.
 \begin{rem}
   \citet{CoS:07} use the distribution of $\sqrt{P}(\bar{f}^{*} -
   \bar{f})$ to approximate that of $\sqrt{P}(\bar{f} - \E
-  \bar{f}(\beta_0))$.  But it is clear that $\bar{f}(\hat{\beta}_T)$
+  \bar{f}(\beta_0))$.  But it is clear that $\bar{f}(\btrue[*])$
   is the bootstrap analogue of $\E \bar{f}(\beta_0)$, the parameter of
   interest.  Because their bootstrap is miscentered, \citet{CoS:07}
   must redefine $\hat{\beta}_t^{*}$ to achieve consistency.  In this
@@ -1064,39 +1066,41 @@ statistics.
   \citet{RoW:05} complete the proof.
 \end{proof}
 
-\newcommand{\WesA}{\oclt{t} (\nabla
-  f_t^*(\hat\beta_{T}) - F^*) B^* H_t^*}
-\newcommand{\WesB}{\tfrac{1}{\sqrt{P}} F^* \osum{t} (B_t^* -
-  B^*) H_t^*}
-\newcommand{\WesC}{\oclt{t} (\nabla
-  f_t^*(\hat\beta_{T}) - F^*) (B_t^* - B^*) H_t^*}
+\newcommand{\WesA}[1][]{\oclt{t} (\nabla
+  f_t^{#1}(\btrue[#1]) - F^{#1}) B^{#1} H_t^{#1}}
+\newcommand{\WesB}[1][]{\tfrac{1}{\sqrt{P}} F^{#1} \osum{t} (B_t^{#1} -
+  B^{#1}) H_t^{#1}}
+\newcommand{\WesC}[1][]{\oclt{t} (\nabla
+  f_t^{#1}(\btrue[#1]) - F^{#1}) (B_t^{#1} - B^{#1}) H_t^{#1}}
 \begin{proof}[Proof of Theorem~\ref{res:3}]
-  Expand $\E^{*} f_t^{*}(\hat{\beta}_t^{*})$ around $\hat{\beta}_{T}$
+  Expand $f_t^{*}(\hat{\beta}_t^{*})$ around $\btrue[*]$
   to get
   \begin{align*}
-    \sqrt{P} (\bar{f}^{*} - \bar{f}(\hat{\beta}_{T})) &= \oclt{t}
-    f_t^{*}(\hat{\beta}_{T}) - \bar{f}(\hat{\beta}_{T}) +
+    \sqrt{P} \big(\bar{f}^{*} - \bar{f}(\btrue[*])\big) &= \oclt{t}
+    \big(f_t^{*}(\btrue[*]) - \bar{f}(\btrue[*])\big) +
     F^{*} B^{*} \oclt{t} H_t^* \\
-    & \quad + \WesA + \WesB \\ & \quad + \WesC + \oclt{t} w_t^*
+    & \quad + \WesA[*] + \WesB[*] \\ & \quad + \WesC[*] + \oclt{t} w_t^*
   \end{align*}
   where (as in \citealp{Wes:96}) the $i$th element of $w_t^*$ is
   \begin{equation*}
-    w_{it} = \tfrac12 (\hat\beta_t^* - \hat\beta_T)'
+    w_{it} = \tfrac12 (\hat\beta_t^* - \hat\beta_{T+1})'
     \Big[\tfrac{\partial^2}{\partial \beta \partial\beta'} 
     f_{it}^*(\tilde\beta_{it}^*) \Big]
-    (\hat\beta_t^* - \hat\beta_T)
+    (\hat\beta_t^* - \hat\beta_{T+1})
   \end{equation*}
   and each $\tilde\beta_{it}^*$ lies between $\hat\beta_t^*$ and
-  $\hat\beta_T$.  The argument that $\oclt{t} w_t^* = o_{p^*}(1)$ is
+  $\hat\beta_{T+1}$.  The argument that $\oclt{t} w_t^* = o_{p^*}(1)$ is
   identical to West's, using our Lemma~\ref{res:a2} in place of his
   Lemma A3.  Then
   \begin{gather}
-    \WesA \to^{p^*} 0 \label{eq:7} \\
-    \WesB \to^{p^*} 0 \label{eq:9} \\
+    \WesA[*] \to^{p^*} 0 \label{eq:7} \\
+    \WesB[*] \to^{p^*} 0 \label{eq:9} \\
   \intertext{and}
-    \WesC \to^{p^*} 0 \label{eq:10}
+    \WesC[*] \to^{p^*} 0 \label{eq:10}
   \end{gather}
-  from Lemma~\ref{res:a4} and the result follows from Lemma~\ref{res:a3}.
+  from Lemma~\ref{res:a4} and the result follows from
+  Lemma~\ref{res:a3}, with the form of the asymptotic variance
+  following directly from \citet{Wes:96} and \citet{WeM:98}.
 \end{proof}
 
 \begin{lem}[Formalization of Remark~\ref{rem:01}]
@@ -1123,53 +1127,77 @@ as each element has positive variance.
   \item $P^a \sup_t | \hat{\beta}_{t} - \beta_{0} | \to^{p} 0$ and
     $P^a \sup_t | \hat{\beta}^{*}_{t} - \hat{\beta}_T |
     \to^{p^{*}} 0$.
+  \item $\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T
+    \big(\tfrac{\partial}{\partial \beta} f_t(\beta_0) - F\big) =
+    O_{p}(1)$ and $\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T
+    \big(\tfrac{\partial}{\partial \beta} f_t^*(\hat\beta_{T+1}) -
+    F^*\big) = O_{p^*}(1)$.
   \end{enumerate}
 \end{lema}
 
-\begin{proof}[Proof of Lemma~\ref{res:a2}] \quad
+\begin{proof}[Proof of Lemma~\ref{res:a2}]
   \begin{enumerate}
-  \item The process $\tfrac{1}{\sqrt{T}} h_{s}$ satisfies \citepos[Theorem
-    3.1]{JoD:00b} functional \clt.  So
+  \item The process $\tfrac{1}{\sqrt{T}} h_{s}(\beta_0)$ satisfies
+    \citepos[Theorem 3.1]{JoD:00b} functional \clt.  So
     \begin{equation}
-      P^a \sup_t \Big| \tfrac1t \sum_{s=1}^t h_{s} \Big| =
+      P^a \sup_t \Big| \tfrac1t \sum_{s=1}^t h_{s}(\beta_0) \Big| =
       P^a \sup_{\gamma \in [0,1]} \Big| \tfrac{1}{\lfloor \gamma
-        T\rfloor} \sum_{s=1}^{\lfloor \gamma T \rfloor} h_{s} \Big| \to^{p} 0
+        T\rfloor} \sum_{s=1}^{\lfloor \gamma T \rfloor} h_{s}(\beta_0) \Big| \to^{p} 0
     \end{equation}
     with the convergence following from the continuous mapping
-    theorem.  \citepos{Cal:11d} Theorem~2 ensures the same argument
-    holds for $\tfrac{1}{\sqrt{T}} h_s^{*}$. (verify)
+    theorem.  For the bootstrapped average, \citepos{Cal:11d}
+    Theorem~2 ensures that
+    \begin{equation}
+      \tfrac{1}{\sqrt{\gamma
+          T}} \sum_{s=1}^{\lfloor \gamma T \rfloor} h_{s}^*(\hat\beta_{T+1}) 
+      = O_{p^*}(\Omega^*(\hat\beta_{T+1})^{1/2})
+    \end{equation}
+    where $\Omega^*(\beta) = \var^* h_t^*(\beta)$.  Since
+    $\hat\beta_{T+1} \to^p \beta_0$, it suffices to show that
+    $\sup_{\beta \in N} | \Omega^*(\beta) - \var h_t(\beta) | \to^p
+    0$.  But this convergence holds for any fixed $\beta$ and our
+    assumptions guarantee stochastic equicontinuity as in
+    \citet{JoD:00} \citep[also see][]{Dav:94}, completing the proof.
+
   \item We have
     \begin{multline}
       P^a \sup_t | \hat{\beta}_t - \beta_0 | = P^a \sup_t |\hat{B}_{t}
       H_{t}| \\ \leq \sup_{t,u} \Big| [ \hat{B}_u - B]
-      \tfrac{P^a}{t} \sum_{s=1}^t h_{s} \Big| + \sup_{t} \Big|
-      B \tfrac{P^a}{t} \sum_{s=1}^t h_{s} \Big|
+      \tfrac{P^a}{t} \sum_{s=1}^t h_{s}(\beta_0) \Big| + \sup_{t} \Big|
+      B \tfrac{P^a}{t} \sum_{s=1}^t h_{s}(\beta_0) \Big|
     \end{multline}
     and both terms converge to zero in (conditional) probability by
     the previous argument and by assumption.  The same argument holds
-    for $\hat{\beta}_t^{*} - \hat{\beta}_{T+1}$ as well.
+    for $\hat{\beta}_t^{*} - \btrue[*]$ as well.
+  \item $\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T
+    \big(\tfrac{\partial}{\partial \beta} f_t(\beta_0) - F\big)$ obeys
+    \citepos{Jon:97} \clt, so the result is trivial.  Also,
+   \begin{equation}
+     \Big\{\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T 
+     \big(\tfrac{\partial}{\partial \beta} f_t^*(\hat\beta_{T+1}) -
+     F^*\big)\Big\} = O_{p^*}(\Omega^*(\hat\beta_{T+1})^{1/2}) = O_p(1)
+    \end{equation}
+    as in the proof of part 1, where now $\Omega^*(\beta) = \var^*
+    \tfrac{\partial}{\partial \beta} f_t^*(\beta)$.
   \end{enumerate}
 \end{proof}
 
 \begin{lema}\label{res:a4}
-  Under the conditions of Theorem~\ref{res:3}, \eqref{eq:7},
-  \eqref{eq:9}, and \eqref{eq:10} hold.
+  Under the conditions of Theorem~\ref{res:3}, Equations
+  \eqref{eq:7}--\eqref{eq:10} and \eqref{eq:11}--\eqref{eq:13} hold.
 \end{lema}
-\noindent For each of these results, I will present the proof for the
-recursive window and the circular block bootstrap only; extensions to
-the fixed and rolling window follow exactly as in \citet{WeM:98}.
 
 \begin{proof}[Proof of Lemma~\ref{res:a4}]
 We can write
 \begin{equation*}
-  \Big\lvert \WesA \Big\rvert \leq 
-  \Big\lvert \oclt{t} (\nabla f_t^*(\hat\beta_T) - F^*) B^* \Big\rvert
+  \Big\lvert \WesA[*] \Big\rvert \leq 
+  \Big\lvert \oclt{t} (\nabla f_t^*(\hat\beta_{T+1}) - F^*) B^* \Big\rvert
   \sup_t | H_t^* |.
 \end{equation*}
-From Lemma~\ref{res:a2}, $\sup_t | H_t^* | \to^p 0$; $\oclt{t} (\nabla
-f_t^*(\hat\beta_T) - F^*)$ obeys a \clt\ \citep{Cal:11d} and is
-$O_{p^*}(1)$, establishing~\eqref{eq:7}.  The proofs of~\eqref{eq:9}
-and~\eqref{eq:10} are similar.
+From Lemma~\ref{res:a2}, $\sup_t | H_t^* | \to^p 0$ and $\oclt{t}
+(\nabla f_t^*(\hat\beta_{T+1}) - F^*) = O_p(1)$,
+establishing~\eqref{eq:7}.  The proofs of~\eqref{eq:9}, \eqref{eq:10},
+and \eqref{eq:11}--\eqref{eq:13} are similar.
 \end{proof}
 
 \begin{lema}\label{res:a3}
@@ -1178,31 +1206,30 @@ and~\eqref{eq:10} are similar.
   \binom{f_t^{*}(\beta) - \bar{f}(\beta)}{h_t^{*}(\beta) - \bar h(\beta)}.\]
   Then
   \begin{equation}\label{eq:1}
-    \pr\Big[\sup_x \Big| \pr^{*}\Big[ \oclt{t} \psi_{t}^{*}(\hat\beta_T)
+    \pr\Big[\sup_x \Big| \pr^{*}\Big[ \oclt{t} \psi_{t}^{*}(\hat\beta_{T+1})
     \leq x \Big] - \pr\Big[ \oclt{t} \psi_{t}(\beta_0)
     \leq x \Big] \Big| > \epsilon \Big] \to 0
   \end{equation}
-  for all positive $\epsilon$.
+  for all positive $\epsilon$, where the inequality holds element-by-element.
 \end{lema}
 
 \begin{proof}[Proof of Lemma~\ref{res:a3}]
-  Note that both $\psi_t(\beta_0)$ and $\psi_t^*(\hat\beta_T)$ satisfy
+  Note that both $\psi_t(\btrue)$ and $\psi_t^*(\btrue[*])$ satisfy
   \clt s, (\citealp[Theorem~2]{Jon:97} and
   \citealp[Theorem~1]{Cal:11d}) so it suffices to prove that
-  \[ \tfrac{ 1 }{ P } \var^* \Big( \osum{t} \psi_t^*( \hat
-  \beta_T ) \Big) - \tfrac{ 1 }{ P } \var \Big( \osum{t} \psi_t(
-  \beta_0 ) \Big) \to^p 0. \]
-  I will prove this result for the Circular Block Bootstrap
+  \[ \tfrac{ 1 }{ P } \var^* \Big( \osum{t} \psi_t^*(\btrue[*])) \Big)
+  - \tfrac{ 1 }{ P } \var \Big( \osum{t} \psi_t(\btrue) \Big) \to^p
+  0. \] I will prove this result for the Circular Block Bootstrap
   \citep{PoR:92}---the proof for other block bootstraps is similar and
   follows as in \cite{Cal:11d}.
 
   \newcommand{\su}{\tfrac{ 1 }{ b T } \sum_{ \tau = 1 }^{ T }%
   \sum_{ s, t \in I( \tau ) }}
 
-  Since $\E^* \psi_t^*( \hat \beta_T ) = 0$ by construction, we have
+  Since $\E^* \psi_t^*( \hat \beta_{T+1} ) = 0$ by construction, we have
   \begin{equation}\label{eq:3}
-  \tfrac{ 1 }{ P } \var^* \Big( \sum_{ t = R + 1 }^T \psi_t^*( \hat \beta_T ) \Big)
-  = \su \hat \psi_s( \hat \beta_T ) \hat \psi_t( \hat \beta_T )'
+  \tfrac{ 1 }{ P } \var^* \Big( \sum_{ t = R + 1 }^T \psi_t^*( \hat \beta_{T+1} ) \Big)
+  = \su \hat \psi_s( \hat \beta_{T+1} ) \hat \psi_t( \hat \beta_{T+1} )'
   \end{equation}
   almost surely, with
   \begin{equation*}
@@ -1215,68 +1242,68 @@ and~\eqref{eq:10} are similar.
   \end{equation*}
   We can rewrite the right side of \eqref{eq:3} as
   \begin{multline}\label{eq:6}
-    \su \psi_s(\hat\beta_T) \psi_t(\hat\beta_T)'
-    = \tfrac{1}{T} \sum_{s,t=1}^T \psi_s(\hat\beta_T) \psi_t(\hat\beta_T)' \;
+    \su \psi_s(\hat\beta_{T+1}) \psi_t(\hat\beta_{T+1})'
+    = \tfrac{1}{T} \sum_{s,t=1}^T \psi_s(\hat\beta_{T+1}) \psi_t(\hat\beta_{T+1})' \;
       \big(1 - \tfrac{\lvert s - t \rvert}{b}\big)^+ \\
       + \tfrac{1}{bT} \sum_{s = 1}^{b - 1} \sum_{t = T - b + s}^{T}
-        (\psi_s(\hat\beta_T) \psi_t(\hat\beta_T)' +
-         \psi_t(\hat\beta_T) \psi_s(\hat\beta_T)') \;
+        (\psi_s(\hat\beta_{T+1}) \psi_t(\hat\beta_{T+1})' +
+         \psi_t(\hat\beta_{T+1}) \psi_s(\hat\beta_{T+1})') \;
         \big(1 - \tfrac{\lvert s - t + T\rvert}{b}\big)^+.
   \end{multline}
 
   The first term of \eqref{eq:6} can be shown to converge in
-  probability to $(1/P) \var \osum{t} \psi_t( \beta_0 )$
+  probability to $(1/P) \var \osum{t} \psi_t(\btrue)$
   by Theorem 2.2 of \citet{JoD:00}.  Most of the necessary conditions
-  hold by assumption and it suffices to prove their condition (2.9)
+  hold by assumption and it remains to prove their condition (2.9)
   holds, namely that
   \begin{equation}\label{eq:2}
     \sup_{\beta \in N} \Bigg\lVert \tfrac{1}{T} \sum_{t=1}^T e^{i \xi t/b} 
-    \Bigg( \frac{\partial \psi_{jt}(\beta)}{\partial \beta_i} -
-          \E \frac{\partial \psi_{jt}(\beta)}{\partial \beta_i} \Bigg) 
+    \Bigg( \frac{\partial \psi_{jt}(\beta)}{\partial \beta_k} -
+          \E \frac{\partial \psi_{jt}(\beta)}{\partial \beta_k} \Bigg) 
     \Bigg\rVert_2 \to 0
   \end{equation}
-  for all $i$, $j$, and $\xi$.  Now, for any fixed $\beta \in N$,
+  for all $j$, $k$, and $\xi$.  For any fixed $\beta \in N$,
   \begin{equation*}
     \tfrac{1}{T} \sum_{t=1}^T \cos( \xi t / b )
-    \Bigg( \frac{\partial \psi_{jt}(\beta)}{\partial \beta_i} - 
-          \E \frac{\partial \psi_{jt}(\beta)}{\partial \beta_i} \Bigg)
+    \Bigg( \frac{\partial \psi_{jt}(\beta)}{\partial \beta_k} -
+          \E \frac{\partial \psi_{jt}(\beta)}{\partial \beta_k} \Bigg)
     \to^p 0
   \end{equation*}
   and
   \begin{equation*}
     \tfrac{1}{T} \sum_{t=1}^T \sin( \xi t / b )
-    \Bigg( \frac{\partial \psi_{jt}(\beta)}{\partial \beta_i} - 
-          \E \frac{\partial \psi_{jt}(\beta)}{\partial \beta_i} \Bigg)
+    \Bigg( \frac{\partial \psi_{jt}(\beta)}{\partial \beta_k} -
+          \E \frac{\partial \psi_{jt}(\beta)}{\partial \beta_k} \Bigg)
     \to^p 0
   \end{equation*}
   by a mixingale \lln\ \citep{Dav:93}.\footnote{Remember that \ned\
     processes are also mixingales.  See, for example, \citet[Section
     17.2]{Dav:94}.}  Convergence in $L_2$ for each $\beta \in N$ then
-  follows from the existence of the $r$th moment and uniform
-  convergence is a consequence of the bounded second derivative of
-  $\psi_t$.
+  follows from the existence of the $r$th moment ($r > 2$) and uniform
+  convergence is a consequence of our bound on the second derivative
+  of $\psi_t$.
 
   The conclusion then holds if the second term of~\eqref{eq:6} is
   $o_p(1)$.  We have, for each element of that matrix,
-  \begin{multline}
+  \begin{multline*}
     \Big| \tfrac{1}{bT} \sum_{s = 1}^{b - 1} \sum_{t = T - b + s}^{T}
-        \psi_{is}(\hat\beta_T) \psi_{jt}(\hat\beta_T)
+        \psi_{ks}(\hat\beta_{T+1}) \psi_{jt}(\hat\beta_{T+1})
         \big(1 - \tfrac{\lvert s - t + T\rvert}{b}\big)^+ \Big| \leq\\
-     \tfrac{1}{T} \sum_{s = 1}^{b - 1} |\psi_{is}(\hat\beta_T)|
-         \times\tfrac{1}{b} \sum_{t = T - b + 1}^{T} | \psi_{jt}(\hat\beta_T) |
-  \end{multline}
-  almost surely.  Now, for any positive $\delta$,
+     \tfrac{1}{b T} \sum_{s = 1}^{b - 1} |\psi_{ks}(\hat\beta_{T+1})|
+         \sum_{t = T - b + 1}^{T} | \psi_{jt}(\hat\beta_{T+1}) |
+  \end{multline*}
+  almost surely.  For any positive $\delta$,
   \begin{equation*}
-    \pr \Bigg[ \tfrac{1}{T} \sum_{s = 1}^{b - 1} | \psi_{is}( \hat \beta_T ) |
+    \pr \Bigg[ \tfrac{1}{T} \sum_{s = 1}^{b - 1} | \psi_{is}( \hat \beta_{T+1} ) |
               > \delta \Bigg] \leq 
     \pr \Bigg[\tfrac{1}{T} \sum_{s = 1}^{b - 1} \sup_{ \beta \in N } | \psi_{is}( \beta ) |
               > \delta \Bigg] +
-    \pr \big[ \hat \beta_T \notin N \big].
+    \pr \big[ \hat \beta_{T+1} \notin N \big].
   \end{equation*}
   Both terms converge to zero by assumption, so $\tfrac{1}{T} \sum_{s
-    = 1}^{b - 1} |\psi_{is}(\hat\beta_T)| = o_p(1)$.  A similar
+    = 1}^{b - 1} |\psi_{is}(\hat\beta_{T+1})| = o_p(1)$.  A similar
   argument shows that $\tfrac{1}{b} \sum_{t = T - b + 1}^{T} |
-  \psi_{jt}(\hat\beta_T) | = O_p(1)$, completing the proof.
+  \psi_{jt}(\hat\beta_{T+1}) | = O_p(1)$, completing the proof.
 \end{proof}
 
 \begin{lema}\label{res:a5}
@@ -1284,15 +1311,58 @@ and~\eqref{eq:10} are similar.
     assumptions governing $\hat{\beta}_t^{*}$ are unnecessary.} then
   \begin{equation}
     \oclt{t}
-    (f_{t}(\hat{\beta}_{t}) - \E f_{t}(\beta_{0})) \to^d N(0, \Omega),
+    (f_{t}(\hat{\beta}_{t}) - \E f_{t}(\btrue)) \to^d N(0, \sigma^2),
   \end{equation}
-  with $\Omega$ given in \citet[Theorem 2.3.1]{Mcc:00}.
+  with 
+  \begin{align}
+  \sigma^2 &= S_{ff} + \lambda_{fh} (F B S_{fh}' + S_{fh} B' F') + 2 \lambda_{hh} F V_\beta F' \\
+  (\lambda_{fh}, \lambda_{hh}) &= 
+  \begin{cases}
+    (1, 2) \times \big(1 - \tfrac{1}{\pi} \ln(1 + \pi)\big) 
+      & \text{recursive window} \\
+    \big(\tfrac{\pi}{2}, \pi - \tfrac{\pi^2}{3}\big)
+      & \text{rolling window with $\pi \leq 1$} \\
+    \big(1 - \tfrac{1}{2\pi}, 1 - \tfrac{1}{3\pi}\big)
+      & \text{rolling window with $\pi > 1$} \\
+    (0, \pi) & \text{fixed window},
+  \end{cases}
+  \end{align}
+  $\Big(\begin{smallmatrix}S_{ff} & S_{fh} \\ S_{fh}' &
+    S_{hh} \end{smallmatrix} \Big)$ the asymptotic variance of $(\bar
+  f(\btrue)', \bar h(\btrue)')'$, and $V_\beta$ the asymptotic
+  variance of~$\hat\beta_{T+1}$.
 \end{lema}
-\begin{proof}[Proof of Lemma~\ref{res:a5}]
-  The proof follows exactly as in \citet[Theorem 2.3.1]{Mcc:00}, using
-  the previous results in this appendix as substitutes where the
-  original proof requires stronger moment or weak dependence
-  conditions.
+
+\begin{proof}[Proof of Theorem~\ref{res:3}]
+  As in \citet{Wes:96} and \citet{WeM:98} (and as in the proof of
+  Theorem~\ref{res:3}), expand $f_t(\hat{\beta}_t^{*})$ around
+  $\btrue$ to get
+  \begin{align*}
+    \sqrt{P} \big(\bar{f} - \bar{f}(\btrue)\big) &= \oclt{t}
+    \big(f_t(\btrue) - \E f_t(\btrue)\big) +
+    F B \oclt{t} H_t \\
+    & \quad + \WesA + \WesB \\ & \quad + \WesC + \oclt{t} w_t
+  \end{align*}
+  where (again, as in \citealp{Wes:96}) the $i$th element of $w_t$ is
+  \begin{equation*}
+    w_{it} = \tfrac12 (\hat\beta_t - \btrue)'
+    \Big[\tfrac{\partial^2}{\partial \beta \partial\beta'} 
+    f_{it}(\tilde\beta_{it}) \Big]
+    (\hat\beta_t - \btrue)
+  \end{equation*}
+  and each $\tilde\beta_{it}$ lies between $\hat\beta_t$ and
+  $\btrue$; $\oclt{t} w_t = o_{p}(1)$ as in Theorem~\ref{res:3}.
+  Then, again,
+  \begin{gather}
+    \WesA \to^{p} 0 \label{eq:11} \\
+    \WesB \to^{p} 0 \label{eq:12}\\
+  \intertext{and}
+    \WesC \to^{p} 0 \label{eq:13}
+  \end{gather}
+  from Lemma~\ref{res:a4}.  The formula of the asymptotic variance can
+  be derived exactly as in \citet{Wes:96} and \citet{WeM:98}. Since
+  $f_t(\btrue)$ and $H_t$ both satistfy \clt s, this completes the
+  proof.
 \end{proof}
 
 \bibliography{texextra/AllRefs}
