@@ -87,10 +87,14 @@ results.data$predictor <- gsub(" \\.CT", "(\\\\textsc{ct})", results.data$predic
 results.data$predictor <- gsub("\\.", " ", results.data$predictor)
 names(results.data)[1] <- " "
 
+
+integer.macros <- c(nboot = nboot, bootsize = 100 * bootsize,
+                       windowlength = windowlength)
+real.macros <- c(empiricalcriticalvalue = stepm.results$rightcrit)
+
 cat(file = "tex/ap.tex", sep = "\n",
-    sprintf("\\newcommand{\\%s}{%.2f}",
-            c("empiricalcriticalvalue", "nboot", "bootsize", "windowlength"),
-            c(stepm.results$rightcrit, nboot, 100 * bootsize, windowlength)),
+    sprintf("\\newcommand{\\%s}{%.2f}", names(real.macros), real.macros),
+    sprintf("\\newcommand{\\%s}{%d}", names(integer.macros), integer.macros),
     sprintf("\\newcommand{\\empiricaltable}{%s}",
             booktabs(results.data, align = c("l", rep("C", 3)), 
                      numberformat = c(FALSE, TRUE, FALSE, FALSE),
