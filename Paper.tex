@@ -220,9 +220,7 @@ alternative by using a recursive window for the benchmark and a
 rolling window for the alternative model.  This approach could have a
 power advantage and is similar in spirit to using a Likelihood Ratio
 Test instead of an \textsc{lm} or Wald test, which depend on just the
-restricted or unrestricted model respectively.  Simulations presented
-in Section~\ref{sec:2} show that this approach gives a substantial
-power advantage when there are breaks.
+restricted or unrestricted model respectively.
 
 This paper's statistic has a substantial advantage over existing \oos\
 tests for nested models: the alternative can be essentially arbitrary
@@ -258,7 +256,7 @@ Since researchers often have a set of potential models and want to
 know which of them significantly outperform the benchmark, procedures
 that compare a single pair of models are of limited practical value.
 As \citet{Whi:00} demonstrates, looking at the naive $p$-values of
-individual tests is misleading, but researchers can get a valid test
+individual tests is misleading, but researchers can obtain a valid test
 by using the bootstrap to approximate the distribution of the largest
 individual test statistic under the null (White calls this procedure
 the \textit{Bootstrap Reality Check} or \brc).  This paper presents a test
@@ -302,15 +300,15 @@ predicting the target variable $y_{t+1}$ with a vector of regressors
 $x_t$; also let $v_t$ be another random process and suppose that
 $(y_t, x_t, v_t)$ is stationary and weakly dependent
 (Theorem~\ref{res:1} lists the assumptions formally).  In addition,
-let $\beta_0 = (\E x_t x_t')^{-1} \E x_t y_{t+1}$ be the pseudo-true
+let $\btrue = (\E x_t x_t')^{-1} \E x_t y_{t+1}$ be the pseudo-true
 coefficient of the regression of $y_{t+1}$ on $x_t$ and define
-$\varepsilon_{t+1} = y_{t+1} - x_t'\beta_0$.  If the linear model is
+$\varepsilon_{t+1} = y_{t+1} - x_t'\btrue$.  If the linear model is
 correctly specified, so $\varepsilon_{t+1}$ is a martingale difference
 sequence with respect to $\mathcal{F}_t \equiv \sigma((x_t, v_t, y_t),
 (x_{t-1}, v_{t-1}, y_{t-1}),\dots)$, then we can see immediately that
 \begin{equation}
   \label{eq:4}
-  \oclt{t} \varepsilon_{t+1} (v_t - x_t'\beta_0)
+  \oclt{t} \varepsilon_{t+1} (v_t - x_t'\btrue)
 \end{equation}
 obeys an \mds\ \clt\ (assuming that its variance is uniformly
 positive) and is asymptotically normal as $P \to \infty$, with $R$ an
@@ -319,9 +317,9 @@ arbitrary starting value\footnote{It will be clear momentarily why the
 Straightforward algebra \citep{ClW:07} shows that
 \begin{equation}
   \label{eq:5}
-  \tfrac{2}{\sqrt{P}} \osum{t} \varepsilon_{t+1} (v_t -
-  x_t'\beta_0) = \oclt{t} \Big[(y_{t+1} - 
-  x_t\beta_0)^2 - (y_{t+1} - v_t)^2 + (x_t'\beta_0 - v_t)^2 \Big].
+  \tfrac{1}{\sqrt{P}} \osum{t} \varepsilon_{t+1} (v_t -
+  x_t'\btrue) = \tfrac{1}{2 \sqrt{P}} \osum{t} \Big[(y_{t+1} -
+  x_t\btrue)^2 - (y_{t+1} - v_t)^2 + (x_t'\btrue - v_t)^2 \Big].
 \end{equation}
 
 \citet{ClW:06,ClW:07} base their \oos\ statistic on the right side
@@ -335,11 +333,11 @@ which is kept finite as $T \to \infty$, so $\hat{y}_{t+1}$ inherits
 the weak dependence properties of the variables used to estimate it.
 Keeping $R$ finite ensures that the conditional variance remains
 positive, so the sum obeys a \clt.  This method of ensuring normality
-was introduced by \citet{GiW:06}.  The coefficients $\beta_0$ are
+was introduced by \citet{GiW:06}.  In \citet{ClW:06}, the coefficients $\btrue$ are
 assumed to be zero so $\varepsilon_{t+1}$ is observed directly (under
 the null hypothesis) and Clark and West propose using this statistic
 to test the null that $\varepsilon_{t+1}$ is an \mds\ with respect to
-$\mathcal{F}_t$.  In \citet{ClW:07}, $\beta_0$ is unknown but is
+$\mathcal{F}_t$.  In \citet{ClW:07}, $\btrue$ is unknown but is
 estimated with a fixed-length rolling window as well, so
 \begin{equation*}
   \tilde{\beta}_t = \Big(\sum_{s=t-R+1}^t x_{s-1} x_{s-1}'\Big)^{-1}
@@ -353,7 +351,7 @@ mean-zero normal, even though this approximation performs well in the
 simulations reported by \citet{ClW:07}.
 
 This paper proposes using the same basic \oos\ statistic, 
-but using a recursive window to estimate $\beta_0$ and produce
+but using a recursive window to estimate $\btrue$ and produce
 $\hat{\varepsilon}_{t+1}$; i.e.
 \begin{equation}
   \label{eq:8}
@@ -385,8 +383,8 @@ original papers for a discussion of these assumptions.
     estimated using \ols\ with a recursive window:
     $\hat{y}_{0,t+1} = x_t'\hat{\beta}_t$ for some vector of
     predictors $x_t$ with $\hat{\beta}_t$ given by
-    Equation~\eqref{eq:8}.  Also define $\beta_0 = (\E x_{t-1}
-    x_{t-1}')^{-1} \E x_{t-1} y_t$ and assume that $\beta_0$ does not depend
+    Equation~\eqref{eq:8}.  Also define $\btrue = (\E x_{t-1}
+    x_{t-1}')^{-1} \E x_{t-1} y_t$ and assume that $\btrue$ does not depend
     on~$t$.
   \item \label{item:2} The alternative forecast, $\hat{y}_{1t}$, is
     estimated using a rolling window of fixed length $R$ (which is
@@ -402,38 +400,37 @@ original papers for a discussion of these assumptions.
     series of size $-\frac{r}{2r-2}$.
   \item \label{item:4} Define \[f_t(\beta) = (y_{t+1} - x_t'\beta)^2 -
     (y_{t+1} - \hat{y}_{1,t+1})^2 + (x_t'\beta - \hat{y}_{1,t+1})^2,\]
+    $f_t = f_t(\beta_0)$, $\hat f_t = f_t(\hat\beta_t)$,
     $\bar{f}(\beta) = \oavg{t} f_t(\beta)$, and $\bar f
-    = \tfrac1P \sum_{t=R+1}^{T} f_t(\hat{\beta}_t)$, with $P = T - R$;
-    $\bar f(\beta_0)$ has uniformly positive and finite long run
+    = \tfrac1P \sum_{t=R+1}^{T} \hat f_t$, with $P = T - R$;
+    $\bar f(\btrue)$ has uniformly positive and finite long run
     variance.
   \end{enumerate}
-  Under the null hypothesis that $y_t - \hat{y}_{0t}(\beta_0)$ is a
+  Under the null hypothesis that $y_t - \hat{y}_{0t}(\btrue)$ is a
   martingale difference sequence with respect to the filtration
   $\mathcal{F}_t = \sigma((y_t, z_{t}), (y_{t-1}, z_{t-1}),\dots)$,
   $\tfrac{\sqrt{P}}{\hat\sigma} \bar f \to^d N(0,1)$, where 
   \begin{align*}
     \hat{\sigma}^2 &= \hat{S}_{ff} + 2 \Pi (\hat{S}_{fg} + \hat{S}_{gg}), &
-    \hat{S}_{ff} &= \oavg{t} (f_t(\hat{\beta}_t) - \bar
-    f)^2, \\
-    \hat{S}_{fg} &= \oavg{t} (f_t(\hat{\beta}_t) -
-    \bar{f})(g_t(\hat{\beta}_t) - \bar g)', &
-    \hat{S}_{gg} &= \oavg{t} (g_t(\hat{\beta}_t) - \bar
-    g)(g_t(\hat{\beta}_t) - \bar g)',
+    \hat{S}_{ff} &= \oavg{t} (\hat f_t - \bar f)^2, \\
+    \hat{S}_{fg} &= \oavg{t} (\hat f_t - \bar{f})(\hat g_t - \bar g)', &
+    \hat{S}_{gg} &= \oavg{t} (\hat g_t - \bar g)(\hat g_t - \bar g)',
   \end{align*}
-  $\Pi = 1 - \tfrac{R}{P} \log(1 + \tfrac{P}{R})$, $\bar{g} = \tfrac1T
-  \osum{t} g_t(\hat{\beta}_t)$, $\X' = [x_1,\dots,x_T]$, and
+  $\Pi = 1 - \tfrac{R}{P} \log(1 + \tfrac{P}{R})$, $\bar{g} = \oavg{t}
+  \hat g_t$, $\X' = [x_1,\dots,x_T]$,
   \begin{equation*}
     g_t(\beta) =
     \Big\{\tfrac{2}{P}\sum_{s=R}^T x_s (x_s'\beta - \hat{y}_{1,s+1}) \Big\}'
-    \big(\tfrac1T \X'\X \big)^{-1} x_t(y_{t+1} - x_t'\beta).
+    \big(\tfrac1T \X'\X \big)^{-1} x_t(y_{t+1} - x_t'\beta),
   \end{equation*}
+  and $\hat g_t = g_t(\hat\beta_t)$.
 \end{thm}
 
 The following remarks are relevant to Theorem~\ref{res:1}:
 
 \begin{rem}
   Forecasters are usually interested in the one-sided alternative that
-  $\E f_t(\beta_0) > 0$; i.e. that the alternative model is expected
+  $\E f_t > 0$; i.e. that the alternative model is expected
   to forecast better than the benchmark.
 \end{rem}
 
@@ -446,11 +443,11 @@ The following remarks are relevant to Theorem~\ref{res:1}:
 \end{rem}
 
 \begin{rem}
-  The requirement that the asymptotic variance of $\bar f(\beta_0)$ be
+  The requirement that the asymptotic variance of $\bar f(\btrue)$ is
   uniformly positive is much less restrictive than in \cite{Wes:96}.
   As in \cite{GiW:06} and \citet{ClW:06,ClW:07}, the assumption only
   serves to rule out pathological cases---for example, letting both
-  the benchmark and the alternative model be white noise. In
+  the benchmark and the alternative model be perfectly correlated white noise. In
   \citet{Wes:96}, this assumption is a restriction on the \dgp\ as
   well as the forecasting models, but in this paper it is a
   restriction only on the models.
@@ -466,20 +463,15 @@ The following remarks are relevant to Theorem~\ref{res:1}:
 \end{rem}
 
 \begin{rem}
-  If one wants to test the less restrictive null hypothesis that
-  $y_{t} - \hat{y}_{0t}$ is uncorrelated with $\hat{y}_{1t}$ but not
-  necessarily an \mds, one can replace $\hat{S}_{ff}$, $\hat{S}_{fg}$
-  and $\hat{S}_{gg}$ with their \hac\ counterparts.
-  Lemma~\ref{res:a5} presents a more general version of the theorem
-  that can cover this case.
-\end{rem}
-
-\begin{rem}
   The statistic we present tests the null hypothesis that the forecast
   errors from the population version of the benchmark model are a
   martingale difference sequence.  This hypothesis may not be
   appropriate, depending on the loss function or utility function of
-  interest.  Our statistic can be modified to test implications of
+  interest.  If one wants to test the less restrictive null hypothesis that
+  $y_{t} - \hat{y}_{0t}$ is uncorrelated with $\hat{y}_{1t}$ but not
+  necessarily an \mds, one can replace $\hat{S}_{ff}$, $\hat{S}_{fg}$
+  and $\hat{S}_{gg}$ with their \hac\ counterparts.  
+  Our statistic can also be modified to test implications of
   optimal forecasts under other loss functions
   \citep[see][]{PaT:07,PaT:07b}; the statistic should be expressed as
   a forecast encompassing test using the models' generalized forecast
@@ -498,7 +490,7 @@ The following remarks are relevant to Theorem~\ref{res:1}:
   weakly dependent observations.  But using a fixed window introduces
   another source of dependence: all of the forecasts depend on the
   same coefficient estimates and the estimation uncertainty introduced
-  by those estimates does not vanish when $R$ is bounded.  One can
+  by those estimates does not vanish asymptotically when $R$ is bounded.  One can
   prove that their results apply to fixed window forecasts by using a
   coupling argument similar to \citepos{Cal:11}.  Interested readers
   should refer to \citet{Cal:11} for the argument and to
@@ -510,10 +502,10 @@ The following remarks are relevant to Theorem~\ref{res:1}:
 Since most empirical papers study more than one alternative model,
 Theorem~\ref{sec:1} is of limited use on its own.\footnote{Moreover,
   we would need to account for the existence of multiple models even if
-each paper considers a single model, since there are many papers
+each paper only considered a single model, since there are many papers
 studying the same data.}  It can, however, be
 used as the basis for a procedure that allows researchers to make
-multiple comparisons.  Before presenting a theoretical result, I'll
+multiple comparisons.  Before presenting a theoretical result, I will
 discuss some issues related to multiple hypothesis testing.
 
 Suppose we have the family of hypotheses, $H_1,\dots,H_J$.  It is
@@ -533,15 +525,15 @@ focuses instead on controlling the probability that at least one true
 hypothesis is rejected given any combination of true and false
 hypotheses, known as \textit{strong control of familywise error}
 (\sfwe).  For most empirical work, \sfwe\ is desired; fortunately,
-even though the papers only prove \wfwe, statistics based on
+even though these papers only prove \wfwe, statistics based on
 nonparametric block bootstraps \citep{Whi:00,Han:05} can be shown to
 control \sfwe\ as well \citep[this follows directly from][]{RoW:05}
 and those based on the parametric bootstrap \citep{ClM:12b} essentially
 control \sfwe\ if the individual null hypotheses are strengthened
-slightly as below (see Part~(\ref{it:1}) of Theorem~\ref{res:2} as
+slightly as below (see conclusion~\ref{it:1} of Theorem~\ref{res:2} as
 well as Remark~\ref{rem:2}).  \citet{HuW:10} propose that researchers
 construct critical values from the asymptotic joint distribution of
-the test statistics and can control \sfwe\ as long as there is a
+the test statistics and this procedure can control \sfwe\ as long as there is a
 consistent estimator of that distribution.
 
 Only tests with \sfwe\ can tell researchers which of the hypotheses
@@ -599,8 +591,10 @@ but requires us to drop the first $R$ observations from the bootstrap
 (the alternative forecasts are not defined for the first $R$
 observations).  I add those observations to the beginning of each
 bootstrap sample so that population means under the bootstrap-induced
-probability distribution equal sample means.  The benchmark model
-still needs to be reestimated in each bootstrap sample.
+probability distribution equal sample means.\footnote{This equality is
+  strictly true only for the stationary and circular block
+  bootstraps.}  The benchmark model still needs to be reestimated in
+each bootstrap sample.
 
 Theorem~\ref{res:2} presents the final procedure.
 
@@ -611,7 +605,7 @@ Theorem~\ref{res:2} presents the final procedure.
   $l$ denote the different quantities associated with $\hat{y}_{lt}$
   (i.e. $\mathcal{F}_{lt}$, etc.)  Also assume that the long-run
   variance-covariance matrix of the vector
-  $(\bar{f}_1(\beta_0),\dots,\bar{f}_m(\beta_0))'$ is uniformly
+  $(\bar{f}_1(\btrue),\dots,\bar{f}_m(\btrue))'$ is uniformly
   positive definite.
 
   Let the $*$-superscript denote a random variable with the
@@ -619,14 +613,14 @@ Theorem~\ref{res:2} presents the final procedure.
   consider the following procedure:
   \begin{enumerate}
   \item Define $M_0 = \emptyset$ and, for $j = 1,\dots,m$, let $M_j =
-    \{i : \tfrac1{\hat\sigma_i} \bar{f}_{i} > \hat{d}_j\}$, where
+    \{l : \tfrac1{\hat\sigma_l} \bar{f}_{l} > \hat{d}_j\}$, where
     $\hat{d}_j$ is the $1-\alpha$ quantile of $\max_{i \notin M_{j-1}}
     \tfrac{1}{\hat{\sigma}_i^{*}}(\bar{f}_{i}^{*} -
     \bar{f_i}(\btrue[*]))$.
-  \item Reject all of the models $i$ with $i \in \bigcup_{j=1}^m M_j$.
+  \item Reject all of the models $l$ with $l \in \bigcup_{j=1}^m M_j$.
   \end{enumerate}
   The following conclusions hold:
-  \begin{enumerate}[i.]
+  \begin{enumerate}
   \item\label{it:1} For each $G \subset \{1,\dots,m\}$, let
     $\mathcal{F}_t^G$ be the smallest $\sigma$-field containing
     $\mathcal{F}_{lt}$ for all $l \in G$.  Under the null hypothesis
@@ -638,14 +632,14 @@ Theorem~\ref{res:2} presents the final procedure.
   \item\label{it:2} Let $H_l$ be the null hypothesis that $y_t -
     \hat{y}_{0t}$ is an \mds\ with respect to
     $\mathcal{F}_{lt}$ against the one-sided alternative $\E \bar
-    f_i(\beta_0) > 0$.  If $p \to 0$ and $P p \to \infty$ as $T \to
+    f_i(\btrue) > 0$.  If $p \to 0$ and $P p \to \infty$ as $T \to
     \infty$ (for the stationary bootstrap) or $b \to \infty$ and
     $\frac{b}{P} \to 0$ (for the moving or circular block bootstraps)
     then the procedure outlined above controls \sfwe\ at level
     $\alpha$ for the family of null hypotheses $H_1,\dots,H_m$.
   \item\label{it:3} Let $H_l$ be the null hypothesis that $y_t -
     \hat{y}_{0t}$ is uncorrelated with $\hat{y}_{lt}$ against the
-    one-sided alternative $\E \bar f_i(\beta_0) > 0$.  If $p \to 0$
+    one-sided alternative $\E \bar f_i(\btrue) > 0$.  If $p \to 0$
     and $P p \to \infty$ as $T \to \infty$ (for the stationary
     bootstrap) or $b \to \infty$ and $\frac{b}{P} \to 0$ (for the
     moving or circular block bootstraps) then the procedure outlined
@@ -657,8 +651,15 @@ Theorem~\ref{res:2} presents the final procedure.
 The following remarks apply to Theorem~\ref{res:2}.
 
 \begin{rem}
+  The next section will discuss the block bootstrap procedures for
+  \oos\ comparisons in detail.  Note that $\bar f(\btrue[*])$ is the
+  bootstrap equivalent of $\E f_t(\btrue)$, hence its role as the
+  centering term in step 1 of the procedure.
+\end{rem}
+
+\begin{rem}
 It is worth emphasizing that this procedure is very easy to use under
-the null hypothesis of correct specification (Part~\ref{it:1}).  The
+the null hypothesis of correct specification (conclusion~\ref{it:1}).  The
 researcher can use a standard estimate of the statistic's asymptotic
 variance (not a \hac\ estimator) and an i.i.d. bootstrap.  Even
 better, the alternative forecasts only need to be estimated once,
@@ -666,8 +667,8 @@ before the bootstrap.
 \end{rem}
 
 \begin{rem}\label{rem:2}
-  The key difference between Parts~(\ref{it:1}) and~(\ref{it:2}) is
-  that, in Part~(\ref{it:2}), the forecast error is an \mds\ with
+  The key difference between conclusions~\ref{it:1} and~\ref{it:2} is
+  that, in conclusion~\ref{it:2}, the forecast error is an \mds\ with
   respect to several individual series, but not necessarily with
   respect to the pooled information set generated by all of those
   series together.\footnote{It is straightforward to construct three
@@ -675,19 +676,19 @@ before the bootstrap.
     respect to $\sigma((u_t, w_t), (u_{t-1}, w_{t-1}),\dots)$ and
     $\sigma((v_t, w_t), (v_{t-1}, w_{t-1}),\dots)$ but not
     $\sigma((u_t, v_t, w_t), (u_{t-1}, v_{t-1}, w_{t-1}),\dots)$.
-    This is essentially the scenario imposed in Part~(\ref{it:2}).}
+    This is essentially the scenario imposed in conclusion~\ref{it:2}.}
   Using $b = 1$ would consistently estimate the marginal distribution
   of each $\tfrac1{\sigma_i} \bar{f}_i$ under this weaker null
   hypothesis, but would not necessarily estimate the joint
   distribution of two or more of those terms correctly (in particular,
   the covariance could be wrong).  The stronger null hypothesis
-  imposed in Part~\ref{it:1} ensures that resampling with $b = 1$
+  imposed in conclusion~\ref{it:1} ensures that resampling with $b = 1$
   estimates the joint distribution correctly as well.
 
   The same reasoning implies that a parametric bootstrap
   \citep[i.e.][]{ClM:12b} achieves control of \sfwe\ only under the
-  stronger hypotheses of Part~(\ref{it:1}).  Fortunately,
-  Part~(\ref{it:1}) seems to capture the goals of most empirical work,
+  stronger hypotheses of conclusion~\ref{it:1}.  Fortunately,
+  conclusion~\ref{it:1} seems to capture the goals of most empirical work,
   so researchers can make use of the considerable simplifications that
   occur in that setting.
 \end{rem}
@@ -699,7 +700,7 @@ before the bootstrap.
   convenient.  One could also estimate the variance with a second
   bootstrap step, but execution might take too long to be practical,
   or use a convenient but inconsistent approximation of the variance.
-  The estimator of the variance in Part~\ref{it:3} should have the
+  The estimator of the variance in conclusion~\ref{it:3} should have the
   best performance if it is \hac\ \cite[the results of][may be
   relevant]{GoK:96}, but that is not necessary for validity.
   See \citet{Han:05} and \citet[Section~4.2]{RoW:05} for a discussion
@@ -708,7 +709,7 @@ before the bootstrap.
 
 \begin{rem}
   If the number of alternative models is large, controlling the \fwe\
-  may be too strict a criterion.  \citet{RSW:08} discuss procedures to
+  may be too strict a criterion to be useful.  \citet{RSW:08} discuss procedures to
   control criteria other than the \fwe, and one can use their
   generalizations of the StepM procedure here as well.
 \end{rem}
@@ -725,11 +726,11 @@ before the bootstrap.
     models, so the details are somewhat different in our papers.}
   Allowing multiple benchmark models can be expressed as an
   Intersection-Union test, so Theorem~\ref{res:2}'s procedure
-  (Part~(\ref{it:3})) easily accommodates this extension by taking
+  (conclusion~\ref{it:3}) easily accommodates this extension by taking
   each $\bar f_i$ and $\hat{\sigma}_{i}^{2}$ to be a random
   $q$-vector;\footnote{If a researcher uses multiple benchmark models,
     it would be a mistake to assume that they are all correctly
-    specified, so only the null hypothesis of Part~(\ref{it:3}) is
+    specified, so only the null hypothesis of conclusion~\ref{it:3} is
     appropriate.} the first element of $\bar f_{i}$, written as $\bar
   f_{i1}$, compares the first benchmark model to the $i$th alternative
   and the first element of $\hat{\sigma}_i^2$ is the corresponding
@@ -739,10 +740,10 @@ before the bootstrap.
   Steps 1 and 2 of Theorem~\ref{res:2}'s procedure now become:
   \begin{enumerate}
   \item Define $M_0 = \emptyset$ and, for $j = 1,\dots,m$, let $M_j =
-    \{(i,k): \tfrac1{\hat\sigma_{ik}} |\bar{f}_{ik}| > \hat{d}_j\}$,
-    where $\hat{d}_j$ is the $1-2 \alpha$ quantile of $\max_{(i,k)
-      \notin M_{j-1}} \tfrac1{\hat\sigma_{ik}^*} |\bar{f}_{ik}^{*} -
-    \bar{f}_{ik}(\hat{\beta}_{k,T+1})|$.
+    \{(i,k): \tfrac1{\hat\sigma_{ik}} \bar{f}_{ik} > \hat{d}_j\}$,
+    where $\hat{d}_j$ is the $1 - \alpha$ quantile of $\max_{(i,k)
+      \notin M_{j-1}} \tfrac1{\hat\sigma_{ik}^*} \big(\bar{f}_{ik}^{*} -
+    \bar{f}_{ik}(\hat{\beta}_{k,T+1})\big)$.
   \item Reject all of the hypotheses $H_i$ such that $(i,k) \in
     \bigcup_{j=1}^m M_j$ for all $k$.
   \end{enumerate}
@@ -774,22 +775,22 @@ Theorem~\ref{res:3} gives the result.
 \begin{thm}\label{res:3}
   Suppose the following conditions hold:
   \begin{enumerate}
-  \item The estimator $\hat{\beta}_t$ of $\beta_0$ is estimated with a
+  \item The estimator $\hat{\beta}_t$ of $\btrue$ is estimated with a
     recursive, rolling, or fixed estimation window and satisfies
     $\hat{\beta}_{t} - \beta_{0} = \hat{B}_{t} H_t$; $\hat{B}_{t}$ is
     a sequence of $k \times q$ matrices such that $\sup_t |\hat{B}_t -
     B| \to^p 0$; $H_{t}$ is a sequence of $q$-vectors such that
     \begin{equation}
       H_{t} = \begin{cases} 
-        \tfrac1t \sum_{s=1}^t h_{s}(\beta_0) & \text{recursive window} \\
-        \tfrac1R \sum_{s=t-R+1}^t h_{s}(\beta_0) & \text{rolling window} \\
-        \tfrac1R \sum_{s=1}^R h_{s}(\beta_0) & \text{fixed window} \\
+        \tfrac1t \sum_{s=1}^t h_{s}(\btrue) & \text{recursive window} \\
+        \tfrac1R \sum_{s=t-R+1}^t h_{s}(\btrue) & \text{rolling window} \\
+        \tfrac1R \sum_{s=1}^R h_{s}(\btrue) & \text{fixed window} \\
       \end{cases}
     \end{equation}
-    and $\E h_{s}(\beta_0) = 0$ for all $s$.
+    and $\E h_{s}(\btrue) = 0$ for all $s$.
   \item Define $\psi_t(\beta) = (f_t(\beta), h_t(\beta))$;
     $\psi_t(\beta)$ is covariance stationary and twice continuously
-    differentiable in an open neighborhood $N$ of $\beta_0$.  Also,
+    differentiable in an open neighborhood $N$ of $\btrue$.  Also,
     $\E \sup_{\beta \in N} |\psi_t(\beta)|^r$ and $\E\sup_{\beta \in
       N} |\frac{\partial}{\partial \beta} \psi_t(\beta)|^r$ are
     uniformly bounded, and there exists a sequence of random variables
@@ -805,20 +806,23 @@ Theorem~\ref{res:3} gives the result.
       $\sup_{\beta \in N} \psi_t(\beta)^2$ and $\sup_{\beta \in N}
       (\partial \psi_t(\beta) / \partial \beta)^2$ are uniformly
       integrable.}
-  \item The sequence $\psi_1^{*},\dots,\psi_T^{*}$ is generated by the
+  \item The sequence $\hat f_1^{*},\dots,\hat f_T^{*}$ is constructed
+    using the same procedure as the original \oos\ analysis over the
+    bootstrap sample, where the bootstrap sample is generated by
     moving blocks, circular blocks, or stationary bootstrap with block
     lengths drawn from the geometric distribution.  The (expected)
     block length $b$ satisfies $b \to \infty$ and $\frac{b}{P} \to 0$.
   \item The bootstrapped estimator satisfies $\sup_t |\hat{B}_t^{*} -
-    B^{*}| \to^p 0$, $B^{*} = B + o_p$ and $\frac1T \sum_{t=1}^T h_t^* = 0$ a.s.
-  \item The asymptotic variance matrix of $\bar{f}(\beta_0)$ is
+    B^{*}| \to^p 0$, $B^{*} = B + o_p$ and $\frac1T \sum_{t=1}^T
+    h_t^*(\btrue[*]) = 0$ a.s.
+  \item The asymptotic variance matrix of $\bar{f}(\btrue)$ is
     uniformly positive definite.
   \item $R, P \to \infty$ as $T \to \infty$.
   \end{enumerate}
   Then
   \begin{equation}
     \pr[\sup_x | \pr^*[\sqrt{P} (\bar{f}^* - \bar{f}(\btrue[*]))
-        \leq x] - \pr[\sqrt{P}( \bar{f} - \E \bar{f}(\beta_0)) \leq x] | >
+        \leq x] - \pr[\sqrt{P}( \bar{f} - \E \bar{f}(\btrue)) \leq x] | >
       \epsilon] \to 0
   \end{equation}
   for all $\epsilon > 0$.
@@ -830,7 +834,7 @@ Theorem~\ref{res:3} gives the result.
   must be continuously differentiable.  It may be possible to extend
   Theorem~\ref{res:3} to those weaker conditions, but the current
   proof relies on a theorem of \citepos{JoD:00} establishing the
-  consistency of \hac\ estimators which requires differentiability of
+  consistency of \hac\ estimators and their theorem requires differentiability of
   the observations.  Extending \citepos{JoD:00} result to
   nondifferentiable functions should be possible, but is beyond the
   scope of this paper.
@@ -848,30 +852,28 @@ Theorem~\ref{res:3} gives the result.
 \begin{rem}
   \citet{CoS:07} use the distribution of $\sqrt{P}(\bar{f}^{*} -
   \bar{f})$ to approximate that of $\sqrt{P}(\bar{f} - \E
-  \bar{f}(\beta_0))$.  But it is clear that $\bar{f}(\btrue[*])$
-  is the bootstrap analogue of $\E \bar{f}(\beta_0)$, the parameter of
+  \bar{f}(\btrue))$.  But it is clear that $\bar{f}(\btrue[*])$
+  is the bootstrap analogue of $\E \bar{f}(\btrue)$, the parameter of
   interest.  Because their bootstrap is miscentered, \citet{CoS:07}
   must redefine $\hat{\beta}_t^{*}$ to achieve consistency.  In this
   paper, though, consistency arises naturally.
 \end{rem}
 
 \begin{rem}
-  It may be unnecessary to assume that $\bar{f}(\beta_0)$ has positive
+  It may be unnecessary to assume that $\bar{f}(\btrue)$ has positive
   definite asymptotic variance; if so, the bootstrap would work in the
   setup of \citet{ClM:05,ClM:01} and \citet{Mcc:07}.  That question is
   left to future research.
 \end{rem}
 
 \section{Monte Carlo Results}\label{sec:2}
-I'll conduct two brief Monte Carlo experiments to demonstrate that
+I will conduct two brief Monte Carlo experiments to demonstrate that
 this paper's modified version of \citepos{ClW:07} statistic performs
 similarly to their original test in the situations they
 study.\footnote{All of these simulations were programmed in R
-  \citep[version 2.14.0]{R} and use the \textsc{MASS} \citep[version
-  info]{VeR:02}, xtable \citep[1.6-0]{Dah:09}, and dbframe
-  \citep[version 0.2.1]{Cal:10b} packages.}  I'll use both of the \dgp
-s they consider as well as a modification to study the performance of
-the statistics if there is instability.
+  \citep[version 2.14.0]{R} and use the \textsc{MASS}
+  \citep[7.3-22]{VeR:02}, xtable \citep[version 1.6-0]{Dah:09}, and
+  dbframe \citep[version 0.2.7]{Cal:10b} packages.}
 
 The first \dgp\ has three different parametrizations; one to study the
 tests' size, one to study power under stationarity, and one to study
@@ -898,8 +900,7 @@ $z_{t-1}$.  We use both \poscw\ original statistic and the new
 statistic to test the null that the benchmark model's innovation is an
 \mds.\footnote{\citet{ClW:07} report the performance of the tests
   proposed by \citet{CCS:01} and \citet{ClM:05} as well, and of tests
-  based on the naive Gaussian statistic.}  \citet{ClW:06,ClW:07} only
-look at the stable case.
+  based on the naive Gaussian statistic.}
 
 \begin{table}[tb]
   \centering
@@ -916,8 +917,8 @@ look at the stable case.
 
 The second \dgp\ is
 \begin{align*}
-  y_{t} &= 2.237 + 0.261 y_{t-1} + \gamma^{*}_{1} z_{t-1} + \gamma_{2}^{*}
-  z_{t-2} + \gamma_{3}^{*} z_{t-3} + \gamma_{4}^{*} z_{t-4} + e_{t} \\
+  y_{t} &= 2.237 + 0.261 y_{t-1} + \gamma_{1} z_{t-1} + \gamma_{2}
+  z_{t-2} + \gamma_{3} z_{t-3} + \gamma_{4} z_{t-4} + e_{t} \\
   z_{t} &= 0.804 z_{t-1} - 0.221 z_{t-2} + 0.226 z_{t-3} - 0.205
   z_{t-4} + v_{t} \nonumber \\
   \binom{e_{t}}{v_{t}} &\sim N\Bigg(
@@ -928,7 +929,7 @@ The second \dgp\ is
     10.505 & 1.036 \\ 1.036 & 0.366
   \end{pmatrix}
   \Bigg) \nonumber\\\nonumber
-  \gamma^{*} &=
+  \gamma &=
   \begin{cases}
     0 & \text{size simulations}\\
     (3.363, -0.633, -0.377, -0.529)' & \text{power simulations}.
@@ -959,15 +960,13 @@ and Table~\ref{tab:mc2} for~\textsc{dgp}~2.  For all of the stable
 parameter values, the proposed new statistic has similar rejection
 probability to \citepos{ClW:07}.  Clark and West's test is slightly
 more undersized than the new test, but has a little higher power under
-the alternative.  Moreover, the statistics give different results in
-less than 10\% of the simulations for most parametrizations of the
-\dgp s.  In general, the statistics perform similarly well.
+the alternative.  In general, the statistics perform similarly well.
 
-For the simulations with a single break, the new statistic has about
-twice the power of \poscw\ original test.  For most parametrizations
-of \dgp\ 1, the new test rejects over 90\% of the time, while Clark
-and West's test rejects about 40\% of the time.  So mixing window
-strategies can give a substantial power advantage when testing for
+For the simulations with a single break, the new statistic modestly
+higher power than \poscw\ original test.  For most parametrizations of
+\dgp\ 1, the new test rejects over 90\% of the time, while Clark and
+West's test rejects about 40\% of the time.  So mixing window
+strategies can give a small power advantage when testing for
 time-varying predictability, and performs similarly to the original
 test when testing for stable outperformance.
 
@@ -1000,7 +999,7 @@ beginning in 1927 and ending in 2009, and the rolling window uses
 \windowlength\ observations.\footnote{This statistical analysis was
   conducted in R \citep{R} using the xtable
   \citep[version~1.6-0]{Dah:09}, and dbframe \citep[version
-  0.2.5]{Cal:10b} packages.}
+  0.2.7]{Cal:10b} packages.}
 
 Table~\ref{tab:em1} presents the results for each model.  The column
 ``value'' gives the value of the test statistic for each model, while
@@ -1009,7 +1008,7 @@ is greater than the standard size-\bootsize\% critical value (1.28)
 and the critical value estimated by the procedure of
 Theorem~\ref{res:2} (\empiricalcriticalvalue).\footnote{The bootstrap
   uses \nboot\ replications with i.i.d. sampling, as proposed in
-  Part~(\ref{it:1}) of Theorem~\ref{res:2}.}  Three predictors are
+  conclusion~\ref{it:1} of Theorem~\ref{res:2}.}  Three predictors are
 significant at the naive critical values for both the original and
 bounded forecasts: the dividend yield, long term interest rate, and
 book to market ratio.  But none are significant after accounting for
@@ -1050,14 +1049,35 @@ statistics.
 \appendix
 \section{Proofs of Main Theoretical Results}\label{sec:B}
 
+Define the additional notation 
+$F_t(\beta) = \tfrac{\partial}{\partial \beta} f_t(\beta)$,
+$F_t = F_t(\btrue)$,
+$\hat f_t^* = f_t^*(\hat\beta_t^*)$,
+$F_t^*(\beta) = \tfrac{\partial}{\partial \beta} f_t^*(\beta)$,
+$F_t^* = F_t^*(\btrue[*])$,
+$h_t = h_t(\btrue)$,
+$h_t^* = h_t^*(\btrue[*])$, 
+and
+\begin{equation*}
+      H_{t}^* = \begin{cases} 
+        \tfrac1t \sum_{s=1}^t h_{s}^* & \text{recursive window} \\
+        \tfrac1R \sum_{s=t-R+1}^t h_{s}^* & \text{rolling window} \\
+        \tfrac1R \sum_{s=1}^R h_{s}^* & \text{fixed window} \\
+      \end{cases}
+\end{equation*}
+    
 \begin{proof}[Proof of Theorem \ref{res:1}]
   Replace $R$ with $\log(T)$ and $P$ with $T - \log(T)$ in the
   statistic; this substitution does not affect its asymptotic
   distribution; the theorem is now an immediate consequence of
-  Lemma~\ref{res:a5}.  Note that \[f_t(\beta_0)= 2 (y_{t+1} -
-  x_t'\beta_0)(\hat{y}_{1,t+1} - x_t'\beta_0) \quad \text{a.s.},\] as
+  Lemma~\ref{res:a5} with $h_t(\beta) = x_t (y_{t+1} - x_t'\beta)$.
+  Note that \[f_t(\btrue)= 2 (y_{t+1} -
+  x_t'\btrue)(\hat{y}_{1,t+1} - x_t'\btrue) \quad \text{a.s.},\] as
   in \citet{ClW:07}, which is an \mds, so we do not need to use a
-  \hac\ estimator of the variance under the null.
+  \hac\ estimator of the variance under the null.  Also observe that
+  \[F_t(\beta) = 2 x_t(x_t'\beta - \hat y_{1,t+1}) + 2 x_t(x_t'\beta -
+  y_{t+1})\] and the second term is an \mds\ under the null,
+  explaining the particular form of $g_t(\beta)$.
 \end{proof}
 
 \begin{proof}[Proof of Theorem \ref{res:2}]
@@ -1066,19 +1086,19 @@ statistics.
   \citet{RoW:05} complete the proof.
 \end{proof}
 
-\newcommand{\WesA}[1][]{\oclt{t} (\nabla
-  f_t^{#1}(\btrue[#1]) - F^{#1}) B^{#1} H_t^{#1}}
-\newcommand{\WesB}[1][]{\tfrac{1}{\sqrt{P}} F^{#1} \osum{t} (B_t^{#1} -
+\newcommand{\WesA}[1][]{\oclt{t}
+  (F_t^{#1} - \E^{#1} F_t^{#1}) B^{#1} H_t^{#1}}
+\newcommand{\WesB}[1][]{\tfrac{1}{\sqrt{P}} \E^{#1} F_t^{#1} \osum{t} (B_t^{#1} -
   B^{#1}) H_t^{#1}}
-\newcommand{\WesC}[1][]{\oclt{t} (\nabla
-  f_t^{#1}(\btrue[#1]) - F^{#1}) (B_t^{#1} - B^{#1}) H_t^{#1}}
+\newcommand{\WesC}[1][]{\oclt{t}
+  (F_t^{#1} - \E^{#1} F_t^{#1}) (B_t^{#1} - B^{#1}) H_t^{#1}}
 \begin{proof}[Proof of Theorem~\ref{res:3}]
   Expand $f_t^{*}(\hat{\beta}_t^{*})$ around $\btrue[*]$
   to get
   \begin{align*}
     \sqrt{P} \big(\bar{f}^{*} - \bar{f}(\btrue[*])\big) &= \oclt{t}
-    \big(f_t^{*}(\btrue[*]) - \bar{f}(\btrue[*])\big) +
-    F^{*} B^{*} \oclt{t} H_t^* \\
+    \big(f_t^{*} - \bar{f}(\btrue[*])\big) +
+    \E^* F_t^{*} B^{*} \oclt{t} H_t^* \\
     & \quad + \WesA[*] + \WesB[*] \\ & \quad + \WesC[*] + \oclt{t} w_t^*
   \end{align*}
   where (as in \citealp{Wes:96}) the $i$th element of $w_t^*$ is
@@ -1104,7 +1124,7 @@ statistics.
 \end{proof}
 
 \begin{lem}[Formalization of Remark~\ref{rem:01}]
-  Suppose that the conditions of Theorem~\ref{res:2} Part~\ref{it:3}
+  Suppose that the conditions of Theorem~\ref{res:2} conclusion~\ref{it:3}
   hold but $f_i = (f_{i1},\dots,f_{iq})$ and the asymptotic variance
   of $(\bar{f}_{1k}(\beta_k),\dots,\bar{f}_{mk}(\beta_k))$ is
   uniformly positive definite for each $k$.  Then the procedure
@@ -1127,33 +1147,31 @@ as each element has positive variance.
   \item $P^a \sup_t | \hat{\beta}_{t} - \beta_{0} | \to^{p} 0$ and
     $P^a \sup_t | \hat{\beta}^{*}_{t} - \hat{\beta}_T |
     \to^{p^{*}} 0$.
-  \item $\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T
-    \big(\tfrac{\partial}{\partial \beta} f_t(\beta_0) - F\big) =
-    O_{p}(1)$ and $\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T
-    \big(\tfrac{\partial}{\partial \beta} f_t^*(\hat\beta_{T+1}) -
-    F^*\big) = O_{p^*}(1)$.
+  \item $\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T (F_t - \E F_t) = O_{p}(1)$
+    and $\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T (F_t^* - \E F_t^*) =
+    O_{p^*}(1)$.
   \end{enumerate}
 \end{lema}
 
 \begin{proof}[Proof of Lemma~\ref{res:a2}]
   \begin{enumerate}
-  \item The process $\tfrac{1}{\sqrt{T}} h_{s}(\beta_0)$ satisfies
+  \item The process $\tfrac{1}{\sqrt{T}} h_{s}$ satisfies
     \citepos[Theorem 3.1]{JoD:00b} functional \clt.  So
     \begin{equation}
-      P^a \sup_t \Big| \tfrac1t \sum_{s=1}^t h_{s}(\beta_0) \Big| =
+      P^a \sup_t \Big| \tfrac1t \sum_{s=1}^t h_{s} \Big| =
       P^a \sup_{\gamma \in [0,1]} \Big| \tfrac{1}{\lfloor \gamma
-        T\rfloor} \sum_{s=1}^{\lfloor \gamma T \rfloor} h_{s}(\beta_0) \Big| \to^{p} 0
+        T\rfloor} \sum_{s=1}^{\lfloor \gamma T \rfloor} h_{s} \Big| \to^{p} 0
     \end{equation}
     with the convergence following from the continuous mapping
-    theorem.  For the bootstrapped average, \citepos{Cal:11d}
+    theorem.  For the bootstrapped average, \citepos{Cal:13}
     Theorem~2 ensures that
     \begin{equation}
       \tfrac{1}{\sqrt{\gamma
-          T}} \sum_{s=1}^{\lfloor \gamma T \rfloor} h_{s}^*(\hat\beta_{T+1}) 
+          T}} \sum_{s=1}^{\lfloor \gamma T \rfloor} h_{s}^*
       = O_{p^*}(\Omega^*(\hat\beta_{T+1})^{1/2})
     \end{equation}
     where $\Omega^*(\beta) = \var^* h_t^*(\beta)$.  Since
-    $\hat\beta_{T+1} \to^p \beta_0$, it suffices to show that
+    $\hat\beta_{T+1} \to^p \btrue$, it suffices to show that
     $\sup_{\beta \in N} | \Omega^*(\beta) - \var h_t(\beta) | \to^p
     0$.  But this convergence holds for any fixed $\beta$ and our
     assumptions guarantee stochastic equicontinuity as in
@@ -1161,24 +1179,21 @@ as each element has positive variance.
 
   \item We have
     \begin{multline}
-      P^a \sup_t | \hat{\beta}_t - \beta_0 | = P^a \sup_t |\hat{B}_{t}
+      P^a \sup_t | \hat{\beta}_t - \btrue | = P^a \sup_t |\hat{B}_{t}
       H_{t}| \\ \leq \sup_{t,u} \Big| [ \hat{B}_u - B]
-      \tfrac{P^a}{t} \sum_{s=1}^t h_{s}(\beta_0) \Big| + \sup_{t} \Big|
-      B \tfrac{P^a}{t} \sum_{s=1}^t h_{s}(\beta_0) \Big|
+      \tfrac{P^a}{t} \sum_{s=1}^t h_{s} \Big| + \sup_{t} \Big|
+      B \tfrac{P^a}{t} \sum_{s=1}^t h_{s} \Big|
     \end{multline}
     and both terms converge to zero in (conditional) probability by
     the previous argument and by assumption.  The same argument holds
     for $\hat{\beta}_t^{*} - \btrue[*]$ as well.
-  \item $\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T
-    \big(\tfrac{\partial}{\partial \beta} f_t(\beta_0) - F\big)$ obeys
+  \item $\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T (F_t - \E F_t)$ obeys
     \citepos{Jon:97} \clt, so the result is trivial.  Also,
    \begin{equation}
-     \Big\{\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T 
-     \big(\tfrac{\partial}{\partial \beta} f_t^*(\hat\beta_{T+1}) -
-     F^*\big)\Big\} = O_{p^*}(\Omega^*(\hat\beta_{T+1})^{1/2}) = O_p(1)
+     \Big\lvert\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T 
+     ( F_t^* - \E^* F^*)\Big\rvert = O_{p^*}(\Omega^*(\hat\beta_{T+1})^{1/2}) = O_p(1)
     \end{equation}
-    as in the proof of part 1, where now $\Omega^*(\beta) = \var^*
-    \tfrac{\partial}{\partial \beta} f_t^*(\beta)$.
+    as in the proof of part 1, where now $\Omega^*(\beta) = \var^* F_t^*(\beta)$.
   \end{enumerate}
 \end{proof}
 
@@ -1191,45 +1206,46 @@ as each element has positive variance.
 We can write
 \begin{equation*}
   \Big\lvert \WesA[*] \Big\rvert \leq 
-  \Big\lvert \oclt{t} (\nabla f_t^*(\hat\beta_{T+1}) - F^*) B^* \Big\rvert
+  \Big\lvert \oclt{t} (F_t^* - \E^* F^*_t) B^* \Big\rvert
   \sup_t | H_t^* |.
 \end{equation*}
 From Lemma~\ref{res:a2}, $\sup_t | H_t^* | \to^p 0$ and $\oclt{t}
-(\nabla f_t^*(\hat\beta_{T+1}) - F^*) = O_p(1)$,
-establishing~\eqref{eq:7}.  The proofs of~\eqref{eq:9}, \eqref{eq:10},
-and \eqref{eq:11}--\eqref{eq:13} are similar.
+(F_t^* - \E^* F_t^*) = O_p(1)$, establishing~\eqref{eq:7}.  The proofs
+of~\eqref{eq:9}, \eqref{eq:10}, and \eqref{eq:11}--\eqref{eq:13} are
+similar.
 \end{proof}
 
 \begin{lema}\label{res:a3}
-  Suppose the conditions of Theorem~\ref{res:3} hold and let
+  Suppose the conditions of Theorem~\ref{res:3} hold, let
   \[\psi_t^{*}(\beta) = 
-  \binom{f_t^{*}(\beta) - \bar{f}(\beta)}{h_t^{*}(\beta) - \bar h(\beta)}.\]
-  Then
+  \binom{f_t^{*}(\beta) - \bar{f}(\beta)}{h_t^{*}(\beta) - \bar h(\beta)},\]
+  and define $\psi_t = \psi_t(\btrue)$, $\hat\psi_t = \psi_t(\btrue[*])$, and 
+  $\psi_t^* = \psi_t^*(\btrue[*])$.  Then
   \begin{equation}\label{eq:1}
-    \pr\Big[\sup_x \Big| \pr^{*}\Big[ \oclt{t} \psi_{t}^{*}(\hat\beta_{T+1})
-    \leq x \Big] - \pr\Big[ \oclt{t} \psi_{t}(\beta_0)
+    \pr\Big[\sup_x \Big| \pr^{*}\Big[ \oclt{t} \psi_{t}^{*}
+    \leq x \Big] - \pr\Big[ \oclt{t} \psi_{t}
     \leq x \Big] \Big| > \epsilon \Big] \to 0
   \end{equation}
-  for all positive $\epsilon$, where the inequality holds element-by-element.
+  for all positive $\epsilon$, where the inequalities hold element-by-element.
 \end{lema}
 
 \begin{proof}[Proof of Lemma~\ref{res:a3}]
-  Note that both $\psi_t(\btrue)$ and $\psi_t^*(\btrue[*])$ satisfy
+  Note that both $\psi_t$ and $\psi_t^*$ satisfy
   \clt s, (\citealp[Theorem~2]{Jon:97} and
-  \citealp[Theorem~1]{Cal:11d}) so it suffices to prove that
-  \[ \tfrac{ 1 }{ P } \var^* \Big( \osum{t} \psi_t^*(\btrue[*])) \Big)
-  - \tfrac{ 1 }{ P } \var \Big( \osum{t} \psi_t(\btrue) \Big) \to^p
+  \citealp[Theorem~1]{Cal:13}) so it suffices to prove that
+  \[ \tfrac{ 1 }{ P } \var^* \osum{t} \psi_t^* 
+  - \tfrac{ 1 }{ P } \var \osum{t} \psi_t \to^p
   0. \] I will prove this result for the Circular Block Bootstrap
   \citep{PoR:92}---the proof for other block bootstraps is similar and
-  follows as in \cite{Cal:11d}.
+  follows as in \cite{Cal:13}.
 
   \newcommand{\su}{\tfrac{ 1 }{ b T } \sum_{ \tau = 1 }^{ T }%
   \sum_{ s, t \in I( \tau ) }}
 
-  Since $\E^* \psi_t^*( \hat \beta_{T+1} ) = 0$ by construction, we have
+  Since $\E^* \psi_t^* = 0$ by construction, we have
   \begin{equation}\label{eq:3}
-  \tfrac{ 1 }{ P } \var^* \Big( \sum_{ t = R + 1 }^T \psi_t^*( \hat \beta_{T+1} ) \Big)
-  = \su \hat \psi_s( \hat \beta_{T+1} ) \hat \psi_t( \hat \beta_{T+1} )'
+  \tfrac{ 1 }{ P } \var^* \sum_{ t = R + 1 }^T \psi_t^*
+  = \su \hat \psi_s \hat \psi_t'
   \end{equation}
   almost surely, with
   \begin{equation*}
@@ -1242,18 +1258,18 @@ and \eqref{eq:11}--\eqref{eq:13} are similar.
   \end{equation*}
   We can rewrite the right side of \eqref{eq:3} as
   \begin{multline}\label{eq:6}
-    \su \psi_s(\hat\beta_{T+1}) \psi_t(\hat\beta_{T+1})'
-    = \tfrac{1}{T} \sum_{s,t=1}^T \psi_s(\hat\beta_{T+1}) \psi_t(\hat\beta_{T+1})' \;
+    \su \hat\psi_s \hat\psi_t'
+    = \tfrac{1}{T} \sum_{s,t=1}^T \hat\psi_s \hat\psi_t' \;
       \big(1 - \tfrac{\lvert s - t \rvert}{b}\big)^+ \\
       + \tfrac{1}{bT} \sum_{s = 1}^{b - 1} \sum_{t = T - b + s}^{T}
-        (\psi_s(\hat\beta_{T+1}) \psi_t(\hat\beta_{T+1})' +
-         \psi_t(\hat\beta_{T+1}) \psi_s(\hat\beta_{T+1})') \;
+        (\hat\psi_s \hat\psi_t' +
+         \hat\psi_t \hat\psi_s') \;
         \big(1 - \tfrac{\lvert s - t + T\rvert}{b}\big)^+.
   \end{multline}
 
   The first term of \eqref{eq:6} can be shown to converge in
-  probability to $(1/P) \var \osum{t} \psi_t(\btrue)$
-  by Theorem 2.2 of \citet{JoD:00}.  Most of the necessary conditions
+  probability to $\tfrac{1}{P} \var \osum{t} \psi_t$ by Theorem 2.2 of
+  \citet{JoD:00}.  Most of the necessary conditions of their theorem
   hold by assumption and it remains to prove their condition (2.9)
   holds, namely that
   \begin{equation}\label{eq:2}
@@ -1285,33 +1301,33 @@ and \eqref{eq:11}--\eqref{eq:13} are similar.
 
   The conclusion then holds if the second term of~\eqref{eq:6} is
   $o_p(1)$.  We have, for each element of that matrix,
-  \begin{multline*}
+  \begin{equation*}
     \Big| \tfrac{1}{bT} \sum_{s = 1}^{b - 1} \sum_{t = T - b + s}^{T}
-        \psi_{ks}(\hat\beta_{T+1}) \psi_{jt}(\hat\beta_{T+1})
-        \big(1 - \tfrac{\lvert s - t + T\rvert}{b}\big)^+ \Big| \leq\\
-     \tfrac{1}{b T} \sum_{s = 1}^{b - 1} |\psi_{ks}(\hat\beta_{T+1})|
-         \sum_{t = T - b + 1}^{T} | \psi_{jt}(\hat\beta_{T+1}) |
-  \end{multline*}
+        \hat\psi_{ks} \hat\psi_{jt}
+        \big(1 - \tfrac{\lvert s - t + T\rvert}{b}\big)^+ \Big| \leq
+     \tfrac{1}{b T} \sum_{s = 1}^{b - 1} |\hat\psi_{ks}|
+         \sum_{t = T - b + 1}^{T} | \hat\psi_{jt} |
+  \end{equation*}
   almost surely.  For any positive $\delta$,
   \begin{equation*}
-    \pr \Bigg[ \tfrac{1}{T} \sum_{s = 1}^{b - 1} | \psi_{is}( \hat \beta_{T+1} ) |
+    \pr \Bigg[ \tfrac{1}{T} \sum_{s = 1}^{b - 1} | \hat\psi_{is} |
               > \delta \Bigg] \leq 
     \pr \Bigg[\tfrac{1}{T} \sum_{s = 1}^{b - 1} \sup_{ \beta \in N } | \psi_{is}( \beta ) |
               > \delta \Bigg] +
     \pr \big[ \hat \beta_{T+1} \notin N \big].
   \end{equation*}
   Both terms converge to zero by assumption, so $\tfrac{1}{T} \sum_{s
-    = 1}^{b - 1} |\psi_{is}(\hat\beta_{T+1})| = o_p(1)$.  A similar
+    = 1}^{b - 1} |\hat\psi_{is}| = o_p(1)$.  A similar
   argument shows that $\tfrac{1}{b} \sum_{t = T - b + 1}^{T} |
-  \psi_{jt}(\hat\beta_{T+1}) | = O_p(1)$, completing the proof.
+  \hat\psi_{jt} | = O_p(1)$, completing the proof.
 \end{proof}
 
 \begin{lema}\label{res:a5}
-  If the conditions of Theorem~\ref{res:3} hold\footnote{The
-    assumptions governing $\hat{\beta}_t^{*}$ are unnecessary.} then
+  If the conditions of Theorem~\ref{res:3}, except for those governing
+  the bootstrap process, hold then
   \begin{equation}
     \oclt{t}
-    (f_{t}(\hat{\beta}_{t}) - \E f_{t}(\btrue)) \to^d N(0, \sigma^2),
+    (\hat f_t - \E f_t) \to^d N(0, \sigma^2),
   \end{equation}
   with 
   \begin{align}
@@ -1330,17 +1346,17 @@ and \eqref{eq:11}--\eqref{eq:13} are similar.
   $\Big(\begin{smallmatrix}S_{ff} & S_{fh} \\ S_{fh}' &
     S_{hh} \end{smallmatrix} \Big)$ the asymptotic variance of $(\bar
   f(\btrue)', \bar h(\btrue)')'$, and $V_\beta$ the asymptotic
-  variance of~$\hat\beta_{T+1}$.
+  variance of~$\btrue[*]$.
 \end{lema}
 
 \begin{proof}[Proof of Theorem~\ref{res:3}]
   As in \citet{Wes:96} and \citet{WeM:98} (and as in the proof of
-  Theorem~\ref{res:3}), expand $f_t(\hat{\beta}_t^{*})$ around
+  Theorem~\ref{res:3}), expand $\hat f_t$ around
   $\btrue$ to get
   \begin{align*}
     \sqrt{P} \big(\bar{f} - \bar{f}(\btrue)\big) &= \oclt{t}
-    \big(f_t(\btrue) - \E f_t(\btrue)\big) +
-    F B \oclt{t} H_t \\
+    \big(f_t - \E f_t\big) +
+    \E F_t B \oclt{t} H_t \\
     & \quad + \WesA + \WesB \\ & \quad + \WesC + \oclt{t} w_t
   \end{align*}
   where (again, as in \citealp{Wes:96}) the $i$th element of $w_t$ is
@@ -1352,7 +1368,7 @@ and \eqref{eq:11}--\eqref{eq:13} are similar.
   \end{equation*}
   and each $\tilde\beta_{it}$ lies between $\hat\beta_t$ and
   $\btrue$; $\oclt{t} w_t = o_{p}(1)$ as in Theorem~\ref{res:3}.
-  Then, again,
+  Then, as before,
   \begin{gather}
     \WesA \to^{p} 0 \label{eq:11} \\
     \WesB \to^{p} 0 \label{eq:12}\\
@@ -1361,7 +1377,7 @@ and \eqref{eq:11}--\eqref{eq:13} are similar.
   \end{gather}
   from Lemma~\ref{res:a4}.  The formula of the asymptotic variance can
   be derived exactly as in \citet{Wes:96} and \citet{WeM:98}. Since
-  $f_t(\btrue)$ and $H_t$ both satistfy \clt s, this completes the
+  $f_t$ and $H_t$ both satisfy \clt s, this completes the
   proof.
 \end{proof}
 
