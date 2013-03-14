@@ -8,7 +8,7 @@
 \usepackage[margin=1.25in]{geometry}
 \usepackage[small]{caption}
 \newcolumntype{C}{>{\centering\arraybackslash}X}
-
+\onehalfspacing
 \bibliographystyle{abbrvnat}
 \newcommand\citepos[2][]{\citeauthor{#2}'s \citeyearpar[#1]{#2}}
 \newcommand\poscw{\citeauthor{ClW:06}'s \citeyearpar{ClW:06,ClW:07}}
@@ -286,9 +286,9 @@ implement.  So this paper's result for bootstrapping \oos\ statistics
 considerably improves on existing procedures.
 
 The next section presents our new statistics and Section~\ref{sec:1b}
-our block bootstrap result.  Section~\ref{sec:2} presents two
+our block bootstrap result.  Section~\ref{sec:2} presents
 simulations that compare our pairwise \oos\ test to \poscw\ original
-statistic.  Section~\ref{sec:3} demonstrates the use of our statistic
+statistics.  Section~\ref{sec:3} demonstrates the use of our statistic
 by reanalyzing \citepos{GoW:08} study of excess return
 predictability. Section~\ref{sec:4} concludes.
 
@@ -867,112 +867,97 @@ Theorem~\ref{res:3} gives the result.
 \end{rem}
 
 \section{Monte Carlo Results}\label{sec:2}
-I will conduct two brief Monte Carlo experiments to demonstrate that
+This section presents Monte Carlo experiments demonstrating that
 this paper's modified version of \citepos{ClW:07} statistic performs
-similarly to their original test in the situations they
-study.\footnote{All of these simulations were programmed in R
+similarly to their original test in the situations they study, but can
+have substantially higher power when the \dgp\ has a structural
+break.\footnote{All of these simulations were programmed in R
   \citep[version 2.14.0]{R} and use the \textsc{MASS}
   \citep[7.3-22]{VeR:02}, xtable \citep[version 1.6-0]{Dah:09}, and
   dbframe \citep[version 0.2.7]{Cal:10b} packages.}
 
-The first \dgp\ has three different parametrizations; one to study the
+The \dgp\ has three different parametrizations: one to study the
 tests' size, one to study power under stationarity, and one to study
 power if there is a single break in the relationship between the
 target and predictors.  The \dgp\ is:
 \begin{align*}
-  y_t &= 0.5 + \gamma^{*}_t z_{t-1} + e_t &
-  \gamma^{*}_t &=
+  y_t &= \gamma_{1t} + \gamma_{2t} z_{t-1} + e_t &
+  \gamma_t &=
   \begin{cases}
-    0    & \text{size simulations} \\
-    0.35 & \text{power (stable)} \\
-    0    & t \leq \tfrac{T}{2} \quad \text{power (break)} \\
-    0.70 & t > \tfrac{T}{2} \quad \text{power (break)}
+    (0.5, 0)    & \text{size simulations} \\
+    (0.5, 0.35) & \text{power (stable)} \\
+    (-0.5, 0)    & t \leq \tfrac{T}{2} \quad \text{power (break)} \\
+    (1, 0.35) & t > \tfrac{T}{2} \quad \text{power (break)}
   \end{cases}\\\nonumber
   z_t &= 0.15 + 0.95 z_{t-1} + v_t &
   (e_t, v_t)' &\sim iid\ N\Bigg(\begin{pmatrix} 0 \\ 0
   \end{pmatrix}
    , \begin{pmatrix} 18 & -
-    0.5 \\ -0.5 & 0.025 \end{pmatrix}\Bigg).
+    0.5 \\ -0.5 & 0.025 \end{pmatrix}\Bigg)
+  \\ R &= 120, 240 & P &= 120, 240, 360, 720.
 \end{align*}
 Both models are estimated by \ols. The benchmark model regresses $y_t$
 on a constant, and the alternative regresses $y_t$ on a constant and
-$z_{t-1}$.  We use both \poscw\ original statistic and the new
-statistic to test the null that the benchmark model's innovation is an
-\mds.\footnote{\citet{ClW:07} report the performance of the tests
-  proposed by \citet{CCS:01} and \citet{ClM:05} as well, and of tests
-  based on the naive Gaussian statistic.}
+$z_{t-1}$.  \citet{ClW:07} argue that this \dgp\ mimics an asset
+pricing application similar to \citepos{GoW:08} which we study in
+Section~\ref{sec:3}.
+
+For comparison, we study this paper's new statistic as well as \poscw
+rolling-window and recursive-window test statistics.  Clark and West
+only prove that their rolling-window statistic is asymptotically
+normal, and only then if the benchmark model is not estimated, but
+their recursive-window statistic is popular in practice and in
+simulations tends to perform similarly to their rolling window test.
+We use all three of these statistics to test the null that the
+benchmark model's innovation is an \mds.\footnote{\citet{ClW:07}
+  report the performance of the tests proposed by \citet{CCS:01} and
+  \citet{ClM:05} as well, and of tests based on the naive Gaussian
+  statistic.}
 
 \begin{table}[tb]
   \centering
   \input{tex/mc1}
-  \caption{Size and power of the \oos\ tests under \eqref{eq:dgp1} at
+  \caption{Size and power of the \oos\ tests in the simulations 
+    described by Section~\ref{sec:2}, at
     \testsize\% confidence.  These percentages are calculated from \totalsims\
-    samples.  Pr[\textsc{cw}] shows the fraction of simulations for which Clark
-    and West's (2007) statistic rejects; Pr[new] shows the fraction of
-    simulations for which this paper's test rejects; and Pr[disagree]
-    gives the fraction of simulations in which this paper's test and
-    Clark and West's (2007) give different conclusions.}
+    samples.  Pr[\textsc{cw} roll.] shows the fraction of simulations for
+    which Clark and West's (2007) rolling-window statistic rejects; 
+    Pr[\textsc{cw} rec.] shows the fraction of simulations for which 
+    their recursive-window statistic rejects; and Pr[new] shows the fraction of
+    simulations for which this paper's test rejects.}
 \label{tab:mc1}
 \end{table}
 
-The second \dgp\ is
-\begin{align*}
-  y_{t} &= 2.237 + 0.261 y_{t-1} + \gamma_{1} z_{t-1} + \gamma_{2}
-  z_{t-2} + \gamma_{3} z_{t-3} + \gamma_{4} z_{t-4} + e_{t} \\
-  z_{t} &= 0.804 z_{t-1} - 0.221 z_{t-2} + 0.226 z_{t-3} - 0.205
-  z_{t-4} + v_{t} \nonumber \\
-  \binom{e_{t}}{v_{t}} &\sim N\Bigg(
-  \begin{pmatrix}
-    0 \\ 0
-  \end{pmatrix},
-  \begin{pmatrix}
-    10.505 & 1.036 \\ 1.036 & 0.366
-  \end{pmatrix}
-  \Bigg) \nonumber\\\nonumber
-  \gamma &=
-  \begin{cases}
-    0 & \text{size simulations}\\
-    (3.363, -0.633, -0.377, -0.529)' & \text{power simulations}.
-  \end{cases}
-\end{align*}
-The benchmark model for $y_{t}$ is an AR(1) and the alternative model
-includes all four lags of $z_{t}$.  For this simulation, $R$ is 80 or
-120 and $P$ is 40, 80, 120, or 160.  \citet{ClW:07} argue that the
-first \dgp\ mimics an asset pricing application and the second mimics
-\gdp\ growth forecasting using the Federal Reserve Bank of Chicago's
-National Activity Index.
+Table~\ref{tab:mc1} presents the simulation results.  For all of the
+stable parameter values, the proposed new statistic has similar
+rejection probability to \citepos{ClW:07}.  Both of Clark and West's
+tests are generally slightly undersized relative to our new test,
+which is itself slightly undersized: when $R$ is 120 and $P$ is 360
+our test statistic has size 7.6\% and Clark and West's rolling and
+recursive window tests have size 7.5\% and 6.2\% respectively, at a
+nominal size of 10\%.  For the stable alternative, our new statistic
+typically has slightly higher power than Clark and West's rolling
+window and lower power than their recursive window.  For example, when
+$R$ is 120 and $P$ is 720, the rolling-window test rejects at 66.8\%,
+our statistic at 73.0\%, and the recrusive window statistic at 82.3\%,
+again for a nominal size of 10\%.  In general, the statistics perform
+similarly under stability.
 
-\begin{table}[tb]
-  \centering
-  \input{tex/mc2}
-  \caption{Size and power of the \oos\ tests under \eqref{eq:dgp2} at
-    \testsize\% confidence.  These percentages are calculated from \totalsims\
-    samples.  Pr[\textsc{cw}] shows the fraction of simulations for which Clark
-    and West's (2007) statistic rejects; Pr[new] shows the fraction of
-    simulations for which this paper's test rejects; Pr[disagree] gives
-    the fraction of simulations in which this paper's test and Clark and
-    West's (2007) give different conclusions.}
-\label{tab:mc2}
-\end{table}
-
-Table~\ref{tab:mc1} presents the simulation results for~\textsc{dgp}~1
-and Table~\ref{tab:mc2} for~\textsc{dgp}~2.  For all of the stable
-parameter values, the proposed new statistic has similar rejection
-probability to \citepos{ClW:07}.  Clark and West's test is slightly
-more undersized than the new test, but has a little higher power under
-the alternative.  In general, the statistics perform similarly well.
-
-For the simulations with a single break, the new statistic modestly
-higher power than \poscw\ original test.  For most parametrizations of
-\dgp\ 1, the new test rejects over 90\% of the time, while Clark and
-West's test rejects about 40\% of the time.  So mixing window
-strategies can give a small power advantage when testing for
+For the simulations with a single break, the new statistic has
+considerably higher power than \poscw\ original tests across all of
+the choices of $R$ and $P$; the rejection probability is more than
+twice as large for most parametrizations.  When $R$ is 120 and $P$ is
+360 with a nominal size of 10\%, for example, the new statistic
+rejects at 96.4\% while the rolling and recursive window statistics
+reject at 35.5\% and 32.9\% respectively.  Results for other choices
+of nominal size and sample split give similar results.  So mixing
+window strategies can give a large power advantage when testing for
 time-varying predictability, and performs similarly to the original
 test when testing for stable outperformance.
 
 \section{Empirical Illustration}\label{sec:3}
 
-This section demonstrates the use of our new statistics by revisiting
+This section demonstrates the use of our new statistic by revisiting
 \citepos{GoW:08} study of excess stock returns.  Goyal and Welch argue
 that many variables thought to predict excess returns (measured as the
 difference between the yearly log return of the S\&P 500 index and the
@@ -1040,8 +1025,8 @@ Normality is achieved by estimating the alternative model using a
 fixed-length rolling window---as do Clark and West---but estimating
 the benchmark model with a recursive window.  Simulations indicate
 that the new statistic behaves similarly to Clark and West's original
-test when the \dgp\ is stable, suggesting that the new statistic is
-a suitable replacement in applied research.  The paper also presents a
+test when the \dgp\ is stable but can have much higher power when the 
+\dgp\ has structural breaks.  The paper also presents a
 method for comparing the benchmark model to several alternative models
 simultaneously and improves block bootstrap procedures of \oos\
 statistics.
@@ -1396,5 +1381,3 @@ similar.
 % LocalWords:  VeR xtable Dah dbframe oos parametrizations iid dgp return's CaT
 % LocalWords:  outperformance Hmisc Har nondifferentiable bT jt Meng
 % LocalWords:  stationarity mixingale mixingales texextra Timmermann
-
-

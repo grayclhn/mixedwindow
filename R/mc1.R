@@ -42,10 +42,10 @@ generate.data.mc1 <- function(nobs, simulationtype, nburn = 1000) {
                   postbreak.nobs <- nobs - prebreak.nobs
 
                   prebreak.data <- rvar(prebreak.nobs, list(y = c(0, 0), z = c(0, .95)),
-                                        c(0.5, 0.15), innovation.vcv)
+                                        c(-0.5, 0.15), innovation.vcv)
                   postbreak.data <- rvar(postbreak.nobs, 
-                                         list(y = c(2 * mean.gamma, 0), z = c(0, .95)),
-                                         c(0.5, 0.15), innovation.vcv, nburn = 0,
+                                         list(y = c(mean.gamma, 0), z = c(0, .95)),
+                                         c(1.0, 0.15), innovation.vcv, nburn = 0,
                                          y0 = prebreak.data[prebreak.nobs,c("y", "z")])
                   rbind(prebreak.data, postbreak.data)})
 }
