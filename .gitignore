@@ -20,6 +20,8 @@
 *.toc
 *.tof
 *.tot
+*.nav
+*.snm
 
 lib/
 auto/

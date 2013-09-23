@@ -1,5 +1,6 @@
-.PHONY: all clean burn libs
-all: Paper.pdf
+.PHONY: all clean burn libs poster
+all: Paper.pdf poster
+poster: poster.pdf
 
 .DELETE_ON_ERROR:
 
@@ -43,7 +44,7 @@ mc1 mc2:
 
 # 3/14/2013: removing the dependency on the second monte carlo since I don't
 # think it's important for the main points of the paper.
-Paper.pdf: Paper.tex tex/mc1.tex tex/mcDef.tex tex/ap.tex # tex/mc2.tex
+Paper.pdf poster.pdf: %.pdf: %.tex tex/mc1.tex tex/mcDef.tex tex/ap.tex # tex/mc2.tex
 	$(latexmk) $(LATEXMKFLAGS) $< && $(latexmk) $(LATEXMKFLAGS) -c $<
 
 clean: 

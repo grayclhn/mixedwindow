@@ -1,0 +1,282 @@
+\documentclass[final]{beamer}
+  \mode<presentation>
+  {
+% you can chose your theme here:
+% \usetheme{Berlin}
+% further beamerposter themes are available at 
+% http://www-i6.informatik.rwth-aachen.de/~dreuw/latexbeamerposter.php
+}
+\usepackage{type1cm}
+\usepackage{calc} 
+\usepackage{xcolor}
+\usepackage[orientation=landscape,size=a0,scale=1.25]{beamerposter}
+\setlength{\paperwidth}{40in}
+\setlength{\paperheight}{30in}
+\setlength{\textwidth}{0.98\paperwidth}
+\setlength{\textheight}{0.98\paperheight}
+
+\input{tex/mcDef}
+\input{tex/ap}
+\input{tex/header}
+
+\setbeamertemplate{frametitle}[default][center]
+\setbeamertemplate{items}[circle]
+\setbeamertemplate{navigation symbols}{}
+\usecolortheme{dove}
+
+% \setbeamercolor{frametitle}{fg=black}
+% \setbeamercolor{sec title}{parent=titlelike}
+% \setbeamertemplate{navigation symbols}{}
+
+\setbeamerfont{sec title}{parent=title}
+\newcommand*{\secpage}{\usebeamertemplate*{sec page}}
+\setbeamercolor{frametitle}{fg=black}
+
+\begin{document}
+\begin{frame}{\\\centering \textbf{\huge An asymptotically normal out-of-sample
+    test of equal predictive accuracy for nested models}}
+  \centering
+
+  Gray Calhoun, Iowa State University Economics Department
+
+  Sept. 26, 2013, NBER-NSF Time Series Conference
+
+  \begin{columns}[t]
+    \begin{column}{.23\textwidth}
+
+      \begin{block}{\textbf{Abstract / overview}}
+        \begin{itemize}
+        \item[] This paper proposes a modification of
+          \citepos[\textit{J.  Econom.}]{ClW:07} adjusted
+          out-of-sample $t$-test.  The alternative model is still
+          estimated with a fixed-length rolling window, but the
+          benchmark is estimated with a recursive window. The
+          resulting statistic is asymptotically normal even when the
+          models are nested.  Moreover, the alternative model can be
+          estimated using common model selection methods, such as the
+          AIC or BIC.  This paper also presents a method to compare
+          multiple models simultaneously while controlling familywise
+          error, and substantially improves existing block bootstrap
+          methods for out-of-sample statistics.  This procedure is
+          then used to analyze
+          \citepos[\textit{Rev. Finan. Stud.}]{GoW:08} excess returns
+          dataset.
+        \end{itemize}
+      \end{block}
+      \bigskip
+      \begin{block}{\textbf{Test statistic for out-of-sample model
+          comparisons (Theorem~1)}}
+        \begin{itemize}
+        \item Standard out-of-sample (OOS) model comparison:
+          \begin{itemize}
+          \item $R+1$ observations used as training/estimation sample
+          \item $P$ used as test sample
+          \item $T+1$ total observations ($T = R + P$)
+          \end{itemize}
+        \item $\hat{y}_{0t}$ and $\hat{y}_{1t}$ forecast the variable
+          $y_t$
+        \item $\hat{y}_{0,t+1}$, is estimated using OLS with a
+          recursive window: $\hat{y}_{0,t+1} = x_t'\hat{\beta}_t$
+          (benchmark model)
+        \item $\hat{y}_{1t}$, is estimated using a rolling window of
+          fixed length $R$ (less than $T$):
+          \begin{equation*}
+            \hat{y}_{1,t+1} = \psi(y_t,z_t,\dots,y_{t-R+1}, z_{t-R+1})
+          \end{equation*}
+          where $\psi$ is a known function
+        \item Standard moment, dependence, and positive definiteness
+          conditions hold (see paper)
+        \item Null hypothesis: $y_t - \hat{y}_{0t}(\btrue)$
+          is a martingale difference sequence with respect to the
+          filtration $\mathcal{F}_t = \sigma((y_t, z_{t}), (y_{t-1},
+          z_{t-1}),\dots)$
+        \item \textbf{Theorem 1:} $\sqrt{P} \bar f / \hat\sigma \to^d
+          N(0,1)$, where
+          \begin{multline*}
+            \bar f = \tfrac{1}{P} \sum_{t=R+1}^T \Big[(y_{t+1} - \hat y_{0,t+1})^2
+            - (y_{t+1} - \hat{y}_{1,t+1})^2
+            \\ + (\hat y_{0,t+1} - \hat{y}_{1,t+1})^2 \Big],
+          \end{multline*}
+          formula for the variance defined in the paper
+        \item Presented for one step ahead forecasting but can be
+          extended to longer horizons
+        \item Can be used to test for zero correlation (instead of
+          MDS) or forecast optimality with different loss (other than
+          MSE) with minor modifications
+        \end{itemize}
+      \end{block}
+    \end{column}
+
+    \begin{column}{.23\textwidth}
+      \begin{block}{\textbf{Comparing several models (Theorem~2)}}
+        \begin{itemize}
+        \item Extends results in Theorem~1 to comparisons of many
+          models
+        \item $m$ alternative forecasting models,
+          $\hat{y}_{1t},\dots, \hat{y}_{mt}$
+          \item Data matrices $\X_R = (X_1,\dots,X_R)'$
+            and $\X_{P} = (X_{R+1},\dots,X_{T-1})$ with
+            \begin{equation*}
+              X_t = \begin{cases}
+                (y_{t+1}, x_t')' & t \leq R \\
+                (y_{t+1}, x_t', \hat{y}_{1,t+1}, \dots, \hat{y}_{m,t+1})' & t > R.
+              \end{cases}
+            \end{equation*}
+        \item Bootstrap procedure:
+          \begin{enumerate}
+          \item Draw $B$ samples of $P$ observations from $\X_{P}$
+            with block bootstrap (stationary, circular, etc.)
+          \item Denote each sample as $\X_{P, l}^{*}$ and let
+            $\X_l^{*} = [\X_{R}', \X_{P,l}^{*\prime}]'$
+          \item Estimate $\bar{f}^{*}_{li}$ and
+            $\hat{\sigma}_{li}^{*}$ as in Theorem~1 for each bootstrap
+            sample, $\X^{*}_l$, and each alternative model,
+            $\hat{y}_{\ell t}$
+          \end{enumerate}
+        \item Test procedure (Theorem 2):
+          \begin{enumerate}
+          \item Define $M_0 = \emptyset$ and, for $j = 1,\dots,m$, let
+            $M_j = \{\ell : \tfrac1{\hat\sigma_l} \bar{f}_{\ell} >
+            \hat{d}_j\}$, where $\hat{d}_j$ is the $1-\alpha$ quantile
+            of $\max_{\ell \notin M_{j-1}}
+            \tfrac{1}{\hat{\sigma}_\ell^{*}}(\bar{f}_{\ell}^{*} -
+            \bar{f_\ell}(\btrue[*]))$.
+          \item Reject all of the models $\ell$ with $\ell \in
+            \bigcup_{j=1}^m M_j$
+          \end{enumerate}
+        \item $\bar f_\ell$ is Theorem 1's statistic for the $\ell$th
+          alternative model
+        \item Controls familywise error rate at level $\alpha$
+        \item Similar assumptions on each model as in Theorem 1
+        \end{itemize}
+      \end{block}
+
+      \bigskip
+
+      \begin{block}{\textbf{Bootstrap for out-of-sample statistics (Theorem 3)}}
+        \begin{itemize}
+        \item This section concerns \emph{general} OOS comparisons
+        \item Standard moment, dependence, positive definiteness and
+          smoothness conditions (still) assumed
+        \item \textbf{Theorem 3:}
+          Then, for all $\epsilon > 0$,
+          \begin{multline*}
+            \pr[\sup_x | \pr^*[\sqrt{P} (\bar{f}^* - \bar{f}(\tilde{\beta}_T))
+            \leq x] \\ - \pr[\sqrt{P}( \bar{f} - \E \bar{f}(\btrue)) \leq x] | >
+            \epsilon] \to 0
+          \end{multline*}
+          \begin{itemize}
+          \item $\bar f^*$ is the bootstrapped OOS statistic
+            (stationary, circular, or moving blocks)
+          \item $\bar f$ is the OOS statistic
+          \item $\E \bar f(\beta_0)$ is the population quantity of
+            interest
+          \item $\bar f(\tilde \beta_T)$ is the OOS average using
+            the \emph{full-sample} parameter estimate
+          \end{itemize}
+        \item $R, P \to \infty$ as $T \to \infty$ and the (expected)
+          block length $b$ satisfies $b \to \infty$ and $\frac{b}{P}
+          \to 0$
+        \item Other nonparametric bootstraps for OOS statistics
+          require $(P/R) \log \log R \to 0$ or redefining
+          $\hat\beta_t^*$
+        \item Parametric bootstrap requires that the benchmark model
+          be correctly specified
+        \end{itemize}
+      \end{block}
+    \end{column}
+
+    \begin{column}{.23\linewidth}
+      \begin{block}{\textbf{Monte Carlo simulations}}
+        \smallskip
+        \bigskip
+        {
+          \footnotesize
+          \input{tex/mc1}
+        }
+        \begin{itemize}
+        \item Size and power of the OOS tests at \testsize\%
+          confidence, based on \totalsims\ simulations
+        \item Shows fraction of simulations for which each test rejects:
+          \begin{itemize}
+          \item Pr[\textsc{cw} roll.]: Clark and West's (2007)
+            rolling-window
+          \item Pr[\textsc{cw} rec.]: Clark and West's (2007)
+            recursive-window
+          \item Pr[new]: Our new mixed-strategy test statistic
+          \end{itemize}
+        \item DGP given by
+          \begin{align*}
+            y_t &= \gamma_{1t} + \gamma_{2t} z_{t-1} + e_t \\\\
+            \gamma_t &=
+            \begin{cases}
+              (0.5, 0)    & \text{size simulations} \\
+              (0.5, 0.35) & \text{power (stable)} \\
+              (-0.5, 0)    & t \leq \tfrac{T}{2} \quad \text{power (break)} \\
+              (1, 0.35) & t > \tfrac{T}{2} \quad \text{power (break)}
+            \end{cases}\\\\
+            z_t &= 0.15 + 0.95 z_{t-1} + v_t \\\\
+            (e_t, v_t)' &\sim iid\ N\Bigg(\begin{pmatrix} 0 \\ 0
+            \end{pmatrix}
+            , \begin{pmatrix} 18 & -
+              0.5 \\ -0.5 & 0.025 \end{pmatrix}\Bigg)
+          \end{align*}
+        \item Benchmark regresses $y_t$ on a constant
+        \item Alternative regresses $y_t$ on a constant and $z_{t-1}$ (OLS)
+        \item Mimics the asset pricing application studied later in the paper
+          \citep{GoW:08}
+        \end{itemize}
+      \end{block}
+    \end{column}
+
+    \begin{column}{.23\linewidth}
+      \begin{block}{\textbf{Application to equity premium predictability}}
+        \smallskip
+        \bigskip
+        {
+          \footnotesize
+          \empiricaltable
+        }
+
+        \begin{itemize}
+        \item OOS comparison of equity premium prediction models
+          based on \citet{GoW:08}
+        \item Benchmark is the recursive sample mean of the equity
+          premium and each alternative model is a constant and single
+          lag of the variable listed in the \emph{predictor} column
+          (\emph{CT} indicates \citepos{CaT:08} correction to forecasts)
+        \item Dataset begins in 1927 and ends in 2009, annual data
+        \item \emph{Value} column lists the value of this paper's
+          OOS statistic
+        \item \emph{Naive} column indicates whether the statistic is
+          significant at standard critical values
+        \item \emph{Corrected} column indicates significance using
+          critical values that account for the number of models
+        \end{itemize}
+      \end{block}
+
+      \begin{block}{\textbf{Contact Information}}
+        \begin{itemize}
+        \item Economics Department; Iowa State University
+        \item Telephone: (515) 294-6271.
+        \item Email: gcalhoun@iastate.edu
+        \item Web: http://gray.clhn.co
+        \end{itemize}
+      \end{block}
+
+      
+    \end{column}
+  \end{columns}
+\end{frame}
+\begin{frame}<beamer:0>
+    \bibliography{texextra/AllRefs}
+\end{frame}
+\end{document}
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-PDF-mode: t
+
+%  LocalWords:  NBER Econom ClW AIC familywise Finan GoW dataset MDS
+%  LocalWords:  optimality MSE nonparametric DGP iid beamer texextra AllRefs
