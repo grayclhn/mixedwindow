@@ -161,7 +161,8 @@ Macroeconomics, and Finance (see, for example, \citealt{MeR:83};
 \citealt{StW:03}; and \citealt{GoW:08}) and there is a substantial
 literature developing the theoretical properties of these statistics,
 beginning primarily with \citet{DiM:95} and
-\citet{Wes:96}.\footnote{Other papers in this literature include
+\citet{Wes:96}.%
+\footnote{Other papers in this literature include
   \citet{WeM:98}, \citet{Mcc:98,Mcc:00},
   \citet{ClM:01,ClM:05-2,ClM:05,ClM:11b,ClM:12,ClM:12b},
   \citet{CCS:01}, \citet{CoS:02,CoS:04,CoS:07}, \citet{Whi:00},
@@ -171,7 +172,8 @@ beginning primarily with \citet{DiM:95} and
   \cite{RoS:11,RoS:11b}, and \citet{Cal:11}, among others.  For recent
   reviews of this literature and additional references, see
   \citet{McW:02}, \citet{CoS:06}, \citet{Wes:06}, \citet{ClM:11c},
-  \citet{CoD:11}, and \citet{Gia:11}} In a pair of papers,
+  \citet{CoD:11}, and \citet{Gia:11}} %
+In a pair of papers,
 \citet{ClW:06,ClW:07} develop an \oos\ test of the null hypothesis
 that a small benchmark model is correctly specified.  Their test
 compares the forecasting performance of a pair of nested models, and
@@ -190,10 +192,11 @@ while other asymptotically normal statistics test a different null
 hypothesis \citep{GiW:06} or place assumptions on the models and \dgp\
 that are often violated in empirical work (\citealt{DiM:95};
 \citealt{Wes:96}; \citealt{WeM:98};
-\citealt{Mcc:00}).\footnote{\citet{DiM:95} assume that the models are
+\citealt{Mcc:00}).%
+\footnote{\citet{DiM:95} assume that the models are
   not estimated. \citet{Wes:96}, \citet{WeM:98}, and \citet{Mcc:00}
   implicitly assume that the models do not converge to the same limit,
-  which rules out nesting.}
+  which rules out nesting.} %
 
 However, Clark and West's statistic is only ``approximately normal''
 in an informal sense.  Clark and West present Monte Carlo evidence of
@@ -215,14 +218,18 @@ Mixing window strategies is uncommon but needn't be. In most
 applications, the null hypothesis imposes stability as well as equal
 accuracy between the two models.  The benchmark model rarely allows
 for breaks, parameter drift, or other forms of
-instability,\footnote{Exceptions are \citepos{StW:07}
-  \textsc{ima}(1,1) and \textsc{uc-sv} models of inflation.} but the
+instability,%
+\footnote{Exceptions are \citepos{StW:07}
+  \textsc{ima}(1,1) and \textsc{uc-sv} models of inflation.} %
+but the
 researcher is typically concerned about instability.  Indeed, concern
 about instability is often given as a reason for doing an \oos\
-analysis, especially with a short rolling window.\footnote{This
+analysis, especially with a short rolling window.%
+\footnote{This
   motivation is discussed by \citet{StW:03}, \citet{PeT:05,PeT:07},
   \cite{GiW:06}, \citet{GoW:08}, \citet{ClM:09c}, and
-  \cite{GiR:09,GiR:10}, among others.} A researcher could impose
+  \cite{GiR:09,GiR:10}, among others.} %
+A researcher could impose
 stability on both models by using a recursive window or relax
 stability for both by using a rolling window; either approach should
 not affect the test's size, but may affect power.  But the researcher
@@ -249,8 +256,10 @@ This paper focuses on nested models, as they have received the most
 attention in the empirical and theoretical literature, but the
 statistic can be used with non-nested models as well.  This generality
 is useful, since \citepos{Wes:96} results do not apply to non-nested
-models if they both encompass the true \dgp,\footnote{\citet{ClM:11b}
-  call this scenario, ``overlapping models.''} which is allowable
+models if they both encompass the true \dgp,%
+\footnote{\citet{ClM:11b}
+  call this scenario, ``overlapping models.''} %
+which is allowable
 under the null: in the limit, both models will converge to the \dgp\
 and give identical forecasts.  Consequently, the naive \oos\ $t$-test
 is invalid, even after correcting the standard error if necessary to
@@ -285,9 +294,11 @@ the stationary bootstrap, but require the test sample to be much
 smaller than the training sample, which obviously does not hold here.
 \citet{CoS:07} relax that requirement, but make the statistic more
 complicated than necessary by adjusting the objective function of the
-bootstrapped statistic to center it correctly.\footnote{Their
+bootstrapped statistic to center it correctly.%
+\footnote{Their
   recentering is required for consistency and does not imply higher
-  order accuracy.}  A parametric bootstrap, such as that used by
+  order accuracy.} %
+A parametric bootstrap, such as that used by
 \cite{Mar:95}, \cite{Lut:99}, and \citet{ClM:12b}, is an alternative
 method, but requires the benchmark model to be correctly specified.
 Although I focus on the null hypothesis that the benchmark is
@@ -323,8 +334,10 @@ sequence with respect to $\mathcal{F}_t \equiv \sigma((x_t, v_t, y_t),
 \end{equation}
 obeys an \mds\ \clt\ (assuming that its variance is uniformly
 positive) and is asymptotically normal as $P \to \infty$, with $R$ an
-arbitrary starting value\footnote{It will be clear momentarily why the
-  summation begins at $R+1$ instead of $1$.} and $P = T - R$.
+arbitrary starting value%
+\footnote{It will be clear momentarily why the
+  summation begins at $R+1$ instead of $1$.} %
+and $P = T - R$.
 Straightforward algebra \citep{ClW:07} shows that
 \begin{equation}
   \label{eq:5}
@@ -486,7 +499,8 @@ The following remarks are relevant to Theorem~\ref{res:1}:
   optimal forecasts under other loss functions
   \citep[see][]{PaT:07,PaT:07b}; the statistic should be expressed as
   a forecast encompassing test using the models' generalized forecast
-  errors.\footnote{See \citet{HLN:98} and \citet[Section~4]{ClW:07}.}
+  errors.%
+\footnote{See \citet{HLN:98} and \citet[Section~4]{ClW:07}.} %
   Again, Lemma~\ref{res:a5} can cover these other applications.
 \end{rem}
 
@@ -511,10 +525,12 @@ The following remarks are relevant to Theorem~\ref{res:1}:
 \end{rem}
 
 Since most empirical papers study more than one alternative model,
-Theorem~\ref{sec:1} is of limited use on its own.\footnote{Moreover,
+Theorem~\ref{sec:1} is of limited use on its own.%
+\footnote{Moreover,
   we would need to account for the existence of multiple models even if
 each paper only considered a single model, since there are many papers
-studying the same data.}  It can, however, be
+studying the same data.} %
+It can, however, be
 used as the basis for a procedure that allows researchers to make
 multiple comparisons.  Before presenting a theoretical result, I will
 discuss some issues related to multiple hypothesis testing.
@@ -522,16 +538,20 @@ discuss some issues related to multiple hypothesis testing.
 Suppose we have the family of hypotheses, $H_1,\dots,H_J$.  It is
 clear that testing each hypothesis individually will often have a
 probability greater than the tests' nominal size of rejecting at least
-once.\footnote{Unless the statistics used for each test are completely
+once.%
+\footnote{Unless the statistics used for each test are completely
   interdependent, the probability will be strictly greater than the
-  nominal size.}  Econometricians, e.g. \citet{Whi:00},
+  nominal size.} %
+Econometricians, e.g. \citet{Whi:00},
 \citet{Han:05}, \cite{HuW:10}, and \citet{ClM:12b}, have emphasized
 statistics that test families of hypotheses that control the
 probability any hypothesis is rejected given that they all are true,
 known as \textit{weak control of familywise error}
-(\wfwe).\footnote{An exception is \citet{HHK:10} who combine
+(\wfwe).%
+\footnote{An exception is \citet{HHK:10} who combine
   \citepos{RoW:05} StepM with \citepos{Han:05} threshold rule to
-  control \sfwe\ for certain families of one-sided tests.}  This paper
+  control \sfwe\ for certain families of one-sided tests.} %
+This paper
 focuses instead on controlling the probability that at least one true
 hypothesis is rejected given any combination of true and false
 hypotheses, known as \textit{strong control of familywise error}
@@ -602,9 +622,11 @@ but requires us to drop the first $R$ observations from the bootstrap
 (the alternative forecasts are not defined for the first $R$
 observations).  I add those observations to the beginning of each
 bootstrap sample so that population means under the bootstrap-induced
-probability distribution equal sample means.\footnote{This equality is
+probability distribution equal sample means.%
+\footnote{This equality is
   strictly true only for the stationary and circular block
-  bootstraps.}  The benchmark model still needs to be reestimated in
+  bootstraps.} %
+The benchmark model still needs to be reestimated in
 each bootstrap sample.
 
 Theorem~\ref{res:2} presents the final procedure.
@@ -682,12 +704,13 @@ before the bootstrap.
   that, in conclusion~\ref{it:2}, the forecast error is an \mds\ with
   respect to several individual series, but not necessarily with
   respect to the pooled information set generated by all of those
-  series together.\footnote{It is straightforward to construct three
+  series together.%
+\footnote{It is straightforward to construct three
     series, $u_t$, $v_t$, and $w_t$, such that $w_t$ is an \mds\ with
     respect to $\sigma((u_t, w_t), (u_{t-1}, w_{t-1}),\dots)$ and
     $\sigma((v_t, w_t), (v_{t-1}, w_{t-1}),\dots)$ but not
     $\sigma((u_t, v_t, w_t), (u_{t-1}, v_{t-1}, w_{t-1}),\dots)$.
-    This is essentially the scenario imposed in conclusion~\ref{it:2}.}
+    This is essentially the scenario imposed in conclusion~\ref{it:2}.} %
   Using $b = 1$ would consistently estimate the marginal distribution
   of each $\tfrac1{\sigma_i} \bar{f}_i$ under this weaker null
   hypothesis, but would not necessarily estimate the joint
@@ -732,17 +755,20 @@ before the bootstrap.
   alternatives.  For example, one could use either \citepos{AtO:01}
   random walk or \citepos{StW:07} \textsc{ima}(1,1) as benchmark
   inflation models, so it might make sense to require an alternative
-  model to outperform them both.\footnote{\citet{Pin:11} studies tests
+  model to outperform them both.%
+\footnote{\citet{Pin:11} studies tests
     that reject if the alternative model outperforms either of the
-    models, so the details are somewhat different in our papers.}
+    models, so the details are somewhat different in our papers.} %
   Allowing multiple benchmark models can be expressed as an
   Intersection-Union test, so Theorem~\ref{res:2}'s procedure
   (conclusion~\ref{it:3}) easily accommodates this extension by taking
   each $\bar f_i$ and $\hat{\sigma}_{i}^{2}$ to be a random
-  $q$-vector;\footnote{If a researcher uses multiple benchmark models,
+  $q$-vector;%
+\footnote{If a researcher uses multiple benchmark models,
     it would be a mistake to assume that they are all correctly
     specified, so only the null hypothesis of conclusion~\ref{it:3} is
-    appropriate.} the first element of $\bar f_{i}$, written as $\bar
+    appropriate.} %
+  the first element of $\bar f_{i}$, written as $\bar
   f_{i1}$, compares the first benchmark model to the $i$th alternative
   and the first element of $\hat{\sigma}_i^2$ is the corresponding
   estimate of asymptotic variance, the second element corresponds to
@@ -812,11 +838,12 @@ Theorem~\ref{res:3} gives the result.
     \psi_t(\beta)$ are $L_2$-\ned\ of size $-\frac12$ on the
     series $V_t$ with bounded \ned-coefficients for $\beta$ uniformly
     in $N$; $V_t$ is strong mixing of size $-\frac{r}{r-2}$ or uniform
-    mixing of size $-\frac{r}{2r-2}$ with $r > 2$.\footnote{For
+    mixing of size $-\frac{r}{2r-2}$ with $r > 2$.%
+\footnote{For
       uniform mixing processes, $r = 2$ is also allowed as long as
       $\sup_{\beta \in N} \psi_t(\beta)^2$ and $\sup_{\beta \in N}
       (\partial \psi_t(\beta) / \partial \beta)^2$ are uniformly
-      integrable.}
+      integrable.} %
   \item The sequence $\hat f_1^{*},\dots,\hat f_T^{*}$ is constructed
     using the same procedure as the original \oos\ analysis over the
     bootstrap sample, where the bootstrap sample is generated by
@@ -855,9 +882,10 @@ Theorem~\ref{res:3} gives the result.
   \citet{Whi:00} and \citet{Han:05} resample the forecasts but do not
   reestimate any of them which requires the additional assumption that
   $\tfrac{P}{R} \log \log R \to 0$ or that the forecasts themselves
-  have no estimated parameters.\footnote{\citet{Whi:00} lists several
+  have no estimated parameters.%
+\footnote{\citet{Whi:00} lists several
     different sets of assumptions that give the same result, but these
-    seem to be the most general.}
+    seem to be the most general.} %
 \end{rem}
 
 \begin{rem}
@@ -882,10 +910,11 @@ This section presents Monte Carlo experiments demonstrating that
 this paper's modified version of \citepos{ClW:07} statistic performs
 similarly to their original test in the situations they study, but can
 have substantially higher power when the \dgp\ has a structural
-break.\footnote{All of these simulations were programmed in R
+break.%
+\footnote{All of these simulations were programmed in R
   \citep[version 2.14.0]{R} and use the \textsc{MASS}
   \citep[7.3-22]{VeR:02}, xtable \citep[version 1.6-0]{Dah:09}, and
-  dbframe \citep[version 0.2.7]{Cal:10b} packages.}
+  dbframe \citep[version 0.2.7]{Cal:10b} packages.} %
 
 The \dgp\ has three different parametrizations: one to study the
 tests' size, one to study power under stationarity, and one to study
@@ -920,10 +949,11 @@ normal, and only then if the benchmark model is not estimated, but
 their recursive-window statistic is popular in practice and in
 simulations tends to perform similarly to their rolling window test.
 We use all three of these statistics to test the null that the
-benchmark model's innovation is an \mds.\footnote{\citet{ClW:07}
+benchmark model's innovation is an \mds.%
+\footnote{\citet{ClW:07}
   report the performance of the tests proposed by \citet{CCS:01} and
   \citet{ClM:05} as well, and of tests based on the naive Gaussian
-  statistic.}
+  statistic.} %
 
 \begin{table}[tb]
   \centering
@@ -992,19 +1022,22 @@ since negative forecasts are incredible, as well as two simple
 combination forecasts, the mean and the median (over both the original
 and the non-negative forecasts).  The data set is annual data
 beginning in 1927 and ending in 2009, and the rolling window uses
-\windowlength\ observations.\footnote{This statistical analysis was
+\windowlength\ observations.%
+\footnote{This statistical analysis was
   conducted in R \citep{R} using the xtable
   \citep[version~1.6-0]{Dah:09}, and dbframe \citep[version
-  0.2.7]{Cal:10b} packages.}
+  0.2.7]{Cal:10b} packages.} %
 
 Table~\ref{tab:em1} presents the results for each model.  The column
 ``value'' gives the value of the test statistic for each model, while
 the ``naive'' and ``corrected'' columns indicate whether the statistic
 is greater than the standard size-\bootsize\% critical value (1.28)
 and the critical value estimated by the procedure of
-Theorem~\ref{res:2} (\empiricalcriticalvalue).\footnote{The bootstrap
+Theorem~\ref{res:2} (\empiricalcriticalvalue).%
+\footnote{The bootstrap
   uses \nboot\ replications with i.i.d. sampling, as proposed in
-  conclusion~\ref{it:1} of Theorem~\ref{res:2}.}  Three predictors are
+  conclusion~\ref{it:1} of Theorem~\ref{res:2}.} %
+Three predictors are
 significant at the naive critical values for both the original and
 bounded forecasts: the dividend yield, long term interest rate, and
 book to market ratio.  But none are significant after accounting for
@@ -1288,9 +1321,11 @@ similar.
           \E \frac{\partial \psi_{jt}(\beta)}{\partial \beta_k} \Bigg)
     \to^p 0
   \end{equation*}
-  by a mixingale \lln\ \citep{Dav:93}.\footnote{Remember that \ned\
+  by a mixingale \lln\ \citep{Dav:93}.%
+\footnote{Remember that \ned\
     processes are also mixingales.  See, for example, \citet[Section
-    17.2]{Dav:94}.}  Convergence in $L_2$ for each $\beta \in N$ then
+    17.2]{Dav:94}.} %
+  Convergence in $L_2$ for each $\beta \in N$ then
   follows from the existence of the $r$th moment ($r > 2$) and uniform
   convergence is a consequence of our bound on the second derivative
   of $\psi_t$.
