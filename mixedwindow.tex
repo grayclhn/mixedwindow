@@ -34,7 +34,7 @@
 \newtheorem{cor}[thm]{Corollary}
 \newtheorem{lema}{Lemma}[section]
 \newtheorem{alg}{Algorithm}
-\newtheorem{asmp}{Assumption}[section]
+\newtheorem{asmp}{Assumption}
 
 \theoremstyle{definition}
 
@@ -351,38 +351,44 @@ assumptions required are essentially the same in existing papers
 \citealp{GiW:06}; and \citealp{ClW:06,ClW:07}).  Please see the
 original papers for a discussion of these assumptions.
 
+\begin{asmp}\label{a1}%
+  The benchmark forecast $\hat{y}_{0,t+1}$, is estimated using \ols\
+  with a recursive window: $\hat{y}_{0,t+1} = x_t'\hat{\beta}_t$ for
+  some vector of predictors $x_t$ with $\hat{\beta}_t$ given by
+  Equation~\eqref{eq:8}.  Also define $\btrue = (\E x_{t-1}
+  x_{t-1}')^{-1} \E x_{t-1} y_t$ and assume that $\btrue$ does not
+  depend on~$t$.
+\end{asmp}
+
+\begin{asmp}\label{a2}%
+  The alternative forecast, $\hat{y}_{1t}$, is estimated using a
+  rolling window of fixed length $R$ (which is less than $T$), so
+  $\hat{y}_{1,t+1} = \psi(y_t,z_t,\dots,y_{t-R+1}, z_{t-R+1})$ where
+  $\psi$ is a known function and $z_t$ is a sequence of predictors
+  that may include $x_t$.
+\end{asmp}
+
+\begin{asmp}\label{a3}%
+  The series $y_t$, $\hat{y}_{1t}$, and $x_t$ have uniformly bounded
+  $2 r$ moments for some $r > 2$, and $\hat y_t y_t$ $\hat y_t
+  x_{t-1}$, $y_t x_{t-1}$, and $x_{t-1}, x_{t-1}'$ are $L_2$-\ned\ of
+  size $-\frac12$ on a strong mixing series of size $-\frac{r}{r-2}$
+  for $r>2$ or a uniform mixing series of size $-\frac{r}{2r-2}$.
+\end{asmp}
+
+\begin{asmp}\label{a4}%
+  Define \[f_t(\beta) = (y_{t+1} - x_t'\beta)^2 - (y_{t+1} -
+  \hat{y}_{1,t+1})^2 + (x_t'\beta - \hat{y}_{1,t+1})^2,\] $f_t =
+  f_t(\beta_0)$, $\hat f_t = f_t(\hat\beta_t)$, $\bar{f}(\beta) =
+  \oavg{t} f_t(\beta)$, and $\bar f = \tfrac1P \sum_{t=R+1}^{T} \hat
+  f_t$, with $P = T - R$; $\bar f(\btrue)$ has uniformly positive and
+  finite long run variance.
+\end{asmp}
+
 \begin{thm}\label{res:1}
   Suppose that we have two models $\hat{y}_{0t}$ and $\hat{y}_{1t}$ to
   forecast the variable $y_t$, and have observations for
-  $t=1,\dots,T+1$.  Assume the following hold:
-  \begin{enumerate}
-  \item \label{item:1} The benchmark forecast $\hat{y}_{0,t+1}$, is
-    estimated using \ols\ with a recursive window:
-    $\hat{y}_{0,t+1} = x_t'\hat{\beta}_t$ for some vector of
-    predictors $x_t$ with $\hat{\beta}_t$ given by
-    Equation~\eqref{eq:8}.  Also define $\btrue = (\E x_{t-1}
-    x_{t-1}')^{-1} \E x_{t-1} y_t$ and assume that $\btrue$ does not depend
-    on~$t$.
-  \item \label{item:2} The alternative forecast, $\hat{y}_{1t}$, is
-    estimated using a rolling window of fixed length $R$ (which is
-    less than $T$), so $\hat{y}_{1,t+1} =
-    \psi(y_t,z_t,\dots,y_{t-R+1}, z_{t-R+1})$ where $\psi$ is a known
-    function and $z_t$ is a sequence of predictors that may include
-    $x_t$.
-  \item \label{item:3} The series $y_t$, $\hat{y}_{1t}$, and $x_t$
-    have uniformly bounded $2 r$ moments for some $r > 2$, and $\hat
-    y_t y_t$ $\hat y_t x_{t-1}$, $y_t x_{t-1}$, and $x_{t-1},
-    x_{t-1}'$ are $L_2$-\ned\ of size $-\frac12$ on a strong mixing
-    series of size $-\frac{r}{r-2}$ for $r>2$ or a uniform mixing
-    series of size $-\frac{r}{2r-2}$.
-  \item \label{item:4} Define \[f_t(\beta) = (y_{t+1} - x_t'\beta)^2 -
-    (y_{t+1} - \hat{y}_{1,t+1})^2 + (x_t'\beta - \hat{y}_{1,t+1})^2,\]
-    $f_t = f_t(\beta_0)$, $\hat f_t = f_t(\hat\beta_t)$,
-    $\bar{f}(\beta) = \oavg{t} f_t(\beta)$, and $\bar f
-    = \tfrac1P \sum_{t=R+1}^{T} \hat f_t$, with $P = T - R$;
-    $\bar f(\btrue)$ has uniformly positive and finite long run
-    variance.
-  \end{enumerate}
+  $t=1,\dots,T+1$. Suppose that Assumptions~\ref{a1} -- \ref{a4} hold.
   Under the null hypothesis that $y_t - \hat{y}_{0t}(\btrue)$ is a
   martingale difference sequence with respect to the filtration
   $\mathcal{F}_t = \sigma((y_t, z_{t}), (y_{t-1}, z_{t-1}),\dots)$,
