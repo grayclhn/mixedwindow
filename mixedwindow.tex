@@ -820,7 +820,15 @@ test when the \dgp\ is stable but can have much higher power when the
 \dgp\ has structural breaks.
 
 \appendix
-\section{Proofs of Main Theoretical Results}\label{sec:B}
+\section{Proofs of Main Theoretical Results}
+\label{sec:B}
+
+\newcommand{\WesA}[1][]{\oclt{t}
+  (F_t^{#1} - \E^{#1} F_t^{#1}) B^{#1} H_t^{#1}}
+\newcommand{\WesB}[1][]{\tfrac{1}{\sqrt{P}} \E^{#1} F_t^{#1} \osum{t} (B_t^{#1} -
+  B^{#1}) H_t^{#1}}
+\newcommand{\WesC}[1][]{\oclt{t}
+  (F_t^{#1} - \E^{#1} F_t^{#1}) (B_t^{#1} - B^{#1}) H_t^{#1}}
 
 Define the additional notation 
 $F_t(\beta) = \tfrac{\partial}{\partial \beta} f_t(\beta)$,
@@ -831,8 +839,34 @@ $h_t = h_t(\btrue)$.
 \begin{proof}[Proof of Theorem \ref{res:1}]
   Replace $R$ with $\log(T)$ and $P$ with $T - \log(T)$ in the
   statistic; this substitution does not affect its asymptotic
-  distribution; the theorem is now an immediate consequence of
-  Lemma~\ref{res:a5} with $h_t(\beta) = x_t (y_{t+1} - x_t'\beta)$.
+  distribution.
+  As in \citet{Wes:96} and \citet{WeM:98}, expand $\hat f_t$ around
+  $\btrue$ to get
+  \begin{align*}
+    \sqrt{P} \big(\bar{f} - \bar{f}(\btrue)\big) &= \oclt{t}
+    \big(f_t - \E f_t\big) +
+    \E F_t B \oclt{t} H_t \\
+    & \quad + \WesA + \WesB \\ & \quad + \WesC + \oclt{t} w_t
+  \end{align*}
+  where (again, as in \citealp{Wes:96}) the $i$th element of $w_t$ is
+  \begin{equation*}
+    w_{it} = \tfrac12 (\hat\beta_t - \btrue)'
+    \Big[\tfrac{\partial^2}{\partial \beta \partial\beta'}
+    f_{it}(\tilde\beta_{it}) \Big]
+    (\hat\beta_t - \btrue)
+  \end{equation*}
+  and each $\tilde\beta_{it}$ lies between $\hat\beta_t$ and
+  $\btrue$; $\oclt{t} w_t = o_{p}(1)$ as in Theorem~\ref{res:3}.
+  Then, as before,
+  \begin{gather}
+    \WesA \to^{p} 0 \label{eq:11} \\
+    \WesB \to^{p} 0 \label{eq:12}\\
+  \intertext{and}
+    \WesC \to^{p} 0 \label{eq:13}
+  \end{gather}
+  from Lemma~\ref{res:a4}.  The formula of the asymptotic variance can
+  be derived exactly as in \citet{Wes:96} and \citet{WeM:98}.
+
   Note that \[f_t(\btrue)= 2 (y_{t+1} -
   x_t'\btrue)(\hat{y}_{1,t+1} - x_t'\btrue) \quad \text{a.s.},\] as
   in \citet{ClW:07}, which is an \mds, so we do not need to use a
@@ -847,13 +881,6 @@ $h_t = h_t(\btrue)$.
   Theorem~\ref{res:3} of this paper and Theorems~3.1 and~4.1 of
   \citet{RoW:05} complete the proof.
 \end{proof}
-
-\newcommand{\WesA}[1][]{\oclt{t}
-  (F_t^{#1} - \E^{#1} F_t^{#1}) B^{#1} H_t^{#1}}
-\newcommand{\WesB}[1][]{\tfrac{1}{\sqrt{P}} \E^{#1} F_t^{#1} \osum{t} (B_t^{#1} -
-  B^{#1}) H_t^{#1}}
-\newcommand{\WesC}[1][]{\oclt{t}
-  (F_t^{#1} - \E^{#1} F_t^{#1}) (B_t^{#1} - B^{#1}) H_t^{#1}}
 
 \section{Supporting Results}
 
@@ -907,63 +934,6 @@ We can write
 From Lemma~\ref{res:a2}, $\sup_t | H_t | \to^p 0$ and $\oclt{t}
 (F_t - \E F_t) = O_p(1)$, establishing~\eqref{eq:11}. The proofs
 of \eqref{eq:12} and \eqref{eq:13} are similar.
-\end{proof}
-
-\begin{lema}\label{res:a5}
-  If the conditions of Theorem~\ref{res:1} hold then
-  \begin{equation}
-    \oclt{t}
-    (\hat f_t - \E f_t) \to^d N(0, \sigma^2),
-  \end{equation}
-  with 
-  \begin{align}
-  \sigma^2 &= S_{ff} + \lambda_{fh} (F B S_{fh}' + S_{fh} B' F') + 2 \lambda_{hh} F V_\beta F' \\
-  (\lambda_{fh}, \lambda_{hh}) &= 
-  \begin{cases}
-    (1, 2) \times \big(1 - \tfrac{1}{\pi} \ln(1 + \pi)\big) 
-      & \text{recursive window} \\
-    \big(\tfrac{\pi}{2}, \pi - \tfrac{\pi^2}{3}\big)
-      & \text{rolling window with $\pi \leq 1$} \\
-    \big(1 - \tfrac{1}{2\pi}, 1 - \tfrac{1}{3\pi}\big)
-      & \text{rolling window with $\pi > 1$} \\
-    (0, \pi) & \text{fixed window},
-  \end{cases}
-  \end{align}
-  $\Big(\begin{smallmatrix}S_{ff} & S_{fh} \\ S_{fh}' &
-    S_{hh} \end{smallmatrix} \Big)$ the asymptotic variance of $(\bar
-  f(\btrue)', \bar h(\btrue)')'$, and $V_\beta$ the asymptotic
-  variance of~$\btrue[*]$.
-\end{lema}
-
-\begin{proof}[Proof of Theorem~\ref{res:a5}]
-  As in \citet{Wes:96} and \citet{WeM:98}, expand $\hat f_t$ around
-  $\btrue$ to get
-  \begin{align*}
-    \sqrt{P} \big(\bar{f} - \bar{f}(\btrue)\big) &= \oclt{t}
-    \big(f_t - \E f_t\big) +
-    \E F_t B \oclt{t} H_t \\
-    & \quad + \WesA + \WesB \\ & \quad + \WesC + \oclt{t} w_t
-  \end{align*}
-  where (again, as in \citealp{Wes:96}) the $i$th element of $w_t$ is
-  \begin{equation*}
-    w_{it} = \tfrac12 (\hat\beta_t - \btrue)'
-    \Big[\tfrac{\partial^2}{\partial \beta \partial\beta'} 
-    f_{it}(\tilde\beta_{it}) \Big]
-    (\hat\beta_t - \btrue)
-  \end{equation*}
-  and each $\tilde\beta_{it}$ lies between $\hat\beta_t$ and
-  $\btrue$; $\oclt{t} w_t = o_{p}(1)$ as in Theorem~\ref{res:3}.
-  Then, as before,
-  \begin{gather}
-    \WesA \to^{p} 0 \label{eq:11} \\
-    \WesB \to^{p} 0 \label{eq:12}\\
-  \intertext{and}
-    \WesC \to^{p} 0 \label{eq:13}
-  \end{gather}
-  from Lemma~\ref{res:a4}.  The formula of the asymptotic variance can
-  be derived exactly as in \citet{Wes:96} and \citet{WeM:98}. Since
-  $f_t$ and $H_t$ both satisfy \clt s, this completes the
-  proof.
 \end{proof}
 
 \bibliography{texextra/AllRefs}
