@@ -1,0 +1,66 @@
+\frenchspacing
+
+\usepackage[sort,round,comma]{natbib}
+\newcommand\citepos[2][]{\citeauthor{#2}'s \citeyearpar[#1]{#2}}
+\newcommand\poscw{\citeauthor{ClW:06}'s \citeyearpar{ClW:06,ClW:07}}
+\bibliographystyle{abbrvnat}
+
+\usepackage{amsmath,amsthm, amssymb, latexsym,tabularx,booktabs}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{claim}[thm]{Claim}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{lema}{Lemma}[section]
+\newtheorem{alg}{Algorithm}
+\newtheorem{asmp}{Assumption}[section]
+
+\theoremstyle{definition}
+
+\newtheorem{defn}{Definition}
+\newtheorem{rem}{Remark}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\E}{E}
+\DeclareMathOperator{\var}{var}
+\DeclareMathOperator{\cov}{cov}
+%\DeclareMathOperator{\vec}{vec}
+\DeclareMathOperator{\vech}{vech}
+
+\DeclareMathOperator{\pr}{Pr}
+
+\newcommand{\btrue}[1][]{\if#1*\hat\beta_{T+1}\else\beta_0\fi}
+
+\newcommand{\X}{\ensuremath{\mathrm{X}}}
+\newcommand{\R}{\ensuremath{\mathrm{R}}}
+\newcommand{\p}{\ensuremath{\mathrm{P}}}
+
+\newcommand{\osum}[1]{\sum_{#1=R+1}^T}
+\newcommand{\oavg}[1]{\tfrac{1}{P} \osum{#1}}
+\newcommand{\oclt}[1]{\tfrac{1}{\sqrt{P}} \osum{#1}}
+
+\newcommand{\aic}{AIC}
+\newcommand{\bic}{BIC}
+\newcommand{\brc}{BRC}
+\newcommand{\cdf}{CDF}
+\newcommand{\clt}{CLT}
+\newcommand{\dd}[1]{\frac{\partial}{\partial #1}}
+\newcommand{\dgp}{DGP}
+\newcommand{\fclt}{FCLT}
+\newcommand{\fwe}{FWE}
+\newcommand{\gdp}{GDP}
+\newcommand{\hac}{HAC}
+\newcommand{\lln}{LLN}
+\newcommand{\ma}{MA}
+\newcommand{\mds}{MDS}
+\newcommand{\ned}{NED}
+\newcommand{\ols}{OLS}
+\newcommand{\oos}{OOS}
+\newcommand{\sfwe}{SFWE}
+\newcommand{\spa}{SPA}
+\newcommand{\wfwe}{WFWE}
+
+\renewcommand{\Re}{\ensuremath{\mathbb{R}}}

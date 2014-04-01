@@ -1,5 +1,5 @@
 .PHONY: all clean burn libs dirs
-all: mixedwindow.pdf
+all: mixedwindow.pdf poster.pdf
 
 .DELETE_ON_ERROR:
 
@@ -44,7 +44,7 @@ mc1 mc2:
 
 # 3/14/2013: removing the dependency on the second monte carlo since I don't
 # think it's important for the main points of the paper.
-mixedwindow.pdf: mixedwindow.tex tex/mc1.tex tex/mcDef.tex tex/ap.tex # tex/mc2.tex
+mixedwindow.pdf poster.pdf: %.pdf: %.tex tex/mc1.tex tex/mcDef.tex tex/ap.tex # tex/mc2.tex
 	$(latexmk) $(LATEXMKFLAGS) $<
 
 clean: 
