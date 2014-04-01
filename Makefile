@@ -1,5 +1,5 @@
 .PHONY: all clean burn libs dirs
-all: Paper.pdf
+all: mixedwindow.pdf
 
 .DELETE_ON_ERROR:
 
@@ -44,14 +44,14 @@ mc1 mc2:
 
 # 3/14/2013: removing the dependency on the second monte carlo since I don't
 # think it's important for the main points of the paper.
-Paper.pdf: Paper.tex tex/mc1.tex tex/mcDef.tex tex/ap.tex # tex/mc2.tex
+mixedwindow.pdf: mixedwindow.tex tex/mc1.tex tex/mcDef.tex tex/ap.tex # tex/mc2.tex
 	$(latexmk) $(LATEXMKFLAGS) $<
 
 clean: 
-	$(latexmk) -c Paper.tex
+	$(latexmk) -c mixedwindow.tex
 	rm -f *~ slides/*~ data/*~
 burn: clean
-	$(latexmk) -C Paper.tex
+	$(latexmk) -C mixedwindow.tex
 	rm -rf R auto floats tex db mc1 mc2 slides/*.tex data/mcdata.db lib 
 
 ROPTS = --byte-compile
