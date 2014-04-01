@@ -113,7 +113,7 @@
 \title{An asymptotically normal out-of-sample
   test of equal predictive accuracy for nested models} 
 
-\date{March 14, 2013}
+% \date{March 14, 2013}
 
 \maketitle
 
@@ -124,11 +124,8 @@
   window, but the benchmark is estimated with a recursive window. The
   resulting statistic is asymptotically normal even when the models
   are nested.  Moreover, the alternative model can be estimated using
-  common model selection methods, such as the \aic\ or \bic.  This
-  paper also presents a method to compare multiple models
-  simultaneously while controlling familywise error, and
-  substantially improves existing block bootstrap methods for
-  out-of-sample statistics.  This procedure is then used to analyze
+  common model selection methods, such as the \aic\ or \bic.
+  This procedure is then used to analyze
   \citepos[\textit{Rev. Finan. Stud.}]{GoW:08} excess returns dataset.
 
 \strut
@@ -147,15 +144,7 @@ Bootstrap; Reality Check
 
 \section{Introduction} This paper proposes an out-of-sample (\oos)
 test statistic that is asymptotically normal with mean zero even when
-the models studied are nested.  This paper also proves that common
-block bootstrap methods consistently estimate the statistic's
-distribution, and shows how the statistic can be used to study many
-models simultaneously while maintaining strong control of the
-familywise error (\fwe), i.e. ensuring that the probability that the
-hypothesis that the model has equal predictive ability to a benchmark
-is incorrectly rejected for any of the models is no higher than a
-preset level.
-
+the models studied are nested.
 \oos\ tests are commonly used in International Macroeconomics,
 Macroeconomics, and Finance (see, for example, \citealt{MeR:83};
 \citealt{StW:03}; and \citealt{GoW:08}) and there is a substantial
@@ -263,42 +252,8 @@ uniformly valid tests for the fixed window.  The test proposed in this
 paper is uniformly valid and places fewer assumptions on the models
 under study and the true \dgp.
 
-Since researchers often have a set of potential models and want to
-know which of them significantly outperform the benchmark, procedures
-that compare a single pair of models are of limited practical value.
-As \citet{Whi:00} demonstrates, looking at the naive $p$-values of
-individual tests is misleading, but researchers can obtain a valid test
-by using the bootstrap to approximate the distribution of the largest
-individual test statistic under the null (White calls this procedure
-the \textit{Bootstrap Reality Check} or \brc).  This paper presents a test
-for equal predictive ability of multiple models based on
-\citepos{RoW:05} StepM, which uses a step-down procedure that
-iteratively rejects models to achieve higher power than the \brc\ and
-indicate which of the models improves on the benchmark (see
-Theorem~\ref{res:2} for details).
-
-This paper also presents a new result for the validity of block
-bootstraps with \oos\ statistics, which is necessary to verify that
-the StepM is valid.  Existing results on bootstrapping \oos\
-statistics have some drawbacks.  \citet{Whi:00} and \citet{Han:05} use
-the stationary bootstrap, but require the test sample to be much
-smaller than the training sample, which obviously does not hold here.
-\citet{CoS:07} relax that requirement, but make the statistic more
-complicated than necessary by adjusting the objective function of the
-bootstrapped statistic to center it correctly.\footnote{Their
-  recentering is required for consistency and does not imply higher
-  order accuracy.}  A parametric bootstrap, such as that used by
-\cite{Mar:95}, \cite{Lut:99}, and \citet{ClM:12b}, is an alternative
-method, but requires the benchmark model to be correctly specified.
-Although I focus on the null hypothesis that the benchmark is
-correctly specified, this paper's block bootstrap methods remain valid
-when the benchmark is misspecified and are relatively easy to
-implement.  So this paper's result for bootstrapping \oos\ statistics
-considerably improves on existing procedures.
-
-The next section presents our new statistics and Section~\ref{sec:1b}
-our block bootstrap result.  Section~\ref{sec:2} presents
-simulations that compare our pairwise \oos\ test to \poscw\ original
+The next section presents our new statistics and Section~\ref{sec:2} presents
+simulations that compare our test to \poscw\ original
 statistics.  Section~\ref{sec:3} demonstrates the use of our statistic
 by reanalyzing \citepos{GoW:08} study of excess return
 predictability. Section~\ref{sec:4} concludes.
@@ -558,54 +513,7 @@ $H_1$ with probability at most $\alpha$ (letting $\alpha$ be the
 desired level of control).  In most research, we would view rejection
 of the true hypothesis $H_1$ as a mistake.
 
-
-This paper uses \citepos{RoW:05} StepM procedure, which is an iterated
-extension of \citepos{Whi:00} Reality Check designed to reject as many
-false hypotheses as possible while achieving \sfwe.  Their method
-relies on the bootstrap to estimate the joint dependence between the
-test statistic associated with each model.  The bootstrap used in this
-paper is new, and is outlined in Algorithm~\ref{alg:1}.
-Algorithm~\ref{alg:1} actually presents a more general version of the
-bootstrap that remains valid with a misspecified benchmark model.
-Imposing the null hypothesis of \mds\ leads to simpler version that
-will be discussed later.
-\begin{alg}\label{alg:1}
-  Suppose that there are $m$ alternative forecasting models,
-  $\hat{y}_{1t},\dots, \hat{y}_{mt}$, and define the data matrices
-  $\X_\R = (X_1,\dots,X_R)'$ and $\X_{\p} = (X_{R+1},\dots,X_{T-1})$
-  with
-  \begin{equation*}
-    X_t = \begin{cases}
-      (y_{t+1}, x_t')' & t \leq R \\
-      (y_{t+1}, x_t', \hat{y}_{1,t+1}, \dots, \hat{y}_{m,t+1})' & t > R.
-    \end{cases}
-  \end{equation*}
-  \begin{enumerate}
-  \item Draw $B$ samples of $P$ observations from $\X_{\p}$ using the
-    moving or circular blocks bootstrap with block length $b$ or the
-    stationary bootstrap with geometric block lengths with success
-    probability $p$.  Denote each sample as $\X_{\p, l}^{*}$ and let
-    $\X_l^{*} = [\X_{\R}', \X_{\p,l}^{*\prime}]'$.
-  \item Estimate $\bar{f}^{*}_{li}$ and $\hat{\sigma}_{li}^{*}$ as in
-    Theorem~\ref{res:1} for each bootstrap sample, $\X^{*}_l$, and each
-    alternative model, $\hat{y}_{it}$.
-  \end{enumerate}
-\end{alg}
-
-This procedure exploits the fact that $R$ is finite in
-Theorem~\ref{res:1} and that the expected block length will grow with
-$T$.  Under these asymptotics, a growing proportion of the
-rolling-window forecasts are the same if we bootstrap the forecasts as
-if we bootstrap the empirical data and reestimate the models.
-Bootstrapping the forecasts makes the computations faster and easier,
-but requires us to drop the first $R$ observations from the bootstrap
-(the alternative forecasts are not defined for the first $R$
-observations).  I add those observations to the beginning of each
-bootstrap sample so that population means under the bootstrap-induced
-probability distribution equal sample means.\footnote{This equality is
-  strictly true only for the stationary and circular block
-  bootstraps.}  The benchmark model still needs to be reestimated in
-each bootstrap sample.
+[Need to fill in joint normality corollary and StepM procedure.]
 
 Theorem~\ref{res:2} presents the final procedure.
 
@@ -725,158 +633,6 @@ before the bootstrap.
   generalizations of the StepM procedure here as well.
 \end{rem}
 
-\begin{rem}\label{rem:01}
-  \citet{Pin:11} raises the issue that, since there are often several
-  models that could be used as the benchmark, researchers may want to
-  control for data snooping over the null hypotheses as well as the
-  alternatives.  For example, one could use either \citepos{AtO:01}
-  random walk or \citepos{StW:07} \textsc{ima}(1,1) as benchmark
-  inflation models, so it might make sense to require an alternative
-  model to outperform them both.\footnote{\citet{Pin:11} studies tests
-    that reject if the alternative model outperforms either of the
-    models, so the details are somewhat different in our papers.}
-  Allowing multiple benchmark models can be expressed as an
-  Intersection-Union test, so Theorem~\ref{res:2}'s procedure
-  (conclusion~\ref{it:3}) easily accommodates this extension by taking
-  each $\bar f_i$ and $\hat{\sigma}_{i}^{2}$ to be a random
-  $q$-vector;\footnote{If a researcher uses multiple benchmark models,
-    it would be a mistake to assume that they are all correctly
-    specified, so only the null hypothesis of conclusion~\ref{it:3} is
-    appropriate.} the first element of $\bar f_{i}$, written as $\bar
-  f_{i1}$, compares the first benchmark model to the $i$th alternative
-  and the first element of $\hat{\sigma}_i^2$ is the corresponding
-  estimate of asymptotic variance, the second element corresponds to
-  the second benchmark model, etc.
-
-  Steps 1 and 2 of Theorem~\ref{res:2}'s procedure now become:
-  \begin{enumerate}
-  \item Define $M_0 = \emptyset$ and, for $j = 1,\dots,m$, let $M_j =
-    \{(i,k): \tfrac1{\hat\sigma_{ik}} \bar{f}_{ik} > \hat{d}_j\}$,
-    where $\hat{d}_j$ is the $1 - \alpha$ quantile of $\max_{(i,k)
-      \notin M_{j-1}} \tfrac1{\hat\sigma_{ik}^*} \big(\bar{f}_{ik}^{*} -
-    \bar{f}_{ik}(\hat{\beta}_{k,T+1})\big)$.
-  \item Reject all of the hypotheses $H_i$ such that $(i,k) \in
-    \bigcup_{j=1}^m M_j$ for all $k$.
-  \end{enumerate}
-  Also note that the asymptotic variance-covariance matrix of each
-  $\bar f_i$ does not need to be positive definite as long as the
-  variance of each of its elements is positive.  A formal statement of
-  this result is given in Appendix~\ref{sec:B}.
-\end{rem}
-
-\section{The Bootstrap for Out-of-Sample Statistics}\label{sec:1b}
-The validity of the bootstrap in Theorem~\ref{res:2} is a special case
-of a result of independent interest---the validity in general of block
-bootstraps for asymptotically normal \oos\ statistics.  This section
-presents the general result.  In this section, let $\to^{p^{*}}$ and
-$\to^{d^{*}}$ refer to convergence in probability or distribution
-conditional on the observed data.  Similarly, $\E^{*}$, $\var^{*}$,
-and $\cov^{*}$ refer to the expectation, variance, and covariance with
-respect to the probability measure induced by the bootstrap, and
-$y_t^{*}$, etc. is the random variable $y_t$ but under the
-bootstrap-induced \cdf.
-
-The notation in this section is more general than that of
-Section~\ref{sec:1}.  The assumptions required are generalizations of
-the conditions of Theorems~\ref{res:1} and~\ref{res:2}.  See
-\citet{Wes:96,Wes:06}, \citet{WeM:98}, and \citet{Mcc:00} for a
-discussion of these conditions, as theirs are nearly identical.
-Theorem~\ref{res:3} gives the result.
-
-\begin{thm}\label{res:3}
-  Suppose the following conditions hold:
-  \begin{enumerate}
-  \item The estimator $\hat{\beta}_t$ of $\btrue$ is estimated with a
-    recursive, rolling, or fixed estimation window and satisfies
-    $\hat{\beta}_{t} - \beta_{0} = \hat{B}_{t} H_t$; $\hat{B}_{t}$ is
-    a sequence of $k \times q$ matrices such that $\sup_t |\hat{B}_t -
-    B| \to^p 0$; $H_{t}$ is a sequence of $q$-vectors such that
-    \begin{equation}
-      H_{t} = \begin{cases} 
-        \tfrac1t \sum_{s=1}^t h_{s}(\btrue) & \text{recursive window} \\
-        \tfrac1R \sum_{s=t-R+1}^t h_{s}(\btrue) & \text{rolling window} \\
-        \tfrac1R \sum_{s=1}^R h_{s}(\btrue) & \text{fixed window} \\
-      \end{cases}
-    \end{equation}
-    and $\E h_{s}(\btrue) = 0$ for all $s$.
-  \item Define $\psi_t(\beta) = (f_t(\beta), h_t(\beta))$;
-    $\psi_t(\beta)$ is covariance stationary and twice continuously
-    differentiable in an open neighborhood $N$ of $\btrue$.  Also,
-    $\E \sup_{\beta \in N} |\psi_t(\beta)|^r$ and $\E\sup_{\beta \in
-      N} |\frac{\partial}{\partial \beta} \psi_t(\beta)|^r$ are
-    uniformly bounded, and there exists a sequence of random variables
-    $m_t$ such that $\sup_{i,\beta \in N} |\tfrac{\partial^2}{\partial
-      \beta \partial \beta'} \psi_{it}(\beta)| \leq m_t$ almost surely
-    and $\E m_t^2$ is uniformly finite.
-  \item Both $\psi_t(\beta)$ and $\frac{\partial}{\partial \beta}
-    \psi_t(\beta)$ are $L_2$-\ned\ of size $-\frac12$ on the
-    series $V_t$ with bounded \ned-coefficients for $\beta$ uniformly
-    in $N$; $V_t$ is strong mixing of size $-\frac{r}{r-2}$ or uniform
-    mixing of size $-\frac{r}{2r-2}$ with $r > 2$.\footnote{For
-      uniform mixing processes, $r = 2$ is also allowed as long as
-      $\sup_{\beta \in N} \psi_t(\beta)^2$ and $\sup_{\beta \in N}
-      (\partial \psi_t(\beta) / \partial \beta)^2$ are uniformly
-      integrable.}
-  \item The sequence $\hat f_1^{*},\dots,\hat f_T^{*}$ is constructed
-    using the same procedure as the original \oos\ analysis over the
-    bootstrap sample, where the bootstrap sample is generated by
-    moving blocks, circular blocks, or stationary bootstrap with block
-    lengths drawn from the geometric distribution.  The (expected)
-    block length $b$ satisfies $b \to \infty$ and $\frac{b}{P} \to 0$.
-  \item The bootstrapped estimator satisfies $\sup_t |\hat{B}_t^{*} -
-    B^{*}| \to^p 0$, $B^{*} = B + o_p$ and $\frac1T \sum_{t=1}^T
-    h_t^*(\btrue[*]) = 0$ a.s.
-  \item The asymptotic variance matrix of $\bar{f}(\btrue)$ is
-    uniformly positive definite.
-  \item $R, P \to \infty$ as $T \to \infty$.
-  \end{enumerate}
-  Then
-  \begin{equation}
-    \pr[\sup_x | \pr^*[\sqrt{P} (\bar{f}^* - \bar{f}(\btrue[*]))
-        \leq x] - \pr[\sqrt{P}( \bar{f} - \E \bar{f}(\btrue)) \leq x] | >
-      \epsilon] \to 0
-  \end{equation}
-  for all $\epsilon > 0$.
-\end{thm}
-
-\begin{rem}
-  \citet{Mcc:00} proves asymptotic normality under weaker smoothness
-  conditions on $f_t(\beta)$ and $h_t(\beta)$: only their expectations
-  must be continuously differentiable.  It may be possible to extend
-  Theorem~\ref{res:3} to those weaker conditions, but the current
-  proof relies on a theorem of \citepos{JoD:00} establishing the
-  consistency of \hac\ estimators and their theorem requires differentiability of
-  the observations.  Extending \citepos{JoD:00} result to
-  nondifferentiable functions should be possible, but is beyond the
-  scope of this paper.
-\end{rem}
-
-\begin{rem}
-  \citet{Whi:00} and \citet{Han:05} resample the forecasts but do not
-  reestimate any of them which requires the additional assumption that
-  $\tfrac{P}{R} \log \log R \to 0$ or that the forecasts themselves
-  have no estimated parameters.\footnote{\citet{Whi:00} lists several
-    different sets of assumptions that give the same result, but these
-    seem to be the most general.}
-\end{rem}
-
-\begin{rem}
-  \citet{CoS:07} use the distribution of $\sqrt{P}(\bar{f}^{*} -
-  \bar{f})$ to approximate that of $\sqrt{P}(\bar{f} - \E
-  \bar{f}(\btrue))$.  But it is clear that $\bar{f}(\btrue[*])$
-  is the bootstrap analogue of $\E \bar{f}(\btrue)$, the parameter of
-  interest.  Because their bootstrap is miscentered, \citet{CoS:07}
-  must redefine $\hat{\beta}_t^{*}$ to achieve consistency.  In this
-  paper, though, consistency arises naturally.
-\end{rem}
-
-\begin{rem}
-  It may be unnecessary to assume that $\bar{f}(\btrue)$ has positive
-  definite asymptotic variance; if so, the bootstrap would work in the
-  setup of \citet{ClM:05,ClM:01} and \citet{Mcc:07}.  That question is
-  left to future research.
-\end{rem}
-
 \section{Monte Carlo Results}\label{sec:2}
 This section presents Monte Carlo experiments demonstrating that
 this paper's modified version of \citepos{ClW:07} statistic performs
@@ -913,7 +669,7 @@ $z_{t-1}$.  \citet{ClW:07} argue that this \dgp\ mimics an asset
 pricing application similar to \citepos{GoW:08} which we study in
 Section~\ref{sec:3}.
 
-For comparison, we study this paper's new statistic as well as \poscw
+For comparison, we study this paper's new statistic as well as \poscw\
 rolling-window and recursive-window test statistics.  Clark and West
 only prove that their rolling-window statistic is asymptotically
 normal, and only then if the benchmark model is not estimated, but
@@ -1037,10 +793,7 @@ fixed-length rolling window---as do Clark and West---but estimating
 the benchmark model with a recursive window.  Simulations indicate
 that the new statistic behaves similarly to Clark and West's original
 test when the \dgp\ is stable but can have much higher power when the 
-\dgp\ has structural breaks.  The paper also presents a
-method for comparing the benchmark model to several alternative models
-simultaneously and improves block bootstrap procedures of \oos\
-statistics.
+\dgp\ has structural breaks.
 
 \appendix
 \section{Proofs of Main Theoretical Results}\label{sec:B}
@@ -1048,19 +801,8 @@ statistics.
 Define the additional notation 
 $F_t(\beta) = \tfrac{\partial}{\partial \beta} f_t(\beta)$,
 $F_t = F_t(\btrue)$,
-$\hat f_t^* = f_t^*(\hat\beta_t^*)$,
-$F_t^*(\beta) = \tfrac{\partial}{\partial \beta} f_t^*(\beta)$,
-$F_t^* = F_t^*(\btrue[*])$,
-$h_t = h_t(\btrue)$,
-$h_t^* = h_t^*(\btrue[*])$, 
 and
-\begin{equation*}
-      H_{t}^* = \begin{cases} 
-        \tfrac1t \sum_{s=1}^t h_{s}^* & \text{recursive window} \\
-        \tfrac1R \sum_{s=t-R+1}^t h_{s}^* & \text{rolling window} \\
-        \tfrac1R \sum_{s=1}^R h_{s}^* & \text{fixed window} \\
-      \end{cases}
-\end{equation*}
+$h_t = h_t(\btrue)$.
     
 \begin{proof}[Proof of Theorem \ref{res:1}]
   Replace $R$ with $\log(T)$ and $P$ with $T - \log(T)$ in the
@@ -1088,49 +830,6 @@ and
   B^{#1}) H_t^{#1}}
 \newcommand{\WesC}[1][]{\oclt{t}
   (F_t^{#1} - \E^{#1} F_t^{#1}) (B_t^{#1} - B^{#1}) H_t^{#1}}
-\begin{proof}[Proof of Theorem~\ref{res:3}]
-  Expand $f_t^{*}(\hat{\beta}_t^{*})$ around $\btrue[*]$
-  to get
-  \begin{align*}
-    \sqrt{P} \big(\bar{f}^{*} - \bar{f}(\btrue[*])\big) &= \oclt{t}
-    \big(f_t^{*} - \bar{f}(\btrue[*])\big) +
-    \E^* F_t^{*} B^{*} \oclt{t} H_t^* \\
-    & \quad + \WesA[*] + \WesB[*] \\ & \quad + \WesC[*] + \oclt{t} w_t^*
-  \end{align*}
-  where (as in \citealp{Wes:96}) the $i$th element of $w_t^*$ is
-  \begin{equation*}
-    w_{it} = \tfrac12 (\hat\beta_t^* - \hat\beta_{T+1})'
-    \Big[\tfrac{\partial^2}{\partial \beta \partial\beta'} 
-    f_{it}^*(\tilde\beta_{it}^*) \Big]
-    (\hat\beta_t^* - \hat\beta_{T+1})
-  \end{equation*}
-  and each $\tilde\beta_{it}^*$ lies between $\hat\beta_t^*$ and
-  $\hat\beta_{T+1}$.  The argument that $\oclt{t} w_t^* = o_{p^*}(1)$ is
-  identical to West's, using our Lemma~\ref{res:a2} in place of his
-  Lemma A3.  Then
-  \begin{gather}
-    \WesA[*] \to^{p^*} 0 \label{eq:7} \\
-    \WesB[*] \to^{p^*} 0 \label{eq:9} \\
-  \intertext{and}
-    \WesC[*] \to^{p^*} 0 \label{eq:10}
-  \end{gather}
-  from Lemma~\ref{res:a4} and the result follows from
-  Lemma~\ref{res:a3}, with the form of the asymptotic variance
-  following directly from \citet{Wes:96} and \citet{WeM:98}.
-\end{proof}
-
-\begin{lem}[Formalization of Remark~\ref{rem:01}]
-  Suppose that the conditions of Theorem~\ref{res:2} conclusion~\ref{it:3}
-  hold but $f_i = (f_{i1},\dots,f_{iq})$ and the asymptotic variance
-  of $(\bar{f}_{1k}(\beta_k),\dots,\bar{f}_{mk}(\beta_k))$ is
-  uniformly positive definite for each $k$.  Then the procedure
-  described in Remark~\ref{rem:01} achieves \sfwe.
-\end{lem}
-
-The proof is similar to that of Theorem~\ref{res:2}. Note that we
-allow $\sqrt{P}(\bar{f}_{i1}(\beta_1),\dots,\bar{f}_{iq}(\beta_q))$ to
-converge to a normal with singular variance-covariance matrix as long
-as each element has positive variance.
 
 \section{Supporting Results}
 
@@ -1138,14 +837,9 @@ as each element has positive variance.
   Suppose $a \in [0,\frac12)$ and the conditions of Theorem~\ref{res:3}
   hold.
   \begin{enumerate}
-  \item $P^a \sup_t | H_{t} | \to^p 0$ and $P^a \sup_t | H_{t}^{*} |
-    \to^{p^{*}} 0$.
-  \item $P^a \sup_t | \hat{\beta}_{t} - \beta_{0} | \to^{p} 0$ and
-    $P^a \sup_t | \hat{\beta}^{*}_{t} - \hat{\beta}_T |
-    \to^{p^{*}} 0$.
-  \item $\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T (F_t - \E F_t) = O_{p}(1)$
-    and $\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T (F_t^* - \E F_t^*) =
-    O_{p^*}(1)$.
+  \item $P^a \sup_t | H_{t} | \to^p 0$.
+  \item $P^a \sup_t | \hat{\beta}_{t} - \beta_{0} | \to^{p} 0$.
+  \item $\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T (F_t - \E F_t) = O_{p}(1)$.
   \end{enumerate}
 \end{lema}
 
@@ -1159,168 +853,40 @@ as each element has positive variance.
         T\rfloor} \sum_{s=1}^{\lfloor \gamma T \rfloor} h_{s} \Big| \to^{p} 0
     \end{equation}
     with the convergence following from the continuous mapping
-    theorem.  For the bootstrapped average, \citepos{Cal:13}
-    Theorem~2 ensures that
-    \begin{equation}
-      \tfrac{1}{\sqrt{\gamma
-          T}} \sum_{s=1}^{\lfloor \gamma T \rfloor} h_{s}^*
-      = O_{p^*}(\Omega^*(\hat\beta_{T+1})^{1/2})
-    \end{equation}
-    where $\Omega^*(\beta) = \var^* h_t^*(\beta)$.  Since
-    $\hat\beta_{T+1} \to^p \btrue$, it suffices to show that
-    $\sup_{\beta \in N} | \Omega^*(\beta) - \var h_t(\beta) | \to^p
-    0$.  But this convergence holds for any fixed $\beta$ and our
-    assumptions guarantee stochastic equicontinuity as in
-    \citet{JoD:00} \citep[also see][]{Dav:94}, completing the proof.
-
+    theorem.
   \item We have
-    \begin{multline}
+    \begin{equation}
       P^a \sup_t | \hat{\beta}_t - \btrue | = P^a \sup_t |\hat{B}_{t}
-      H_{t}| \\ \leq \sup_{t,u} \Big| [ \hat{B}_u - B]
+      H_{t}| \leq \sup_{t,u} \Big| [ \hat{B}_u - B]
       \tfrac{P^a}{t} \sum_{s=1}^t h_{s} \Big| + \sup_{t} \Big|
       B \tfrac{P^a}{t} \sum_{s=1}^t h_{s} \Big|
-    \end{multline}
-    and both terms converge to zero in (conditional) probability by
-    the previous argument and by assumption.  The same argument holds
-    for $\hat{\beta}_t^{*} - \btrue[*]$ as well.
-  \item $\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T (F_t - \E F_t)$ obeys
-    \citepos{Jon:97} \clt, so the result is trivial.  Also,
-   \begin{equation}
-     \Big\lvert\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T 
-     ( F_t^* - \E^* F^*)\Big\rvert = O_{p^*}(\Omega^*(\hat\beta_{T+1})^{1/2}) = O_p(1)
     \end{equation}
-    as in the proof of part 1, where now $\Omega^*(\beta) = \var^* F_t^*(\beta)$.
+    and both terms converge to zero in (conditional) probability by
+    the previous argument and by assumption.
+  \item $\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T (F_t - \E F_t)$ obeys
+    \citepos{Jon:97} \clt, so the result is trivial.
   \end{enumerate}
 \end{proof}
 
 \begin{lema}\label{res:a4}
-  Under the conditions of Theorem~\ref{res:3}, Equations
-  \eqref{eq:7}--\eqref{eq:10} and \eqref{eq:11}--\eqref{eq:13} hold.
+  Under the conditions of Theorem~\ref{res:1}, Equations
+  \eqref{eq:11}--\eqref{eq:13} hold.
 \end{lema}
 
 \begin{proof}[Proof of Lemma~\ref{res:a4}]
 We can write
 \begin{equation*}
-  \Big\lvert \WesA[*] \Big\rvert \leq 
-  \Big\lvert \oclt{t} (F_t^* - \E^* F^*_t) B^* \Big\rvert
-  \sup_t | H_t^* |.
+  \Big\lvert \WesA \Big\rvert \leq 
+  \Big\lvert \oclt{t} (F_t - \E F_t) B \Big\rvert
+  \sup_t | H_t |.
 \end{equation*}
-From Lemma~\ref{res:a2}, $\sup_t | H_t^* | \to^p 0$ and $\oclt{t}
-(F_t^* - \E^* F_t^*) = O_p(1)$, establishing~\eqref{eq:7}.  The proofs
-of~\eqref{eq:9}, \eqref{eq:10}, and \eqref{eq:11}--\eqref{eq:13} are
-similar.
-\end{proof}
-
-\begin{lema}\label{res:a3}
-  Suppose the conditions of Theorem~\ref{res:3} hold, let
-  \[\psi_t^{*}(\beta) = 
-  \binom{f_t^{*}(\beta) - \bar{f}(\beta)}{h_t^{*}(\beta) - \bar h(\beta)},\]
-  and define $\psi_t = \psi_t(\btrue)$, $\hat\psi_t = \psi_t(\btrue[*])$, and 
-  $\psi_t^* = \psi_t^*(\btrue[*])$.  Then
-  \begin{equation}\label{eq:1}
-    \pr\Big[\sup_x \Big| \pr^{*}\Big[ \oclt{t} \psi_{t}^{*}
-    \leq x \Big] - \pr\Big[ \oclt{t} \psi_{t}
-    \leq x \Big] \Big| > \epsilon \Big] \to 0
-  \end{equation}
-  for all positive $\epsilon$, where the inequalities hold element-by-element.
-\end{lema}
-
-\begin{proof}[Proof of Lemma~\ref{res:a3}]
-  Note that both $\psi_t$ and $\psi_t^*$ satisfy
-  \clt s, (\citealp[Theorem~2]{Jon:97} and
-  \citealp[Theorem~1]{Cal:13}) so it suffices to prove that
-  \[ \tfrac{ 1 }{ P } \var^* \osum{t} \psi_t^* 
-  - \tfrac{ 1 }{ P } \var \osum{t} \psi_t \to^p
-  0. \] I will prove this result for the Circular Block Bootstrap
-  \citep{PoR:92}---the proof for other block bootstraps is similar and
-  follows as in \cite{Cal:13}.
-
-  \newcommand{\su}{\tfrac{ 1 }{ b T } \sum_{ \tau = 1 }^{ T }%
-  \sum_{ s, t \in I( \tau ) }}
-
-  Since $\E^* \psi_t^* = 0$ by construction, we have
-  \begin{equation}\label{eq:3}
-  \tfrac{ 1 }{ P } \var^* \sum_{ t = R + 1 }^T \psi_t^*
-  = \su \hat \psi_s \hat \psi_t'
-  \end{equation}
-  almost surely, with
-  \begin{equation*}
-    I(\tau) =
-    \begin{cases}
-      \{ \tau, \dots, \tau + b - 1 \} & \text{if } \tau \leq T - b + 1 \\
-      \{ \tau, \dots, T \} \cup \{ 1, \dots, \tau - ( T - b + 1 ) \}
-      & \text{if } \tau > T - b + 1.
-    \end{cases}
-  \end{equation*}
-  We can rewrite the right side of \eqref{eq:3} as
-  \begin{multline}\label{eq:6}
-    \su \hat\psi_s \hat\psi_t'
-    = \tfrac{1}{T} \sum_{s,t=1}^T \hat\psi_s \hat\psi_t' \;
-      \big(1 - \tfrac{\lvert s - t \rvert}{b}\big)^+ \\
-      + \tfrac{1}{bT} \sum_{s = 1}^{b - 1} \sum_{t = T - b + s}^{T}
-        (\hat\psi_s \hat\psi_t' +
-         \hat\psi_t \hat\psi_s') \;
-        \big(1 - \tfrac{\lvert s - t + T\rvert}{b}\big)^+.
-  \end{multline}
-
-  The first term of \eqref{eq:6} can be shown to converge in
-  probability to $\tfrac{1}{P} \var \osum{t} \psi_t$ by Theorem 2.2 of
-  \citet{JoD:00}.  Most of the necessary conditions of their theorem
-  hold by assumption and it remains to prove their condition (2.9)
-  holds, namely that
-  \begin{equation}\label{eq:2}
-    \sup_{\beta \in N} \Bigg\lVert \tfrac{1}{T} \sum_{t=1}^T e^{i \xi t/b} 
-    \Bigg( \frac{\partial \psi_{jt}(\beta)}{\partial \beta_k} -
-          \E \frac{\partial \psi_{jt}(\beta)}{\partial \beta_k} \Bigg) 
-    \Bigg\rVert_2 \to 0
-  \end{equation}
-  for all $j$, $k$, and $\xi$.  For any fixed $\beta \in N$,
-  \begin{equation*}
-    \tfrac{1}{T} \sum_{t=1}^T \cos( \xi t / b )
-    \Bigg( \frac{\partial \psi_{jt}(\beta)}{\partial \beta_k} -
-          \E \frac{\partial \psi_{jt}(\beta)}{\partial \beta_k} \Bigg)
-    \to^p 0
-  \end{equation*}
-  and
-  \begin{equation*}
-    \tfrac{1}{T} \sum_{t=1}^T \sin( \xi t / b )
-    \Bigg( \frac{\partial \psi_{jt}(\beta)}{\partial \beta_k} -
-          \E \frac{\partial \psi_{jt}(\beta)}{\partial \beta_k} \Bigg)
-    \to^p 0
-  \end{equation*}
-  by a mixingale \lln\ \citep{Dav:93}.\footnote{Remember that \ned\
-    processes are also mixingales.  See, for example, \citet[Section
-    17.2]{Dav:94}.}  Convergence in $L_2$ for each $\beta \in N$ then
-  follows from the existence of the $r$th moment ($r > 2$) and uniform
-  convergence is a consequence of our bound on the second derivative
-  of $\psi_t$.
-
-  The conclusion then holds if the second term of~\eqref{eq:6} is
-  $o_p(1)$.  We have, for each element of that matrix,
-  \begin{equation*}
-    \Big| \tfrac{1}{bT} \sum_{s = 1}^{b - 1} \sum_{t = T - b + s}^{T}
-        \hat\psi_{ks} \hat\psi_{jt}
-        \big(1 - \tfrac{\lvert s - t + T\rvert}{b}\big)^+ \Big| \leq
-     \tfrac{1}{b T} \sum_{s = 1}^{b - 1} |\hat\psi_{ks}|
-         \sum_{t = T - b + 1}^{T} | \hat\psi_{jt} |
-  \end{equation*}
-  almost surely.  For any positive $\delta$,
-  \begin{equation*}
-    \pr \Bigg[ \tfrac{1}{T} \sum_{s = 1}^{b - 1} | \hat\psi_{is} |
-              > \delta \Bigg] \leq 
-    \pr \Bigg[\tfrac{1}{T} \sum_{s = 1}^{b - 1} \sup_{ \beta \in N } | \psi_{is}( \beta ) |
-              > \delta \Bigg] +
-    \pr \big[ \hat \beta_{T+1} \notin N \big].
-  \end{equation*}
-  Both terms converge to zero by assumption, so $\tfrac{1}{T} \sum_{s
-    = 1}^{b - 1} |\hat\psi_{is}| = o_p(1)$.  A similar
-  argument shows that $\tfrac{1}{b} \sum_{t = T - b + 1}^{T} |
-  \hat\psi_{jt} | = O_p(1)$, completing the proof.
+From Lemma~\ref{res:a2}, $\sup_t | H_t | \to^p 0$ and $\oclt{t}
+(F_t - \E F_t) = O_p(1)$, establishing~\eqref{eq:11}. The proofs
+of \eqref{eq:12} and \eqref{eq:13} are similar.
 \end{proof}
 
 \begin{lema}\label{res:a5}
-  If the conditions of Theorem~\ref{res:3}, except for those governing
-  the bootstrap process, hold then
+  If the conditions of Theorem~\ref{res:1} hold then
   \begin{equation}
     \oclt{t}
     (\hat f_t - \E f_t) \to^d N(0, \sigma^2),
@@ -1345,9 +911,8 @@ similar.
   variance of~$\btrue[*]$.
 \end{lema}
 
-\begin{proof}[Proof of Theorem~\ref{res:3}]
-  As in \citet{Wes:96} and \citet{WeM:98} (and as in the proof of
-  Theorem~\ref{res:3}), expand $\hat f_t$ around
+\begin{proof}[Proof of Theorem~\ref{res:a5}]
+  As in \citet{Wes:96} and \citet{WeM:98}, expand $\hat f_t$ around
   $\btrue$ to get
   \begin{align*}
     \sqrt{P} \big(\bar{f} - \bar{f}(\btrue)\big) &= \oclt{t}
