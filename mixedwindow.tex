@@ -271,9 +271,8 @@ predictability. Section~\ref{sec:4} concludes.
 \section{Theoretical results supporting the asympotically normal OOS statistic}
 \label{sec:1}
 
-This section presents the new \oos\ statistic.  I will present the
-single-comparison statistic first and then extend it to multiple
-comparisons.  Suppose for now that a researcher is interested in
+This section presents the new \oos\ statistic.
+Suppose for now that a researcher is interested in
 predicting the target variable $y_{t+1}$ with a vector of regressors
 $x_t$; also let $v_t$ be another random process and suppose that
 $(y_t, x_t, v_t)$ is stationary and weakly dependent
@@ -281,15 +280,22 @@ $(y_t, x_t, v_t)$ is stationary and weakly dependent
 let $\btrue = (\E x_t x_t')^{-1} \E x_t y_{t+1}$ be the pseudotrue
 coefficient of the regression of $y_{t+1}$ on $x_t$ and define
 $\varepsilon_{t+1} = y_{t+1} - x_t'\btrue$.  If the linear model is
-correctly specified, so $\varepsilon_{t+1}$ is a martingale difference
-sequence with respect to $\mathcal{F}_t \equiv \sigma((x_t, v_t, y_t),
-(x_{t-1}, v_{t-1}, y_{t-1}),\dots)$, then we can see immediately that
+correctly specified, so $\varepsilon_{t+1}$ is an \mds\ with respect to
+$\mathcal{F}_t \equiv \sigma((x_t, v_t, y_t), (x_{t-1}, v_{t-1},
+y_{t-1}),\dots)$,%
+\footnote{Section~\ref{sec:1b} discusses conditions under which the
+  \mds\ condition holds. We also present results that allow
+  $\varepsilon_{t+1}$ to be serially correlated.} %
+then we can see immediately that
 \begin{equation}
   \label{eq:4}
   \oclt{t} \varepsilon_{t+1} (v_t - x_t'\btrue)
 \end{equation}
-obeys an \mds\ \clt\ (assuming that its variance is uniformly
-positive) and is asymptotically normal as $P \to \infty$, with $R$ an
+obeys an \mds\ \clt%
+\footnote{This claim assumes that the asymptotic variance of the
+  sample average is uniformly positive, a requirement that we will
+  address in Section~\ref{sec:1b}.} %
+and is asymptotically normal as $P \to \infty$, with $R$ an
 arbitrary starting value%
 \footnote{It will be clear momentarily why the
   summation begins at $R+1$ instead of $1$.} %
@@ -302,11 +308,11 @@ Straightforward algebra \citep{ClW:07} shows that
   x_t\btrue)^2 - (y_{t+1} - v_t)^2 + (x_t'\btrue - v_t)^2 \Big].
 \end{equation}
 
-\citet{ClW:06,ClW:07} base their \oos\ statistic on the right side
-of~\eqref{eq:5}, where $R$ is the size of the training sample and $P$
+\citet{ClW:06,ClW:07} base their \oos\ statistic on the RHS of
+Equation~\eqref{eq:5}, where $R$ is the size of the training sample and $P$
 the size of the test sample used to evaluate the forecasting models.
 \citet{ClW:06} use a second forecast $\hat{y}_{t+1}$ as $v_t$.  They
-use a rolling window of length $R$ (i.e., $\hat{y}_{t+1}$ is a
+use a rolling window of length $R$ (making $\hat{y}_{t+1}$ a
 function of $y_t, x_{t-1}, z_{t-1} \dots, y_{t-R+1}, x_{t-R}$ and
 $z_{t-R}$ where $z_t$ is another weakly dependent random process),
 which is kept finite as $T \to \infty$, so $\hat{y}_{t+1}$ inherits
@@ -324,7 +330,7 @@ estimated with a fixed-length rolling window as well, so
   \sum_{s=t-R+1}^t x_{s-1} y_s
 \end{equation*}
 and $\hat{\varepsilon}_{t+1} = y_{t+1} - x_t'\tilde{\beta}_t$ replaces
-$\varepsilon_{t+1}$ in the test statistic for \mds.  Unfortunately,
+$\varepsilon_{t+1}$ in \oos\ test statistic.  Unfortunately,
 $\hat{\varepsilon}_{t+1}$ is not an \mds\ even when
 $\varepsilon_{t+1}$ is, so the statistic is no longer asymptotically
 mean-zero normal, even though this approximation performs well in the
@@ -348,11 +354,16 @@ arbitrary processes $v_t$, as long as $v_t$ is weakly dependent and
 the \oos\ statistic has uniformly positive variance.  Just as in
 \citet{ClW:06}, these conditions are ensured if $v_t$ is another
 forecast of $y_{t+1}$ based on a fixed length rolling window.
-Theorem~\ref{res:1} presents the details of this result.  The
-assumptions required are essentially the same in existing papers
+
+Section~\ref{sec:1a} lays out the necessary assumptions for our
+results and Section~\ref{sec:1b} presents the details.
+
+\subsection{Assumptions}
+\label{sec:1a}
+
+The assumptions required are essentially the same in existing papers
 (e.g. \citealp{Wes:96}; \citealp{WeM:98}; \citealp{Mcc:00};
-\citealp{GiW:06}; and \citealp{ClW:06,ClW:07}).  Please see the
-original papers for a discussion of these assumptions.
+\citealp{GiW:06}; and \citealp{ClW:06,ClW:07}).
 
 \begin{asmp}\label{a1}%
   The benchmark forecast $\hat{y}_{0,t+1}$, is estimated using \ols\
@@ -361,9 +372,7 @@ original papers for a discussion of these assumptions.
   Equation~\eqref{eq:8}.  Also define $\btrue = (\E x_{t-1}
   x_{t-1}')^{-1} \E x_{t-1} y_t$ and assume that $\btrue$ does not
   depend on~$t$.
-\end{asmp}
 
-\begin{asmp}\label{a2}%
   The alternative forecast, $\hat{y}_{1t}$, is estimated using a
   rolling window of fixed length $R$ (which is less than $T$), so
   $\hat{y}_{1,t+1} = \psi(y_t,z_t,\dots,y_{t-R+1}, z_{t-R+1})$ where
@@ -387,6 +396,9 @@ original papers for a discussion of these assumptions.
   f_t$, with $P = T - R$; $\bar f(\btrue)$ has uniformly positive and
   finite long run variance.
 \end{asmp}
+
+\subsection{Theoretical results}
+\label{sec:1b}
 
 \begin{thm}\label{res:1}
   Suppose that we have two models $\hat{y}_{0t}$ and $\hat{y}_{1t}$ to
@@ -464,26 +476,6 @@ The following remarks are relevant to Theorem~\ref{res:1}:
   errors.%
 \footnote{See \citet{HLN:98} and \citet[Section~4]{ClW:07}.} %
   Again, Lemma~\ref{res:a5} can cover these other applications.
-\end{rem}
-
-\begin{rem}
-  \citet{GiW:06} and \citet{ClW:06,ClW:07} emphasize model comparison
-  using a rolling window but claim in passing that their results hold
-  for a fixed-length fixed window as well, where the unknown
-  coefficients are estimated only once using the first $R$
-  observations.  This claim is true but not obvious.  The proof for
-  the rolling window is based on weak dependence that arises because
-  the forecast errors are a function of a finite number of consecutive
-  weakly dependent observations.  But using a fixed window introduces
-  another source of dependence: all of the forecasts depend on the
-  same coefficient estimates and the estimation uncertainty introduced
-  by those estimates does not vanish asymptotically when $R$ is bounded.  One can
-  prove that their results apply to fixed window forecasts by using a
-  coupling argument similar to \citepos{Cal:11}.  Interested readers
-  should refer to \citet{Cal:11} for the argument and to
-  \citet{MeP:02} for a review of the necessary coupling results.
-  Theorem~\ref{res:1} can be shown to hold when $\hat y_{1t}$ is
-  estimated with a fixed-length fixed window using the same arguments.
 \end{rem}
 
 Since most empirical papers study more than one alternative model,
