@@ -107,8 +107,7 @@
     Meng-Feng Yen and participants at the 2011 Midwest Econometrics
     Group meeting for helpful comments and discussions.  I'd also like to thank Amit
     Goyal for providing computer code and data for his 2008
-    \textsc{rfs} paper with Ivo
-    Welch \citep{GoW:08}.} \\
+    RFS paper with Ivo Welch \citep{GoW:08}.}\\%
   Iowa State University}
 
 \title{An asymptotically normal out-of-sample
@@ -210,7 +209,7 @@ accuracy between the two models.  The benchmark model rarely allows
 for breaks, parameter drift, or other forms of
 instability,%
 \footnote{Exceptions are \citepos{StW:07}
-  \textsc{ima}(1,1) and \textsc{uc-sv} models of inflation.} %
+  IMA(1,1) and UC-SV models of inflation.} %
 but the
 researcher is typically concerned about instability.  Indeed, concern
 about instability is often given as a reason for doing an \oos\
@@ -227,7 +226,7 @@ could instead impose stability on the benchmark and relax it for the
 alternative by using a recursive window for the benchmark and a
 rolling window for the alternative model.  This approach could have a
 power advantage and is similar in spirit to using a Likelihood Ratio
-Test instead of an \textsc{lm} or Wald test, which depend on just the
+Test instead of an LM or Wald test, which depend on just the
 restricted or unrestricted model respectively.
 
 This paper's statistic has a substantial advantage over existing \oos\
@@ -666,7 +665,7 @@ similarly to their original test in the situations they study, but can
 have substantially higher power when the \dgp\ has a structural
 break.%
 \footnote{All of these simulations were programmed in R
-  \citep[version 2.14.0]{R} and use the \textsc{MASS}
+  \citep[version 2.14.0]{R} and use the MASS
   \citep[7.3-22]{VeR:02}, xtable \citep[version 1.6-0]{Dah:09}, and
   dbframe \citep[version 0.2.7]{Cal:10b} packages.} %
 
@@ -715,9 +714,9 @@ benchmark model's innovation is an \mds.%
   \caption{Size and power of the \oos\ tests in the simulations 
     described by Section~\ref{sec:2}, at
     \testsize\% confidence.  These percentages are calculated from \totalsims\
-    samples.  Pr[\textsc{cw} roll.] shows the fraction of simulations for
+    samples.  Pr[CW roll.] shows the fraction of simulations for
     which Clark and West's (2007) rolling-window statistic rejects; 
-    Pr[\textsc{cw} rec.] shows the fraction of simulations for which 
+    Pr[CW rec.] shows the fraction of simulations for which
     their recursive-window statistic rejects; and Pr[new] shows the fraction of
     simulations for which this paper's test rejects.}
 \label{tab:mc1}

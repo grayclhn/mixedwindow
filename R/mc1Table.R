@@ -25,9 +25,9 @@ d <- select(mcdata1, c("'Sim. type'" = "case simulationtype
 		                        when '1.stable' then 'power (stable)'
 		                        when '2.breaks' then 'power (breaks)' end",
                        R = "R", P = "P",
-                       "'Pr[\\textsc{cw}~roll.]'" =
+                       "'Pr[CW~roll.]'" =
                        sprintf("100 * avg(clarkwestrolling <= %f)", testsize),
-                       "'Pr[\\textsc{cw}~rec.]'" =
+                       "'Pr[CW~rec.]'" =
                        sprintf("100 * avg(clarkwestrecursive <= %f)", testsize),
                        "'Pr[new]'" = sprintf("100 * avg(mixed <= %f)", testsize)),
             group.by = c("simulationtype", R = "R", P = "P"))[,-1]

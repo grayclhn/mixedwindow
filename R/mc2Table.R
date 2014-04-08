@@ -27,9 +27,9 @@ mcdata2 <- dbframe("mc2", dbdriver = "SQLite",
 ##       sprintf("case when simulationtype = '0.size' then 'size %d'
 ##                     else 'power %d' end", i, i),
 ##     R = "R", P = "P",
-##     "'Pr[\\textsc{cw}~roll.]'" =
+##     "'Pr[CW~roll.]'" =
 ##       sprintf("100 * avg(clarkwestrolling%d <= %f)", i, testsize),
-##     "'Pr[\\textsc{cw}~rec.]'" =
+##     "'Pr[CW~rec.]'" =
 ##       sprintf("100 * avg(clarkwestrecursive%d <= %f)", i, testsize),
 ##     "'Pr[new]'" = sprintf("100 * avg(mixed%d <= %f)", i, testsize))
 ## })
@@ -42,9 +42,9 @@ mcdata2 <- dbframe("mc2", dbdriver = "SQLite",
 colsql <- c("'Sim. type'" =
             "case when simulationtype = '0.size' then 'size' else 'power' end",
             R = "R", P = "P",
-            "'Pr[\\textsc{cw}~roll.]'" =
+            "'Pr[CW~roll.]'" =
             sprintf("100 * avg(clarkwestrolling1 <= %f)", testsize),
-            "'Pr[\\textsc{cw}~rec.]'" =
+            "'Pr[CW~rec.]'" =
             sprintf("100 * avg(clarkwestrecursive1 <= %f)", testsize),
             "'Pr[new]'" = sprintf("100 * avg(mixed1 <= %f)", testsize))
 
