@@ -71,7 +71,7 @@ alternatives <- c(alternatives_gw, alternatives_ct,
   
 oos.bootstrap <- mixedbootstrap(benchmark, alternatives, financial.data,
 				R = windowlength, nboot = nboot, blocklength = 1,
-				window = "rolling", bootstrap = "circular")
+				window = "rolling", bootstrap = "circular", pimethod = "theory")
 
 stepm.results <- stepm(oos.bootstrap$statistics, oos.bootstrap$replications, 
                        NA, bootsize)

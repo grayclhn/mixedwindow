@@ -409,12 +409,12 @@ The assumptions required are essentially the same in existing papers
   $\mathcal{F}_t = \sigma((y_t, z_{t}), (y_{t-1}, z_{t-1}),\dots)$,
   $\tfrac{\sqrt{P}}{\hat\sigma} \bar f \to^d N(0,1)$, where 
   \begin{align*}
-    \hat{\sigma}^2 &= \hat{S}_{ff} + 2 \Pi (\hat{S}_{fg} + \hat{S}_{gg}), &
+    \hat{\sigma}^2 &= \hat{S}_{ff} + 2 (\hat{S}_{fg} + \hat{S}_{gg}), &
     \hat{S}_{ff} &= \oavg{t} (\hat f_t - \bar f)^2, \\
     \hat{S}_{fg} &= \oavg{t} (\hat f_t - \bar{f})(\hat g_t - \bar g)', &
     \hat{S}_{gg} &= \oavg{t} (\hat g_t - \bar g)(\hat g_t - \bar g)',
   \end{align*}
-  $\Pi = 1 - \tfrac{R}{P} \log(1 + \tfrac{P}{R})$, $\bar{g} = \oavg{t}
+  $\bar{g} = \oavg{t}
   \hat g_t$, $\X' = [x_1,\dots,x_T]$,
   \begin{equation*}
     g_t(\beta) =
@@ -449,15 +449,6 @@ The following remarks are relevant to Theorem~\ref{res:1}:
   \citet{Wes:96}, this assumption is a restriction on the \dgp\ as
   well as the forecasting models, but in this paper it is a
   restriction only on the models.
-\end{rem}
-
-\begin{rem}
-  As in \citet{Wes:96}, $\Pi \to 1$ as $T \to \infty$ since $R$ is
-  fixed.  But using West's general formula for $\Pi$ (which holds when
-  $\lim \tfrac{P}{R} \in [0,\infty]$) can improve the statistic in practice,
-  since researchers often invoke ``fixed $R$'' asymptotics when $R$ is
-  large.  Section~\ref{sec:2} shows via Monte Carlo that this
-  approximation can be accurate even when $R$ and $P$ are equal.
 \end{rem}
 
 \begin{rem}

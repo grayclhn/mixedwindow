@@ -60,5 +60,6 @@ for (r in rows(mcdesign)) {
       randomdata <- with(r, generate.data.mc1(R + P, simulationtype))
       c(clarkwestrolling = clarkwest(null, alt, randomdata, r$R, window = "rolling")$pvalue,
 	clarkwestrecursive = clarkwest(null, alt, randomdata, r$R, window = "recursive")$pvalue,
-	mixed = mixedwindow(null, alt, randomdata, r$R, window = "rolling")$pvalue)})))
+	mixed = mixedwindow(null, alt, randomdata, r$R,
+                            window = "rolling", pimethod = "theory")$pvalue)})))
 }
