@@ -119,9 +119,9 @@
 
 \begin{abstract} 
   \noindent This paper proposes a modification of \citepos[\textit{J.
-    Econom.}]{ClW:07} adjusted out-of-sample $t$-test.  The
-  alternative model is still estimated with a fixed-length rolling
-  window, but the benchmark is estimated with a recursive window. The
+    Econom.}]{ClW:07} adjusted out-of-sample $t$-test: using a
+  fixed-length rolling window to estimate the alternative model but a
+  recursive window to estimate the benchmark. The
   resulting statistic is asymptotically normal even when the models
   are nested.  Moreover, the alternative model can be estimated using
   common model selection methods, such as the \aic\ or \bic.
@@ -131,8 +131,7 @@
 \strut
 
 \noindent Keywords: Forecast Evaluation, Martingale Difference
-Sequence, Model Selection, Family-Wise Error Rate; Multiple Testing;
-Bootstrap; Reality Check
+Sequence, Model Selection
 
 \strut
 
@@ -196,9 +195,10 @@ model invalidates their proof.
 
 In this paper, I show that a modified version of their statistic is
 asymptotically normal even when the smaller model is estimated.  To
-achieve normality, we need a consistent estimate of the pseudotrue
-benchmark model, while maintaining an inconsistent estimate of the
-larger model so that we can ignore nesting.  We can meet both needs by
+achieve normality, the pseudotrue benchmark model must be estimated
+consistently, but the larger alternative model must continue to be
+estimated inconsistently so that the test statistic is not degenerate
+when the models are nested. We can meet both needs by
 using different window strategies for each model: the benchmark model
 is estimated using a recursive window and the alternative with a
 fixed-length rolling window.
@@ -267,7 +267,9 @@ statistics.  Section~\ref{sec:3} demonstrates the use of our statistic
 by reanalyzing \citepos{GoW:08} study of excess return
 predictability. Section~\ref{sec:4} concludes.
 
-\section{Out-of-Sample Model Comparisons}\label{sec:1}
+\section{Theoretical results supporting the asympotically normal OOS statistic}
+\label{sec:1}
+
 This section presents the new \oos\ statistic.  I will present the
 single-comparison statistic first and then extend it to multiple
 comparisons.  Suppose for now that a researcher is interested in
