@@ -17,9 +17,9 @@ library(oosanalysis, lib.loc = "lib")
 library(dbframe, lib.loc = "lib")
 
 ## These parameters are going to be reported in the paper as well.
-nboot <- 599
-bootsize <- 0.10
+size <- 0.10
 windowlength <- 10
+ndraw <- 1999
 
 gwdata <- ts(read.csv("data/yearlyData2009.csv")[,-1], start = 1871, frequency = 1)
 stock.returns <- ((gwdata[,"price"] + gwdata[,"dividend"]) / 
@@ -68,29 +68,28 @@ alternatives_median <-
 
 alternatives <- c(alternatives_gw, alternatives_ct,
                   average = alternatives_mean, median = alternatives_median)
-  
-oos.bootstrap <- mixedbootstrap(benchmark, alternatives, financial.data,
-				R = windowlength, nboot = nboot, blocklength = 1,
-				window = "rolling", bootstrap = "circular", pimethod = "theory")
+nmod <- length(alternatives)
 
-stepm.results <- stepm(oos.bootstrap$statistics, oos.bootstrap$replications, 
-                       NA, bootsize)
+oosstats <- mixedwindow(benchmark, alternatives, financial.data,
+                        windowlength, window = "rolling", pimethod = "theory")
+Sigma <- makecorr(oosstats$avar)
+critval <- quantile(replicate(ndraw, max(mvrnorm(1, rep(0, nmod), Sigma))), 1 - size)
 
 results.data <- data.frame(stringsAsFactors = FALSE,
-                           predictor = names(oos.bootstrap$statistics),
-                           value = oos.bootstrap$statistics,
-                           naive = ifelse(oos.bootstrap$statistics > qnorm(1 - bootsize), "sig.", ""),
-                           corrected = ifelse(stepm.results$rejected, "sig.", ""))
+                           predictor = names(oosstats$tstat),
+                           value = oosstats$tstat,
+                           naive = ifelse(oosstats$tstat > qnorm(1 - size), "sig.", ""),
+                           corrected = ifelse(oosstats$tstat > critval, "sig.", ""))
 
 results.data <- results.data[order(results.data$value, decreasing = TRUE),]
 results.data$predictor <- gsub(" \\.CT", "(\\\\textsc{ct})", results.data$predictor)
 results.data$predictor <- gsub("\\.", " ", results.data$predictor)
 names(results.data)[1] <- " "
 
-
-integer.macros <- c(nboot = nboot, bootsize = 100 * bootsize,
-                       windowlength = windowlength)
-real.macros <- c(empiricalcriticalvalue = stepm.results$rightcrit)
+integer.macros <- c(size = 100 * size, windowlength = windowlength,
+                    nmod = nmod, empiricaldraws = ndraw)
+real.macros <- c(empiricalcriticalvalue = unname(critval),
+                 naivecriticalvalue = qnorm(1-size))
 
 cat(file = "tex/ap.tex", sep = "\n",
     sprintf("\\newcommand{\\%s}{%.2f}", names(real.macros), real.macros),

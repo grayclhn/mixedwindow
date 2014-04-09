@@ -43,6 +43,7 @@
 \newtheorem{rem}{Remark}
 
 \DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\diag}{diag}
 \DeclareMathOperator{\E}{E}
 \DeclareMathOperator{\var}{var}
 \DeclareMathOperator{\cov}{cov}
@@ -586,25 +587,8 @@ combination forecasts, the mean and the median (over both the original
 and the non-negative forecasts).  The data set is annual data
 beginning in 1927 and ending in 2009, and the rolling window uses
 \windowlength\ observations.%
-\footnote{This statistical analysis was
-  conducted in R \citep{R}.} %
-
-Table~\ref{tab:em1} presents the results for each model.  The column
-``value'' gives the value of the test statistic for each model, while
-the ``naive'' and ``corrected'' columns indicate whether the statistic
-is greater than the standard size-\bootsize\% critical value (1.28)
-and the critical value estimated by the procedure of
-Theorem~\ref{res:2} (\empiricalcriticalvalue).%
-\footnote{The bootstrap
-  uses \nboot\ replications with i.i.d. sampling, as proposed in
-  conclusion~\ref{it:1} of Theorem~\ref{res:2}.} %
-Three predictors are
-significant at the naive critical values for both the original and
-bounded forecasts: the dividend yield, long term interest rate, and
-book to market ratio.  But none are significant after accounting for
-data snooping, which highlights the importance of these methods.  The
-median forecast is significant using conventional critical values as
-well, but not the corrected values.
+\footnote{This statistical analysis was conducted in R \citep{R} and
+  uses the MASS \citep[7.3-22]{VeR:02} package.} %
 
 \begin{table}[tb!]
   \centering
@@ -622,6 +606,37 @@ well, but not the corrected values.
 \label{tab:em1}
 \end{table}
 
+Table~\ref{tab:em1} presents the results for each model.  The column
+``value'' gives the value of the test statistic for each model, while
+the ``naive'' indicates whether the statistic is greater than the
+standard \bootsize\% critical value (\naivecriticalvalue) Three
+predictors are
+significant at the naive critical values for both the original and
+bounded forecasts: the dividend yield, long term interest rate, and
+book to market ratio.
+
+However, we know that this is an extremely optimistic assessment of
+the models' performance. We are conducting \nmod\ simultaneous
+hypothesis tests, so it is likely that some will reject by chance. A
+full treatment of this issue is beyond the scope of this paper,
+however, it is straightforward to use Theorem~\ref{res:1} and
+Lemma~\ref{lem:2} to derive an appropriate critical value as
+in~\citet{Whi:00}. Since $\sqrt{P} \bar f \to^d N(0, \Sigma)$ under
+the MDS null hypothesis, the continuous mapping theorem implies that
+$\max_i \sqrt{P} \bar f_i/\hat\sigma_i \to^d \max_i W_i$, where $Z_i
+\sim N(0, D^{-1/2} \Sigma D^{-1/2})$ and $D = \diag(\sigma_1, \dots,
+\sigma_j)$. We can simulate from the $N(0, \hat D^{-1/2} \hat\Sigma
+\hat D^{-1/2})$ distribution to generate a critical value for the
+\emph{largest} individual test statistic under the null ---
+\empiricalcriticalvalue, based on \empiricaldraws\ simulations. Using
+this critical value, none of the predictors are siginificant at
+\bootsize\%.%
+\footnote{\citet{Han:05} makes the point that multiple one-sided
+  comparisons can have poor power if irrelevant predictors are
+  included in these tests and proposes a threshold for discarding very
+  poor forecasts. His threshold is well below our worst performing
+  model, so this issue is not a concern here. Moreover, I need to
+  explain why it's not a concern for these statistics in general.} %
 
 \section{Conclusion}\label{sec:4}
 This paper presents an \oos\ test statistic similar to \poscw\ that is

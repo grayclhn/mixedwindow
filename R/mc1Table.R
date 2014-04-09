@@ -17,8 +17,6 @@ source("R/mcSetup.R")
 library(dbframe, lib.loc = "lib")
 mcdata1 <- dbframe("mc1", dbdriver = "SQLite", dbname = "data/mcdata.db",
 		   readonly = TRUE)
-displaycols <-
-  
 
 d <- select(mcdata1, c("'Sim. type'" = "case simulationtype
 	                                when '0.size' then 'size'
