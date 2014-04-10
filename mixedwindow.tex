@@ -120,15 +120,21 @@
 \maketitle
 
 \begin{abstract} 
-  \noindent This paper proposes a modification of \citepos[\textit{J.
-    Econom.}]{ClW:07} adjusted out-of-sample $t$-test: using a
-  fixed-length rolling window to estimate the alternative model but a
-  recursive window to estimate the benchmark. The
+  \noindent This paper develops a modification of \citepos[\textit{J.
+    Econom.}]{ClW:07} adjusted out-of-sample $t$-test. We propose
+  using a recursive window to estimate the benchmark model but a
+  fixed-length rolling window to estimate the alternative. The
   resulting statistic is asymptotically normal even when the models
   are nested.  Moreover, the alternative model can be estimated using
-  common model selection methods, such as the \aic\ or \bic.
+  common model selection methods, such as the \aic\ or \bic, without
+  affecting the asymptotic distribution of this test statistic.  The
+  paper also presents Monte Carlo evidence that this statistic has
+  much higher power than existing out-of-sample statistics in a common
+  use-case for these tests: when the DGP is subject to instability.
   This procedure is then used to analyze
-  \citepos[\textit{Rev. Finan. Stud.}]{GoW:08} excess returns dataset.
+  \citepos[\textit{Rev. Finan. Stud.}]{GoW:08} excess returns dataset
+  and supports their finding that the equity premium is unpredictable
+  out-of-sample.
 
 \strut
 
