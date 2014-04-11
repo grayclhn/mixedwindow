@@ -52,7 +52,22 @@
 
 \DeclareMathOperator{\pr}{Pr}
 
+\newcommand{\Bh}{\hat{B}}
 \newcommand{\btrue}[1][]{\if#1*\hat\beta_{T+1}\else\beta_0\fi}
+\newcommand{\bh}{\hat{\beta}}
+\newcommand{\bt}{\tilde{\beta}}
+\newcommand{\ep}{\varepsilon}
+\newcommand{\eph}{\hat{\varepsilon}}
+\newcommand{\Fh}{\hat{F}}
+\newcommand{\Fs}{\mathcal{F}}
+\newcommand{\fb}{\bar{f}}
+\newcommand{\fh}{\hat{f}}
+\newcommand{\gb}{\bar{g}}
+\newcommand{\gh}{\hat{g}}
+\newcommand{\Sh}{\hat{S}}
+\newcommand{\Sigmah}{\hat\Sigma}
+\newcommand{\sh}{\hat\sigma}
+\newcommand{\yh}{\hat{y}}
 
 \newcommand{\X}{\ensuremath{\mathrm{X}}}
 \newcommand{\R}{\ensuremath{\mathrm{R}}}
@@ -291,8 +306,8 @@ $(y_t, x_t, v_t)$ is stationary and weakly dependent
 In addition,
 let $\btrue = (\E x_t x_t')^{-1} \E x_t y_{t+1}$ be the pseudotrue
 coefficient of the regression of $y_{t+1}$ on $x_t$ and define
-$\varepsilon_{t+1} = y_{t+1} - x_t'\btrue$.  If this linear model is
-correctly specified, then $\varepsilon_{t+1}$ is an \mds\ with respect
+$\ep_{t+1} = y_{t+1} - x_t'\btrue$.  If this linear model is
+correctly specified, then $\ep_{t+1}$ is an \mds\ with respect
 to the information set
 \begin{equation*}
 \mathcal{F}_t \equiv \sigma((x_t, v_t, y_t), (x_{t-1}, v_{t-1},
@@ -301,7 +316,7 @@ y_{t-1}),\dots),
 and we can see immediately that
 \begin{equation}
   \label{eq:4}
-  \oclt{t} \varepsilon_{t+1} (v_t - x_t'\btrue)
+  \oclt{t} \ep_{t+1} (v_t - x_t'\btrue)
 \end{equation}
 obeys an \mds\ \clt%
 \footnote{This claim assumes that the asymptotic variance of the
@@ -314,54 +329,54 @@ arbitrary starting value%
 and $P = T - R$.%
 \footnote{Section~\ref{sec:1b} discusses conditions under which the
   \mds\ condition holds. We will also present results that allow
-  $\varepsilon_{t+1}$ to be serially correlated.} %
+  $\ep_{t+1}$ to be serially correlated.} %
 Straightforward algebra \citep{ClW:07} shows that
 \begin{equation}
   \label{eq:5}
-  \tfrac{1}{\sqrt{P}} \osum{t} \varepsilon_{t+1} (v_t -
+  \tfrac{1}{\sqrt{P}} \osum{t} \ep_{t+1} (v_t -
   x_t'\btrue) = \tfrac{1}{2 \sqrt{P}} \osum{t} \Big[(y_{t+1} -
   x_t\btrue)^2 - (y_{t+1} - v_t)^2 + (x_t'\btrue - v_t)^2 \Big].
 \end{equation}
 
 \citet{ClW:06,ClW:07} base their \oos\ statistics on the RHS of
 Equation~\eqref{eq:5}, but using a second forecast of $y_{t+1}$ as
-$v_t$. (Call it $\hat{y}_{t+1}$.) They use a rolling window of length
-$R$ to estimate $\hat{y}_{t+1}$;%
-\footnote{Making $\hat{y}_{t+1}$ a function of $y_t, x_{t-1}, z_{t-1}
+$v_t$. (Call it $\yh_{t+1}$.) They use a rolling window of length
+$R$ to estimate $\yh_{t+1}$;%
+\footnote{Making $\yh_{t+1}$ a function of $y_t, x_{t-1}, z_{t-1}
 \dots, y_{t-R+1}, x_{t-R}$ and $z_{t-R}$, where $z_t$ is another weakly
 dependent random process} %
 $R$ is kept finite as $T \to \infty$, so
-$\hat{y}_{t+1}$ inherits the weak dependence properties of the
+$\yh_{t+1}$ inherits the weak dependence properties of the
 variables used to estimate it. Using a finite window length $R$ avoids
 the degeneracy that often arises in OOS test statistics (see
 \citealp{ClM:01}, and \citealp{Mcc:07}), so the conditional variance
 of the OOS average remains positive and the average obeys a \clt, an
 approach introduced by \citet{GiW:06}.
 
-\citet{ClW:06,ClW:07} develop a test of whether $\varepsilon_{t+1}$ is
+\citet{ClW:06,ClW:07} develop a test of whether $\ep_{t+1}$ is
 an \mds. In the 2006 paper, Clark and West assume that the
 coefficients $\btrue$ are zero under the null, making
-$\varepsilon_{t+1}$ observed directly. This restriction is relaxed in
+$\ep_{t+1}$ observed directly. This restriction is relaxed in
 the 2007 paper where $\btrue$ is unknown and estimated with length-$R$
 rolling window. Now the estimated linear model's prediction errors,
-$\hat{\varepsilon}_{t+1}$, replace $\varepsilon_{t+1}$ in the \oos\
-test statistic. Unfortunately, $\hat{\varepsilon}_{t+1}$ is not an
-\mds\ even when $\varepsilon_{t+1}$ is, so the statistic is no longer
+$\eph_{t+1}$, replace $\ep_{t+1}$ in the \oos\
+test statistic. Unfortunately, $\eph_{t+1}$ is not an
+\mds\ even when $\ep_{t+1}$ is, so the statistic is no longer
 asymptotically mean-zero normal, even though this approximation
 performs well in simulations.
 
 This paper proposes using the same basic \oos\ statistic, 
 but using a recursive window to estimate $\btrue$ and produce
-$\hat{\varepsilon}_{t+1}$; so
+$\eph_{t+1}$; so
 \begin{equation}
   \label{eq:8}
-  \hat{\beta}_t = \Big(\sum_{s=2}^{t} x_{t-1} x_{t-1}'\Big)^{-1}
+  \bh_t = \Big(\sum_{s=2}^{t} x_{t-1} x_{t-1}'\Big)^{-1}
   \sum_{s=2}^t x_{t-1} y_t.
 \end{equation}
 \citepos{Wes:96} Theorem 4.1 implies that
 \begin{equation*}
   \oclt{t} \Big[(y_{t+1} -
-  x_t\hat{\beta}_t)^2 - (y_{t+1} - v_t)^2 + (x_t'\hat{\beta}_t - v_t)^2 \Big]
+  x_t\bh_t)^2 - (y_{t+1} - v_t)^2 + (x_t'\bh_t - v_t)^2 \Big]
 \end{equation*}
 is asymptotically normal with mean zero under the null for fairly
 arbitrary processes $v_t$, as long as $v_t$ is weakly dependent and
@@ -381,23 +396,23 @@ The assumptions required are essentially the same in existing papers
 \citealp{GiW:06}; and \citealp{ClW:06,ClW:07}).
 
 \begin{asmp}\label{a1}%
-  The benchmark forecast $\hat{y}_{0,t+1}$, is estimated using \ols\
-  with a recursive window: $\hat{y}_{0,t+1} = x_t'\hat{\beta}_t$ for
-  some vector of predictors $x_t$ with $\hat{\beta}_t$ given by
+  The benchmark forecast $\yh_{0,t+1}$, is estimated using \ols\
+  with a recursive window: $\yh_{0,t+1} = x_t'\bh_t$ for
+  some vector of predictors $x_t$ with $\bh_t$ given by
   Equation~\eqref{eq:8}.  Also define $\btrue = (\E x_{t-1}
   x_{t-1}')^{-1} \E x_{t-1} y_t$ and assume that $\btrue$ does not
   depend on~$t$.
 
-  The alternative forecast, $\hat{y}_{1t}$, is estimated using a
+  The alternative forecast, $\yh_{1t}$, is estimated using a
   rolling window of fixed length $R$ (which is less than $T$), so
-  $\hat{y}_{1,t+1} = \psi(y_t,z_t,\dots,y_{t-R+1}, z_{t-R+1})$ where
+  $\yh_{1,t+1} = \psi(y_t,z_t,\dots,y_{t-R+1}, z_{t-R+1})$ where
   $\psi$ is a known function and $z_t$ is a sequence of predictors
   that may include $x_t$.
 \end{asmp}
 
 \begin{asmp}\label{a3}%
-  The series $y_t$, $\hat{y}_{1t}$, and $x_t$ have uniformly bounded
-  $2 r$ moments for some $r > 2$, and $\hat y_t y_t$ $\hat y_t
+  The series $y_t$, $\yh_{1t}$, and $x_t$ have uniformly bounded
+  $2 r$ moments for some $r > 2$, and $\yh_t y_t$ $\yh_t
   x_{t-1}$, $y_t x_{t-1}$, and $x_{t-1}, x_{t-1}'$ are $L_2$-\ned\ of
   size $-\frac12$ on a strong mixing series of size $-\frac{r}{r-2}$
   for $r>2$ or a uniform mixing series of size $-\frac{r}{2r-2}$.
@@ -405,10 +420,10 @@ The assumptions required are essentially the same in existing papers
 
 \begin{asmp}\label{a4}%
   Define \[f_t(\beta) = (y_{t+1} - x_t'\beta)^2 - (y_{t+1} -
-  \hat{y}_{1,t+1})^2 + (x_t'\beta - \hat{y}_{1,t+1})^2,\] $f_t =
-  f_t(\beta_0)$, $\hat f_t = f_t(\hat\beta_t)$, $\bar{f}(\beta) =
-  \oavg{t} f_t(\beta)$, and $\bar f = \tfrac1P \sum_{t=R+1}^{T} \hat
-  f_t$, with $P = T - R$; $\bar f(\btrue)$ has uniformly positive and
+  \yh_{1,t+1})^2 + (x_t'\beta - \yh_{1,t+1})^2,\] $f_t =
+  f_t(\btrue)$, $\fh_t = f_t(\bh_t)$, $\fb(\beta) =
+  \oavg{t} f_t(\beta)$, and $\fb = \tfrac1P \sum_{t=R+1}^{T} \fh_t$
+  with $P = T - R$; $\fb(\btrue)$ has uniformly positive and
   finite long run variance.
 \end{asmp}
 
@@ -416,27 +431,27 @@ The assumptions required are essentially the same in existing papers
 \label{sec:1b}
 
 \begin{thm}\label{res:1}
-  Suppose that we have two models $\hat{y}_{0t}$ and $\hat{y}_{1t}$ to
+  Suppose that we have two models $\yh_{0t}$ and $\yh_{1t}$ to
   forecast the variable $y_t$, and have observations for
   $t=1,\dots,T+1$. Suppose that Assumptions~\ref{a1} -- \ref{a4} hold.
-  Under the null hypothesis that $y_t - \hat{y}_{0t}(\btrue)$ is a
+  Under the null hypothesis that $y_t - \yh_{0t}(\btrue)$ is a
   martingale difference sequence with respect to the filtration
   $\mathcal{F}_t = \sigma((y_t, z_{t}), (y_{t-1}, z_{t-1}),\dots)$,
-  $\tfrac{\sqrt{P}}{\hat\sigma} \bar f \to^d N(0,1)$, where 
+  $\tfrac{\sqrt{P}}{\sh} \fb \to^d N(0,1)$, where
   \begin{align*}
-    \hat{\sigma}^2 &= \hat{S}_{ff} + 2 (\hat{S}_{fg} + \hat{S}_{gg}), &
-    \hat{S}_{ff} &= \oavg{t} (\hat f_t - \bar f)^2, \\
-    \hat{S}_{fg} &= \oavg{t} (\hat f_t - \bar{f})(\hat g_t - \bar g)', &
-    \hat{S}_{gg} &= \oavg{t} (\hat g_t - \bar g)(\hat g_t - \bar g)',
+    \sh^2 &= \Sh_{ff} + 2 (\Sh_{fg} + \Sh_{gg}), &
+    \Sh_{ff} &= \oavg{t} (\fh_t - \fb)^2, \\
+    \Sh_{fg} &= \oavg{t} (\fh_t - \fb)(\gh_t - \gb)', &
+    \Sh_{gg} &= \oavg{t} (\gh_t - \gb)(\gh_t - \gb)',
   \end{align*}
-  $\bar{g} = \oavg{t}
-  \hat g_t$, $\X' = [x_1,\dots,x_T]$,
+  $\gb = \oavg{t}
+  \gh_t$, $\X' = [x_1,\dots,x_T]$,
   \begin{equation*}
     g_t(\beta) =
-    \Big\{\tfrac{2}{P}\sum_{s=R}^T x_s (x_s'\beta - \hat{y}_{1,s+1}) \Big\}'
+    \Big\{\tfrac{2}{P}\sum_{s=R}^T x_s (x_s'\beta - \yh_{1,s+1}) \Big\}'
     \big(\tfrac1T \X'\X \big)^{-1} x_t(y_{t+1} - x_t'\beta),
   \end{equation*}
-  and $\hat g_t = g_t(\hat\beta_t)$.
+  and $\gh_t = g_t(\bh_t)$.
 \end{thm}
 
 The following remarks are relevant to Theorem~\ref{res:1}:
@@ -456,7 +471,7 @@ The following remarks are relevant to Theorem~\ref{res:1}:
 \end{rem}
 
 \begin{rem}
-  The requirement that the asymptotic variance of $\bar f(\btrue)$ is
+  The requirement that the asymptotic variance of $\fb(\btrue)$ is
   uniformly positive is much less restrictive than in \cite{Wes:96}.
   As in \cite{GiW:06} and \citet{ClW:06,ClW:07}, the assumption only
   serves to rule out pathological cases---for example, letting both
@@ -466,15 +481,50 @@ The following remarks are relevant to Theorem~\ref{res:1}:
   restriction only on the models.
 \end{rem}
 
+Define $\X' = [x_1,\dots,x_T]$
+
+\begin{align*}
+  \Fh &= \Big\{\tfrac{2}{P}\sum_{s=R}^T x_s (x_s'\beta - \yh_{1,s+1}) \Big\}' &
+  \Bh &= \big(\tfrac1T \X'\X \big)^{-1}
+\end{align*}
+
+Define the variables
+$g_t(\beta) = \Fh \Bh x_t(y_{t+1} - x_t'\beta)$,
+$\gh_t = g_t(\bh_t)$, and $\gb = \oavg{t} \gh_t$.
+
+\newcommand{\K}[1]{K(\tfrac{#1}{w})}
+
+Define the general covariance estimator:
+\begin{align*}
+  \Sigmah_1 &= \Sh_{21} + \Sh_{22} + \Sh_{22}' + 2 \, \Sh_{23}, &
+  \Sh_{11} &= \oavg{s,t} (\fh_t - \fb) (\fh_t - \fb)' \K{t-s}, \\
+  \Sh_{12} &= \oavg{s,t} (\fh_t - \fb)(\gh_t - \gb)' \K{t-s}, &
+  \Sh_{13} &= \oavg{s,t} (\gh_t - \gb)(\gh_t - \gb)'  \K{t-s}.
+\end{align*}
+
+Define the MDS covariance estimator:
+\begin{align*}
+  \Sigmah_2 &= \Sh_{21} + \Sh_{22} + \Sh_{22}' + 2 \, \Sh_{23}, &
+  \Sh_{21} &= \oavg{t} (\fh_t - \fb) (\fh_t - \fb)', \\
+  \Sh_{22} &= \oavg{t} (\fh_t - \fb)(\gh_t - \gb)', &
+  \Sh_{23} &= \oavg{t} (\gh_t - \gb)(\gh_t - \gb)'.
+\end{align*}
+
+\begin{lem}\label{lem:2}
+  Under the conditions of Thoerem~\ref{res:1}, $\Sigmah_1 \to^p
+  \Sigma$. If, in addition, $y_t - x_t'\btrue$ is an MDS with respect
+  to $\Fs_t$ then $\Sigmah_2 \to^p \Sigma$.
+\end{lem}
+
 \begin{rem}
   The statistic we present tests the null hypothesis that the forecast
   errors from the population version of the benchmark model are a
   martingale difference sequence.  This hypothesis may not be
   appropriate, depending on the loss function or utility function of
   interest.  If one wants to test the less restrictive null hypothesis that
-  $y_{t} - \hat{y}_{0t}$ is uncorrelated with $\hat{y}_{1t}$ but not
-  necessarily an \mds, one can replace $\hat{S}_{ff}$, $\hat{S}_{fg}$
-  and $\hat{S}_{gg}$ with their \hac\ counterparts.  
+  $y_{t} - \yh_{0t}$ is uncorrelated with $\yh_{1t}$ but not
+  necessarily an \mds, one can replace $\Sh_{21}$, $\Sh_{22}$
+  and $\Sh_{23}$ with their \hac\ counterparts.
   Our statistic can also be modified to test implications of
   optimal forecasts under other loss functions
   \citep[see][]{PaT:07,PaT:07b}; the statistic should be expressed as
@@ -590,7 +640,7 @@ Here, I conduct the same analysis, but using this paper's \mds\ test.
 The benchmark model is the excess return's sample mean (as in the
 original) and the alternative models are of the form
 \[\text{excess return}_{t} = \alpha_{0} + \alpha_{1}\ 
-\text{predictor}_{t-1} + \varepsilon_{t},\] where $\alpha_{0}$ and
+\text{predictor}_{t-1} + \ep_{t},\] where $\alpha_{0}$ and
 $\alpha_{1}$ are estimated by \ols\ using a \windowlength-year window.
 The predictors used are listed in the ``predictor'' column of
 Table~\ref{tab:em1} \citep[see][for a detailed description of the
@@ -635,11 +685,11 @@ hypothesis tests, so it is likely that some will reject by chance. A
 full treatment of this issue is beyond the scope of this paper,
 however, it is straightforward to use Theorem~\ref{res:1} and
 Lemma~\ref{lem:2} to derive an appropriate critical value as
-in~\citet{Whi:00}. Since $\sqrt{P} \bar f \to^d N(0, \Sigma)$ under
+in~\citet{Whi:00}. Since $\sqrt{P} \fb \to^d N(0, \Sigma)$ under
 the MDS null hypothesis, the continuous mapping theorem implies that
-$\max_i \sqrt{P} \bar f_i/\hat\sigma_i \to^d \max_i W_i$, where $Z_i
+$\max_i \sqrt{P} \fb_i/\sh_i \to^d \max_i W_i$, where $Z_i
 \sim N(0, D^{-1/2} \Sigma D^{-1/2})$ and $D = \diag(\sigma_1, \dots,
-\sigma_j)$. We can simulate from the $N(0, \hat D^{-1/2} \hat\Sigma
+\sigma_j)$. We can simulate from the $N(0, \hat D^{-1/2} \Sh
 \hat D^{-1/2})$ distribution to generate a critical value for the
 \emph{largest} individual test statistic under the null ---
 \empiricalcriticalvalue, based on \empiricaldraws\ simulations. Using
@@ -683,22 +733,22 @@ $h_t = h_t(\btrue)$.
   Replace $R$ with $\log(T)$ and $P$ with $T - \log(T)$ in the
   statistic; this substitution does not affect its asymptotic
   distribution.
-  As in \citet{Wes:96} and \citet{WeM:98}, expand $\hat f_t$ around
+  As in \citet{Wes:96} and \citet{WeM:98}, expand $\fh_t$ around
   $\btrue$ to get
   \begin{align*}
-    \sqrt{P} \big(\bar{f} - \bar{f}(\btrue)\big) &= \oclt{t}
+    \sqrt{P} \big(\fb - \fb(\btrue)\big) &= \oclt{t}
     \big(f_t - \E f_t\big) +
     \E F_t B \oclt{t} H_t \\
     & \quad + \WesA + \WesB \\ & \quad + \WesC + \oclt{t} w_t
   \end{align*}
   where (again, as in \citealp{Wes:96}) the $i$th element of $w_t$ is
   \begin{equation*}
-    w_{it} = \tfrac12 (\hat\beta_t - \btrue)'
+    w_{it} = \tfrac12 (\bh_t - \btrue)'
     \Big[\tfrac{\partial^2}{\partial \beta \partial\beta'}
-    f_{it}(\tilde\beta_{it}) \Big]
-    (\hat\beta_t - \btrue)
+    f_{it}(\bt_{it}) \Big]
+    (\bh_t - \btrue)
   \end{equation*}
-  and each $\tilde\beta_{it}$ lies between $\hat\beta_t$ and
+  and each $\bt_{it}$ lies between $\bh_t$ and
   $\btrue$; $\oclt{t} w_t = o_{p}(1)$ as in Theorem~\ref{res:3}.
   Then, as before,
   \begin{gather}
@@ -711,10 +761,10 @@ $h_t = h_t(\btrue)$.
   be derived exactly as in \citet{Wes:96} and \citet{WeM:98}.
 
   Note that \[f_t(\btrue)= 2 (y_{t+1} -
-  x_t'\btrue)(\hat{y}_{1,t+1} - x_t'\btrue) \quad \text{a.s.},\] as
+  x_t'\btrue)(\yh_{1,t+1} - x_t'\btrue) \quad \text{a.s.},\] as
   in \citet{ClW:07}, which is an \mds, so we do not need to use a
   \hac\ estimator of the variance under the null.  Also observe that
-  \[F_t(\beta) = 2 x_t(x_t'\beta - \hat y_{1,t+1}) + 2 x_t(x_t'\beta -
+  \[F_t(\beta) = 2 x_t(x_t'\beta - \yh_{1,t+1}) + 2 x_t(x_t'\beta -
   y_{t+1})\] and the second term is an \mds\ under the null,
   explaining the particular form of $g_t(\beta)$.
 \end{proof}
@@ -732,7 +782,7 @@ $h_t = h_t(\btrue)$.
   hold.
   \begin{enumerate}
   \item $P^a \sup_t | H_{t} | \to^p 0$.
-  \item $P^a \sup_t | \hat{\beta}_{t} - \beta_{0} | \to^{p} 0$.
+  \item $P^a \sup_t | \bh_{t} - \btrue | \to^{p} 0$.
   \item $\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T (F_t - \E F_t) = O_{p}(1)$.
   \end{enumerate}
 \end{lema}
@@ -750,8 +800,8 @@ $h_t = h_t(\btrue)$.
     theorem.
   \item We have
     \begin{equation}
-      P^a \sup_t | \hat{\beta}_t - \btrue | = P^a \sup_t |\hat{B}_{t}
-      H_{t}| \leq \sup_{t,u} \Big| [ \hat{B}_u - B]
+      P^a \sup_t | \bh_t - \btrue | = P^a \sup_t |\Bh_{t}
+      H_{t}| \leq \sup_{t,u} \Big| [ \Bh_u - B]
       \tfrac{P^a}{t} \sum_{s=1}^t h_{s} \Big| + \sup_{t} \Big|
       B \tfrac{P^a}{t} \sum_{s=1}^t h_{s} \Big|
     \end{equation}
@@ -786,7 +836,7 @@ of \eqref{eq:12} and \eqref{eq:13} are similar.
 % LocalWords:  PaT AllRefs isi ima uc sv PeT GoW lm il GoK RoW Econometrica PoR
 % LocalWords:  Finan StepM studentizing studentization Whi HuW RSW recentering
 % LocalWords:  DiM LiS Kun McCracken lt filtrations GoJR JoD McCracken's Econom
-% LocalWords:  Corradi unstudentized studentized fg gg GoJ gcalhoun HLN li PoW
+% LocalWords:  Corradi unstudentized studentized GoJ gcalhoun HLN li PoW
 % LocalWords:  Econometricians reestimate PPW resample miscentered AnG eq Helle
 % LocalWords:  Bunzel Yu Hsu Pincheira HHK th AtO ik DoH Wolak's Wol stepdown
 % LocalWords:  Hsu's iq mk Ames Amit Goyal rfs Ivo Welch Wes covariance MeR McW
