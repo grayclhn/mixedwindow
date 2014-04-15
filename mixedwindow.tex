@@ -294,18 +294,18 @@ predictability. Section~\ref{sec:4} concludes.
 \label{sec:1}
 
 This section presents the new \oos\ statistic; first we give an
-informal motivation of the statistc, then section~\ref{sec:1a}
-presents the paper's key assumptions and section~\ref{sec:1b} presents
-our formal theoretical results.
+informal motivation of the statistc, then present the paper's key
+assumptions in section~\ref{sec:1a} and present our formal theoretical
+results in section~\ref{sec:1b}.
 
 Suppose for now that a researcher is interested in
 predicting the target variable $y_{t+1}$ with a vector of regressors
-$x_t$; also let $v_t$ be another random process that may contain information about
-$y_{t+1}$ and suppose that
-$(y_t, x_t, v_t)$ is stationary and weakly dependent
+$x_t$; also let $v_t$ be another random process that is believed to
+potentially contain information about $y_{t+1}$ and suppose that
+$(y_t, x_t, v_t)$ is stationary and weakly dependent.
 In addition,
 let $\btrue = (\E x_t x_t')^{-1} \E x_t y_{t+1}$ be the pseudotrue
-coefficient of the regression of $y_{t+1}$ on $x_t$ and define
+coefficient for the regression of $y_{t+1}$ on $x_t$ and define
 $\ep_{t+1} = y_{t+1} - x_t'\btrue$.  If this linear model is
 correctly specified, then $\ep_{t+1}$ is an \mds\ with respect
 to the information set
@@ -318,14 +318,13 @@ and we can see immediately that
   \label{eq:4}
   \oclt{t} \ep_{t+1} (v_t - x_t'\btrue)
 \end{equation}
-obeys an \mds\ \clt%
+obeys an \mds\ \clt and is asymptotically normal as $P \to \infty$,%
 \footnote{This claim assumes that the asymptotic variance of the
   sample average is uniformly positive, a requirement that we will
   address in Section~\ref{sec:1b}.} %
-and is asymptotically normal as $P \to \infty$, with $R$ an
-arbitrary starting value%
-\footnote{It will be clear momentarily why the
-  summation begins at $R+1$ instead of $1$.} %
+with $R$ an arbitrary starting value%
+\footnote{It will be clear momentarily why the summation begins at
+  $R+1$ instead of $1$.} %
 and $P = T - R$.%
 \footnote{Section~\ref{sec:1b} discusses conditions under which the
   \mds\ condition holds. We will also present results that allow
@@ -339,35 +338,36 @@ Straightforward algebra \citep{ClW:07} shows that
 \end{equation}
 
 \citet{ClW:06,ClW:07} base their \oos\ statistics on the RHS of
-Equation~\eqref{eq:5}, but using a second forecast of $y_{t+1}$ as
-$v_t$. (Call it $\yh_{t+1}$.) They use a rolling window of length
-$R$ to estimate $\yh_{t+1}$;%
+Equation~\eqref{eq:5}, but use a second forecast of $y_{t+1}$ as
+$v_t$. (Call it $\yh_{1,t+1}$.) They use a rolling window of length
+$R$ to estimate $\yh_{t+1}$%
 \footnote{Making $\yh_{t+1}$ a function of $y_t, x_{t-1}, z_{t-1}
 \dots, y_{t-R+1}, x_{t-R}$ and $z_{t-R}$, where $z_t$ is another weakly
 dependent random process} %
-$R$ is kept finite as $T \to \infty$, so
+and $R$ is kept finite as $T \to \infty$ so that
 $\yh_{t+1}$ inherits the weak dependence properties of the
-variables used to estimate it. Using a finite window length $R$ avoids
-the degeneracy that often arises in OOS test statistics (see
+variables used to estimate it. Using a finite window length $R$ prevents
+the degeneracy that can arise when comparing nested models out-of-sample (see
 \citealp{ClM:01}, and \citealp{Mcc:07}), so the conditional variance
-of the OOS average remains positive and the average obeys a \clt, an
-approach introduced by \citet{GiW:06}.
+of the OOS average remains positive and the average obeys a \clt.%
+\footnote{This approach was first introduced by \citet{GiW:06}.} %
 
 \citet{ClW:06,ClW:07} develop a test of whether $\ep_{t+1}$ is
 an \mds. In the 2006 paper, Clark and West assume that the
-coefficients $\btrue$ are zero under the null, making
+coefficients on the benchmark model, $\btrue$, are zero under the null, making
 $\ep_{t+1}$ observed directly. This restriction is relaxed in
-the 2007 paper where $\btrue$ is unknown and estimated with length-$R$
+the 2007 paper, where $\btrue$ is unknown and estimated with length-$R$
 rolling window. Now the estimated linear model's prediction errors,
 $\eph_{t+1}$, replace $\ep_{t+1}$ in the \oos\
 test statistic. Unfortunately, $\eph_{t+1}$ is not an
 \mds\ even when $\ep_{t+1}$ is, so the statistic is no longer
 asymptotically mean-zero normal, even though this approximation
-performs well in simulations.
+performs well in simulations. Since the window length is finite,
+the estimators of $\beta_0$ do not converge to $\beta_0$.
 
 This paper proposes using the same basic \oos\ statistic, 
 but using a recursive window to estimate $\btrue$ and produce
-$\eph_{t+1}$; so
+$\eph_{t+1}$; i.e.
 \begin{equation}
   \label{eq:8}
   \bh_t = \Big(\sum_{s=2}^{t} x_{t-1} x_{t-1}'\Big)^{-1}
@@ -378,7 +378,8 @@ $\eph_{t+1}$; so
   \oclt{t} \Big[(y_{t+1} -
   x_t\bh_t)^2 - (y_{t+1} - v_t)^2 + (x_t'\bh_t - v_t)^2 \Big]
 \end{equation*}
-is asymptotically normal with mean zero under the null for fairly
+is asymptotically normal with mean zero under Clark and West's MDS
+null for fairly
 arbitrary processes $v_t$, as long as $v_t$ is weakly dependent and
 the \oos\ statistic has uniformly positive variance.  Just as in
 \citet{ClW:06,ClW:07}, these conditions are ensured if $v_t$ is
@@ -386,7 +387,7 @@ another forecast of $y_{t+1}$ based on a fixed-length rolling window.
 
 This overview has presented an especially simple version of the result
 to make the intuition as clear as possible. The next section lists the
-specific assumptions that need to hold.
+specific assumptions for a more general case.
 
 \subsection{Assumptions}
 \label{sec:1a}
