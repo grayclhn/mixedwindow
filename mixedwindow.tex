@@ -1,25 +1,11 @@
 \documentclass[12pt,fleqn]{article}
-
-\usepackage{amsfonts}
-\usepackage{amsmath,amsthm,amssymb,graphicx,setspace,url,booktabs,tabularx,enumerate,slantsc}
-\usepackage[T1]{fontenc}
-\usepackage[sort,round,comma]{natbib}
-\usepackage[margin=1.25in]{geometry}
-\usepackage[small]{caption}
-\usepackage[charter]{mathdesign}
-\urlstyle{same}
-\newcolumntype{C}{>{\centering\arraybackslash}X}
-\bibliographystyle{abbrvnat}
-\newcommand\citepos[2][]{\citeauthor{#2}'s \citeyearpar[#1]{#2}}
-\newcommand\poscw{\citeauthor{ClW:06}'s \citeyearpar{ClW:06,ClW:07}}
-\newcommand\citen[1]{\citeauthor{#1}, \citeyear{#1}}
-\frenchspacing
+\input{tex/setup}
 \input{tex/mcDef}
 \input{tex/ap}
 
-% These commands are generated when the monte carlo and applied
+% These commands are generated when the Monte Carlo and applied
 % sections are run; I'm giving them definitions now so that LaTeX will
-% run.
+% compile the document even if that code hasn't been run yet.
 \providecommand\bootsize{[missing]}
 \providecommand\empiricalcriticalvalue{[missing]}
 \providecommand\nboot{[missing]}
@@ -27,95 +13,6 @@
 \providecommand\totalsims{[missing]}
 \providecommand\windowlength{[missing]}
 \providecommand\empiricaltable{[missing]}
-
-\newtheorem{thm}{Theorem}
-\newtheorem{lem}[thm]{Lemma}
-\newtheorem{claim}[thm]{Claim}
-\newtheorem{cor}[thm]{Corollary}
-\newtheorem{lema}{Lemma}[section]
-\newtheorem{alg}{Algorithm}
-\newtheorem{asmp}{Assumption}
-
-\theoremstyle{definition}
-
-\newtheorem{example}{Example}
-\newtheorem{defn}{Definition}
-\newtheorem{rem}{Remark}
-
-\DeclareMathOperator*{\argmin}{arg\,min}
-\DeclareMathOperator{\diag}{diag}
-\DeclareMathOperator{\E}{E}
-\DeclareMathOperator{\var}{var}
-\DeclareMathOperator{\cov}{cov}
-\DeclareMathOperator*{\plim}{plim}
-%\DeclareMathOperator{\vec}{vec}
-\DeclareMathOperator{\vech}{vech}
-
-\DeclareMathOperator{\pr}{Pr}
-
-\newcommand{\iid}{\ensuremath\mathit{i.i.d.}}
-\newcommand{\bernoulli}{\ensuremath\mathit{bernoulli}}
-
-\newcommand{\Bh}{\hat{B}}
-\newcommand{\btrue}[1][]{\if#1*\hat\beta_{T+1}\else\beta_0\fi}
-\newcommand{\bh}{\hat{\beta}}
-\newcommand{\bt}{\tilde{\beta}}
-\newcommand{\ep}{\varepsilon}
-\newcommand{\eph}{\hat{\varepsilon}}
-\newcommand{\Fh}{\hat{F}}
-\newcommand{\Fs}{\mathcal{F}}
-\newcommand{\fb}{\bar{f}}
-\newcommand{\fh}{\hat{f}}
-\newcommand{\gb}{\bar{g}}
-\newcommand{\gh}{\hat{g}}
-\newcommand{\Sh}{\hat{S}}
-\newcommand{\Sigmah}{\hat\Sigma}
-\newcommand{\sh}{\hat\sigma}
-\newcommand{\yh}{\hat{y}}
-
-\newcommand{\X}{\ensuremath{\mathrm{X}}}
-\newcommand{\R}{\ensuremath{\mathrm{R}}}
-\newcommand{\p}{\ensuremath{\mathrm{P}}}
-
-\newcommand{\osum}[1]{\sum_{#1=R+1}^T}
-\newcommand{\oavg}[1]{\tfrac{1}{P} \osum{#1}}
-\newcommand{\oclt}[1]{\tfrac{1}{\sqrt{P}} \osum{#1}}
-
-\newcommand{\aic}{AIC}
-\newcommand{\bic}{BIC}
-\newcommand{\brc}{BRC}
-\newcommand{\cdf}{CDF}
-\newcommand{\clt}{CLT}
-\newcommand{\dd}[1]{\frac{\partial}{\partial #1}}
-\newcommand{\dgp}{DGP}
-\newcommand{\fclt}{FCLT}
-\newcommand{\fwe}{FWE}
-\newcommand{\gdp}{GDP}
-\newcommand{\hac}{HAC}
-\newcommand{\lln}{LLN}
-\newcommand{\ma}{MA}
-\newcommand{\mds}{MDS}
-\newcommand{\ned}{NED}
-\newcommand{\ols}{OLS}
-\newcommand{\oos}{OOS}
-\newcommand{\sfwe}{SFWE}
-\newcommand{\spa}{SPA}
-\newcommand{\wfwe}{WFWE}
-
-\renewcommand{\Re}{\ensuremath{\mathbb{R}}}
-
-\renewcommand{\topfraction}{.85}
-\renewcommand{\bottomfraction}{.7}
-\renewcommand{\textfraction}{.15}
-\renewcommand{\floatpagefraction}{.66}
-\renewcommand{\dbltopfraction}{.66}
-\renewcommand{\dblfloatpagefraction}{.66}
-\setcounter{topnumber}{9}
-\setcounter{bottomnumber}{9}
-\setcounter{totalnumber}{20}
-\setcounter{dbltopnumber}{9}
-
-\begin{document}
 
 \author{Gray Calhoun\thanks{ Economics Department; Iowa State
     University; Ames, IA 50011.  Telephone: (515) 294-6271.  Email:
@@ -136,6 +33,7 @@
 
 % \date{March 14, 2013}
 
+\begin{document}
 \maketitle
 
 \begin{abstract} 
@@ -292,7 +190,9 @@ The next section presents our new statistics and Section~\ref{sec:2} presents
 simulations that compare our test to \poscw\ original
 statistics.  Section~\ref{sec:3} demonstrates the use of our statistic
 by reanalyzing \citepos{GoW:08} study of excess return
-predictability. Section~\ref{sec:4} concludes.
+predictability and Section~\ref{sec:4} concludes. Proofs of
+our results have been put in a separate Appendix along with
+some minor supporting arguments \citep{Cal:14}.
 
 \section{Theoretical results supporting the asympotically normal OOS statistic}
 \label{sec:1}
@@ -498,10 +398,7 @@ on the models.
 \subsection{Theoretical results}
 \label{sec:1b}
 
-\begin{thm}\label{res:1}
-  Suppose that Assumptions~\ref{a1} -- \ref{a4} hold.  Then $\sqrt{P}
-  (\fb - \E f_t) \to^d N(0, \Sigma)$.
-\end{thm}
+\begin{thm}\label{res:1}\input{mixedwindow_thm1}\end{thm}
 
 The following remarks are relevant to Theorem~\ref{res:1}:
 
@@ -548,11 +445,7 @@ Define the MDS covariance estimator:
   \Sh_{23} &= \oavg{t} (\gh_t - \gb)(\gh_t - \gb)'.
 \end{align*}
 
-\begin{lem}\label{lem:2}
-  Under the conditions of Thoerem~\ref{res:1}, $\Sigmah_1 \to^p
-  \Sigma$. If, in addition, $y_t - x_t'\btrue$ is an MDS with respect
-  to $\Fs_t$ then $\Sigmah_2 \to^p \Sigma$.
-\end{lem}
+\begin{lem}\label{lem:2}\input{mixedwindow_lem2}\end{lem}
 
 \begin{rem}
   The statistic we present tests the null hypothesis that the forecast
@@ -752,123 +645,6 @@ the benchmark model with a recursive window.  Simulations indicate
 that the new statistic behaves similarly to Clark and West's original
 test when the \dgp\ is stable but can have much higher power when the 
 \dgp\ has structural breaks.
-
-\appendix
-\section{Proofs of Main Theoretical Results}
-\label{sec:B}
-
-\newcommand{\WesA}[1][]{\oclt{t}
-  (F_t^{#1} - \E^{#1} F_t^{#1}) B^{#1} H_t^{#1}}
-\newcommand{\WesB}[1][]{\tfrac{1}{\sqrt{P}} \E^{#1} F_t^{#1} \osum{t} (B_t^{#1} -
-  B^{#1}) H_t^{#1}}
-\newcommand{\WesC}[1][]{\oclt{t}
-  (F_t^{#1} - \E^{#1} F_t^{#1}) (B_t^{#1} - B^{#1}) H_t^{#1}}
-
-Define the additional notation 
-$F_t(\beta) = \tfrac{\partial}{\partial \beta} f_t(\beta)$,
-$F_t = F_t(\btrue)$,
-and
-$h_t = h_t(\btrue)$.
-    
-\begin{proof}[Proof of Theorem \ref{res:1}]
-  Replace $R$ with $\log(T)$ and $P$ with $T - \log(T)$ in the
-  statistic; this substitution does not affect its asymptotic
-  distribution.
-  As in \citet{Wes:96} and \citet{WeM:98}, expand $\fh_t$ around
-  $\btrue$ to get
-  \begin{align*}
-    \sqrt{P} \big(\fb - \fb(\btrue)\big) &= \oclt{t}
-    \big(f_t - \E f_t\big) +
-    \E F_t B \oclt{t} H_t \\
-    & \quad + \WesA + \WesB \\ & \quad + \WesC + \oclt{t} w_t
-  \end{align*}
-  where (again, as in \citealp{Wes:96}) the $i$th element of $w_t$ is
-  \begin{equation*}
-    w_{it} = \tfrac12 (\bh_t - \btrue)'
-    \Big[\tfrac{\partial^2}{\partial \beta \partial\beta'}
-    f_{it}(\bt_{it}) \Big]
-    (\bh_t - \btrue)
-  \end{equation*}
-  and each $\bt_{it}$ lies between $\bh_t$ and
-  $\btrue$; $\oclt{t} w_t = o_{p}(1)$ as in Theorem~\ref{res:3}.
-  Then, as before,
-  \begin{gather}
-    \WesA \to^{p} 0 \label{eq:11} \\
-    \WesB \to^{p} 0 \label{eq:12}\\
-  \intertext{and}
-    \WesC \to^{p} 0 \label{eq:13}
-  \end{gather}
-  from Lemma~\ref{res:a4}.  The formula of the asymptotic variance can
-  be derived exactly as in \citet{Wes:96} and \citet{WeM:98}.
-
-  Note that \[f_t(\btrue)= 2 (y_{t+1} -
-  x_t'\btrue)(\yh_{1,t+1} - x_t'\btrue) \quad \text{a.s.},\] as
-  in \citet{ClW:07}, which is an \mds, so we do not need to use a
-  \hac\ estimator of the variance under the null.  Also observe that
-  \[F_t(\beta) = 2 x_t(x_t'\beta - \yh_{1,t+1}) + 2 x_t(x_t'\beta -
-  y_{t+1})\] and the second term is an \mds\ under the null,
-  explaining the particular form of $g_t(\beta)$.
-\end{proof}
-
-\begin{proof}[Proof of Theorem \ref{res:2}]
-  Replace $R$ and $P$ as in the proof of Theorem~\ref{res:1}.
-  Theorem~\ref{res:3} of this paper and Theorems~3.1 and~4.1 of
-  \citet{RoW:05} complete the proof.
-\end{proof}
-
-\section{Supporting Results}
-
-\begin{lema}\label{res:a2}
-  Suppose $a \in [0,\frac12)$ and the conditions of Theorem~\ref{res:3}
-  hold.
-  \begin{enumerate}
-  \item $P^a \sup_t | H_{t} | \to^p 0$.
-  \item $P^a \sup_t | \bh_{t} - \btrue | \to^{p} 0$.
-  \item $\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T (F_t - \E F_t) = O_{p}(1)$.
-  \end{enumerate}
-\end{lema}
-
-\begin{proof}[Proof of Lemma~\ref{res:a2}]
-  \begin{enumerate}
-  \item The process $\tfrac{1}{\sqrt{T}} h_{s}$ satisfies
-    \citepos[Theorem 3.1]{JoD:00b} functional \clt.  So
-    \begin{equation}
-      P^a \sup_t \Big| \tfrac1t \sum_{s=1}^t h_{s} \Big| =
-      P^a \sup_{\gamma \in [0,1]} \Big| \tfrac{1}{\lfloor \gamma
-        T\rfloor} \sum_{s=1}^{\lfloor \gamma T \rfloor} h_{s} \Big| \to^{p} 0
-    \end{equation}
-    with the convergence following from the continuous mapping
-    theorem.
-  \item We have
-    \begin{equation}
-      P^a \sup_t | \bh_t - \btrue | = P^a \sup_t |\Bh_{t}
-      H_{t}| \leq \sup_{t,u} \Big| [ \Bh_u - B]
-      \tfrac{P^a}{t} \sum_{s=1}^t h_{s} \Big| + \sup_{t} \Big|
-      B \tfrac{P^a}{t} \sum_{s=1}^t h_{s} \Big|
-    \end{equation}
-    and both terms converge to zero in (conditional) probability by
-    the previous argument and by assumption.
-  \item $\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T (F_t - \E F_t)$ obeys
-    \citepos{Jon:97} \clt, so the result is trivial.
-  \end{enumerate}
-\end{proof}
-
-\begin{lema}\label{res:a4}
-  Under the conditions of Theorem~\ref{res:1}, Equations
-  \eqref{eq:11}--\eqref{eq:13} hold.
-\end{lema}
-
-\begin{proof}[Proof of Lemma~\ref{res:a4}]
-We can write
-\begin{equation*}
-  \Big\lvert \WesA \Big\rvert \leq 
-  \Big\lvert \oclt{t} (F_t - \E F_t) B \Big\rvert
-  \sup_t | H_t |.
-\end{equation*}
-From Lemma~\ref{res:a2}, $\sup_t | H_t | \to^p 0$ and $\oclt{t}
-(F_t - \E F_t) = O_p(1)$, establishing~\eqref{eq:11}. The proofs
-of \eqref{eq:12} and \eqref{eq:13} are similar.
-\end{proof}
 
 \bibliography{texextra/AllRefs}
 \end{document}

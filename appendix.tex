@@ -1,0 +1,140 @@
+\documentclass[12pt,fleqn]{article}
+\input{tex/setup}
+\usepackage{xr}
+\externaldocument{mixedwindow}
+
+\author{Gray Calhoun\thanks{ Economics Department; Iowa State
+    University; Ames, IA 50011.  Telephone: (515) 294-6271.  Email:
+    \guillemotleft \protect\url{gcalhoun@iastate.edu}\guillemotright,
+    web: \guillemotleft \protect\url{http://gray.clhn.co}\guillemotright.}\\%
+  Iowa State University}
+
+\title{Supplemental Appendix for ``An asymptotically normal out-of-sample
+  test of equal predictive accuracy for nested models''}
+
+\newcommand{\WesA}[1][]{\oclt{t}
+  (F_t^{#1} - \E^{#1} F_t^{#1}) B^{#1} H_t^{#1}}
+\newcommand{\WesB}[1][]{\tfrac{1}{\sqrt{P}} \E^{#1} F_t^{#1} \osum{t} (B_t^{#1} -
+  B^{#1}) H_t^{#1}}
+\newcommand{\WesC}[1][]{\oclt{t}
+  (F_t^{#1} - \E^{#1} F_t^{#1}) (B_t^{#1} - B^{#1}) H_t^{#1}}
+
+\begin{document}
+\maketitle
+
+\noindent%
+This appendix contains mathematical proofs and some supporting Lemmas
+for the paper, ``An asymptotically normal out-of-sample test of equal
+predictive accuracy for nested models.''
+Define the additional notation
+$F_t(\beta) = \tfrac{\partial}{\partial \beta} f_t(\beta)$,
+$F_t = F_t(\btrue)$,
+and
+$h_t = h_t(\btrue)$.
+
+\begin{rthm}{\ref{res:1}}\input{mixedwindow_thm1}\end{rthm}
+\begin{proof}
+  Replace $R$ with $\log(T)$ and $P$ with $T - \log(T)$ in the
+  statistic; this substitution does not affect its asymptotic
+  distribution.
+  As in \citet{Wes:96} and \citet{WeM:98}, expand $\fh_t$ around
+  $\btrue$ to get
+  \begin{align*}
+    \sqrt{P} \big(\fb - \fb(\btrue)\big) &= \oclt{t}
+    \big(f_t - \E f_t\big) +
+    \E F_t B \oclt{t} H_t \\
+    & \quad + \WesA + \WesB \\ & \quad + \WesC + \oclt{t} w_t
+  \end{align*}
+  where (again, as in \citealp{Wes:96}) the $i$th element of $w_t$ is
+  \begin{equation*}
+    w_{it} = \tfrac12 (\bh_t - \btrue)'
+    \Big[\tfrac{\partial^2}{\partial \beta \partial\beta'}
+    f_{it}(\bt_{it}) \Big]
+    (\bh_t - \btrue)
+  \end{equation*}
+  and each $\bt_{it}$ lies between $\bh_t$ and
+  $\btrue$; $\oclt{t} w_t = o_{p}(1)$ as in Theorem~\ref{res:3}.
+  Then, as before,
+  \begin{gather}
+    \WesA \to^{p} 0 \label{eq:11} \\
+    \WesB \to^{p} 0 \label{eq:12}\\
+  \intertext{and}
+    \WesC \to^{p} 0 \label{eq:13}
+  \end{gather}
+  from Lemma~\ref{res:a4}.  The formula of the asymptotic variance can
+  be derived exactly as in \citet{Wes:96} and \citet{WeM:98}.
+
+  Note that \[f_t(\btrue)= 2 (y_{t+1} -
+  x_t'\btrue)(\yh_{1,t+1} - x_t'\btrue) \quad \text{a.s.},\] as
+  in \citet{ClW:07}, which is an \mds, so we do not need to use a
+  \hac\ estimator of the variance under the null.  Also observe that
+  \[F_t(\beta) = 2 x_t(x_t'\beta - \yh_{1,t+1}) + 2 x_t(x_t'\beta -
+  y_{t+1})\] and the second term is an \mds\ under the null,
+  explaining the particular form of $g_t(\beta)$.
+\end{proof}
+
+\begin{rlem}{\ref{lem:2}}\input{mixedwindow_lem2}\end{rlem}
+\begin{proof}
+  Replace $R$ and $P$ as in the proof of Theorem~\ref{res:1}.
+  Theorem~\ref{res:3} of this paper and Theorems~3.1 and~4.1 of
+  \citet{RoW:05} complete the proof.
+\end{proof}
+
+\section*{Supporting Results}
+\stepcounter{section}
+\renewcommand\thesection{\Alph{section}}
+
+\begin{alem}\label{res:a2}
+  Suppose $a \in [0,\frac12)$ and the conditions of Theorem~\ref{res:3}
+  hold.
+  \begin{enumerate}
+  \item $P^a \sup_t | H_{t} | \to^p 0$.
+  \item $P^a \sup_t | \bh_{t} - \btrue | \to^{p} 0$.
+  \item $\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T (F_t - \E F_t) = O_{p}(1)$.
+  \end{enumerate}
+\end{alem}
+
+\begin{proof}
+  \begin{enumerate}
+  \item The process $\tfrac{1}{\sqrt{T}} h_{s}$ satisfies
+    \citepos[Theorem 3.1]{JoD:00b} functional \clt.  So
+    \begin{equation}
+      P^a \sup_t \Big| \tfrac1t \sum_{s=1}^t h_{s} \Big| =
+      P^a \sup_{\gamma \in [0,1]} \Big| \tfrac{1}{\lfloor \gamma
+        T\rfloor} \sum_{s=1}^{\lfloor \gamma T \rfloor} h_{s} \Big| \to^{p} 0
+    \end{equation}
+    with the convergence following from the continuous mapping
+    theorem.
+  \item We have
+    \begin{equation}
+      P^a \sup_t | \bh_t - \btrue | = P^a \sup_t |\Bh_{t}
+      H_{t}| \leq \sup_{t,u} \Big| [ \Bh_u - B]
+      \tfrac{P^a}{t} \sum_{s=1}^t h_{s} \Big| + \sup_{t} \Big|
+      B \tfrac{P^a}{t} \sum_{s=1}^t h_{s} \Big|
+    \end{equation}
+    and both terms converge to zero in (conditional) probability by
+    the previous argument and by assumption.
+  \item $\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T (F_t - \E F_t)$ obeys
+    \citepos{Jon:97} \clt, so the result is trivial.
+  \end{enumerate}
+\end{proof}
+
+\begin{alem}\label{res:a4}
+  Under the conditions of Theorem~\ref{res:1}, Equations
+  \eqref{eq:11}--\eqref{eq:13} hold.
+\end{alem}
+
+\begin{proof}[Proof of Lemma~\ref{res:a4}]
+We can write
+\begin{equation*}
+  \Big\lvert \WesA \Big\rvert \leq
+  \Big\lvert \oclt{t} (F_t - \E F_t) B \Big\rvert
+  \sup_t | H_t |.
+\end{equation*}
+From Lemma~\ref{res:a2}, $\sup_t | H_t | \to^p 0$ and $\oclt{t}
+(F_t - \E F_t) = O_p(1)$, establishing~\eqref{eq:11}. The proofs
+of \eqref{eq:12} and \eqref{eq:13} are similar.
+\end{proof}
+
+\bibliography{texextra/AllRefs}
+\end{document}
