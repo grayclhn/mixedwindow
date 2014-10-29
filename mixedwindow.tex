@@ -81,8 +81,12 @@
 \newcommand{\p}{\ensuremath{\mathrm{P}}}
 
 \newcommand{\osum}[1]{\sum_{#1=R+1}^T}
+\newcommand{\osumb}[1]{\sum_{#1=R'+1}^T}
+\newcommand{\osumc}[1]{\sum_{#1=R+1}^{R'}}
 \newcommand{\oavg}[1]{\tfrac{1}{P} \osum{#1}}
 \newcommand{\oclt}[1]{\tfrac{1}{\sqrt{P}} \osum{#1}}
+\newcommand{\ocltb}[1]{\tfrac{1}{\sqrt{P}} \osumb{#1}}
+\newcommand{\ocltc}[1]{\tfrac{1}{\sqrt{P}} \osumc{#1}}
 
 \newcommand{\aic}{AIC}
 \newcommand{\bic}{BIC}
@@ -754,14 +758,14 @@ test when the \dgp\ is stable but can have much higher power when the
 \dgp\ has structural breaks.
 
 \appendix
-\section{Proofs of Main Theoretical Results}
+\section{Main theoretical results}
 \label{sec:B}
 
-\newcommand{\WesA}[1][]{\oclt{t}
+\newcommand{\WesA}[1][]{\ocltb{t}
   (F_t^{#1} - \E^{#1} F_t^{#1}) B^{#1} H_t^{#1}}
-\newcommand{\WesB}[1][]{\tfrac{1}{\sqrt{P}} \E^{#1} F_t^{#1} \osum{t} (B_t^{#1} -
+\newcommand{\WesB}[1][]{\tfrac{1}{\sqrt{P}} \E^{#1}(F_t^{#1}) \osumb{t} (B_t^{#1} -
   B^{#1}) H_t^{#1}}
-\newcommand{\WesC}[1][]{\oclt{t}
+\newcommand{\WesC}[1][]{\ocltb{t}
   (F_t^{#1} - \E^{#1} F_t^{#1}) (B_t^{#1} - B^{#1}) H_t^{#1}}
 
 Define the additional notation 
@@ -816,40 +820,124 @@ $h_t = h_t(\btrue)$.
   \citet{RoW:05} complete the proof.
 \end{proof}
 
-\section{Supporting Results}
+\begin{thm}
+  If the conditions of Theorem~\ref{res:1} and that $y_{t+1} -
+  x_t'\btrue$ is an MDS with respect to $\Fs_t$ then $\Sigmah_2 \to^p
+  \Sigma$, where $\Sigmah_2 = \Sh_{ff} + \Sh_{2,fg} + \Sh_{2,fg}' +
+  \Sh_{2,gg}$, with $\Sh_{ff}$ defined earlier and
+  \begin{align}
+    \Sh_{fg,2} &= \oavg{t} (\fh_t - \fb) (\gh_t - \gb_2)' \\
+    \Sh_{gg,2} &= \oavg{t} (\gh_{2t} - \gb_2) (\gh_{2t} - \gb_2)' \\
+    \gh_{2t} &= \Bigg\{\sum_{s=\max(t, R+1)}^T \tfrac1s \Fh_s \Bh_s\Bigg\} x_{t-1} \ep_t
+    \intertext{and}
+    \gb_2 &= \oavg{t} \gh_{2t}.
+  \end{align}
+\end{thm}
+
+\section{Supporting results}
+
+\begin{lema}\label{res:a1}
+  Suppose the conditions of Theorem~\ref{res:1} hold, and define $R'$
+  to be a sequence that satisfies $R' \to \infty$ as $T \to \infty$
+  and $R' = o(\sqrt{P})$. Then
+  \begin{equation*}
+    \ocltc{t} (\fh_t - \E f_t) \to^p 0.
+  \end{equation*}
+\end{lema}
+
+\begin{proof}
+  We can rewrite this summation as
+  \begin{multline*}
+    \ocltc{t} (\fh_t - \E f_t) = \ocltc{t} (f_t - \E f_t) + \\
+    \ocltc{t} 2 (2 x_t'\btrue - y_{t+1} - \yh_{i,t+1}) x_t'(\bh_t - \btrue)
+    + \ocltc{t} (x_t'\bh_t - x_t'\btrue)^2.
+  \end{multline*}
+  Each of these individual summations can be shown to converge to
+  zero in probability. First,
+  \begin{equation*}
+    \E \Big\lvert \ocltc{t} (f_t - \E f_t) \Big\rvert
+    \leq \ocltc{t} \E\lvert f_t - \E f_t \rvert
+    = O(R'/\sqrt{P}).
+  \end{equation*}
+  Also,
+  \begin{align*}
+    \Big\lvert \ocltc{t} &2 (2 x_t'\btrue - y_{t+1} - \yh_{i,t+1}) x_t'(\bh_t - \btrue) \Big\rvert \\
+    &\leq \ocltc{t} 2 \big\lvert (2 x_t'\btrue - y_{t+1} - \yh_{i,t+1}) x_t' \big\rvert
+    \max_{t=R+1,\dots,R'} \lvert  \bh_t - \btrue \rvert \\
+    & = O_p(R'/\sqrt{P})
+  \end{align*}
+  and
+  \begin{equation*}
+    \Big\lvert \ocltc{t} (x_t'\bh_t - x_t'\btrue)^2 \Big\rvert
+    \leq \ocltc{t} \lvert x_t'x_t \rvert \max_{t=R+1,\dots,R'} (\bh_t - \btrue)'(\bh_t - \btrue)
+    = O_p(R'/\sqrt{P}).
+  \end{equation*}
+  by Lemma~\ref{res:a2} and the \lln. Since $R'/\sqrt{P} \to 0$ by
+  construction, this completes the proof.
+\end{proof}
 
 \begin{lema}\label{res:a2}
-  Suppose $a \in [0,\frac12)$ and the conditions of Theorem~\ref{res:3}
-  hold.
+  Suppose $a \in [0,\frac12)$ and Assumptions~\ref{a1} -- \ref{a4}
+  hold, and let $R'$ be a sequence such that $R' \to \infty$ as $T \to
+  \infty$ and $R' = o(\sqrt{P})$. Then
   \begin{enumerate}
-  \item $P^a \sup_t | H_{t} | \to^p 0$.
-  \item $P^a \sup_t | \bh_{t} - \btrue | \to^{p} 0$.
-  \item $\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T (F_t - \E F_t) = O_{p}(1)$.
+  \item $\sup_{t=R'+1,\dots,T} | t^a H_t | \to^p 0$.
+  \item $\sup_{t=R+1,\dots,R'} | t^a H_t | = O_p(1)$.
+  \item $\sup_{t = R'+1,\dots,T} | t^a(\bh_t - \btrue) | \to^{p} 0$.
+  \item $\sup_{t = R+1,\dots,R'} | t^a(\bh_t - \btrue) | = O_p(1)$.
   \end{enumerate}
 \end{lema}
 
 \begin{proof}[Proof of Lemma~\ref{res:a2}]
+  We will prove each part in order.
   \begin{enumerate}
-  \item The process $\tfrac{1}{\sqrt{T}} h_{s}$ satisfies
-    \citepos[Theorem 3.1]{JoD:00b} functional \clt.  So
-    \begin{equation}
-      P^a \sup_t \Big| \tfrac1t \sum_{s=1}^t h_{s} \Big| =
-      P^a \sup_{\gamma \in [0,1]} \Big| \tfrac{1}{\lfloor \gamma
-        T\rfloor} \sum_{s=1}^{\lfloor \gamma T \rfloor} h_{s} \Big| \to^{p} 0
+  \item The process $x_{t-1} \ep_t$ is $L_2$-NED of size $-1/2$ (on
+    the same mixing process as the original variables) by
+    Assumption~\ref{a3}, and the moment and size conditions in that
+    assumption make it an $L_2$-mixingale of size $-1/2$ as well. The
+    mixingale \fclt\ implies that, for any $t \to \infty$ as $T \to \infty$,
+    \begin{equation}\label{eq:2}
+      t^{a - 1} \sum_{s=2}^t x_{s-1} \ep_s \to^d \lim (T^{1/2} / t^{1-a}) \cdot W(\lim t/T)
     \end{equation}
-    with the convergence following from the continuous mapping
-    theorem.
+    where $W(\cdot)$ is a multivariate Gaussian process.
+
+    If $t/T \to \gamma$ then $T^{1/2} / t^{1-a} \to 0$ and the limit
+    in~\eqref{eq:2} is almost surely 0. If $t/T \to 0$, then
+    \begin{equation*}
+      \E\Big( t^{a - 1} \sum_{s=2}^t x_{s-1} \ep_s \Big)^2 = t^{2a - 1}\, O(1)
+    \end{equation*}
+    and the limit in~\eqref{eq:2} is again almost surely 0. The
+    Continuous Mapping Theorem then implies that
+    \begin{equation*}
+      \sup_{t=R'+1,\dots,T} \Big| t^{a - 1} \sum_{s=2}^t x_{s-1} \ep_s \Big| \to^p 0.
+    \end{equation*}
+  \item Again, $x_{t-1} \ep_t$ is an $L_2$-mixingale of size
+    $-1/2$. As a result, we can use a maximal inequality of
+    \cite{Mcl:75} (also available as Corollary 16.10 in
+    \citealp{Dav:94}), giving
+    \begin{align*}
+      \E \Big\lvert \sup_{t=R+1,\dots,R'} \Big(t^{a - 1} \sum_{s=2}^t x_{s-1} \ep_s\Big)^2 \Big\rvert
+      &\leq \E \Big\lvert \sup_{t=R+1,\dots,R'} \Big(\sum_{s=2}^t s^{a-1} x_{s-1} \ep_s\Big)^2 \Big\rvert \\
+      &= O(1) \sum_{s=2}^{R'} s^{2a - 2}
+    \end{align*}
+    which converges to a finite limit.
   \item We have
-    \begin{equation}
-      P^a \sup_t | \bh_t - \btrue | = P^a \sup_t |\Bh_{t}
-      H_{t}| \leq \sup_{t,u} \Big| [ \Bh_u - B]
-      \tfrac{P^a}{t} \sum_{s=1}^t h_{s} \Big| + \sup_{t} \Big|
-      B \tfrac{P^a}{t} \sum_{s=1}^t h_{s} \Big|
-    \end{equation}
-    and both terms converge to zero in (conditional) probability by
-    the previous argument and by assumption.
-  \item $\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T (F_t - \E F_t)$ obeys
-    \citepos{Jon:97} \clt, so the result is trivial.
+    \begin{multline*}
+      \sup_{t=R'+1,\dots,T} | t^a (\hat{\beta}_t - \btrue) | \leq \\
+      \sup_{t,u =R'+1,\dots,T} \Big| [ \hat{B}_u - B]
+      t^{a-1} \sum_{s=2}^t x_s \ep_{s-1} \Big| + \sup_{t = R'+1,\dots,T} \Big|
+      B t^{a-1} \sum_{2=1}^t x_s \ep_{s-1} \Big|
+    \end{multline*}
+    and both terms converge to zero in probability by Part 1 and by
+    assumption.
+  \item Similar to the previous argument, we have
+    \begin{multline*}
+      \sup_{t=R+1,\dots,R'} | t^a (\hat{\beta}_t - \btrue) | \leq \\
+      \sup_{t,u =R+1,\dots,R'} \Big| [ \hat{B}_u - B]
+      t^{a-1} \sum_{s=2}^t x_s \ep_{s-1} \Big| + \sup_{t = R+1,\dots,R'} \Big|
+      B t^{a-1} \sum_{2=1}^t x_s \ep_{s-1} \Big|.
+    \end{multline*}
+    Both terms are $O_p(1)$ by Part 2 and by assumption. \qedhere
   \end{enumerate}
 \end{proof}
 
@@ -861,13 +949,14 @@ $h_t = h_t(\btrue)$.
 \begin{proof}[Proof of Lemma~\ref{res:a4}]
 We can write
 \begin{equation*}
-  \Big\lvert \WesA \Big\rvert \leq 
-  \Big\lvert \oclt{t} (F_t - \E F_t) B \Big\rvert
-  \sup_t | H_t |.
+  \Big\lvert \WesA \Big\rvert \leq
+  \Big\lvert \ocltb{t} (F_t - \E F_t) B \Big\rvert
+  \sup_{t = R'+1,\dots,T} | H_t |.
 \end{equation*}
-From Lemma~\ref{res:a2}, $\sup_t | H_t | \to^p 0$ and $\oclt{t}
-(F_t - \E F_t) = O_p(1)$, establishing~\eqref{eq:11}. The proofs
-of \eqref{eq:12} and \eqref{eq:13} are similar.
+From Lemma~\ref{res:a2}, $\sup_{t = R'+1,\dots,T} | H_t | \to^p 0$. The \clt\ implies
+that $\ocltb{t} (F_t - \E F_t) = O_p(1)$,
+establishing~\eqref{eq:11}. The proofs of \eqref{eq:12}
+and~\eqref{eq:13} are similar.
 \end{proof}
 
 \bibliography{texextra/AllRefs}
