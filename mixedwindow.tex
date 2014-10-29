@@ -48,7 +48,7 @@
   affecting the asymptotic distribution of this test statistic.  The
   paper also presents Monte Carlo evidence that this statistic has
   much higher power than existing out-of-sample statistics in a common
-  use-case for these tests: when the DGP is subject to instability.
+  use-case for these tests: when the \dgp\ is subject to instability.
   This procedure is then used to analyze
   \citepos[\textit{Rev. Finan. Stud.}]{GoW:08} excess returns dataset
   and supports their finding that the equity premium is unpredictable
@@ -332,15 +332,15 @@ These conditions are summarized in the first assumption.
   \infty$.
 \end{asmp}
 
-Assumption~\ref{a3} describes the DGP. The weak dependence and moment
+Assumption~\ref{a3} describes the \dgp. The weak dependence and moment
 conditions are standard. These assumptions are slightly weaker than
 similar assumptions in \citet{Wes:96} and \citet{Mcc:00}, but only
 because we make use of more recent developments in limit theory, in
-particular the CLT for Near-Epoch Dependent (NED) processes proven by
+particular the \clt\ for Near-Epoch Dependent (\ned) processes proven by
 \cite{Jon:97}.
 
 \begin{asmp}\label{a3}%
-  The series $y_t$, $x_t$, and $z_t$ are NED of size $-1/2$ on either a
+  The series $y_t$, $x_t$, and $z_t$ are \ned\ of size $-1/2$ on either a
   strong mixing process of size $-\frac{r}{r-2}$ for $r>2$ or a uniform
   mixing process of size $-\frac{r}{2r-2}$ for $r \geq 2$. Moreover,
   $y_t$ and $\yh_{j,t+1}$, $j = 1,\dots,J$, have uniformly bounded $2 r$
@@ -355,7 +355,7 @@ could produce arbitrarily badly-behaved forecasts. For example, if
 \begin{equation*}
   z_t \sim \iid~\bernoulli(1/2),
 \end{equation*}
-setting $\psi_1(y_t, z_t) = 1/z_t$ would prevent a CLT from holding
+setting $\psi_1(y_t, z_t) = 1/z_t$ would prevent a \clt\ from holding
 since the forecast equals positive infinity with probability $1/2$. It
 is easy to construct less obvious examples of problematic functions as
 well. Assumption~\ref{a3} implicitly rules out these functional forms
