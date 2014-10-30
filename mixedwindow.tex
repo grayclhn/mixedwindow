@@ -782,49 +782,35 @@ there is a single alternative model. The Cram\'er-Wold device ensures
 that the corresponding multivariate results follow trivially.
 
 \begin{proof}[Proof of Theorem \ref{res:1}]
-  Replace $R$ with $\log(T)$ and $P$ with $T - \log(T)$ in the
-  statistic; this substitution does not affect its asymptotic
-  distribution.
-  As in \citet{Wes:96} and \citet{WeM:98}, expand $\fh_t$ around
-  $\btrue$ to get
-  \begin{align*}
-    \sqrt{P} \big(\fb - \fb(\btrue)\big) &= \oclt{t}
-    \big(f_t - \E f_t\big) +
-    \E F_t B \oclt{t} H_t \\
-    & \quad + \WesA + \WesB \\ & \quad + \WesC + \oclt{t} w_t
-  \end{align*}
-  where (again, as in \citealp{Wes:96}) the $i$th element of $w_t$ is
+  Let $R'$ be a new sequence such that $R' \to \infty$ as $T \to \infty$
+  and $R' = o(\sqrt{P})$, and then rewrite the centered \oos\ average as
   \begin{equation*}
-    w_{it} = \tfrac12 (\bh_t - \btrue)'
-    \Big[\tfrac{\partial^2}{\partial \beta \partial\beta'}
-    f_{it}(\bt_{it}) \Big]
-    (\bh_t - \btrue)
+    \sqrt{P} (\fb - \E \fb(\btrue))
+    = \ocltb{t} ((f_t - \E f_t) + (\fh_t - f_t))
+      + \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^{R'} (\fh_t - \E f_t).
   \end{equation*}
-  and each $\bt_{it}$ lies between $\bh_t$ and
-  $\btrue$; $\oclt{t} w_t = o_{p}(1)$ as in Theorem~\ref{res:3}.
-  Then, as before,
+  Lemma~\ref{res:a1} ensures that the second term is $o_p(1)$, and
+  we can rewrite this summation as
+  \begin{align*}
+    \sqrt{P} (\fb - \E \fb(\btrue))
+    &= \ocltb{t} (f_t - \E f_t) + \E(F_t) B \ocltb{t} H_t \\
+    & \quad + \WesA + \WesB \\ & \quad + \WesC + \oclt{t} w_t + o_p(1)
+  \end{align*}
+  where $w_t$ equals $2 (\bh_t - \btrue)' x_t x_t' (\bh_t - \btrue)$.
+
+  Lemma~\ref{res:a4} shows that
   \begin{gather}
     \WesA \to^{p} 0 \label{eq:11} \\
-    \WesB \to^{p} 0 \label{eq:12}\\
-  \intertext{and}
+    \WesB \to^{p} 0 \label{eq:12} \\
+    \intertext{and}
     \WesC \to^{p} 0 \label{eq:13}
   \end{gather}
-  from Lemma~\ref{res:a4}.  The formula of the asymptotic variance can
-  be derived exactly as in \citet{Wes:96} and \citet{WeM:98}.
-
-  Note that \[f_t(\btrue)= 2 (y_{t+1} -
-  x_t'\btrue)(\yh_{1,t+1} - x_t'\btrue) \quad \text{a.s.},\] as
-  in \citet{ClW:07}, which is an \mds, so we do not need to use a
-  \hac\ estimator of the variance under the null.  Also observe that
-  \[F_t(\beta) = 2 x_t(x_t'\beta - \yh_{1,t+1}) + 2 x_t(x_t'\beta -
-  y_{t+1})\] and the second term is an \mds\ under the null,
-  explaining the particular form of $g_t(\beta)$.
-\end{proof}
-
-\begin{proof}[Proof of Theorem \ref{res:2}]
-  Replace $R$ and $P$ as in the proof of Theorem~\ref{res:1}.
-  Theorem~\ref{res:3} of this paper and Theorems~3.1 and~4.1 of
-  \citet{RoW:05} complete the proof.
+  and Lemma~\ref{res:a2} along with the \clt\ ensures that $\oclt{t}
+  w_t = o_{p}(1)$. Finally,
+  \begin{equation*}
+    \oclt{t} (f_t - \E f_t,\ H_t)' \to^d N(0, S)
+  \end{equation*}
+  using the same argument as \citet{Wes:96}.
 \end{proof}
 
 \begin{thm}
