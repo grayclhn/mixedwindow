@@ -1,25 +1,11 @@
 \documentclass[12pt,fleqn]{article}
-
-\usepackage{amsfonts}
-\usepackage{amsmath,amsthm,amssymb,graphicx,setspace,url,booktabs,tabularx,enumerate,slantsc}
-\usepackage[T1]{fontenc}
-\usepackage[sort,round,comma]{natbib}
-\usepackage[margin=1.25in]{geometry}
-\usepackage[small]{caption}
-\usepackage[charter]{mathdesign}
-\urlstyle{same}
-\newcolumntype{C}{>{\centering\arraybackslash}X}
-\bibliographystyle{abbrvnat}
-\newcommand\citepos[2][]{\citeauthor{#2}'s \citeyearpar[#1]{#2}}
-\newcommand\poscw{\citeauthor{ClW:06}'s \citeyearpar{ClW:06,ClW:07}}
-\newcommand\citen[1]{\citeauthor{#1}, \citeyear{#1}}
-\frenchspacing
+\input{tex/setup}
 \input{tex/mcDef}
 \input{tex/ap}
 
-% These commands are generated when the monte carlo and applied
+% These commands are generated when the Monte Carlo and applied
 % sections are run; I'm giving them definitions now so that LaTeX will
-% run.
+% compile the document even if that code hasn't been run yet.
 \providecommand\bootsize{[missing]}
 \providecommand\empiricalcriticalvalue{[missing]}
 \providecommand\nboot{[missing]}
@@ -31,103 +17,11 @@
 \providecommand\empiricaldraws{[missing]}
 \providecommand\naivecriticalvalue{[missing]}
 
-\newtheorem{thm}{Theorem}
-\newtheorem{lem}[thm]{Lemma}
-\newtheorem{claim}[thm]{Claim}
-\newtheorem{cor}[thm]{Corollary}
-\newtheorem{lema}{Lemma}[section]
-\newtheorem{alg}{Algorithm}
-\newtheorem{asmp}{Assumption}
-
-\theoremstyle{definition}
-
-\newtheorem{example}{Example}
-\newtheorem{defn}{Definition}
-\newtheorem{rem}{Remark}
-
-\DeclareMathOperator*{\argmin}{arg\,min}
-\DeclareMathOperator{\diag}{diag}
-\DeclareMathOperator{\E}{E}
-\DeclareMathOperator{\var}{var}
-\DeclareMathOperator{\cov}{cov}
-\DeclareMathOperator*{\plim}{plim}
-%\DeclareMathOperator{\vec}{vec}
-\DeclareMathOperator{\vech}{vech}
-
-\DeclareMathOperator{\pr}{Pr}
-
-\newcommand{\iid}{\ensuremath\mathit{i.i.d.}}
-\newcommand{\bernoulli}{\ensuremath\mathit{bernoulli}}
-
-\newcommand{\Bh}{\hat{B}}
-\newcommand{\btrue}[1][]{\if#1*\hat\beta_{T+1}\else\beta_0\fi}
-\newcommand{\bh}{\hat{\beta}}
-\newcommand{\bt}{\tilde{\beta}}
-\newcommand{\ep}{\varepsilon}
-\newcommand{\eph}{\hat{\varepsilon}}
-\newcommand{\Fh}{\hat{F}}
-\newcommand{\Fs}{\mathcal{F}}
-\newcommand{\fb}{\bar{f}}
-\newcommand{\fh}{\hat{f}}
-\newcommand{\gb}{\bar{g}}
-\newcommand{\gh}{\hat{g}}
-\newcommand{\Sh}{\hat{S}}
-\newcommand{\Sigmah}{\hat\Sigma}
-\newcommand{\sh}{\hat\sigma}
-\newcommand{\yh}{\hat{y}}
-
-\newcommand{\X}{\ensuremath{\mathrm{X}}}
-\newcommand{\R}{\ensuremath{\mathrm{R}}}
-\newcommand{\p}{\ensuremath{\mathrm{P}}}
-
-\newcommand{\osum}[1]{\sum_{#1=R+1}^T}
-\newcommand{\osumb}[1]{\sum_{#1=R'+1}^T}
-\newcommand{\osumc}[1]{\sum_{#1=R+1}^{R'}}
-\newcommand{\oavg}[1]{\tfrac{1}{P} \osum{#1}}
-\newcommand{\oclt}[1]{\tfrac{1}{\sqrt{P}} \osum{#1}}
-\newcommand{\ocltb}[1]{\tfrac{1}{\sqrt{P}} \osumb{#1}}
-\newcommand{\ocltc}[1]{\tfrac{1}{\sqrt{P}} \osumc{#1}}
-
-\newcommand{\aic}{AIC}
-\newcommand{\bic}{BIC}
-\newcommand{\brc}{BRC}
-\newcommand{\cdf}{CDF}
-\newcommand{\clt}{CLT}
-\newcommand{\dd}[1]{\frac{\partial}{\partial #1}}
-\newcommand{\dgp}{DGP}
-\newcommand{\fclt}{FCLT}
-\newcommand{\fwe}{FWE}
-\newcommand{\gdp}{GDP}
-\newcommand{\hac}{HAC}
-\newcommand{\lln}{LLN}
-\newcommand{\ma}{MA}
-\newcommand{\mds}{MDS}
-\newcommand{\ned}{NED}
-\newcommand{\ols}{OLS}
-\newcommand{\oos}{OOS}
-\newcommand{\sfwe}{SFWE}
-\newcommand{\spa}{SPA}
-\newcommand{\wfwe}{WFWE}
-
-\renewcommand{\Re}{\ensuremath{\mathbb{R}}}
-
-\renewcommand{\topfraction}{.85}
-\renewcommand{\bottomfraction}{.7}
-\renewcommand{\textfraction}{.15}
-\renewcommand{\floatpagefraction}{.66}
-\renewcommand{\dbltopfraction}{.66}
-\renewcommand{\dblfloatpagefraction}{.66}
-\setcounter{topnumber}{9}
-\setcounter{bottomnumber}{9}
-\setcounter{totalnumber}{20}
-\setcounter{dbltopnumber}{9}
-
-\begin{document}
-
 \author{Gray Calhoun\thanks{ Economics Department; Iowa State
     University; Ames, IA 50011.  Telephone: (515) 294-6271.  Email:
     \guillemotleft \protect\url{gcalhoun@iastate.edu}\guillemotright,
-    web: \guillemotleft \protect\url{http://gray.clhn.co}\guillemotright.
+    web: \guillemotleft www.econ.iastate.edu/\textasciitilde
+    gcalhoun\guillemotright.
     I'd like to
     thank Helle Bunzel, Todd Clark, Graham Elliott, Yu-Chin Hsu,
     Michael McCracken, Pablo Pincheira, Allan Timmermann, Stephane
@@ -143,6 +37,7 @@
 
 % \date{March 14, 2013}
 
+\begin{document}
 \maketitle
 
 \begin{abstract} 
@@ -307,7 +202,9 @@ The next section presents our new statistic. Section~\ref{sec:2} presents
 simulations that compare our pairwise \oos\ test to \poscw\ original
 statistics. Section~\ref{sec:3} demonstrates the use of our statistic
 by reanalyzing \citepos{GoW:08} study of excess return
-predictability. Section~\ref{sec:4} concludes.
+predictability and Section~\ref{sec:4} concludes. Proofs of
+our results have been put in a separate Appendix along with
+some minor supporting arguments \citep{Cal:14}.
 
 \section{Theoretical results supporting the asympotically normal OOS statistic}
 \label{sec:1}
@@ -517,16 +414,7 @@ Asymptotic normality of the OOS average follows directly from the
 previous three assumptions without any other conditions. The proof is
 presented in the Appendix and follows \citet{Wes:96} directly.
 
-\begin{thm}\label{res:1}
-  If Assumptions~\ref{a1} -- \ref{a4} hold then $\sqrt{P} (\fb - \E
-  \fb(\btrue)) \to^d N(0, \Sigma)$, with
-  \begin{align*}
-    \Sigma &= S_{ff} + S_{fg} + S_{fg}' + 2 \, S_{gg}, &
-    S_{ff}  &= \lim P \var(\fb(\btrue)), \\
-    S_{fg}  &= \lim P \cov(\fb(\btrue), \gb(\btrue)), &
-    S_{gg}  &= \lim P \var(\gb(\btrue)).
-  \end{align*}
-\end{thm}
+\begin{thm}\label{res:1}\input{mixedwindow_thm1}\end{thm}
 
 Null hypothesis: $y_{t+1} - x_t'\beta_0$ is an MDS with respect to
 \begin{equation*}
@@ -581,11 +469,7 @@ Define the MDS covariance estimator:
   \Sh_{23} &= \oavg{t} (\gh_t - \gb)(\gh_t - \gb)'.
 \end{align*}
 
-\begin{lem}\label{lem:2}
-  Under the conditions of Thoerem~\ref{res:1}, $\Sigmah_1 \to^p
-  \Sigma$. If, in addition, $y_t - x_t'\btrue$ is an MDS with respect
-  to $\Fs_t$ then $\Sigmah_2 \to^p \Sigma$.
-\end{lem}
+\begin{lem}\label{lem:2}\input{mixedwindow_lem2}\end{lem}
 
 \begin{rem}
   The statistic we present tests the null hypothesis that the forecast
@@ -602,7 +486,6 @@ Define the MDS covariance estimator:
   a forecast encompassing test using the models' generalized forecast
   errors.%
 \footnote{See \citet{HLN:98} and \citet[Section~4]{ClW:07}.} %
-  Again, Lemma~\ref{res:a5} can cover these other applications.
 \end{rem}
 
 \section{Monte Carlo Results}\label{sec:2}
@@ -710,8 +593,11 @@ return's recursive sample mean.
 Here, I conduct the same analysis, but using this paper's \mds\ test.
 The benchmark model is the excess return's sample mean (as in the
 original) and the alternative models are of the form
-\[\text{excess return}_{t} = \alpha_{0} + \alpha_{1}\ 
-\text{predictor}_{t-1} + \ep_{t},\] where $\alpha_{0}$ and
+\begin{equation*}
+  \mathit{excess~return}_{t} = \alpha_{0} + \alpha_{1}\
+  \mathit{predictor}_{t-1} + \ep_{t},
+\end{equation*}
+where $\alpha_{0}$ and
 $\alpha_{1}$ are estimated by \ols\ using a \windowlength-year window.
 The predictors used are listed in the ``predictor'' column of
 Table~\ref{tab:em1} \citep[see][for a detailed description of the
@@ -736,7 +622,7 @@ beginning in 1927 and ending in 2009, and the rolling window uses
   lists the value of this paper's \oos\ statistic, the ``naive''
   column indicates whether the statistic is significant at standard
   critical values, and the ``corrected'' column indicates significance
-  using the critical values proposed in Theorem~\ref{res:2} that
+  using critical values that
   account for the number of models.  See Section~\ref{sec:3} for details.}
 \label{tab:em1}
 \end{table}
@@ -782,187 +668,6 @@ the benchmark model with a recursive window.  Simulations indicate
 that the new statistic behaves similarly to Clark and West's original
 test when the \dgp\ is stable but can have much higher power when the 
 \dgp\ has structural breaks.
-
-\appendix
-\section{Main theoretical results}
-\label{sec:B}
-
-\newcommand{\WesA}[1][]{\ocltb{t}
-  (F_t^{#1} - \E^{#1} F_t^{#1}) B^{#1} H_t^{#1}}
-\newcommand{\WesB}[1][]{\tfrac{1}{\sqrt{P}} \E^{#1}(F_t^{#1}) \osumb{t} (B_t^{#1} -
-  B^{#1}) H_t^{#1}}
-\newcommand{\WesC}[1][]{\ocltb{t}
-  (F_t^{#1} - \E^{#1} F_t^{#1}) (B_t^{#1} - B^{#1}) H_t^{#1}}
-
-Define the additional notation 
-$f_t = f_t(\btrue)$,
-$F_t(\beta) = \tfrac{\partial}{\partial \beta} f_t(\beta)$,
-$F_t = F_t(\btrue)$,
-$h_t = h_t(\btrue)$,
-and
-\begin{equation*}
-  H_{t} = \tfrac1t \sum_{s=1}^t h_{s}.
-\end{equation*}
-All of the proofs in this section will be presented for the case where
-there is a single alternative model. The Cram\'er-Wold device ensures
-that the corresponding multivariate results follow trivially.
-
-\begin{proof}[Proof of Theorem \ref{res:1}]
-  Let $R'$ be a new sequence such that $R' \to \infty$ as $T \to \infty$
-  and $R' = o(\sqrt{P})$, and then rewrite the centered \oos\ average as
-  \begin{equation*}
-    \sqrt{P} (\fb - \E \fb(\btrue))
-    = \ocltb{t} ((f_t - \E f_t) + (\fh_t - f_t))
-      + \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^{R'} (\fh_t - \E f_t).
-  \end{equation*}
-  Lemma~\ref{res:a1} ensures that the second term is $o_p(1)$, and
-  we can rewrite this summation as
-  \begin{align*}
-    \sqrt{P} (\fb - \E \fb(\btrue))
-    &= \ocltb{t} (f_t - \E f_t) + \E(F_t) B \ocltb{t} H_t \\
-    & \quad + \WesA + \WesB \\ & \quad + \WesC + \oclt{t} w_t + o_p(1)
-  \end{align*}
-  where $w_t$ equals $2 (\bh_t - \btrue)' x_t x_t' (\bh_t - \btrue)$.
-
-  Lemma~\ref{res:a4} shows that
-  \begin{gather}
-    \WesA \to^{p} 0 \label{eq:11} \\
-    \WesB \to^{p} 0 \label{eq:12} \\
-    \intertext{and}
-    \WesC \to^{p} 0 \label{eq:13}
-  \end{gather}
-  and Lemma~\ref{res:a2} along with the \clt\ ensures that $\oclt{t}
-  w_t = o_{p}(1)$. Finally,
-  \begin{equation*}
-    \oclt{t} (f_t - \E f_t,\ H_t)' \to^d N(0, S)
-  \end{equation*}
-  using the same argument as \citet{Wes:96}.
-\end{proof}
-
-\section{Supporting results}
-
-\begin{lema}\label{res:a1}
-  Suppose the conditions of Theorem~\ref{res:1} hold, and define $R'$
-  to be a sequence that satisfies $R' \to \infty$ as $T \to \infty$
-  and $R' = o(\sqrt{P})$. Then
-  \begin{equation*}
-    \ocltc{t} (\fh_t - \E f_t) \to^p 0.
-  \end{equation*}
-\end{lema}
-
-\begin{proof}
-  We can rewrite this summation as
-  \begin{multline*}
-    \ocltc{t} (\fh_t - \E f_t) = \ocltc{t} (f_t - \E f_t) + \\
-    \ocltc{t} 2 (2 x_t'\btrue - y_{t+1} - \yh_{i,t+1}) x_t'(\bh_t - \btrue)
-    + \ocltc{t} (x_t'\bh_t - x_t'\btrue)^2.
-  \end{multline*}
-  Each of these individual summations can be shown to converge to
-  zero in probability. First,
-  \begin{equation*}
-    \E \Big\lvert \ocltc{t} (f_t - \E f_t) \Big\rvert
-    \leq \ocltc{t} \E\lvert f_t - \E f_t \rvert
-    = O(R'/\sqrt{P}).
-  \end{equation*}
-  Also,
-  \begin{align*}
-    \Big\lvert \ocltc{t} &2 (2 x_t'\btrue - y_{t+1} - \yh_{i,t+1}) x_t'(\bh_t - \btrue) \Big\rvert \\
-    &\leq \ocltc{t} 2 \big\lvert (2 x_t'\btrue - y_{t+1} - \yh_{i,t+1}) x_t' \big\rvert
-    \max_{t=R+1,\dots,R'} \lvert  \bh_t - \btrue \rvert \\
-    & = O_p(R'/\sqrt{P})
-  \end{align*}
-  and
-  \begin{equation*}
-    \Big\lvert \ocltc{t} (x_t'\bh_t - x_t'\btrue)^2 \Big\rvert
-    \leq \ocltc{t} \lvert x_t'x_t \rvert \max_{t=R+1,\dots,R'} (\bh_t - \btrue)'(\bh_t - \btrue)
-    = O_p(R'/\sqrt{P}).
-  \end{equation*}
-  by Lemma~\ref{res:a2} and the \lln. Since $R'/\sqrt{P} \to 0$ by
-  construction, this completes the proof.
-\end{proof}
-
-\begin{lema}\label{res:a2}
-  Suppose $a \in [0,\frac12)$ and Assumptions~\ref{a1} -- \ref{a4}
-  hold, and let $R'$ be a sequence such that $R' \to \infty$ as $T \to
-  \infty$ and $R' = o(\sqrt{P})$. Then
-  \begin{enumerate}
-  \item $\sup_{t=R'+1,\dots,T} | t^a H_t | \to^p 0$.
-  \item $\sup_{t=R+1,\dots,R'} | t^a H_t | = O_p(1)$.
-  \item $\sup_{t = R'+1,\dots,T} | t^a(\bh_t - \btrue) | \to^{p} 0$.
-  \item $\sup_{t = R+1,\dots,R'} | t^a(\bh_t - \btrue) | = O_p(1)$.
-  \end{enumerate}
-\end{lema}
-
-\begin{proof}[Proof of Lemma~\ref{res:a2}]
-  We will prove each part in order.
-  \begin{enumerate}
-  \item The process $x_{t-1} \ep_t$ is $L_2$-NED of size $-1/2$ (on
-    the same mixing process as the original variables) by
-    Assumption~\ref{a3}, and the moment and size conditions in that
-    assumption make it an $L_2$-mixingale of size $-1/2$ as well. The
-    mixingale \fclt\ implies that, for any $t \to \infty$ as $T \to \infty$,
-    \begin{equation}\label{eq:2}
-      t^{a - 1} \sum_{s=2}^t x_{s-1} \ep_s \to^d \lim (T^{1/2} / t^{1-a}) \cdot W(\lim t/T)
-    \end{equation}
-    where $W(\cdot)$ is a multivariate Gaussian process.
-
-    If $t/T \to \gamma$ then $T^{1/2} / t^{1-a} \to 0$ and the limit
-    in~\eqref{eq:2} is almost surely 0. If $t/T \to 0$, then
-    \begin{equation*}
-      \E\Big( t^{a - 1} \sum_{s=2}^t x_{s-1} \ep_s \Big)^2 = t^{2a - 1}\, O(1)
-    \end{equation*}
-    and the limit in~\eqref{eq:2} is again almost surely 0. The
-    Continuous Mapping Theorem then implies that
-    \begin{equation*}
-      \sup_{t=R'+1,\dots,T} \Big| t^{a - 1} \sum_{s=2}^t x_{s-1} \ep_s \Big| \to^p 0.
-    \end{equation*}
-  \item Again, $x_{t-1} \ep_t$ is an $L_2$-mixingale of size
-    $-1/2$. As a result, we can use a maximal inequality of
-    \cite{Mcl:75} (also available as Corollary 16.10 in
-    \citealp{Dav:94}), giving
-    \begin{align*}
-      \E \Big\lvert \sup_{t=R+1,\dots,R'} \Big(t^{a - 1} \sum_{s=2}^t x_{s-1} \ep_s\Big)^2 \Big\rvert
-      &\leq \E \Big\lvert \sup_{t=R+1,\dots,R'} \Big(\sum_{s=2}^t s^{a-1} x_{s-1} \ep_s\Big)^2 \Big\rvert \\
-      &= O(1) \sum_{s=2}^{R'} s^{2a - 2}
-    \end{align*}
-    which converges to a finite limit.
-  \item We have
-    \begin{multline*}
-      \sup_{t=R'+1,\dots,T} | t^a (\hat{\beta}_t - \btrue) | \leq \\
-      \sup_{t,u =R'+1,\dots,T} \Big| [ \hat{B}_u - B]
-      t^{a-1} \sum_{s=2}^t x_s \ep_{s-1} \Big| + \sup_{t = R'+1,\dots,T} \Big|
-      B t^{a-1} \sum_{2=1}^t x_s \ep_{s-1} \Big|
-    \end{multline*}
-    and both terms converge to zero in probability by Part 1 and by
-    assumption.
-  \item Similar to the previous argument, we have
-    \begin{multline*}
-      \sup_{t=R+1,\dots,R'} | t^a (\hat{\beta}_t - \btrue) | \leq \\
-      \sup_{t,u =R+1,\dots,R'} \Big| [ \hat{B}_u - B]
-      t^{a-1} \sum_{s=2}^t x_s \ep_{s-1} \Big| + \sup_{t = R+1,\dots,R'} \Big|
-      B t^{a-1} \sum_{2=1}^t x_s \ep_{s-1} \Big|.
-    \end{multline*}
-    Both terms are $O_p(1)$ by Part 2 and by assumption. \qedhere
-  \end{enumerate}
-\end{proof}
-
-\begin{lema}\label{res:a4}
-  Under the conditions of Theorem~\ref{res:1}, Equations
-  \eqref{eq:11}--\eqref{eq:13} hold.
-\end{lema}
-
-\begin{proof}[Proof of Lemma~\ref{res:a4}]
-We can write
-\begin{equation*}
-  \Big\lvert \WesA \Big\rvert \leq
-  \Big\lvert \ocltb{t} (F_t - \E F_t) B \Big\rvert
-  \sup_{t = R'+1,\dots,T} | H_t |.
-\end{equation*}
-From Lemma~\ref{res:a2}, $\sup_{t = R'+1,\dots,T} | H_t | \to^p 0$. The \clt\ implies
-that $\ocltb{t} (F_t - \E F_t) = O_p(1)$,
-establishing~\eqref{eq:11}. The proofs of \eqref{eq:12}
-and~\eqref{eq:13} are similar.
-\end{proof}
 
 \bibliography{texextra/AllRefs}
 \end{document}

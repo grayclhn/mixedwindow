@@ -1,0 +1,131 @@
+\date{Actively in progress: \today}
+
+\usepackage{
+    amsfonts,
+    amsmath,
+    amssymb,
+    amsthm,
+    booktabs,
+    enumerate,
+    graphicx,
+    setspace,
+    slantsc,
+    tabularx,
+    url,
+}
+\urlstyle{same}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+\usepackage[small]{caption}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[charter]{mathdesign}
+\usepackage[letterspace=35]{microtype}
+\usepackage[sort,round,comma]{natbib}
+\bibliographystyle{abbrvnat}
+\newcommand\citepos[2][]{\citeauthor{#2}'s \citeyearpar[#1]{#2}}
+\newcommand\poscw{\citeauthor{ClW:06}'s \citeyearpar{ClW:06,ClW:07}}
+\newcommand\citen[1]{\citeauthor{#1}, \citeyear{#1}}
+
+\newtheorem{innerrthm}{Theorem}
+\newenvironment{rthm}[1]
+  {\renewcommand\theinnerrthm{#1}\innerrthm}
+  {\endinnerrthm}
+\newtheorem{innerrlem}{Lemma}
+\newenvironment{rlem}[1]
+  {\renewcommand\theinnerrlem{#1}\innerrlem}
+  {\endinnerrlem}
+
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{claim}[thm]{Claim}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{athm}{Theorem}[section]
+\newtheorem{alem}[athm]{Lemmma}
+\newtheorem{alg}{Algorithm}
+\newtheorem{asmp}{Assumption}
+
+\theoremstyle{definition}
+
+\newtheorem{example}{Example}
+\newtheorem{defn}{Definition}
+\newtheorem{rem}{Remark}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\E}{E}
+\DeclareMathOperator{\var}{var}
+\DeclareMathOperator{\cov}{cov}
+\DeclareMathOperator*{\plim}{plim}
+%\DeclareMathOperator{\vec}{vec}
+\DeclareMathOperator{\vech}{vech}
+
+\DeclareMathOperator{\pr}{Pr}
+
+\newcommand{\iid}{\ensuremath\mathit{i.i.d.}}
+\newcommand{\bernoulli}{\ensuremath\mathit{bernoulli}}
+
+\newcommand{\Bh}{\hat{B}}
+\newcommand{\btrue}[1][]{\if#1*\hat\beta_{T+1}\else\beta_0\fi}
+\newcommand{\bh}{\hat{\beta}}
+\newcommand{\bt}{\tilde{\beta}}
+\newcommand{\ep}{\varepsilon}
+\newcommand{\eph}{\hat{\varepsilon}}
+\newcommand{\Fh}{\hat{F}}
+\newcommand{\Fs}{\mathcal{F}}
+\newcommand{\fb}{\bar{f}}
+\newcommand{\fh}{\hat{f}}
+\newcommand{\gb}{\bar{g}}
+\newcommand{\gh}{\hat{g}}
+\newcommand{\Sh}{\hat{S}}
+\newcommand{\Sigmah}{\hat\Sigma}
+\newcommand{\sh}{\hat\sigma}
+\newcommand{\yh}{\hat{y}}
+
+\newcommand{\X}{\ensuremath{\mathrm{X}}}
+\newcommand{\R}{\ensuremath{\mathrm{R}}}
+\newcommand{\p}{\ensuremath{\mathrm{P}}}
+
+\newcommand{\osum}[1]{\sum_{#1=R+1}^T}
+\newcommand{\osumb}[1]{\sum_{#1=R'+1}^T}
+\newcommand{\osumc}[1]{\sum_{#1=R+1}^{R'}}
+\newcommand{\oavg}[1]{\tfrac{1}{P} \osum{#1}}
+\newcommand{\oclt}[1]{\tfrac{1}{\sqrt{P}} \osum{#1}}
+\newcommand{\ocltb}[1]{\tfrac{1}{\sqrt{P}} \osumb{#1}}
+\newcommand{\ocltc}[1]{\tfrac{1}{\sqrt{P}} \osumc{#1}}
+
+\newcommand{\aic}{AIC}
+\newcommand{\bic}{BIC}
+\newcommand{\brc}{BRC}
+\newcommand{\cdf}{CDF}
+\newcommand{\clt}{CLT}
+\newcommand{\dd}[1]{\frac{\partial}{\partial #1}}
+\newcommand{\dgp}{DGP}
+\newcommand{\fclt}{FCLT}
+\newcommand{\fwe}{FWE}
+\newcommand{\gdp}{GDP}
+\newcommand{\hac}{HAC}
+\newcommand{\lln}{LLN}
+\newcommand{\ma}{MA}
+\newcommand{\mds}{MDS}
+\newcommand{\ned}{NED}
+\newcommand{\ols}{OLS}
+\newcommand{\oos}{OOS}
+\newcommand{\sfwe}{SFWE}
+\newcommand{\spa}{SPA}
+\newcommand{\wfwe}{WFWE}
+
+\renewcommand{\Re}{\ensuremath{\mathbb{R}}}
+
+\renewcommand{\topfraction}{.85}
+\renewcommand{\bottomfraction}{.7}
+\renewcommand{\textfraction}{.15}
+\renewcommand{\floatpagefraction}{.66}
+\renewcommand{\dbltopfraction}{.66}
+\renewcommand{\dblfloatpagefraction}{.66}
+\setcounter{topnumber}{9}
+\setcounter{bottomnumber}{9}
+\setcounter{totalnumber}{20}
+\setcounter{dbltopnumber}{9}
+
+\frenchspacing
