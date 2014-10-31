@@ -513,10 +513,28 @@ on the models.
 \subsection{Theoretical results}
 \label{sec:1b}
 
+Asymptotic normality of the OOS average follows directly from the
+previous three assumptions without any other conditions. The proof is
+presented in the Appendix and follows \citet{Wes:96} directly.
+
 \begin{thm}\label{res:1}
-  Suppose that Assumptions~\ref{a1} -- \ref{a4} hold.  Then $\sqrt{P}
-  (\fb - \E f_t) \to^d N(0, \Sigma)$.
+  If Assumptions~\ref{a1} -- \ref{a4} hold then $\sqrt{P} (\fb - \E
+  \fb(\btrue)) \to^d N(0, \Sigma)$, with
+  \begin{align*}
+    \Sigma &= S_{ff} + S_{fg} + S_{fg}' + 2 \, S_{gg}, &
+    S_{ff}  &= \lim P \var(\fb(\btrue)), \\
+    S_{fg}  &= \lim P \cov(\fb(\btrue), \gb(\btrue)), &
+    S_{gg}  &= \lim P \var(\gb(\btrue)).
+  \end{align*}
 \end{thm}
+
+Null hypothesis: $y_{t+1} - x_t'\beta_0$ is an MDS with respect to
+\begin{equation*}
+  \Fs = \sigma((x_t, y_t, z_t), (x_{t-1}, y_{t-1}, z_{t-1}), \dots).
+\end{equation*}
+
+Clearly, the main use of this theorem is to test the null hypothesis
+$\E f_t = 0$.
 
 The following remarks are relevant to Theorem~\ref{res:1}:
 
