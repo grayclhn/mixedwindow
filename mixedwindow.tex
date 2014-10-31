@@ -177,7 +177,15 @@ Sequence, Model Selection
 
 \section{Introduction} This paper proposes an out-of-sample (\oos)
 test statistic that is asymptotically normal with mean zero even when
-the models studied are nested.
+the models studied are nested.  This paper also proves that common
+block bootstrap methods consistently estimate the statistic's
+distribution, and shows how the statistic can be used to study many
+models simultaneously while maintaining strong control of the
+familywise error (\fwe), i.e. ensuring that the probability that the
+hypothesis that the model has equal predictive ability to a benchmark
+is incorrectly rejected for any of the models is no higher than a
+preset level.
+
 \oos\ tests are commonly used in International Macroeconomics,
 Macroeconomics, and Finance (see, for example, \citealt{MeR:83};
 \citealt{StW:03}; and \citealt{GoW:08}) and there is a substantial
@@ -295,9 +303,9 @@ uniformly valid tests for the fixed window.  The test proposed in this
 paper is uniformly valid and places fewer assumptions on the models
 under study and the true \dgp.
 
-The next section presents our new statistics and Section~\ref{sec:2} presents
-simulations that compare our test to \poscw\ original
-statistics.  Section~\ref{sec:3} demonstrates the use of our statistic
+The next section presents our new statistic. Section~\ref{sec:2} presents
+simulations that compare our pairwise \oos\ test to \poscw\ original
+statistics. Section~\ref{sec:3} demonstrates the use of our statistic
 by reanalyzing \citepos{GoW:08} study of excess return
 predictability. Section~\ref{sec:4} concludes.
 
@@ -615,8 +623,8 @@ $z_{t-1}$.  \citet{ClW:07} argue that this \dgp\ mimics an asset
 pricing application similar to \citepos{GoW:08} which we study in
 Section~\ref{sec:3}.
 
-For comparison, we study this paper's new statistic as well as \poscw\
-rolling-window and recursive-window test statistics.  Clark and West
+For comparison, we study this paper's new statistic as well as
+\poscw\ rolling-window and recursive-window test statistics.  Clark and West
 only prove that their rolling-window statistic is asymptotically
 normal, and only then if the benchmark model is not estimated, but
 their recursive-window statistic is popular in practice and in
