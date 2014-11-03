@@ -74,10 +74,59 @@ that the corresponding multivariate results follow trivially.
 \end{proof}
 
 \begin{rlem}{\ref{lem:2}}\input{mixedwindow_lem2}\end{rlem}
+We will only prove $\Sigmah_2 \to^p \Sigma$. The result for
+$\Sigmah_1$ is essentially the same, but uses \citet{JoD:00} instead
+of the simple \lln.
 \begin{proof}
-  Replace $R$ and $P$ as in the proof of Theorem~\ref{res:1}.
-  Theorem~\ref{res:3} of this paper and Theorems~3.1 and~4.1 of
-  \citet{RoW:05} complete the proof.
+  First
+  \begin{align*}
+    \Sh_{21} &= \oavg{t} (f_t - \E \fb(\btrue) + \fh_t - f_t - \fb + \E \fb(\btrue))^2 \\
+    \Sh_{22} &= \oavg{t} (f_t - \E \fb(\btrue) + \fh_t - f_t - \fb + \E \fb(\btrue))
+                        (g_t - \E \gb^* + \gh_t - g_t - \gb + \E \gb^*)
+    \intertext{and}
+    \Sh_{23} &= \oavg{t} (g_t - \E \gb^* + \gh_t - g_t - \gb + \E \gb^*)^2
+  \end{align*}
+  so $\Sigmah_2 \to^p \Sigma$ as long as
+  $\fb - \E \fb(\btrue) \to^p 0$,
+  $\gb - \E \gb^* \to^p 0$,
+  \begin{gather}
+    \oavg{t} (f_t - \E \fb^*)^2 \to^p \var(\sqrt{P} \fb^*) \label{eq:1} \\
+    \oavg{t} (g_t - \E \gb^*)^2 \to^p \var(\sqrt{P} \gb^*) \label{eq:3} \\
+    \oavg{t} (\fh_t - f_t)^2 \to^p 0, \label{eq:4}
+    \intertext{and}
+    \oavg{t} (\gh_t - g_t)^2 \to^p 0. \label{eq:5}
+  \end{gather}
+  The first two results are proven in Theorem~\ref{res:1}
+  and~\eqref{eq:1} and~\eqref{eq:3} follow from the \lln, so it
+  suffices to prove~\eqref{eq:4} and~\eqref{eq:5}.
+
+  As before, let $R'$ be a new sequence such that $R' \to \infty$ as
+  $T \to \infty$ and $R' = o(\sqrt{P})$.  Some algebra reveals
+  that~\eqref{eq:4} holds if
+  \begin{gather}
+    \oavg{t} ((\bh_t - \btrue)' x_t)^4 \to^p 0 \label{eq:10}
+    \intertext{and}
+    \oavg{t} (x_t'(\bh_t - \btrue))^2 (2 x_t'\btrue - y_{t+1} - \yh_{t+1})^2 \label{eq:14}.
+  \end{gather}
+  Now~\eqref{eq:10} is bounded by
+  \begin{align*}
+    \oavg{t} &\|\bh_t - \btrue\|^4 \|x_t\|^4\\
+    &= \oavgc{t} \|\bh_t - \btrue\|^4 \|x_t\|^4 + \oavgb{t} \|\bh_t - \btrue\|^4 \|x_t\|^4 \\
+    &\leq \sup_{t=R+1,\dots,R'} \|\bh_t - \btrue\|^4 \,  \oavgc{t} \|x_t\|^4 + \sup_{t=R'+1,\dots,T} \|\bh_t - \btrue\|^4 \,  \oavgb{t} \|x_t\|^4 \\
+    &= O_p(R'/P) + o_p(1)
+  \end{align*}
+  by Lemma~\ref{res:a2} and the \lln.
+  A similar argument holds for the second term:
+  \begin{align*}
+    \oavg{t} (x_t'(\bh_t - \btrue))^2 &(2 x_t'\btrue - y_{t+1} - \yh_{t+1})^2 \\
+    &= \oavgc{t} (x_t'(\bh_t - \btrue))^2 (2 x_t'\btrue - y_{t+1} - \yh_{t+1})^2 \\
+    &\quad+ \oavgb{t} \big(x_t'(\bh_t - \btrue)\big) (2 x_t'\btrue - y_{t+1} - \yh_{t+1}) \\
+    &\leq \sup_{t=R+1,\dots,R'} \|\bh_t - \btrue\|^2 \oavgc{t} \|x_t (2 x_t'\btrue - y_{t+1} - \yh_{t+1})\|^2 \\
+    &\quad+ \sup_{t=R'+1,\dots,T} \|\bh_t - \btrue\|^2 \oavgb{t} \|x_t (2 x_t'\btrue - y_{t+1} - \yh_{t+1})\|^2 \\
+    &= O_p(R'/P) + o_p(1)
+  \end{align*}
+  again by Lemma~\ref{res:a2} and the \lln. Both terms converge to
+  zero by construction. The proof of~\eqref{eq:5} is similar.
 \end{proof}
 
 \section*{Supporting Results}
