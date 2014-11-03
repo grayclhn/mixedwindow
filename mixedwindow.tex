@@ -279,7 +279,7 @@ test statistic. Unfortunately, $\eph_{t+1}$ is not an
 \mds\ even when $\ep_{t+1}$ is, so the statistic is no longer
 asymptotically mean-zero normal, even though this approximation
 performs well in simulations. Since the window length is finite,
-the estimators of $\beta_0$ do not converge to $\beta_0$.
+the estimators of $\btrue$ do not converge to $\btrue$.
 
 This paper proposes using the same basic \oos\ statistic, 
 but using a recursive window to estimate $\btrue$ and produce
@@ -387,13 +387,14 @@ Also define
   &\text{and}&
   &\fb &= \tfrac1P \sum_{t=R+1}^{T} \fh_t
 \end{align*}
-with $P = T - R$. Also define $\beta_0$ to be the pseudotrue value of
+with $P = T - R$, and let $\Sigma$ be the asymptotic variance of
+$\fb$, $\Sigma = \lim_{T \to \infty} \var(\sqrt{P} \fb)$.
+Also define $\btrue$ to be the pseudotrue value of
 $\beta$ that minimizes the MSE of the benchmark model,
 \begin{equation*}
   \btrue = \plim \Big( \sum_{t=1}^T x_t x_t' \Big)^{-1} \sum_{t=1}^T x_t y_{t+1},
 \end{equation*}
-and let $\Sigma$ be the asymptotic variance of $\fb$, $\Sigma
-= \lim_{T \to \infty} \var(\sqrt{P} \fb)$.
+and define $f_t = f_t(\btrue)$ and $\fb^* = \fb(\btrue)$.
 The next assumption ensures that $\Sigma$ is positive definite.
 \begin{asmp}\label{a4}%
   The asymptotic variance of $\fb$, $\Sigma$, is positive definite.
@@ -415,8 +416,12 @@ previous three assumptions without any other conditions. The proof is
 presented in the Appendix and follows \citet{Wes:96} directly.
 
 \begin{thm}\label{res:1}\input{mixedwindow_thm1}\end{thm}
+In Theorem~\ref{res:1}, define the variables
+$\gh_t = \Fh \Bh x_t(y_{t+1} - x_t'\bh_t)$,
+$g_t = F B x_t (y_{t+1} - x_t'\btrue)$,
+$\gb = \oavg{t} \gh_t$, and $\gb^* = \oavg{t} g_t$.
 
-Null hypothesis: $y_{t+1} - x_t'\beta_0$ is an MDS with respect to
+Null hypothesis: $y_{t+1} - x_t'\btrue$ is an MDS with respect to
 \begin{equation*}
   \Fs = \sigma((x_t, y_t, z_t), (x_{t-1}, y_{t-1}, z_{t-1}), \dots).
 \end{equation*}
@@ -446,10 +451,6 @@ Define $\X' = [x_1,\dots,x_T]$
   \Fh &= \Big\{\tfrac{2}{P}\sum_{s=R}^T x_s (x_s'\beta - \yh_{1,s+1}) \Big\}' &
   \Bh &= \big(\tfrac1T \X'\X \big)^{-1}
 \end{align*}
-
-Define the variables
-$g_t(\beta) = \Fh \Bh x_t(y_{t+1} - x_t'\beta)$,
-$\gh_t = g_t(\bh_t)$, and $\gb = \oavg{t} \gh_t$.
 
 \newcommand{\K}[1]{K(\tfrac{#1}{w})}
 

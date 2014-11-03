@@ -45,14 +45,14 @@ that the corresponding multivariate results follow trivially.
   Let $R'$ be a new sequence such that $R' \to \infty$ as $T \to \infty$
   and $R' = o(\sqrt{P})$, and then rewrite the centered \oos\ average as
   \begin{equation*}
-    \sqrt{P} (\fb - \E \fb(\btrue))
+    \sqrt{P} (\fb - \E \fb^*)
     = \ocltb{t} ((f_t - \E f_t) + (\fh_t - f_t))
       + \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^{R'} (\fh_t - \E f_t).
   \end{equation*}
   Lemma~\ref{res:a1} ensures that the second term is $o_p(1)$, and
   we can rewrite this summation as
   \begin{align*}
-    \sqrt{P} (\fb - \E \fb(\btrue))
+    \sqrt{P} (\fb - \E \fb^*)
     &= \ocltb{t} (f_t - \E f_t) + \E(F_t) B \ocltb{t} H_t \\
     & \quad + \WesA + \WesB \\ & \quad + \WesC + \oclt{t} w_t + o_p(1)
   \end{align*}
