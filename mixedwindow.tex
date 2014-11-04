@@ -26,7 +26,7 @@
     thank Helle Bunzel, Todd Clark, Graham Elliott, Yu-Chin Hsu,
     Michael McCracken, Pablo Pincheira, Allan Timmermann, Stephane
     Meng-Feng Yen and participants at the 2011 Midwest Econometrics
-    Group meeting and the 2013 NBER-NSF Time Series conference
+    Group meeting and the 2013 \nber-\nsf\ Time Series conference
     for helpful comments and discussions.  I'd also like to thank Amit
     Goyal for providing computer code and data for his 2008
     RFS paper with Ivo Welch \citep{GoW:08}.}\\%
@@ -146,7 +146,7 @@ accuracy between the two models.  The benchmark model rarely allows
 for breaks, parameter drift, or other forms of
 instability,%
 \footnote{Exceptions are \citepos{StW:07}
-  IMA(1,1) and UC-SV models of inflation.} %
+  \allcaps{IMA}(1,1) and \allcaps{UC}-\allcaps{SV} models of inflation.} %
 but the
 researcher is typically concerned about instability.  Indeed, concern
 about instability is often given as a reason for doing an \oos\
@@ -163,7 +163,7 @@ could instead impose stability on the benchmark and relax it for the
 alternative by using a recursive window for the benchmark and a
 rolling window for the alternative model.  This approach could have a
 power advantage and is similar in spirit to using a Likelihood Ratio
-Test instead of an LM or Wald test, which depend on just the
+Test instead of an \lm\ or Wald test, which depend on just the
 restricted or unrestricted model respectively.
 
 This paper's statistic has a substantial advantage over existing \oos\
@@ -206,7 +206,7 @@ predictability and Section~\ref{sec:4} concludes. Proofs of
 our results have been put in a separate Appendix along with
 some minor supporting arguments \citep{Cal:14}.
 
-\section{Theoretical results supporting the asympotically normal OOS statistic}
+\section{Theoretical results supporting the asympotically normal \oos\ statistic}
 \label{sec:1}
 
 This section presents the new \oos\ statistic; first we give an
@@ -265,7 +265,7 @@ $\yh_{t+1}$ inherits the weak dependence properties of the
 variables used to estimate it. Using a finite window length $R$ prevents
 the degeneracy that can arise when comparing nested models out-of-sample (see
 \citealp{ClM:01}, and \citealp{Mcc:07}), so the conditional variance
-of the OOS average remains positive and the average obeys a \clt.%
+of the \oos\ average remains positive and the average obeys a \clt.%
 \footnote{This approach was first introduced by \citet{GiW:06}.} %
 
 \citet{ClW:06,ClW:07} develop a test of whether $\ep_{t+1}$ is
@@ -294,8 +294,8 @@ $\eph_{t+1}$; i.e.
   \oclt{t} \Big[(y_{t+1} -
   x_t\bh_t)^2 - (y_{t+1} - v_t)^2 + (x_t'\bh_t - v_t)^2 \Big]
 \end{equation*}
-is asymptotically normal with mean zero under Clark and West's MDS
-null for fairly
+is asymptotically normal with mean zero under Clark and West's
+\mds\ null for fairly
 arbitrary processes $v_t$, as long as $v_t$ is weakly dependent and
 the \oos\ statistic has uniformly positive variance.  Just as in
 \citet{ClW:06,ClW:07}, these conditions are ensured if $v_t$ is
@@ -315,7 +315,7 @@ benchmark model of the target variable, $y_{t+1}$:
 \end{equation}
 where $\beta$ is an unknown $k$-vector of parameters and $x_t$ is an
 observed vector of predictors. The parameter $\beta$ is
-estimated with OLS using a recursive window as described by
+estimated with \ols\ using a recursive window as described by
 Equation~\eqref{eq:8}
 and the period-$t$ forecast is given by
 \begin{equation}\label{eq:3}
@@ -373,7 +373,7 @@ well. Assumption~\ref{a3} implicitly rules out these functional forms
 by imposing moment conditions on the alternative models' forecasts.
 
 Finally, we define some notation for the \oos\ statistic. The
-adjusted OOS loss for each alternative model and a hypothetical value
+adjusted \oos\ loss for each alternative model and a hypothetical value
 of $\beta$ is denoted by
 \begin{equation}
   f_{jt}(\beta) = (y_{t+1} - x_t'\beta)^2
@@ -411,7 +411,7 @@ on the models.
 \subsection{Theoretical results}
 \label{sec:1b}
 
-Asymptotic normality of the OOS average follows directly from the
+Asymptotic normality of the \oos\ average follows directly from the
 previous three assumptions without any other conditions. The proof is
 presented in the Appendix and follows \citet{Wes:96} directly.
 
@@ -421,7 +421,7 @@ $\gh_t = \Fh \Bh x_t(y_{t+1} - x_t'\bh_t)$,
 $g_t = F B x_t (y_{t+1} - x_t'\btrue)$,
 $\gb = \oavg{t} \gh_t$, and $\gb^* = \oavg{t} g_t$.
 
-Null hypothesis: $y_{t+1} - x_t'\btrue$ is an MDS with respect to
+Null hypothesis: $y_{t+1} - x_t'\btrue$ is an \mds\ with respect to
 \begin{equation*}
   \Fs = \sigma((x_t, y_t, z_t), (x_{t-1}, y_{t-1}, z_{t-1}), \dots).
 \end{equation*}
@@ -462,7 +462,7 @@ Define the general covariance estimator:
   \Sh_{13} &= \oavg{s,t} (\gh_t - \gb)(\gh_t - \gb)'  \K{t-s}.
 \end{align*}
 
-Define the MDS covariance estimator:
+Define the \mds\ covariance estimator:
 \begin{align*}
   \Sigmah_2 &= \Sh_{21} + \Sh_{22} + \Sh_{22}' + 2 \, \Sh_{23}, &
   \Sh_{21} &= \oavg{t} (\fh_t - \fb) (\fh_t - \fb)', \\
@@ -496,7 +496,7 @@ similarly to their original test in the situations they study, but can
 have substantially higher power when the \dgp\ has a structural
 break.%
 \footnote{All of these simulations were programmed in R
-  \citep[version 2.14.0]{R} and use the MASS
+  \citep[version 2.14.0]{R} and use the \allcaps{MASS}
   \citep[7.3-22]{VeR:02} package.} %
 
 The \dgp\ has three different parametrizations: one to study the
@@ -544,9 +544,9 @@ benchmark model's innovation is an \mds.%
   \caption{Size and power of the \oos\ tests in the simulations
     described by Section~\ref{sec:2}, at
     \testsize\% confidence.  These percentages are calculated from \totalsims\
-    samples.  Pr[CW roll.] shows the fraction of simulations for
+    samples.  Pr[\allcaps{CW} roll.] shows the fraction of simulations for
     which Clark and West's (2007) rolling-window statistic rejects;
-    Pr[CW rec.] shows the fraction of simulations for which
+    Pr[\allcaps{CW} rec.] shows the fraction of simulations for which
     their recursive-window statistic rejects; and Pr[new] shows the fraction of
     simulations for which this paper's test rejects.}
 \label{tab:mc1}
@@ -644,7 +644,7 @@ full treatment of this issue is beyond the scope of this paper,
 however, it is straightforward to use Theorem~\ref{res:1} and
 Lemma~\ref{lem:2} to derive an appropriate critical value as
 in~\citet{Whi:00}. Since $\sqrt{P} \fb \to^d N(0, \Sigma)$ under
-the MDS null hypothesis, the continuous mapping theorem implies that
+the \mds\ null hypothesis, the continuous mapping theorem implies that
 $\max_i \sqrt{P} \fb_i/\sh_i \to^d \max_i W_i$, where $Z_i
 \sim N(0, D^{-1/2} \Sigma D^{-1/2})$ and $D = \diag(\sigma_1, \dots,
 \sigma_j)$. We can simulate from the $N(0, \hat D^{-1/2} \Sh
