@@ -13,11 +13,11 @@
 \title{Supplemental Appendix for ``An asymptotically normal out-of-sample
   test of equal predictive accuracy for nested models''}
 
-\newcommand{\WesA}[1][]{\oclt{t}
+\newcommand{\WesA}[1][]{\ocltb{t}
   (F_t^{#1} - \E^{#1} F_t^{#1}) B^{#1} H_t^{#1}}
-\newcommand{\WesB}[1][]{\tfrac{1}{\sqrt{P}} \E^{#1} F_t^{#1} \osum{t} (B_t^{#1} -
+\newcommand{\WesB}[1][]{\tfrac{1}{\sqrt{P}} \E^{#1}(F_t^{#1}) \osumb{t} (B_t^{#1} -
   B^{#1}) H_t^{#1}}
-\newcommand{\WesC}[1][]{\oclt{t}
+\newcommand{\WesC}[1][]{\ocltb{t}
   (F_t^{#1} - \E^{#1} F_t^{#1}) (B_t^{#1} - B^{#1}) H_t^{#1}}
 
 \begin{document}
@@ -27,96 +27,214 @@
 This appendix contains mathematical proofs and some supporting Lemmas
 for the paper, ``An asymptotically normal out-of-sample test of equal
 predictive accuracy for nested models.''
-Define the additional notation
+Define the additional notation 
+$f_t = f_t(\btrue)$,
 $F_t(\beta) = \tfrac{\partial}{\partial \beta} f_t(\beta)$,
 $F_t = F_t(\btrue)$,
+$h_t = h_t(\btrue)$,
 and
-$h_t = h_t(\btrue)$.
+\begin{equation*}
+  H_{t} = \tfrac1t \sum_{s=1}^t h_{s}.
+\end{equation*}
+All of the proofs in this section will be presented for the case where
+there is a single alternative model. The Cram\'er-Wold device ensures
+that the corresponding multivariate results follow trivially.
 
 \begin{rthm}{\ref{res:1}}\input{mixedwindow_thm1}\end{rthm}
 \begin{proof}
-  Replace $R$ with $\log(T)$ and $P$ with $T - \log(T)$ in the
-  statistic; this substitution does not affect its asymptotic
-  distribution.
-  As in \citet{Wes:96} and \citet{WeM:98}, expand $\fh_t$ around
-  $\btrue$ to get
-  \begin{align*}
-    \sqrt{P} \big(\fb - \fb(\btrue)\big) &= \oclt{t}
-    \big(f_t - \E f_t\big) +
-    \E F_t B \oclt{t} H_t \\
-    & \quad + \WesA + \WesB \\ & \quad + \WesC + \oclt{t} w_t
-  \end{align*}
-  where (again, as in \citealp{Wes:96}) the $i$th element of $w_t$ is
+  Let $R'$ be a new sequence such that $R' \to \infty$ as $T \to \infty$
+  and $R' = o(\sqrt{P})$, and then rewrite the centered \oos\ average as
   \begin{equation*}
-    w_{it} = \tfrac12 (\bh_t - \btrue)'
-    \Big[\tfrac{\partial^2}{\partial \beta \partial\beta'}
-    f_{it}(\bt_{it}) \Big]
-    (\bh_t - \btrue)
+    \sqrt{P} (\fb - \E \fb^*)
+    = \ocltb{t} ((f_t - \E f_t) + (\fh_t - f_t))
+      + \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^{R'} (\fh_t - \E f_t).
   \end{equation*}
-  and each $\bt_{it}$ lies between $\bh_t$ and
-  $\btrue$; $\oclt{t} w_t = o_{p}(1)$ as in Theorem~\ref{res:3}.
-  Then, as before,
+  Lemma~\ref{res:a1} ensures that the second term is $o_p(1)$, and
+  we can rewrite this summation as
+  \begin{align*}
+    \sqrt{P} (\fb - \E \fb^*)
+    &= \ocltb{t} (f_t - \E f_t) + \E(F_t) B \ocltb{t} H_t \\
+    & \quad + \WesA + \WesB \\ & \quad + \WesC + \oclt{t} w_t + o_p(1)
+  \end{align*}
+  where $w_t$ equals $2 (\bh_t - \btrue)' x_t x_t' (\bh_t - \btrue)$.
+
+  Lemma~\ref{res:a4} shows that
   \begin{gather}
     \WesA \to^{p} 0 \label{eq:11} \\
-    \WesB \to^{p} 0 \label{eq:12}\\
-  \intertext{and}
+    \WesB \to^{p} 0 \label{eq:12} \\
+    \intertext{and}
     \WesC \to^{p} 0 \label{eq:13}
   \end{gather}
-  from Lemma~\ref{res:a4}.  The formula of the asymptotic variance can
-  be derived exactly as in \citet{Wes:96} and \citet{WeM:98}.
-
-  Note that \[f_t(\btrue)= 2 (y_{t+1} -
-  x_t'\btrue)(\yh_{1,t+1} - x_t'\btrue) \quad \text{a.s.},\] as
-  in \citet{ClW:07}, which is an \mds, so we do not need to use a
-  \hac\ estimator of the variance under the null.  Also observe that
-  \[F_t(\beta) = 2 x_t(x_t'\beta - \yh_{1,t+1}) + 2 x_t(x_t'\beta -
-  y_{t+1})\] and the second term is an \mds\ under the null,
-  explaining the particular form of $g_t(\beta)$.
+  and Lemma~\ref{res:a2} along with the \clt\ ensures that $\oclt{t}
+  w_t = o_{p}(1)$. Finally,
+  \begin{equation*}
+    \oclt{t} (f_t - \E f_t,\ H_t)' \to^d N(0, S)
+  \end{equation*}
+  using the same argument as \citet{Wes:96}.
 \end{proof}
 
 \begin{rlem}{\ref{lem:2}}\input{mixedwindow_lem2}\end{rlem}
+We will only prove $\Sigmah_2 \to^p \Sigma$. The result for
+$\Sigmah_1$ is essentially the same, but uses \citet{JoD:00} instead
+of the simple \lln.
 \begin{proof}
-  Replace $R$ and $P$ as in the proof of Theorem~\ref{res:1}.
-  Theorem~\ref{res:3} of this paper and Theorems~3.1 and~4.1 of
-  \citet{RoW:05} complete the proof.
+  First
+  \begin{align*}
+    \Sh_{21} &= \oavg{t} (f_t - \E \fb(\btrue) + \fh_t - f_t - \fb + \E \fb(\btrue))^2 \\
+    \Sh_{22} &= \oavg{t} (f_t - \E \fb(\btrue) + \fh_t - f_t - \fb + \E \fb(\btrue))
+                        (g_t - \E \gb^* + \gh_t - g_t - \gb + \E \gb^*)
+    \intertext{and}
+    \Sh_{23} &= \oavg{t} (g_t - \E \gb^* + \gh_t - g_t - \gb + \E \gb^*)^2
+  \end{align*}
+  so $\Sigmah_2 \to^p \Sigma$ as long as
+  $\fb - \E \fb(\btrue) \to^p 0$,
+  $\gb - \E \gb^* \to^p 0$,
+  \begin{gather}
+    \oavg{t} (f_t - \E \fb^*)^2 \to^p \var(\sqrt{P} \fb^*) \label{eq:1} \\
+    \oavg{t} (g_t - \E \gb^*)^2 \to^p \var(\sqrt{P} \gb^*) \label{eq:3} \\
+    \oavg{t} (\fh_t - f_t)^2 \to^p 0, \label{eq:4}
+    \intertext{and}
+    \oavg{t} (\gh_t - g_t)^2 \to^p 0. \label{eq:5}
+  \end{gather}
+  The first two results are proven in Theorem~\ref{res:1}
+  and~\eqref{eq:1} and~\eqref{eq:3} follow from the \lln, so it
+  suffices to prove~\eqref{eq:4} and~\eqref{eq:5}.
+
+  As before, let $R'$ be a new sequence such that $R' \to \infty$ as
+  $T \to \infty$ and $R' = o(\sqrt{P})$.  Some algebra reveals
+  that~\eqref{eq:4} holds if
+  \begin{gather}
+    \oavg{t} ((\bh_t - \btrue)' x_t)^4 \to^p 0 \label{eq:10}
+    \intertext{and}
+    \oavg{t} (x_t'(\bh_t - \btrue))^2 (2 x_t'\btrue - y_{t+1} - \yh_{t+1})^2 \label{eq:14}.
+  \end{gather}
+  Now~\eqref{eq:10} is bounded by
+  \begin{align*}
+    \oavg{t} &\|\bh_t - \btrue\|^4 \|x_t\|^4\\
+    &= \oavgc{t} \|\bh_t - \btrue\|^4 \|x_t\|^4 + \oavgb{t} \|\bh_t - \btrue\|^4 \|x_t\|^4 \\
+    &\leq \sup_{t=R+1,\dots,R'} \|\bh_t - \btrue\|^4 \,  \oavgc{t} \|x_t\|^4 + \sup_{t=R'+1,\dots,T} \|\bh_t - \btrue\|^4 \,  \oavgb{t} \|x_t\|^4 \\
+    &= O_p(R'/P) + o_p(1)
+  \end{align*}
+  by Lemma~\ref{res:a2} and the \lln.
+  A similar argument holds for the second term:
+  \begin{align*}
+    \oavg{t} (x_t'(\bh_t - \btrue))^2 &(2 x_t'\btrue - y_{t+1} - \yh_{t+1})^2 \\
+    &= \oavgc{t} (x_t'(\bh_t - \btrue))^2 (2 x_t'\btrue - y_{t+1} - \yh_{t+1})^2 \\
+    &\quad+ \oavgb{t} \big(x_t'(\bh_t - \btrue)\big) (2 x_t'\btrue - y_{t+1} - \yh_{t+1}) \\
+    &\leq \sup_{t=R+1,\dots,R'} \|\bh_t - \btrue\|^2 \oavgc{t} \|x_t (2 x_t'\btrue - y_{t+1} - \yh_{t+1})\|^2 \\
+    &\quad+ \sup_{t=R'+1,\dots,T} \|\bh_t - \btrue\|^2 \oavgb{t} \|x_t (2 x_t'\btrue - y_{t+1} - \yh_{t+1})\|^2 \\
+    &= O_p(R'/P) + o_p(1)
+  \end{align*}
+  again by Lemma~\ref{res:a2} and the \lln. Both terms converge to
+  zero by construction. The proof of~\eqref{eq:5} is similar.
 \end{proof}
 
 \section*{Supporting Results}
 \stepcounter{section}
 \renewcommand\thesection{\Alph{section}}
 
+\begin{alem}\label{res:a1}
+  Suppose the conditions of Theorem~\ref{res:1} hold, and define $R'$
+  to be a sequence that satisfies $R' \to \infty$ as $T \to \infty$
+  and $R' = o(\sqrt{P})$. Then
+  \begin{equation*}
+    \ocltc{t} (\fh_t - \E f_t) \to^p 0.
+  \end{equation*}
+\end{alem}
+
+\begin{proof}
+  We can rewrite this summation as
+  \begin{multline*}
+    \ocltc{t} (\fh_t - \E f_t) = \ocltc{t} (f_t - \E f_t) + \\
+    \ocltc{t} 2 (2 x_t'\btrue - y_{t+1} - \yh_{i,t+1}) x_t'(\bh_t - \btrue)
+    + \ocltc{t} (x_t'\bh_t - x_t'\btrue)^2.
+  \end{multline*}
+  Each of these individual summations can be shown to converge to
+  zero in probability. First,
+  \begin{equation*}
+    \E \Big\lvert \ocltc{t} (f_t - \E f_t) \Big\rvert
+    \leq \ocltc{t} \E\lvert f_t - \E f_t \rvert
+    = O(R'/\sqrt{P}).
+  \end{equation*}
+  Also,
+  \begin{align*}
+    \Big\lvert \ocltc{t} &2 (2 x_t'\btrue - y_{t+1} - \yh_{i,t+1}) x_t'(\bh_t - \btrue) \Big\rvert \\
+    &\leq \ocltc{t} 2 \big\lvert (2 x_t'\btrue - y_{t+1} - \yh_{i,t+1}) x_t' \big\rvert
+    \max_{t=R+1,\dots,R'} \lvert  \bh_t - \btrue \rvert \\
+    & = O_p(R'/\sqrt{P})
+  \end{align*}
+  and
+  \begin{equation*}
+    \Big\lvert \ocltc{t} (x_t'\bh_t - x_t'\btrue)^2 \Big\rvert
+    \leq \ocltc{t} \lvert x_t'x_t \rvert \max_{t=R+1,\dots,R'} (\bh_t - \btrue)'(\bh_t - \btrue)
+    = O_p(R'/\sqrt{P}).
+  \end{equation*}
+  by Lemma~\ref{res:a2} and the \lln. Since $R'/\sqrt{P} \to 0$ by
+  construction, this completes the proof.
+\end{proof}
+
 \begin{alem}\label{res:a2}
-  Suppose $a \in [0,\frac12)$ and the conditions of Theorem~\ref{res:3}
-  hold.
+  Suppose $a \in [0,\frac12)$ and Assumptions~\ref{a1} -- \ref{a4}
+  hold, and let $R'$ be a sequence such that $R' \to \infty$ as $T \to
+  \infty$ and $R' = o(\sqrt{P})$. Then
   \begin{enumerate}
-  \item $P^a \sup_t | H_{t} | \to^p 0$.
-  \item $P^a \sup_t | \bh_{t} - \btrue | \to^{p} 0$.
-  \item $\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T (F_t - \E F_t) = O_{p}(1)$.
+  \item $\sup_{t=R'+1,\dots,T} | t^a H_t | \to^p 0$.
+  \item $\sup_{t=R+1,\dots,R'} | t^a H_t | = O_p(1)$.
+  \item $\sup_{t = R'+1,\dots,T} | t^a(\bh_t - \btrue) | \to^{p} 0$.
+  \item $\sup_{t = R+1,\dots,R'} | t^a(\bh_t - \btrue) | = O_p(1)$.
   \end{enumerate}
 \end{alem}
 
 \begin{proof}
+  We will prove each part in order.
   \begin{enumerate}
-  \item The process $\tfrac{1}{\sqrt{T}} h_{s}$ satisfies
-    \citepos[Theorem 3.1]{JoD:00b} functional \clt.  So
-    \begin{equation}
-      P^a \sup_t \Big| \tfrac1t \sum_{s=1}^t h_{s} \Big| =
-      P^a \sup_{\gamma \in [0,1]} \Big| \tfrac{1}{\lfloor \gamma
-        T\rfloor} \sum_{s=1}^{\lfloor \gamma T \rfloor} h_{s} \Big| \to^{p} 0
+  \item The process $x_{t-1} \ep_t$ is $L_2$-NED of size $-1/2$ (on
+    the same mixing process as the original variables) by
+    Assumption~\ref{a3}, and the moment and size conditions in that
+    assumption make it an $L_2$-mixingale of size $-1/2$ as well. The
+    mixingale \fclt\ implies that, for any $t \to \infty$ as $T \to \infty$,
+    \begin{equation}\label{eq:2}
+      t^{a - 1} \sum_{s=2}^t x_{s-1} \ep_s \to^d \lim (T^{1/2} / t^{1-a}) \cdot W(\lim t/T)
     \end{equation}
-    with the convergence following from the continuous mapping
-    theorem.
+    where $W(\cdot)$ is a multivariate Gaussian process.
+
+    If $t/T \to \gamma$ then $T^{1/2} / t^{1-a} \to 0$ and the limit
+    in~\eqref{eq:2} is almost surely 0. If $t/T \to 0$, then
+    \begin{equation*}
+      \E\Big( t^{a - 1} \sum_{s=2}^t x_{s-1} \ep_s \Big)^2 = t^{2a - 1}\, O(1)
+    \end{equation*}
+    and the limit in~\eqref{eq:2} is again almost surely 0. The
+    Continuous Mapping Theorem then implies that
+    \begin{equation*}
+      \sup_{t=R'+1,\dots,T} \Big| t^{a - 1} \sum_{s=2}^t x_{s-1} \ep_s \Big| \to^p 0.
+    \end{equation*}
+  \item Again, $x_{t-1} \ep_t$ is an $L_2$-mixingale of size
+    $-1/2$. As a result, we can use a maximal inequality of
+    \cite{Mcl:75} (also available as Corollary 16.10 in
+    \citealp{Dav:94}), giving
+    \begin{align*}
+      \E \Big\lvert \sup_{t=R+1,\dots,R'} \Big(t^{a - 1} \sum_{s=2}^t x_{s-1} \ep_s\Big)^2 \Big\rvert
+      &\leq \E \Big\lvert \sup_{t=R+1,\dots,R'} \Big(\sum_{s=2}^t s^{a-1} x_{s-1} \ep_s\Big)^2 \Big\rvert \\
+      &= O(1) \sum_{s=2}^{R'} s^{2a - 2}
+    \end{align*}
+    which converges to a finite limit.
   \item We have
-    \begin{equation}
-      P^a \sup_t | \bh_t - \btrue | = P^a \sup_t |\Bh_{t}
-      H_{t}| \leq \sup_{t,u} \Big| [ \Bh_u - B]
-      \tfrac{P^a}{t} \sum_{s=1}^t h_{s} \Big| + \sup_{t} \Big|
-      B \tfrac{P^a}{t} \sum_{s=1}^t h_{s} \Big|
-    \end{equation}
-    and both terms converge to zero in (conditional) probability by
-    the previous argument and by assumption.
-  \item $\tfrac{1}{\sqrt{P}} \sum_{t=R+1}^T (F_t - \E F_t)$ obeys
-    \citepos{Jon:97} \clt, so the result is trivial.
+    \begin{multline*}
+      \sup_{t=R'+1,\dots,T} | t^a (\hat{\beta}_t - \btrue) | \leq \\
+      \sup_{t,u =R'+1,\dots,T} \Big| [ \hat{B}_u - B]
+      t^{a-1} \sum_{s=2}^t x_s \ep_{s-1} \Big| + \sup_{t = R'+1,\dots,T} \Big|
+      B t^{a-1} \sum_{2=1}^t x_s \ep_{s-1} \Big|
+    \end{multline*}
+    and both terms converge to zero in probability by Part 1 and by
+    assumption.
+  \item Similar to the previous argument, we have
+    \begin{multline*}
+      \sup_{t=R+1,\dots,R'} | t^a (\hat{\beta}_t - \btrue) | \leq \\
+      \sup_{t,u =R+1,\dots,R'} \Big| [ \hat{B}_u - B]
+      t^{a-1} \sum_{s=2}^t x_s \ep_{s-1} \Big| + \sup_{t = R+1,\dots,R'} \Big|
+      B t^{a-1} \sum_{2=1}^t x_s \ep_{s-1} \Big|.
+    \end{multline*}
+    Both terms are $O_p(1)$ by Part 2 and by assumption. \qedhere
   \end{enumerate}
 \end{proof}
 
@@ -125,16 +243,17 @@ $h_t = h_t(\btrue)$.
   \eqref{eq:11}--\eqref{eq:13} hold.
 \end{alem}
 
-\begin{proof}[Proof of Lemma~\ref{res:a4}]
+\begin{proof}
 We can write
 \begin{equation*}
   \Big\lvert \WesA \Big\rvert \leq
-  \Big\lvert \oclt{t} (F_t - \E F_t) B \Big\rvert
-  \sup_t | H_t |.
+  \Big\lvert \ocltb{t} (F_t - \E F_t) B \Big\rvert
+  \sup_{t = R'+1,\dots,T} | H_t |.
 \end{equation*}
-From Lemma~\ref{res:a2}, $\sup_t | H_t | \to^p 0$ and $\oclt{t}
-(F_t - \E F_t) = O_p(1)$, establishing~\eqref{eq:11}. The proofs
-of \eqref{eq:12} and \eqref{eq:13} are similar.
+From Lemma~\ref{res:a2}, $\sup_{t = R'+1,\dots,T} | H_t | \to^p 0$. The \clt\ implies
+that $\ocltb{t} (F_t - \E F_t) = O_p(1)$,
+establishing~\eqref{eq:11}. The proofs of \eqref{eq:12}
+and~\eqref{eq:13} are similar.
 \end{proof}
 
 \bibliography{texextra/AllRefs}

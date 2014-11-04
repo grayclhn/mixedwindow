@@ -9,10 +9,13 @@
 \providecommand\bootsize{[missing]}
 \providecommand\empiricalcriticalvalue{[missing]}
 \providecommand\nboot{[missing]}
+\providecommand\nmod{[missing]}
 \providecommand\testsize{[missing]}
 \providecommand\totalsims{[missing]}
 \providecommand\windowlength{[missing]}
 \providecommand\empiricaltable{[missing]}
+\providecommand\empiricaldraws{[missing]}
+\providecommand\naivecriticalvalue{[missing]}
 
 \author{Gray Calhoun\thanks{ Economics Department; Iowa State
     University; Ames, IA 50011.  Telephone: (515) 294-6271.  Email:
@@ -69,7 +72,15 @@ Sequence, Model Selection
 
 \section{Introduction} This paper proposes an out-of-sample (\oos)
 test statistic that is asymptotically normal with mean zero even when
-the models studied are nested.
+the models studied are nested.  This paper also proves that common
+block bootstrap methods consistently estimate the statistic's
+distribution, and shows how the statistic can be used to study many
+models simultaneously while maintaining strong control of the
+familywise error (\fwe), i.e. ensuring that the probability that the
+hypothesis that the model has equal predictive ability to a benchmark
+is incorrectly rejected for any of the models is no higher than a
+preset level.
+
 \oos\ tests are commonly used in International Macroeconomics,
 Macroeconomics, and Finance (see, for example, \citealt{MeR:83};
 \citealt{StW:03}; and \citealt{GoW:08}) and there is a substantial
@@ -187,9 +198,9 @@ uniformly valid tests for the fixed window.  The test proposed in this
 paper is uniformly valid and places fewer assumptions on the models
 under study and the true \dgp.
 
-The next section presents our new statistics and Section~\ref{sec:2} presents
-simulations that compare our test to \poscw\ original
-statistics.  Section~\ref{sec:3} demonstrates the use of our statistic
+The next section presents our new statistic. Section~\ref{sec:2} presents
+simulations that compare our pairwise \oos\ test to \poscw\ original
+statistics. Section~\ref{sec:3} demonstrates the use of our statistic
 by reanalyzing \citepos{GoW:08} study of excess return
 predictability and Section~\ref{sec:4} concludes. Proofs of
 our results have been put in a separate Appendix along with
@@ -268,7 +279,7 @@ test statistic. Unfortunately, $\eph_{t+1}$ is not an
 \mds\ even when $\ep_{t+1}$ is, so the statistic is no longer
 asymptotically mean-zero normal, even though this approximation
 performs well in simulations. Since the window length is finite,
-the estimators of $\beta_0$ do not converge to $\beta_0$.
+the estimators of $\btrue$ do not converge to $\btrue$.
 
 This paper proposes using the same basic \oos\ statistic,
 but using a recursive window to estimate $\btrue$ and produce
@@ -340,11 +351,11 @@ particular the \clt\ for Near-Epoch Dependent (\ned) processes proven by
 \cite{Jon:97}.
 
 \begin{asmp}\label{a3}%
-  The series $y_t$, $x_t$, and $z_t$ are \ned\ of size $-1/2$ on either a
-  strong mixing process of size $-\frac{r}{r-2}$ for $r>2$ or a uniform
-  mixing process of size $-\frac{r}{2r-2}$ for $r \geq 2$. Moreover,
-  $y_t$ and $\yh_{j,t+1}$, $j = 1,\dots,J$, have uniformly bounded $2 r$
-  moments.
+  The series $y_t$, $x_t$, and $z_t$ are $L_2$-\ned\ of size
+  $-(r-1)/(r-2)$ for $r > 2$ on either a strong mixing process of size
+  $-r/(r-2)$ or a uniform mixing process of size
+  $-r/(2r-2)$. Moreover, $y_t$, $x_t$, and $\yh_{j,t}$, $j =
+  1,\dots,J$, have uniformly bounded $2 r$ moments.
 \end{asmp}
 
 The requirement that the alternative forecasts satisfy a moment
@@ -376,13 +387,14 @@ Also define
   &\text{and}&
   &\fb &= \tfrac1P \sum_{t=R+1}^{T} \fh_t
 \end{align*}
-with $P = T - R$. Also define $\beta_0$ to be the pseudotrue value of
+with $P = T - R$, and let $\Sigma$ be the asymptotic variance of
+$\fb$, $\Sigma = \lim_{T \to \infty} \var(\sqrt{P} \fb)$.
+Also define $\btrue$ to be the pseudotrue value of
 $\beta$ that minimizes the MSE of the benchmark model,
 \begin{equation*}
   \btrue = \plim \Big( \sum_{t=1}^T x_t x_t' \Big)^{-1} \sum_{t=1}^T x_t y_{t+1},
 \end{equation*}
-and let $\Sigma$ be the asymptotic variance of $\fb$, $\Sigma
-= \lim_{T \to \infty} \var(\sqrt{P} \fb)$.
+and define $f_t = f_t(\btrue)$ and $\fb^* = \fb(\btrue)$.
 The next assumption ensures that $\Sigma$ is positive definite.
 \begin{asmp}\label{a4}%
   The asymptotic variance of $\fb$, $\Sigma$, is positive definite.
@@ -399,7 +411,23 @@ on the models.
 \subsection{Theoretical results}
 \label{sec:1b}
 
+Asymptotic normality of the OOS average follows directly from the
+previous three assumptions without any other conditions. The proof is
+presented in the Appendix and follows \citet{Wes:96} directly.
+
 \begin{thm}\label{res:1}\input{mixedwindow_thm1}\end{thm}
+In Theorem~\ref{res:1}, define the variables
+$\gh_t = \Fh \Bh x_t(y_{t+1} - x_t'\bh_t)$,
+$g_t = F B x_t (y_{t+1} - x_t'\btrue)$,
+$\gb = \oavg{t} \gh_t$, and $\gb^* = \oavg{t} g_t$.
+
+Null hypothesis: $y_{t+1} - x_t'\btrue$ is an MDS with respect to
+\begin{equation*}
+  \Fs = \sigma((x_t, y_t, z_t), (x_{t-1}, y_{t-1}, z_{t-1}), \dots).
+\end{equation*}
+
+Clearly, the main use of this theorem is to test the null hypothesis
+$\E f_t = 0$.
 
 The following remarks are relevant to Theorem~\ref{res:1}:
 
@@ -423,10 +451,6 @@ Define $\X' = [x_1,\dots,x_T]$
   \Fh &= \Big\{\tfrac{2}{P}\sum_{s=R}^T x_s (x_s'\beta - \yh_{1,s+1}) \Big\}' &
   \Bh &= \big(\tfrac1T \X'\X \big)^{-1}
 \end{align*}
-
-Define the variables
-$g_t(\beta) = \Fh \Bh x_t(y_{t+1} - x_t'\beta)$,
-$\gh_t = g_t(\bh_t)$, and $\gb = \oavg{t} \gh_t$.
 
 \newcommand{\K}[1]{K(\tfrac{#1}{w})}
 
@@ -463,7 +487,6 @@ Define the MDS covariance estimator:
   a forecast encompassing test using the models' generalized forecast
   errors.%
 \footnote{See \citet{HLN:98} and \citet[Section~4]{ClW:07}.} %
-  Again, Lemma~\ref{res:a5} can cover these other applications.
 \end{rem}
 
 \section{Monte Carlo Results}\label{sec:2}
@@ -502,8 +525,8 @@ $z_{t-1}$.  \citet{ClW:07} argue that this \dgp\ mimics an asset
 pricing application similar to \citepos{GoW:08} which we study in
 Section~\ref{sec:3}.
 
-For comparison, we study this paper's new statistic as well as \poscw\
-rolling-window and recursive-window test statistics.  Clark and West
+For comparison, we study this paper's new statistic as well as
+\poscw\ rolling-window and recursive-window test statistics.  Clark and West
 only prove that their rolling-window statistic is asymptotically
 normal, and only then if the benchmark model is not estimated, but
 their recursive-window statistic is popular in practice and in
@@ -600,7 +623,7 @@ beginning in 1927 and ending in 2009, and the rolling window uses
   lists the value of this paper's \oos\ statistic, the ``naive''
   column indicates whether the statistic is significant at standard
   critical values, and the ``corrected'' column indicates significance
-  using the critical values proposed in Theorem~\ref{res:2} that
+  using critical values that
   account for the number of models.  See Section~\ref{sec:3} for details.}
 \label{tab:em1}
 \end{table}

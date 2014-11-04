@@ -1,2 +1,9 @@
-Suppose that Assumptions~\ref{a1} -- \ref{a4} hold.  Then $\sqrt{P}
-(\fb - \E f_t) \to^d N(0, \Sigma)$.
+If Assumptions~\ref{a1} -- \ref{a4} hold then
+$\sqrt{P} (\fb - \E \fb^*) \to^d N(0, \Sigma)$,
+with
+\begin{align*}
+    \Sigma &= S_{ff} + S_{fg} + S_{fg}' + 2 \, S_{gg}, &
+    S_{ff}  &= \lim P \var(\fb^*), \\
+    S_{fg}  &= \lim P \cov(\fb^*, \gb^*), &
+    S_{gg}  &= \lim P \var(\gb^*).
+\end{align*}
