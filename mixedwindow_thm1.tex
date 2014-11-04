@@ -1,9 +1,10 @@
-If Assumptions~\ref{a1} -- \ref{a4} hold then
-$\sqrt{P} (\fb - \E \fb^*) \to^d N(0, \Sigma)$,
-with
+If Assumptions~\ref{a1}~--~\ref{a4} hold then
+\begin{equation*}
+  \sqrt{P} (\fb - \E \fb^*) \to^d N(0, \sigma^2),
+\end{equation*}
+with $\sigma^2 = s_1 + 2(s_2 + s_3)$ and
 \begin{align*}
-    \Sigma &= S_{ff} + S_{fg} + S_{fg}' + 2 \, S_{gg}, &
-    S_{ff}  &= \lim P \var(\fb^*), \\
-    S_{fg}  &= \lim P \cov(\fb^*, \gb^*), &
-    S_{gg}  &= \lim P \var(\gb^*).
+    s_1  &= \lim \var(\sqrt{P}\, \fb^*), &
+    s_2  &= \lim \cov(\sqrt{P}\, \fb^*, \sqrt{P}\, \gb^*), &
+    s_3  &= \lim \var(\sqrt{P}\, \gb^*).
 \end{align*}

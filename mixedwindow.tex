@@ -24,7 +24,7 @@
     gcalhoun\guillemotright.
     I'd like to
     thank Helle Bunzel, Todd Clark, Graham Elliott, Yu-Chin Hsu,
-    Michael McCracken, Pablo Pincheira, Allan Timmermann, Stephane
+    Michael McCracken, Pablo Pincheira, Allan Timmermann, Ken West, Stephane
     Meng-Feng Yen and participants at the 2011 Midwest Econometrics
     Group meeting and the 2013 \nber-\nsf\ Time Series conference
     for helpful comments and discussions.  I'd also like to thank Amit
@@ -64,40 +64,40 @@ Sequence, Model Selection
 
 \strut
 
-\noindent JEL Classification Numbers: C22, C53
+\noindent \allcaps{JEL} Classification Numbers: C22, C53
 
 \end{abstract}
 
 \newpage
 
-\section{Introduction} This paper proposes an out-of-sample (\oos)
-test statistic that is asymptotically normal with mean zero even when
-the models studied are nested.  This paper also proves that common
-block bootstrap methods consistently estimate the statistic's
-distribution, and shows how the statistic can be used to study many
-models simultaneously while maintaining strong control of the
-familywise error (\fwe), i.e. ensuring that the probability that the
-hypothesis that the model has equal predictive ability to a benchmark
-is incorrectly rejected for any of the models is no higher than a
-preset level.
+\section{Introduction}
 
-\oos\ tests are commonly used in International Macroeconomics,
+This paper proposes an out-of-sample (\oos) test statistic that is
+asymptotically normal and correctly centered even when the models
+studied are nested. The test is based on one proposed by
+\citet{ClW:06,ClW:07}, but we propose estimating the benchmark model
+with a recursive window and the alternative models with a fixed length
+rolling window. The rolling window ensures asymptotic normality, as in
+\citet{GiW:06}, and the recursive window allows the null hypothesis to
+be a statement about the specification of the Data Generating Process,
+which is the focus of the vast majority of the \oos\ testing
+literature.%
+\footnote{In particular, this is the focus of \citet{Wes:96},
+  \citet{ClM:01}, \citet{Mcc:07}, \citet{ClW:06}, \citet{ClW:07}, and
+  many others but not \citet{GiW:06}. See \citet{Wes:06} and
+  \citet{ClM:13} for a thorough overview of this literature.} %
+This combination of estimation windows also gives our test statistic
+high power against alternative \dgp s that cause the benchmark model
+to be unstable --- structural breaks, time-varying coefficients, or
+forms of nonlinearity, for example --- which is a common motivation
+for using these tests.
+
+\oos\ tests are common in International Macroeconomics,
 Macroeconomics, and Finance (see, for example, \citealt{MeR:83};
 \citealt{StW:03}; and \citealt{GoW:08}) and there is a substantial
 literature developing the theoretical properties of these statistics,
 beginning primarily with \citet{DiM:95} and
-\citet{Wes:96}.%
-\footnote{Other papers in this literature include
-  \citet{WeM:98}, \citet{Mcc:98,Mcc:00},
-  \citet{ClM:01,ClM:05-2,ClM:05,ClM:11b,ClM:12,ClM:12b},
-  \citet{CCS:01}, \citet{CoS:02,CoS:04,CoS:07}, \citet{Whi:00},
-  \citet{InK:04,InK:06}, \citet{Han:05}, \citet{Ros:05},
-  \citet{ClW:06,ClW:07}, \citet{Ana:07}, \citet{GiR:09,GiR:10},
-  \citet{HuW:10}, \citet{HLN:11}, \cite{InR:11}, \cite{Pin:11},
-  \cite{RoS:11,RoS:11b}, and \citet{Cal:11}, among others.  For recent
-  reviews of this literature and additional references, see
-  \citet{McW:02}, \citet{CoS:06}, \citet{Wes:06}, \citet{ClM:11c},
-  \citet{CoD:11}, and \citet{Gia:11}} %
+\citet{Wes:96}.
 In a pair of papers,
 \citet{ClW:06,ClW:07} develop an \oos\ test of the null hypothesis
 that a small benchmark model is correctly specified.  Their test
@@ -130,7 +130,7 @@ asymptotically normal with mean zero when the benchmark model is a
 random walk \citep{ClW:06}. Estimating the parameters of the smaller
 model invalidates their proof.
 
-In this paper, I show that a modified version of their statistic is
+This paper shows that a modified version of their statistic is
 asymptotically normal even when the smaller model is estimated.  To
 achieve normality, the pseudotrue benchmark model must be estimated
 consistently, but the larger alternative model must continue to be
@@ -139,72 +139,26 @@ when the models are nested. We can meet both needs by
 using different window strategies for each model: the benchmark model
 is estimated using a recursive window and the alternative with a
 fixed-length rolling window.
+This approach has the further advantage over existing \oos\ tests for
+nested models that the alternative can be essentially arbitrary as
+long as high level moment conditions hold. In particular, researchers
+can use model selection techniques like the \aic\ or \bic\ to
+determine the number of lags to include, the particular exogenous
+variables to include, etc. Moreover, although we focus on nested
+models in this paper, the approach can be used with non-nested models
+as well. As \citet{ClM:11b} have recently pointed out,
+\citepos{Wes:96} results do not hold when the true \dgp\ is nested by
+the benchmark and alternative models, which is allowable under the
+null. (\citealp{ClM:11b}, call this scenario ``overlapping models.'')
 
-Mixing window strategies is uncommon but needn't be. In most
-applications, the null hypothesis imposes stability as well as equal
-accuracy between the two models.  The benchmark model rarely allows
-for breaks, parameter drift, or other forms of
-instability,%
-\footnote{Exceptions are \citepos{StW:07}
-  \allcaps{IMA}(1,1) and \allcaps{UC}-\allcaps{SV} models of inflation.} %
-but the
-researcher is typically concerned about instability.  Indeed, concern
-about instability is often given as a reason for doing an \oos\
-analysis, especially with a short rolling window.%
-\footnote{This
-  motivation is discussed by \citet{StW:03}, \citet{PeT:05,PeT:07},
-  \cite{GiW:06}, \citet{GoW:08}, \citet{ClM:09c}, and
-  \cite{GiR:09,GiR:10}, among others.} %
-A researcher could impose
-stability on both models by using a recursive window or relax
-stability for both by using a rolling window; either approach should
-not affect the test's size, but may affect power.  But the researcher
-could instead impose stability on the benchmark and relax it for the
-alternative by using a recursive window for the benchmark and a
-rolling window for the alternative model.  This approach could have a
-power advantage and is similar in spirit to using a Likelihood Ratio
-Test instead of an \lm\ or Wald test, which depend on just the
-restricted or unrestricted model respectively.
-
-This paper's statistic has a substantial advantage over existing \oos\
-tests for nested models: the alternative can be essentially arbitrary
-as long as high level moment conditions hold.  In particular,
-researchers can use model selection techniques like the \aic\ or \bic\
-to determine the number of lags to include, the particular exogenous
-variables to include, etc.  Other methods that test a similar
-hypothesis are unable to handle these models \citep[except][which does
-not allow the benchmark to be estimated]{ClW:06}; \citet{GiW:06} are
-able to handle such models for both the alternative and the benchmark
-but, as mentioned earlier, they test a different aspect of forecasting
-performance.
-
-This paper focuses on nested models, as they have received the most
-attention in the empirical and theoretical literature, but the
-statistic can be used with non-nested models as well.  This generality
-is useful, since \citepos{Wes:96} results do not apply to non-nested
-models if they both encompass the true \dgp,%
-\footnote{\citet{ClM:11b}
-  call this scenario, ``overlapping models.''} %
-which is allowable
-under the null: in the limit, both models will converge to the \dgp\
-and give identical forecasts.  Consequently, the naive \oos\ $t$-test
-is invalid, even after correcting the standard error if necessary to
-reflect parameter uncertainty.  \citet{ClM:11b} show that the fixed
-window \oos\ $t$-test remains normal for these models but the
-recursive and rolling windows (with the window size increasing to
-$\infty$) do not, and provide a procedure for pointwise (but not
-uniformly) valid tests for the recursive and rolling windows and
-uniformly valid tests for the fixed window.  The test proposed in this
-paper is uniformly valid and places fewer assumptions on the models
-under study and the true \dgp.
-
-The next section presents our new statistic. Section~\ref{sec:2} presents
+The next section presents the intuition and theory for our new statistic.
+Section~\ref{sec:2} presents
 simulations that compare our pairwise \oos\ test to \poscw\ original
-statistics. Section~\ref{sec:3} demonstrates the use of our statistic
+statistics and Section~\ref{sec:3} demonstrates the use of our statistic
 by reanalyzing \citepos{GoW:08} study of excess return
 predictability and Section~\ref{sec:4} concludes. Proofs of
 our results have been put in a separate Appendix along with
-some minor supporting arguments \citep{Cal:14}.
+some supporting results \citep{Cal:14b}.
 
 \section{Theoretical results supporting the asympotically normal \oos\ statistic}
 \label{sec:1}
@@ -238,20 +192,16 @@ obeys an \mds\ \clt\ and is asymptotically normal as $P \to \infty$,%
 \footnote{This claim assumes that the asymptotic variance of the
   sample average is uniformly positive, a requirement that we will
   address in Section~\ref{sec:1b}.} %
-with $R$ an arbitrary starting value%
-\footnote{It will be clear momentarily why the summation begins at
-  $R+1$ instead of $1$.} %
-and $P = T - R$.%
-\footnote{Section~\ref{sec:1b} discusses conditions under which the
-  \mds\ condition holds. We will also present results that allow
-  $\ep_{t+1}$ to be serially correlated.} %
+with $R$ an arbitrary starting value
+and $P = T - R$.
 Straightforward algebra \citep{ClW:07} shows that
 \begin{equation}
   \label{eq:5}
   \tfrac{1}{\sqrt{P}} \osum{t} \ep_{t+1} (v_t -
   x_t'\btrue) = \tfrac{1}{2 \sqrt{P}} \osum{t} \Big[(y_{t+1} -
-  x_t\btrue)^2 - (y_{t+1} - v_t)^2 + (x_t'\btrue - v_t)^2 \Big].
+  x_t\btrue)^2 - (y_{t+1} - v_t)^2 + (x_t'\btrue - v_t)^2 \Big]
 \end{equation}
+almost surely.
 
 \citet{ClW:06,ClW:07} base their \oos\ statistics on the RHS of
 Equation~\eqref{eq:5}, but use a second forecast of $y_{t+1}$ as
@@ -269,10 +219,10 @@ of the \oos\ average remains positive and the average obeys a \clt.%
 \footnote{This approach was first introduced by \citet{GiW:06}.} %
 
 \citet{ClW:06,ClW:07} develop a test of whether $\ep_{t+1}$ is
-an \mds. In the 2006 paper, Clark and West assume that the
+an \mds. In their 2006 paper, Clark and West assume that the
 coefficients on the benchmark model, $\btrue$, are zero under the null, making
 $\ep_{t+1}$ observed directly. This restriction is relaxed in
-the 2007 paper, where $\btrue$ is unknown and estimated with length-$R$
+their 2007 paper, where $\btrue$ is unknown and estimated with length-$R$
 rolling window. Now the estimated linear model's prediction errors,
 $\eph_{t+1}$, replace $\ep_{t+1}$ in the \oos\
 test statistic. Unfortunately, $\eph_{t+1}$ is not an
@@ -283,12 +233,16 @@ the estimators of $\btrue$ do not converge to $\btrue$.
 
 This paper proposes using the same basic \oos\ statistic,
 but using a recursive window to estimate $\btrue$ and produce
-$\eph_{t+1}$; i.e.
-\begin{equation}
+$\eph_{t+1}$:
+\begin{align}
   \label{eq:8}
-  \bh_t = \Big(\sum_{s=2}^{t} x_{t-1} x_{t-1}'\Big)^{-1}
-  \sum_{s=2}^t x_{t-1} y_t.
-\end{equation}
+  \bh_t &= \Big(\sum_{s=1}^{t-1} x_{s} x_{s}'\Big)^{-1}
+  \sum_{s=1}^{t-1} x_{s} y_{s+1}
+  && \text{and}
+  &
+  \eph_{t+1} &= y_{t+1} - x_t'\bh_t
+\end{align}
+for each $t$.
 \citepos{Wes:96} Theorem 4.1 implies that
 \begin{equation*}
   \oclt{t} \Big[(y_{t+1} -
@@ -303,7 +257,7 @@ another forecast of $y_{t+1}$ based on a fixed-length rolling window.
 
 This overview has presented an especially simple version of the result
 to make the intuition as clear as possible. The next section lists the
-specific assumptions for a more general case.
+specific assumptions for the more general case.
 
 \subsection{Theoretical assumptions}
 \label{sec:1a}
@@ -314,190 +268,214 @@ benchmark model of the target variable, $y_{t+1}$:
   y_{t+1} = x_t'\beta + \ep_{t+1}, \quad t = 1,\dots,T+1
 \end{equation}
 where $\beta$ is an unknown $k$-vector of parameters and $x_t$ is an
-observed vector of predictors. The parameter $\beta$ is
-estimated with \ols\ using a recursive window as described by
-Equation~\eqref{eq:8}
-and the period-$t$ forecast is given by
-\begin{equation}\label{eq:3}
-  \yh_{0,t+1} = x_t'\bh_t.
-\end{equation}
-
-We deviate slightly from the previous section's introduction by
-allowing for multiple alternative models, as in \cite{Whi:00} and \cite{HuW:10}. This
-modification is crucial if we want the statistic to be empirically
-useful, since almost every empirical analysis considers several
-alternative models at once.  Each of these alternative models is
-denoted $\yh_{j,t+1}$, for $j = 1,\dots,J$, and is estimated with a
+observed vector of predictors. The parameter $\beta$ is estimated with
+\ols\ using a recursive window as described by Equation~\eqref{eq:8}.
+The alternative model is denoted $\yh_{1,t+1}$ and is estimated with a
 rolling window of length $R$.
 
-These conditions are summarized in the first assumption.
-
-\begin{asmp}\label{a1}%
-  The benchmark forecast, $\yh_{0,t+1}$, is generated by
-  Equation~\eqref{eq:3}, where $\bh_t$ is constructed with a recursive
-  window and satisfies~\eqref{eq:8}. The alternative forecasts are
-  estimated using a rolling window of length $R$, so $\yh_{j,t+1} =
-  \psi_j(y_t,z_t,\dots,y_{t-R+1}, z_{t-R+1})$ where $\psi_j$ is a
-  known function and $z_t$ is a sequence of predictors that may
-  include $x_t$. The window length, $R$, remains finite as $T \to
-  \infty$.
-\end{asmp}
-
-Assumption~\ref{a3} describes the \dgp. The weak dependence and moment
-conditions are standard. These assumptions are slightly weaker than
-similar assumptions in \citet{Wes:96} and \citet{Mcc:00}, but only
-because we make use of more recent developments in limit theory, in
-particular the \clt\ for Near-Epoch Dependent (\ned) processes proven by
+The main conditions on the \dgp\ are summarized in the first
+assumption.  The weak dependence and moment conditions are
+standard. These assumptions are slightly weaker than similar
+assumptions in \citet{Wes:96} and \citet{Mcc:00}, but only because we
+make use of more recent developments in limit theory, in particular
+the \clt\ for Near-Epoch Dependent (\ned) processes proven by
 \cite{Jon:97} and the \fclt\ of \cite{JoD:00b}.
 
-\begin{asmp}\label{a3}%
-  The series $y_t$, $x_t$, and $z_t$ are $L_2$-\ned\ of size
-  $-(r-1)/(r-2)$ for $r > 2$ on either a strong mixing process of size
-  $-r/(r-2)$ or a uniform mixing process of size
-  $-r/(2r-2)$. Moreover, $y_t$, $x_t$, and $\yh_{j,t}$, $j =
-  1,\dots,J$, have uniformly bounded $2 r$ moments.
+\begin{asmp}\label{a1}%
+  The data are generated by the relationship
+  \begin{equation}
+    y_{t+1} = x_t'\btrue + \ep_{t+1}
+  \end{equation}
+  for $t=1,2,\dots$, for some value $\btrue$, with $\E x_t \ep_{t+1} =
+  0$, $\E \ep_{t+1}^2 > 0$, and $\E x_t x_t'$ positive definite for
+  all $t$. Also assume that there is an additional sequence of random
+  vectors $z_t$ and the processes $\ep_{t+1}$, $x_t$, and $z_t$ are
+  $L_2$-\ned\ of size $-(r-1)/(r-2)$ for $r > 2$ on either a strong
+  mixing process of size $-r/(r-2)$ or a uniform mixing process of
+  size $-r/(2r-2)$.
 \end{asmp}
 
-The requirement that the alternative forecasts satisfy a moment
-condition, rather than the underlying predictors $z_t$, is somewhat
-unappealing but necessary. The functions $\psi_j$ that generate these
-forecasts are otherwise unrestricted, so even well-behaved predictors
+The next assumption defines the forecasting models and adds additional
+constraints to the \dgp.
+
+\begin{asmp}\label{a3}%
+  The benchmark forecast is $x_t'\bh_t$, where $\bh_t$ is constructed
+  with a recursive window according to~\eqref{eq:8}; the partial sums
+  $\sum_{s=1}^{t-1} x_s x_s' / (t-1)$ are almost surely invertible for
+  all $t \geq R$ (uniformly in $T$).  The alternative forecast
+  satisfies
+  \begin{equation}
+    \yh_{1,t+1} = \psi(y_t,z_t,\dots,y_{t-R+1}, z_{t-R+1})
+  \end{equation}
+  where $\psi$ is a known measurable function and the window length,
+  $R$, remains finite as $T \to \infty$. Moreover, the vector
+  $(\ep_{t+1}, x_t, \yh_{t+1})$ has uniformly bounded $2 r$ moments and is
+  4th order stationary.
+\end{asmp}
+
+The requirement that the alternative forecast satisfies moment
+conditions, rather than the underlying predictors $z_t$, is somewhat
+unappealing but necessary. The function $\psi$ that generates these
+forecasts is otherwise nearly unrestricted, so even well-behaved predictors
 could produce arbitrarily badly-behaved forecasts. For example, if
 \begin{equation*}
   z_t \sim \iid~\bernoulli(1/2),
 \end{equation*}
-setting $\psi_1(y_t, z_t) = 1/z_t$ would prevent a \clt\ from holding
+setting $\psi(y_t, z_t) = 1/z_t$ would prevent a \clt\ from holding
 since the forecast equals positive infinity with probability $1/2$. It
 is easy to construct less obvious examples of problematic functions as
 well. Assumption~\ref{a3} implicitly rules out these functional forms
 by imposing moment conditions on the alternative models' forecasts.
 
-Finally, we define some notation for the \oos\ statistic. The
-adjusted \oos\ loss for each alternative model and a hypothetical value
-of $\beta$ is denoted by
-\begin{equation}
-  f_{jt}(\beta) = (y_{t+1} - x_t'\beta)^2
-  - (y_{t+1} - \yh_{j,t+1})^2 + (x_t'\beta - \yh_{j,t+1})^2
-\end{equation}
-and $f_t(\beta)$ denotes the vector $(f_{1t}(\beta),\dots,f_{Jt}(\beta))$.
-Also define
-\begin{align*}
-  \fh_t &= f_t(\bh),
-  &\fb(\beta) &= \oavg{t} f_t(\beta),
-  &\text{and}&
-  &\fb &= \tfrac1P \sum_{t=R+1}^{T} \fh_t
-\end{align*}
-with $P = T - R$.
-Also define $\btrue$ to be the pseudotrue value of
-$\beta$ that minimizes the MSE of the benchmark model,
-\begin{equation*}
-  \btrue = \plim \Big( \sum_{t=1}^T x_t x_t' \Big)^{-1} \sum_{t=1}^T x_t y_{t+1},
-\end{equation*}
-and define $f_t = f_t(\btrue)$ and $\fb^* = \fb(\btrue)$.
-
-Our last assumption is on the asymptotic variance of $\fb^*$.
+Our next assumption ensures that the asymptotic variance of the \oos\
+average is positive.
 \begin{asmp}\label{a4}%
-  The asymptotic variance of $\fb^*$ is positive definite.
+  The asymptotic variance-covariance matrix
+  \begin{equation}
+    \var \Bigg(
+      \oclt{t} \begin{pmatrix} x_t \\ \yh_{t+1} \end{pmatrix} \ep_{t+1}
+      \Bigg)
+  \end{equation}
+  is uniformly positive definite (in $T$).
 \end{asmp}
 This assumption is much less restrictive than in \cite{Wes:96}.  As in
 \cite{GiW:06} and \citet{ClW:06,ClW:07}, the assumption only serves to
-rule out pathological cases---for example, letting both the benchmark
-and the alternative models be perfectly correlated white noise. In
-\citet{Wes:96}, this assumption is a restriction on the \dgp\ as well
-as the forecasting models, but in this paper it is a restriction only
-on the models.
+rule out pathological cases --- for example, letting the alternative
+model consist of only the first regressor of the benchmark. In \citet{Wes:96}, this
+assumption is a restriction on the \dgp\ as well as the forecasting
+models, but in this paper it is a restriction only on the models.
+
+The last assumption restricts the class of \hac\ variance estimators
+we will consider. We use the same class of estimators studied by
+\citet{JoD:00} (their class $\mathcal{K}$); see their paper for
+further discussion.
+\begin{asmp}\label{a5}%
+  $K$ is a function from $\Re$ to $[-1,1]$ such that $K(0) = 1$, $K(x)
+  = K(-x)$ for all $x$, $K(\cdot)$ is continuous at zero and all but a
+  finite number of points, and
+  \begin{gather*}
+    \int_{-\infty}^{\infty} \lvert K(x) \rvert\, dx < \infty,
+    \intertext{and}
+    \int_{-\infty}^{\infty} \Bigg\lvert
+    \int_{-\infty}^{\infty} K(z) e^{ixz}\,dz \Bigg\rvert\, dx < \infty.
+  \end{gather*}
+\end{asmp}
+
+Last, we define some notation that will be used to derive the
+theoretical properties of our \oos\ statistics.  The information set
+that contains the information available for forecasting $y_{t+1}$ is
+\begin{equation*}
+  \Fs_t = \sigma(y_t, x_{t+1}, z_{t+1}, y_{t-1}, x_t, z_t,\dots).
+\end{equation*}
+The adjusted \oos\ loss for the alternative model using a hypothetical
+value of $\beta$ to produce the benchmark forecast is denoted by
+\begin{equation*}
+  f_t(\beta) = (y_{t+1} - x_t'\beta)^2 - (y_{t+1} - \yh_{t+1})^2 + (x_t'\beta - \yh_{t+1})^2.
+\end{equation*}
+Define the additional terms $\fh_t = f_t(\bh_t)$, $f_t = f_t(\btrue)$,
+\begin{gather*}
+  \gh_t = \Bigg[\oavg{s} (4 x_s'\bh_s - 2 y_{s+1} - 2 \yh_{s+1}) x_s'\Bigg]\,
+          \Bigg[\tfrac{1}{T-1} \sum_{s=1}^{T-1} x_s x_s'\Bigg]^{-1} x_t \eph_{t+1}
+  \intertext{and}
+  g_t = \E\Big[(4 x_t'\beta - 2 y_{t+1} - 2 \yh_{t+1}) x_t'\Big] \, (\E x_t x_t')^{-1} x_t \ep_{t+1}
+\end{gather*}
+and the \oos\ averages $\fb = \osum{t} \fh_t/P$, $\fb^* = \osum{t} f_t/P$,
+$\fb = \osum{t} \gh_t/P$, and $\gb^* = \osum{t} g_t/P$.
 
 \subsection{Theoretical results}
 \label{sec:1b}
 
-Asymptotic normality of the \oos\ average follows directly from the
-previous three assumptions without any other conditions. The proof is
+Asymptotic normality of the \oos\ average now follows directly from the
+first three assumptions without other conditions. The proof is
 presented in the Appendix and follows \citet{Wes:96} closely.
 
 \begin{thm}\label{res:1}\input{mixedwindow_thm1}\end{thm}
-(define $F$ and $B$)
 
-Note that Theorem~\ref{res:1} does not require any of the models to be
-correctly specified. Asymptotic normality follows from the weak
-dependence of the underlying series and from the design of the test
-statistic. Typically these statistics are used to test the null
-hypothesis that the benchmark model is correctly specified, which
-implies that $\fh_t - \E f_t^*$ is an \mds\ as discussed in
-Section~\ref{sec:1a}. This is especially appealing in our framework,
-since the benchmark can be theoretically motivated so the \mds\ null
-can be a test of forecaster rationality.
-But that null hypothesis only affects the
-estimator of $\Sigma$ (see Lemma~\ref{lem:2}); Theorem~\ref{res:1}
-continues to hold under alternatives that satisfy Assumptions
-\ref{a1} -- \ref{a4}.
-
-Moreover, Theorem~\ref{res:1} can be used with a \hac\ estimator of
-$\Sigma$ when a researcher wants to test the weaker hypothesis that
-$\E \fb^* = 0$ but the benchmark may be misspecified. This approach
-could be interpreted as an encompassing test as in \citet{HLN:98}, and
-would test whether the alternative models contain additional
-information not present in the benchmark model. In either case (\mds\
-or non-\mds), this test is designed to have power against the
-``encompassing'' alternative. The specific research question should
-then determine whether the test should also reject if there are other
-violations of rationality.
-
-\newcommand{\K}[1]{K((#1)/w)}
-For the next results, define the variables $\gh_t = \Fh \Bh
-x_t(y_{t+1} - x_t'\bh_t)$, $\gb = \oavg{t} \gh_t$, and
+To use this result, we need a consistent estimator of
+$\sigma^2$. Define the \hac\ covariance estimator $\sigmah^2_1 =
+\sh_{11} + 2 (\sh_{12} + \sh_{13})$ and the \mds\ covariance estimator
+$\sigmah^2_2 = \sh_{21} + 2(\sh_{22} + \sh_{23})$ with
 \begin{align*}
-  \Fh &= \Big\{\tfrac{2}{P}\sum_{s=R}^{T-1} x_s (x_s'\beta - \yh_{1,s+1}) \Big\}' &
-  &\text{and}&
-  \Bh &= \Big(\tfrac1P \sum_{s=R+1}^{T-1} x_s x_s' \Big)^{-1}
+  \sh_{11} &= \oavg{s,t} (\fh_s - \fb) (\fh_t - \fb) K(\tfrac{t-s}{P}), &
+  \sh_{21} &= \oavg{t} (\fh_t - \fb)^2, \\
+  \sh_{12} &= \oavg{s,t} (\fh_s - \fb)(\gh_t - \gb) K(\tfrac{t-s}{P}), &
+  \sh_{22} &= \oavg{t} (\fh_t - \fb)(\gh_t - \gb),
+\intertext{and}
+  \sh_{13} &= \oavg{s,t} (\gh_s - \gb) (\gh_t - \gb), &
+  \sh_{23} &= \oavg{t} (\gh_t - \gb)^2.
 \end{align*}
-Then define the \hac\ covariance estimator $\Sigmah_1$ and the \mds\
-covariance estimator $\Sigmah_2$ as
-\begin{align*}
-  \Sigmah_1 &= \Sh_{21} + \Sh_{22} + \Sh_{22}' + 2 \, \Sh_{23}, &
-  \Sh_{11} &= \oavg{s,t} (\fh_t - \fb) (\fh_t - \fb)' \K{t-s}, \\
-  \Sh_{12} &= \oavg{s,t} (\fh_t - \fb)(\gh_t - \gb)' \K{t-s}, &
-  \Sh_{13} &= \oavg{s,t} (\gh_t - \gb)(\gh_t - \gb)'  \K{t-s}
-  \intertext{and}
-  \Sigmah_2 &= \Sh_{21} + \Sh_{22} + \Sh_{22}' + 2 \, \Sh_{23}, &
-  \Sh_{21} &= \oavg{t} (\fh_t - \fb) (\fh_t - \fb)', \\
-  \Sh_{22} &= \oavg{t} (\fh_t - \fb)(\gh_t - \gb)', &
-  \Sh_{23} &= \oavg{t} (\gh_t - \gb)(\gh_t - \gb)',
-\end{align*}
-where $K$ is a kernel that satisfies standard assumptions.
 
-\begin{asmp}\label{a5}
-  Fill in assumptions on $\K$.
-\end{asmp}
+These estimators are consistent under similar assumptions to
+Theorem~\ref{res:1}.
 
 \begin{lem}\label{lem:2}\input{mixedwindow_lem2}\end{lem}
 
+Note that these results allow misspecification; asymptotic normality
+follows from the weak dependence of the underlying series and from the
+design of the test statistic. These statistics have typically been
+used to test the null hypothesis that the benchmark model is correctly
+specified --- that $\{\ep_t, \Fs_t\}$ is an \mds\ --- which
+implies that $f_t(\btrue) - \E f_t(\btrue)$ is an \mds\ as discussed
+at the beginning of the Section. This is especially appealing in our
+framework, since the benchmark can be theoretically motivated so the
+\mds\ null would be a test of rationality. For example, \citet{GoW:08}
+test whether excess returns for the S\&P 500 are predictable
+out-of-sample, and any deviation from an \mds\ is potentially
+interesting. But the \mds\ null hypothesis only affects the estimator
+of $\sigma^2$ (see Lemma~\ref{lem:2}); Theorem~\ref{res:1} continues
+to hold under any \dgp\ that satisfies Assumptions~\ref{a1}~--~\ref{a4}.
 
-Put a last result here about one-sided testing.
+In other settings, a researcher may want to test the weaker hypothesis
+that $\E \fb^* = 0$ but the benchmark may be misspecified. This
+approach can then be interpreted as an encompassing test as in
+\citet{HLN:98}, and would test whether the alternative model contains
+additional information that would make the benchmark model more
+accurate. This interpretation comes from the combination forecasting
+model
+\begin{equation*}
+  \yh_{\mathit{avg},t+1} = (1 - w) x_t'\beta + w \yh_{t+1}
+\end{equation*}
+which can be rewritten in terms of forecast errors as
+\[
+e_{\mathit{avg},t+1} = e_{0,t+1} + w (e_{0,t+1} - e_{1,t+1})
+\]
+with $e_{\mathit{avg},t+1} = y_{t+1} - \yh_{\mathit{avg},t+1}$,
+$e_{0,t+1} = y_{t+1} - x_t'\beta$, and $e_{1,t+1} = y_{t+1} -
+\yh_{1,t+1}$. The value
+\[
+w = \frac{\E e_{0,t+1} (e_{0,t+1} - e_{1,t+1})}{\E e_{0,t+1}^2}
+\]
+minimizes the \mse\ of the combination forecast, so the combination
+model will have smaller \mse\ than the benchmark model unless
+$e_{0,t+1}$ and $e_{0,t+1} - e_{1,t+1}$ are uncorrelated, implying that
+the alternative uses information not in the benchmark.  As the
+discussion at the beginning of this section shows, the test in
+Theorem~\ref{res:1} is equivalent to a test of zero correlation
+between $e_{0,t+1}$ and $e_{0,t+1} - e_{1,t+1}$.
 
-\begin{rem}
-  These results are presented for one-period-ahead forecasting for
-  simplicity.  They can be extended to forecasting at a longer horizon
-  by appropriately modifying the variance-covariance matrix to account
-  for the correlation structure of the forecast errors. (i.e. for
-  $\tau$-step-ahead forecasts the errors will be an \ma($\tau-1$) process).
-\end{rem}
+The final Theorem puts together Theorem~\ref{res:1} and
+Lemma~\ref{lem:2} to produce our test statistics.  It is an immediate
+consequence of the previous two results and its proof is omitted.
 
-\begin{rem}
-  The statistic we present tests the null hypothesis that the forecast
-  errors from the population version of the benchmark model are a
-  martingale difference sequence.  This hypothesis may not be
-  appropriate, depending on the loss function or utility function of
-  interest.  If one wants to test the less restrictive null hypothesis that
-  $y_{t} - \yh_{0t}$ is uncorrelated with $\yh_{1t}$ but not
-  necessarily an \mds, one can replace $\Sh_{21}$, $\Sh_{22}$
-  and $\Sh_{23}$ with their \hac\ counterparts.
-  Our statistic can also be modified to test implications of
-  optimal forecasts under other loss functions
-  \citep[see][]{PaT:07,PaT:07b}; the statistic should be expressed as
-  a forecast encompassing test using the models' generalized forecast
-  errors.%
-\footnote{See \citet{HLN:98} and \citet[Section~4]{ClW:07}.} %
-\end{rem}
+\begin{thm}\label{thm:3}\input{mixedwindow_thm3}\end{thm}
+
+The test statistic proposed in Theorem~\ref{thm:3} can be easily
+extended in several ways. For longer-horizon forecasts (two or more
+periods ahead), $\sigmah_1$ will remain consistent but $\sigmah_2$
+will not --- the forecast errors for a correctly specified
+$h$-step-ahead forecast have an MA($h-1$) dependence structure --- but
+using a generalized $\sigmah_2$ that reflects this covariance
+structure restores consistency. To test optimality under loss
+functions other than squared-error, one can replace the forecast error
+with the generalized forecast error \citep[see, for
+example][]{PaT:07,PaT:07b} and replace the \ols\ estimator of $\beta$ with the
+corresponding $M$-estimator. And the benchmark model can be replaced
+in general with a nonlinear model that satisfies the assumptions of
+\citet{Wes:96} or \citet{Mcc:00} by making the appropriate changes to
+$f_t$ and $g_t$. (See \citealp{Wes:96} and \citealp{Mcc:00}
+for details.) The general approach of using a recursive window to
+estimate the benchmark and a fixed-length rolling window to estimate
+the alternative applies quite broadly.
 
 \section{Monte Carlo Results}\label{sec:2}
 This section presents Monte Carlo experiments demonstrating that
@@ -653,11 +631,11 @@ hypothesis tests, so it is likely that some will reject by chance. A
 full treatment of this issue is beyond the scope of this paper,
 however, it is straightforward to use Theorem~\ref{res:1} and
 Lemma~\ref{lem:2} to derive an appropriate critical value as
-in~\citet{Whi:00}. Since $\sqrt{P} \fb \to^d N(0, \Sigma)$ under
+in~\citet{Whi:00}. Since $\sqrt{P} \fb \to^d N(0, \sigma^2)$ under
 the \mds\ null hypothesis, the continuous mapping theorem implies that
 $\max_i \sqrt{P} \fb_i/\sh_i \to^d \max_i W_i$, where $Z_i
-\sim N(0, D^{-1/2} \Sigma D^{-1/2})$ and $D = \diag(\sigma_1, \dots,
-\sigma_j)$. We can simulate from the $N(0, \hat D^{-1/2} \Sh
+\sim N(0, D^{-1/2} \sigma^2 D^{-1/2})$ and $D = \diag(\sigma_1, \dots,
+\sigma_j)$. We can simulate from the $N(0, \hat D^{-1/2} \sh
 \hat D^{-1/2})$ distribution to generate a critical value for the
 \emph{largest} individual test statistic under the null ---
 \empiricalcriticalvalue, based on \empiricaldraws\ simulations. Using
@@ -670,17 +648,17 @@ this critical value, none of the predictors are siginificant at
   model, so this issue is not a concern here. Moreover, I need to
   explain why it's not a concern for these statistics in general.} %
 
-\section{Conclusion}\label{sec:4}
+\section{Discussion}\label{sec:4}
 This paper presents an \oos\ test statistic similar to \poscw\ that is
 asymptotically normal when comparing nested or non-nested models.
 Normality is achieved by estimating the alternative model using a
-fixed-length rolling window---as do Clark and West---but estimating
+fixed-length rolling window --- as do Clark and West --- but estimating
 the benchmark model with a recursive window.  Simulations indicate
 that the new statistic behaves similarly to Clark and West's original
 test when the \dgp\ is stable but can have much higher power when the
 \dgp\ has structural breaks.
 
-\bibliography{texextra/AllRefs}
+\bibliography{texextra/references}
 \end{document}
 
 % LocalWords:  ClW JEL ISI Google GiW Mcc ClM CoS CCS StW IMA GiR WeM fh X'X hh
