@@ -216,8 +216,8 @@ results in section~\ref{sec:1b}.
 
 Suppose for now that a researcher is interested in
 predicting the target variable $y_{t+1}$ with a vector of regressors
-$x_t$; also let $v_t$ be another random process that is believed to
-potentially contain information about $y_{t+1}$ and suppose that
+$x_t$, that $v_t$ is another random process that is believed to
+potentially contain information about $y_{t+1}$, and that
 $(y_t, x_t, v_t)$ is stationary and weakly dependent.
 In addition,
 let $\btrue = (\E x_t x_t')^{-1} \E x_t y_{t+1}$ be the pseudotrue
@@ -234,7 +234,7 @@ and we can see immediately that
   \label{eq:4}
   \oclt{t} \ep_{t+1} (v_t - x_t'\btrue)
 \end{equation}
-obeys an \mds\ \clt and is asymptotically normal as $P \to \infty$,%
+obeys an \mds\ \clt\ and is asymptotically normal as $P \to \infty$,%
 \footnote{This claim assumes that the asymptotic variance of the
   sample average is uniformly positive, a requirement that we will
   address in Section~\ref{sec:1b}.} %
@@ -255,7 +255,7 @@ Straightforward algebra \citep{ClW:07} shows that
 
 \citet{ClW:06,ClW:07} base their \oos\ statistics on the RHS of
 Equation~\eqref{eq:5}, but use a second forecast of $y_{t+1}$ as
-$v_t$. (Call it $\yh_{1,t+1}$.) They use a rolling window of length
+$v_t$. (Call it $\yh_{t+1}$.) They use a rolling window of length
 $R$ to estimate $\yh_{t+1}$%
 \footnote{Making $\yh_{t+1}$ a function of $y_t, x_{t-1}, z_{t-1}
 \dots, y_{t-R+1}, x_{t-R}$ and $z_{t-R}$, where $z_t$ is another weakly
@@ -323,11 +323,11 @@ and the period-$t$ forecast is given by
 \end{equation}
 
 We deviate slightly from the previous section's introduction by
-allowing for multiple alternative models, as in \cite{HuW:10}. This
-allowance is crucial if we want the statistic to be empirically
+allowing for multiple alternative models, as in \cite{Whi:00} and \cite{HuW:10}. This
+modification is crucial if we want the statistic to be empirically
 useful, since almost every empirical analysis considers several
 alternative models at once.  Each of these alternative models is
-denoted $\yh_{j,t+1}$, for $j = 1,\dots,J$, and is estiatmed with a
+denoted $\yh_{j,t+1}$, for $j = 1,\dots,J$, and is estimated with a
 rolling window of length $R$.
 
 These conditions are summarized in the first assumption.
@@ -348,7 +348,7 @@ conditions are standard. These assumptions are slightly weaker than
 similar assumptions in \citet{Wes:96} and \citet{Mcc:00}, but only
 because we make use of more recent developments in limit theory, in
 particular the \clt\ for Near-Epoch Dependent (\ned) processes proven by
-\cite{Jon:97}.
+\cite{Jon:97} and the \fclt\ of \cite{JoD:00b}.
 
 \begin{asmp}\label{a3}%
   The series $y_t$, $x_t$, and $z_t$ are $L_2$-\ned\ of size
@@ -361,7 +361,7 @@ particular the \clt\ for Near-Epoch Dependent (\ned) processes proven by
 The requirement that the alternative forecasts satisfy a moment
 condition, rather than the underlying predictors $z_t$, is somewhat
 unappealing but necessary. The functions $\psi_j$ that generate these
-forecasts is essentially unrestricted, so even well-behaved predictors
+forecasts are otherwise unrestricted, so even well-behaved predictors
 could produce arbitrarily badly-behaved forecasts. For example, if
 \begin{equation*}
   z_t \sim \iid~\bernoulli(1/2),
@@ -387,19 +387,18 @@ Also define
   &\text{and}&
   &\fb &= \tfrac1P \sum_{t=R+1}^{T} \fh_t
 \end{align*}
-with $P = T - R$, and let $\Sigma$ be the asymptotic variance of
-$\fb$, $\Sigma = \lim_{T \to \infty} \var(\sqrt{P} \fb)$.
+with $P = T - R$.
 Also define $\btrue$ to be the pseudotrue value of
 $\beta$ that minimizes the MSE of the benchmark model,
 \begin{equation*}
   \btrue = \plim \Big( \sum_{t=1}^T x_t x_t' \Big)^{-1} \sum_{t=1}^T x_t y_{t+1},
 \end{equation*}
 and define $f_t = f_t(\btrue)$ and $\fb^* = \fb(\btrue)$.
-The next assumption ensures that $\Sigma$ is positive definite.
-\begin{asmp}\label{a4}%
-  The asymptotic variance of $\fb$, $\Sigma$, is positive definite.
-\end{asmp}
 
+Our last assumption is on the asymptotic variance of $\fb^*$.
+\begin{asmp}\label{a4}%
+  The asymptotic variance of $\fb^*$ is positive definite.
+\end{asmp}
 This assumption is much less restrictive than in \cite{Wes:96}.  As in
 \cite{GiW:06} and \citet{ClW:06,ClW:07}, the assumption only serves to
 rule out pathological cases---for example, letting both the benchmark
@@ -413,29 +412,67 @@ on the models.
 
 Asymptotic normality of the \oos\ average follows directly from the
 previous three assumptions without any other conditions. The proof is
-presented in the Appendix and follows \citet{Wes:96} directly.
+presented in the Appendix and follows \citet{Wes:96} closely.
 
 \begin{thm}\label{res:1}\input{mixedwindow_thm1}\end{thm}
-In Theorem~\ref{res:1}, define the variables
-$\gh_t = \Fh \Bh x_t(y_{t+1} - x_t'\bh_t)$,
-$g_t = F B x_t (y_{t+1} - x_t'\btrue)$,
-$\gb = \oavg{t} \gh_t$, and $\gb^* = \oavg{t} g_t$.
+(define $F$ and $B$)
 
-Null hypothesis: $y_{t+1} - x_t'\btrue$ is an \mds\ with respect to
-\begin{equation*}
-  \Fs = \sigma((x_t, y_t, z_t), (x_{t-1}, y_{t-1}, z_{t-1}), \dots).
-\end{equation*}
+Note that Theorem~\ref{res:1} does not require any of the models to be
+correctly specified. Asymptotic normality follows from the weak
+dependence of the underlying series and from the design of the test
+statistic. Typically these statistics are used to test the null
+hypothesis that the benchmark model is correctly specified, which
+implies that $\fh_t - \E f_t^*$ is an \mds\ as discussed in
+Section~\ref{sec:1a}. This is especially appealing in our framework,
+since the benchmark can be theoretically motivated so the \mds\ null
+can be a test of forecaster rationality.
+But that null hypothesis only affects the
+estimator of $\Sigma$ (see Lemma~\ref{lem:2}); Theorem~\ref{res:1}
+continues to hold under alternatives that satisfy Assumptions
+\ref{a1} -- \ref{a4}.
 
-Clearly, the main use of this theorem is to test the null hypothesis
-$\E f_t = 0$.
+Moreover, Theorem~\ref{res:1} can be used with a \hac\ estimator of
+$\Sigma$ when a researcher wants to test the weaker hypothesis that
+$\E \fb^* = 0$ but the benchmark may be misspecified. This approach
+could be interpreted as an encompassing test as in \citet{HLN:98}, and
+would test whether the alternative models contain additional
+information not present in the benchmark model. In either case (\mds\
+or non-\mds), this test is designed to have power against the
+``encompassing'' alternative. The specific research question should
+then determine whether the test should also reject if there are other
+violations of rationality.
 
-The following remarks are relevant to Theorem~\ref{res:1}:
+\newcommand{\K}[1]{K((#1)/w)}
+For the next results, define the variables $\gh_t = \Fh \Bh
+x_t(y_{t+1} - x_t'\bh_t)$, $\gb = \oavg{t} \gh_t$, and
+\begin{align*}
+  \Fh &= \Big\{\tfrac{2}{P}\sum_{s=R}^{T-1} x_s (x_s'\beta - \yh_{1,s+1}) \Big\}' &
+  &\text{and}&
+  \Bh &= \Big(\tfrac1P \sum_{s=R+1}^{T-1} x_s x_s' \Big)^{-1}
+\end{align*}
+Then define the \hac\ covariance estimator $\Sigmah_1$ and the \mds\
+covariance estimator $\Sigmah_2$ as
+\begin{align*}
+  \Sigmah_1 &= \Sh_{21} + \Sh_{22} + \Sh_{22}' + 2 \, \Sh_{23}, &
+  \Sh_{11} &= \oavg{s,t} (\fh_t - \fb) (\fh_t - \fb)' \K{t-s}, \\
+  \Sh_{12} &= \oavg{s,t} (\fh_t - \fb)(\gh_t - \gb)' \K{t-s}, &
+  \Sh_{13} &= \oavg{s,t} (\gh_t - \gb)(\gh_t - \gb)'  \K{t-s}
+  \intertext{and}
+  \Sigmah_2 &= \Sh_{21} + \Sh_{22} + \Sh_{22}' + 2 \, \Sh_{23}, &
+  \Sh_{21} &= \oavg{t} (\fh_t - \fb) (\fh_t - \fb)', \\
+  \Sh_{22} &= \oavg{t} (\fh_t - \fb)(\gh_t - \gb)', &
+  \Sh_{23} &= \oavg{t} (\gh_t - \gb)(\gh_t - \gb)',
+\end{align*}
+where $K$ is a kernel that satisfies standard assumptions.
 
-\begin{rem}
-  Forecasters are usually interested in the one-sided alternative that
-  $\E f_t > 0$; i.e. that the alternative model is expected
-  to forecast better than the benchmark.
-\end{rem}
+\begin{asmp}\label{a5}
+  Fill in assumptions on $\K$.
+\end{asmp}
+
+\begin{lem}\label{lem:2}\input{mixedwindow_lem2}\end{lem}
+
+
+Put a last result here about one-sided testing.
 
 \begin{rem}
   These results are presented for one-period-ahead forecasting for
@@ -444,33 +481,6 @@ The following remarks are relevant to Theorem~\ref{res:1}:
   for the correlation structure of the forecast errors. (i.e. for
   $\tau$-step-ahead forecasts the errors will be an \ma($\tau-1$) process).
 \end{rem}
-
-Define $\X' = [x_1,\dots,x_T]$
-
-\begin{align*}
-  \Fh &= \Big\{\tfrac{2}{P}\sum_{s=R}^T x_s (x_s'\beta - \yh_{1,s+1}) \Big\}' &
-  \Bh &= \big(\tfrac1T \X'\X \big)^{-1}
-\end{align*}
-
-\newcommand{\K}[1]{K(\tfrac{#1}{w})}
-
-Define the general covariance estimator:
-\begin{align*}
-  \Sigmah_1 &= \Sh_{21} + \Sh_{22} + \Sh_{22}' + 2 \, \Sh_{23}, &
-  \Sh_{11} &= \oavg{s,t} (\fh_t - \fb) (\fh_t - \fb)' \K{t-s}, \\
-  \Sh_{12} &= \oavg{s,t} (\fh_t - \fb)(\gh_t - \gb)' \K{t-s}, &
-  \Sh_{13} &= \oavg{s,t} (\gh_t - \gb)(\gh_t - \gb)'  \K{t-s}.
-\end{align*}
-
-Define the \mds\ covariance estimator:
-\begin{align*}
-  \Sigmah_2 &= \Sh_{21} + \Sh_{22} + \Sh_{22}' + 2 \, \Sh_{23}, &
-  \Sh_{21} &= \oavg{t} (\fh_t - \fb) (\fh_t - \fb)', \\
-  \Sh_{22} &= \oavg{t} (\fh_t - \fb)(\gh_t - \gb)', &
-  \Sh_{23} &= \oavg{t} (\gh_t - \gb)(\gh_t - \gb)'.
-\end{align*}
-
-\begin{lem}\label{lem:2}\input{mixedwindow_lem2}\end{lem}
 
 \begin{rem}
   The statistic we present tests the null hypothesis that the forecast
