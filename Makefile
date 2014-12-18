@@ -1,5 +1,5 @@
 .PHONY: all clean burn libs dirs
-all: mixedwindow.pdf poster.pdf
+all: mixedwindow.pdf appendix.pdf
 
 .DELETE_ON_ERROR:
 
@@ -42,9 +42,11 @@ mc1 mc2:
 	  | $(sqlite) data/mcdata.db
 	touch $@
 
+results = mixedwindow_thm1.tex mixedwindow_lem2.tex
 # 3/14/2013: removing the dependency on the second monte carlo since I don't
 # think it's important for the main points of the paper.
-mixedwindow.pdf poster.pdf: %.pdf: %.tex tex/mc1.tex tex/mcDef.tex tex/ap.tex # tex/mc2.tex
+mixedwindow.pdf: tex/mc1.tex tex/mcDef.tex tex/ap.tex # tex/mc2.tex
+mixedwindow.pdf appendix.pdf: %.pdf: %.tex $(results)
 	$(latexmk) $(LATEXMKFLAGS) $<
 
 clean: 
