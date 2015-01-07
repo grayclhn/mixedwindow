@@ -29,7 +29,7 @@ for the paper, ``An asymptotically normal out-of-sample test of equal
 predictive accuracy for nested models.''  Define the following
 additional terms:
 \begin{equation*}
-  F_t(\beta) = (4 x_t'\beta - 2 y_{t+1} - 2 \yh_{t+1}) x_t',
+  F_t(\beta) = 2 (x_t'\beta - \yh_{t+1}) x_t',
 \end{equation*}
 $F_t = F_t(\btrue)$, $\Fh_t = F_t(\bh_t)$, $F = \E F_t$, $B = (\E x_t
 x_t')^{-1}$, $B_t = (\sum_{s=1}^{t-1} x_s x_s' / (t-1))^{-1}$, and
@@ -116,7 +116,7 @@ $\sigmah_1$ is essentially the same, but uses \citepos{JoD:00} Theorem
   \begin{align*}
     \oavg{t} (x_t'(\bh_t - \btrue))^2 &(2 x_t'\btrue - y_{t+1} - \yh_{t+1})^2 \\
     &= \oavgc{t} (x_t'(\bh_t - \btrue))^2 (2 x_t'\btrue - y_{t+1} - \yh_{t+1})^2 \\
-    &\quad+ \oavgb{t} \big(x_t'(\bh_t - \btrue)\big) (2 x_t'\btrue - y_{t+1} - \yh_{t+1}) \\
+    &\quad+ \oavgb{t} \big(x_t'(\bh_t - \btrue)\big)^2 (2 x_t'\btrue - y_{t+1} - \yh_{t+1})^2 \\
     &\leq \omaxc{t} \|\bh_t - \btrue\|^2 \oavgc{t} \|x_t (2 x_t'\btrue - y_{t+1} - \yh_{t+1})\|^2 \\
     &\quad+ \omaxb{t} \|\bh_t - \btrue\|^2 \oavgb{t} \|x_t (2 x_t'\btrue - y_{t+1} - \yh_{t+1})\|^2 \\
     &= O_p(R'/P) + o_p(1)
@@ -155,7 +155,7 @@ $\sigmah_1$ is essentially the same, but uses \citepos{JoD:00} Theorem
   Also,
   \begin{align*}
     \Big\lvert \ocltc{t} & (4 x_t'\btrue - 2 y_{t+1} - 2 \yh_{i,t+1}) x_t'(\bh_t - \btrue) \Big\rvert \\
-    &\leq \ocltc{t} \big\lVert (4 x_t'\btrue - 2 y_{t+1} - 2 \yh_{i,t+1}) x_t' \big\rVert
+    &\leq \ocltc{t} \big\lVert (4 x_t'\btrue - 2 y_{t+1} - 2 \yh_{i,t+1}) x_t \big\rVert
     \omaxc{t} \lVert  \bh_t - \btrue \rVert \\
     & = O_p(R'/\sqrt{P})
   \end{align*}
@@ -194,38 +194,38 @@ proofs that $x_t$ is a scalar.
   \begin{enumerate}
   \item Our assumptions ensure that $x_t \ep_{t+1}$ is $L_2$-mixingale
     of size $-1/2$; let $c_t$ and $\zeta_k$ denote its mixingale
-    constants and coefficients. Note that $t^{a-1} x_t \ep_{t+1}$ is
-    also an $L_2$-mixingale array with constants $t^{a-1} c_s$ and
+    constants and coefficients. Note that, for any $b$, $t^{b} x_t \ep_{t+1}$ is
+    also an $L_2$-mixingale array with constants $t^{b} c_s$ and
     coefficients $\zeta_k$, since
     \begin{align*}
-      \| \E_{t-k} x_t \ep_{t+1} t^{a-1} \| &= t^{a-1} \| \E_{t-k} x_t \ep_{t+1} \| \\
-      &\leq (t^{a-1} c_t) \zeta_k
+      \| \E_{t-k} t^{b} x_t \ep_{t+1} \| &= t^{b} \| \E_{t-k} x_t \ep_{t+1} \| \\
+      &\leq (t^{b} c_t) \zeta_k
     \end{align*}
     and
     \begin{align*}
-      \| x_t \ep_{t+1} t^{a-1} - \E_{t+k} x_t \ep_{t+1} t^{a-1} \| &= t^{a-1} \|  x_t \ep_{t+1} - \E_{t+k} x_t \ep_{t+1} \| \\
-      &\leq (t^{a-1} c_t) \zeta_{k+1}.
+      \| t^{b} x_t \ep_{t+1} - t^{b} \E_{t+k} x_t \ep_{t+1} \| &= t^{b} \|  x_t \ep_{t+1} - \E_{t+k} x_t \ep_{t+1} \| \\
+      &\leq (t^{b} c_t) \zeta_{k+1}.
     \end{align*}
 
     Let $\delta$ be a positive number less than $1/2 - \alpha$, so
     \begin{align*}
       \E\Bigg[\omaxb{t} \Big|(t-1)^{a-1} & \sum_{s=1}^{t-1} x_s \ep_{s+1} \Big|^2\Bigg] \\
-      &\leq (R'-1)^{-\delta} \E\Bigg[\omaxb{t} \Big| \sum_{s=1}^{t-1} x_s \ep_{s+1} (s-1)^{a-1+\delta/2} \Big|^2\Bigg] \\
-      &\leq (R'-1)^{-\delta} O(1) \sum_{s=1}^{T-1} (s-1)^{2a - 2 + \delta}
+      &\leq (R'-1)^{-2\delta} \E\Bigg[\omaxb{t} \Big| \sum_{s=1}^{t-1} x_s \ep_{s+1} (s-1)^{a-1+\delta} \Big|^2\Bigg] \\
+      &\leq (R'-1)^{-2\delta} O(1) \sum_{s=1}^{T-1} (s-1)^{2(a - 1 + \delta)}
     \end{align*}
     where the second inequality follows from \citepos{Mcl:75} maximal
     inequality (also available as \citealp{Dav:94}, Theorem 16.9 and
     Corollary 16.10). The summation converges to a constant as $T \to
-    \infty$ and $(R'-1)^{-\delta} \to 0$, completing the proof.
+    \infty$ and $(R'-1)^{-2\delta} \to 0$, completing the proof.
 
-  \item As in Part 1, $x_t \ep_{t+1} t^{a-1}$ is an $L_2$-mixingale of size
-    $-1/2$ and we can use \citepos{Mcl:75} maximal inequality to get
+  \item Now $t^{a-1} x_t \ep_{t+1}$ is an $L_2$-mixingale of size
+    $-1/2$ and we can again use \citepos{Mcl:75} maximal inequality to get
     \begin{align*}
       \E \Big\lvert \omaxc{t} \Big((t-1)^{a - 1} \sum_{s=1}^{t-1} x_s \ep_{s+1} \Big)^2 \Big\rvert
       &\leq \E \Big\lvert \omax{t} \Big(\sum_{s=1}^{t-1} s^{a-1} x_s \ep_{s+1} \Big)^2 \Big\rvert \\
       &= O(1) \sum_{s=1}^{R'-1} s^{2a - 2}
     \end{align*}
-    which again converges to a finite limit.
+    which converges to a finite limit.
   \item The same argument used in Part 1 implies that $\omaxb{t} |
     B_t^{-1} - B^{-1}| \to^p 0$. Since matrix inversion is continuous,
     the result follows.

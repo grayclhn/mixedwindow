@@ -74,7 +74,7 @@ This paper proposes an out-of-sample (\oos) test statistic that is
 asymptotically normal and correctly centered even when the models
 studied are nested. The test is based on one proposed by
 \citet{ClW:06,ClW:07}, but we propose estimating the benchmark model
-with a recursive window and the alternative models with a fixed length
+with a recursive window and the alternative model with a fixed length
 rolling window. The rolling window ensures asymptotic normality, as in
 \citet{GiW:06}, and the recursive window allows the null hypothesis to
 be a statement about the specification of the Data Generating Process,
@@ -118,16 +118,17 @@ that are often violated in empirical work (\citealt{DiM:95};
 \citealt{Mcc:00}).%
 \footnote{\citet{DiM:95} assume that the models are
   not estimated. \citet{Wes:96}, \citet{WeM:98}, and \citet{Mcc:00}
-  implicitly assume that the models do not converge to the same limit,
+  assume that the models do not converge to the same limit,
   which rules out nesting.} %
 However, Clark and West's statistic is only ``approximately normal''
 in an informal sense.  Clark and West present Monte Carlo evidence of
 the statistic's distribution, but only prove that the statistic is
-asymptotically normal with mean zero when the benchmark model is a
-random walk \citep{ClW:06}. Estimating the parameters of the smaller
+asymptotically normal with mean zero when the benchmark model is
+not estimated \citep{ClW:06}. Estimating the parameters of the smaller
 model invalidates their proof.
 
-This paper proposes a modified version of their statistic and shows that it is
+This paper proposes a modified version of Clark and West's (2006,
+2007) statistic and shows that it is
 asymptotically normal even when the smaller model is estimated.  To
 achieve normality, the pseudotrue benchmark model must be estimated
 consistently, but the larger alternative model must continue to be
@@ -154,9 +155,9 @@ pairwise \oos\ test to \poscw\ original statistics.
 Section~\ref{sec:3} demonstrates the use of our statistic by
 reanalyzing \citepos{GoW:08} study of excess return predictability and
 demonstrates how our results can be used in settings with many
-alternative models. Section~\ref{sec:4} concludes. Proofs of our
-results have been put in a separate Appendix along with some
-supporting results \citep{Cal:15}.
+alternative models. Section~\ref{sec:4} concludes. Our results follow
+from arguments similar to \citepos{Wes:96} and have been put in a
+separate appendix along with some supporting lemmas \citep{Cal:15}.
 
 \section{Theoretical results supporting the asympotically normal \oos\ statistic}
 \label{sec:1}
@@ -212,7 +213,7 @@ the degeneracy that can arise when comparing nested models out-of-sample (see
 of the \oos\ average remains positive and the average obeys a \clt.%
 \footnote{This approach was first introduced by \citet{GiW:06}.} %
 
-\citet{ClW:06,ClW:07} develop a test of whether $\ep_{t+1}$ is
+\citet{ClW:06,ClW:07} propose using this as a test of whether $\ep_{t+1}$ is
 an \mds. In their 2006 paper, Clark and West assume that the
 coefficients on the benchmark model, $\btrue$, are zero under the null, making
 $\ep_{t+1}$ observed directly. This restriction is relaxed in
@@ -223,7 +224,7 @@ test statistic. Unfortunately, $\eph_{t+1}$ is not an
 \mds\ even when $\ep_{t+1}$ is, so the statistic is no longer
 asymptotically mean-zero normal, even though this approximation
 performs well in simulations. Since the window length is finite,
-the estimators of $\btrue$ do not converge to $\btrue$.
+the estimator of $\btrue$ does not converge to $\btrue$.
 
 This paper proposes using the same basic \oos\ statistic,
 but using a recursive window to estimate $\btrue$ and produce
@@ -359,7 +360,7 @@ Last, we define some notation that will be used to derive the
 theoretical properties of our \oos\ statistics.  The information set
 that contains the information available for forecasting $y_{t+1}$ is
 \begin{equation*}
-  \Fs_t = \sigma(y_t, x_{t+1}, z_{t+1}, y_{t-1}, x_t, z_t,\dots).
+  \Fs_t = \sigma(y_t, x_t, z_t, y_{t-1}, x_{t-1}, z_{t-1},\dots).
 \end{equation*}
 The adjusted \oos\ loss for the alternative model using a hypothetical
 value of $\beta$ to produce the benchmark forecast is denoted by
@@ -368,13 +369,13 @@ value of $\beta$ to produce the benchmark forecast is denoted by
 \end{equation*}
 Define the additional terms $\fh_t = f_t(\bh_t)$, $f_t = f_t(\btrue)$,
 \begin{gather*}
-  \gh_t = \Bigg[\oavg{s} (4 x_s'\bh_s - 2 y_{s+1} - 2 \yh_{s+1}) x_s'\Bigg]\,
+  \gh_t = 2 \Bigg[\oavg{s} (x_s'\bh_s - \yh_{s+1}) x_s'\Bigg]\,
           \Bigg[\tfrac{1}{T-1} \sum_{s=1}^{T-1} x_s x_s'\Bigg]^{-1} x_t \eph_{t+1}
   \intertext{and}
-  g_t = \E\Big[(4 x_t'\beta - 2 y_{t+1} - 2 \yh_{t+1}) x_t'\Big] \, (\E x_t x_t')^{-1} x_t \ep_{t+1}
+  g_t = 2 \E\Big[(x_t'\btrue - \yh_{t+1}) x_t'\Big] \, (\E x_t x_t')^{-1} x_t \ep_{t+1}
 \end{gather*}
 and the \oos\ averages $\fb = \osum{t} \fh_t/P$, $\fb^* = \osum{t} f_t/P$,
-$\fb = \osum{t} \gh_t/P$, and $\gb^* = \osum{t} g_t/P$.
+$\gb = \osum{t} \gh_t/P$, and $\gb^* = \osum{t} g_t/P$.
 
 \subsection{Theoretical results}
 \label{sec:1b}
@@ -410,7 +411,7 @@ design of the test statistic. These statistics have typically been
 used to test the null hypothesis that the benchmark model is correctly
 specified --- that $\{\ep_t, \Fs_t\}$ is an \mds\ --- which
 implies that $f_t(\btrue) - \E f_t(\btrue)$ is an \mds\ as discussed
-at the beginning of the Section. This is especially appealing in our
+at the beginning of this section. This is especially appealing in our
 framework, since the benchmark can be theoretically motivated so the
 \mds\ null would be a test of rationality. For example, \citet{GoW:08}
 test whether excess returns for the S\&P 500 are predictable
@@ -440,12 +441,9 @@ $e_{0,t+1} = y_{t+1} - x_t'\beta$, and $e_{1,t+1} = y_{t+1} -
 w = \frac{\E e_{0,t+1} (e_{0,t+1} - e_{1,t+1})}{\E e_{0,t+1}^2}
 \]
 minimizes the \mse\ of the combination forecast, so the combination
-model will have smaller \mse\ than the benchmark model unless
-$e_{0,t+1}$ and $e_{0,t+1} - e_{1,t+1}$ are uncorrelated, implying that
-the alternative uses information not in the benchmark.  As the
-discussion at the beginning of this section shows, the test in
-Theorem~\ref{res:1} is equivalent to a test of zero correlation
-between $e_{0,t+1}$ and $e_{0,t+1} - e_{1,t+1}$.
+model will have smaller \mse\ than the benchmark model, implying that
+the alternative uses information not in the benchmark, unless
+$e_{0,t+1}$ and $e_{0,t+1} - e_{1,t+1}$ are uncorrelated.
 
 The final Theorem puts together Theorem~\ref{res:1} and
 Lemma~\ref{lem:2} to produce our test statistics.  It is an immediate
@@ -573,7 +571,7 @@ performance of models using a lag of the variable of interest, and
 show that these models do not significantly outperform the excess
 return's recursive sample mean.
 
-Here, I conduct the same analysis, but using this paper's \mds\ test.
+Here, we conduct the same analysis, but using this paper's \mds\ test.
 The benchmark model is the excess return's sample mean (as in the
 original) and the alternative models are of the form
 \begin{equation*}
@@ -623,10 +621,10 @@ information in these three variables is useful for predicting returns.
 However, we know that this is an extremely optimistic assessment of
 the models' performance. We are conducting \nmod\ simultaneous
 hypothesis tests, so it is likely that some will reject by chance.
-There are several approaches that could accommodate this multiplicity, and a full
+There are several approaches that could accommodate this multiplicity and a full
 treatment is beyond the scope of this paper, however, it is
-straightforward to use Theorem~\ref{res:1} and Lemma~\ref{lem:2} to
-derive an appropriate critical value similar to~\citet{Whi:00}.
+straightforward to use our results to
+derive a valid critical value similar to~\citet{Whi:00}.
 
 Let $\fb_i$ be the \oos\ statistic associated with the $i$th alternative
 forecast, $\yh_{i,t+1}$. The arguments underlying our results apply essentially unchanged to
@@ -650,14 +648,14 @@ where $\fh_t$ and $\gh_t$ are vectors with $i$th elements
 \begin{gather*}
   \fh_{it} = (y_{t+1} - x_t'\bh_t)^2 - (y_{t+1} - \yh_{i,t+1})^2 + (x_t'\bh_t - \yh_{i,t+1})^2
   \intertext{and}
-  \gh_{it} = \Bigg[\oavg{s} (4 x_s'\bh_s - 2 y_{s+1} - 2 \yh_{i,s+1}) x_s'\Bigg]\,
+  \gh_{it} = 2\, \Bigg[\oavg{s} (x_s'\bh_s - \yh_{i,s+1}) x_s'\Bigg]\,
             \Bigg[\tfrac{1}{T-1} \sum_{s=1}^{T-1} x_s x_s'\Bigg]^{-1} x_t \eph_{t+1}
 \end{gather*}
 respectively. Call this estimate $\hat V$ and let $\hat c$ denote the
-$1 - \alpha$ quantile of the distribution of $\max_i \hat W_i$, with
+$0.90$ quantile of the distribution of $\max_i \hat W_i$, with
 $\hat W \sim N(0, \hat V)$.  Then
 \begin{equation*}
-  \limsup_{T \to \infty} \Pr\Big[\max_{i=1,\dots,\nmod} \sqrt{P} \fb_i / \sigmah_{1i} > \hat c\Big] \leq \alpha,
+  \limsup_{T \to \infty} \Pr\Big[\max_{i=1,\dots,\nmod} \sqrt{P} \fb_i / \sigmah_{2i} > \hat c\Big] \leq 0.10,
 \end{equation*}
 under the null hypothesis that excess returns are an \mds\ with
 respect to all of the information contained in the variables listed in
@@ -672,8 +670,8 @@ value.%
 We calculate $\hat c$ by generating \empiricaldraws\ draws from
 $N(0,\hat V)$, giving a value of \empiricalcriticalvalue, and the
 \emph{corrected} column of Table~\ref{tab:em1} denotes the models that
-remain significant at 10\% using this critical value. Using this
-critical value, none of the predictors are significant at 10\%, which
+remain significant at 10\% with this critical value. Using this
+critical value, none of the predictors are significant, which
 gives additional support to \citepos{GoW:08} conclusion that excess
 returns are unpredictable and also demonstrates the importance of
 correcting for multiplicity in these studies.
