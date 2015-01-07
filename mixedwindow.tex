@@ -17,15 +17,15 @@
 \providecommand\empiricaldraws{[missing]}
 \providecommand\naivecriticalvalue{[missing]}
 
-\author{Gray Calhoun\thanks{ Economics Department; Iowa State
+\author{Gray Calhoun\thanks{Economics Department; Iowa State
     University; Ames, IA 50011.  Telephone: (515) 294-6271.  Email:
     \guillemotleft \protect\url{gcalhoun@iastate.edu}\guillemotright,
     web: \guillemotleft www.econ.iastate.edu/\textasciitilde
     gcalhoun\guillemotright.
     I'd like to
     thank Helle Bunzel, Todd Clark, Graham Elliott, Yu-Chin Hsu,
-    Michael McCracken, Pablo Pincheira, Allan Timmermann, Ken West, Stephane
-    Meng-Feng Yen and participants at the 2011 Midwest Econometrics
+    Michael McCracken, Pablo Pincheira, Elie Tamer, Allan Timmermann, Ken West, Stephane
+    Meng-Feng Yen, several referees, and participants at the 2011 Midwest Econometrics
     Group meeting and the 2013 \nber-\nsf\ Time Series conference
     for helpful comments and discussions.  I'd also like to thank Amit
     Goyal for providing computer code and data for his 2008
@@ -46,9 +46,7 @@
   using a recursive window to estimate the benchmark model but a
   fixed-length rolling window to estimate the alternative. The
   resulting statistic is asymptotically normal even when the models
-  are nested.  Moreover, the alternative model can be estimated using
-  common model selection methods, such as the \aic\ or \bic, without
-  affecting the asymptotic distribution of this test statistic.  The
+  are nested. The
   paper also presents Monte Carlo evidence that this statistic has
   much higher power than existing out-of-sample statistics in a common
   use-case for these tests: when the \dgp\ is subject to instability.
@@ -60,7 +58,7 @@
 \strut
 
 \noindent Keywords: Forecast Evaluation, Martingale Difference
-Sequence, Model Selection
+Sequence, Model Selection, Forecast Encompassing
 
 \strut
 
@@ -87,7 +85,7 @@ literature.%
   many others but not \citet{GiW:06}. See \citet{Wes:06} and
   \citet{ClM:13} for a thorough overview of this literature.} %
 This combination of estimation windows also gives our test statistic
-high power against alternative \dgp s that cause the benchmark model
+high power against alternatives that cause the benchmark model
 to be unstable --- structural breaks, time-varying coefficients, or
 forms of nonlinearity, for example --- which is a common motivation
 for using these tests.
@@ -108,7 +106,7 @@ one assumes that this is due in part to the statistic's convenience,
 the statistic is approximately normal after adjusting for the
 estimation error of the larger model.  Normality comes from a
 fixed-length rolling window, as in \citet{GiW:06}, and the adjustment
-centers the statistic appropriately.  This statistic is especially
+centers the statistic to have mean-zero under the null.  This statistic is especially
 convenient because other \oos\ tests for similar hypotheses
 (\citealt{CCS:01}; \citealt{ClM:01,ClM:05}; \citealt{CoS:02,CoS:04};
 and \citealt{Mcc:07}; among others) have a nonstandard limit
@@ -122,7 +120,6 @@ that are often violated in empirical work (\citealt{DiM:95};
   not estimated. \citet{Wes:96}, \citet{WeM:98}, and \citet{Mcc:00}
   implicitly assume that the models do not converge to the same limit,
   which rules out nesting.} %
-
 However, Clark and West's statistic is only ``approximately normal''
 in an informal sense.  Clark and West present Monte Carlo evidence of
 the statistic's distribution, but only prove that the statistic is
@@ -130,7 +127,7 @@ asymptotically normal with mean zero when the benchmark model is a
 random walk \citep{ClW:06}. Estimating the parameters of the smaller
 model invalidates their proof.
 
-This paper shows that a modified version of their statistic is
+This paper proposes a modified version of their statistic and shows that it is
 asymptotically normal even when the smaller model is estimated.  To
 achieve normality, the pseudotrue benchmark model must be estimated
 consistently, but the larger alternative model must continue to be
@@ -146,27 +143,28 @@ can use model selection techniques like the \aic\ or \bic\ to
 determine the number of lags to include, the particular exogenous
 variables to include, etc. Moreover, although we focus on nested
 models in this paper, the approach can be used with non-nested models
-as well. As \citet{ClM:11b} have recently pointed out,
+as well. As \citet{ClM:11b} have recently argued,
 \citepos{Wes:96} results do not hold when the true \dgp\ is nested by
 the benchmark and alternative models, which is allowable under the
-null. (\citealp{ClM:11b}, call this scenario ``overlapping models.'')
+null hypothesis of interest. (\citealp{ClM:11b}, call this scenario ``overlapping models.'')
 
-The next section presents the intuition and theory for our new statistic.
-Section~\ref{sec:2} presents
-simulations that compare our pairwise \oos\ test to \poscw\ original
-statistics and Section~\ref{sec:3} demonstrates the use of our statistic
-by reanalyzing \citepos{GoW:08} study of excess return
-predictability and Section~\ref{sec:4} concludes. Proofs of
-our results have been put in a separate Appendix along with
-some supporting results \citep{Cal:14b}.
+The next section presents the intuition and theory for our new
+statistic.  Section~\ref{sec:2} presents simulations that compare our
+pairwise \oos\ test to \poscw\ original statistics.
+Section~\ref{sec:3} demonstrates the use of our statistic by
+reanalyzing \citepos{GoW:08} study of excess return predictability and
+demonstrates how our results can be used in settings with many
+alternative models. Section~\ref{sec:4} concludes. Proofs of our
+results have been put in a separate Appendix along with some
+supporting results \citep{Cal:15}.
 
 \section{Theoretical results supporting the asympotically normal \oos\ statistic}
 \label{sec:1}
 
 This section presents the new \oos\ statistic; first we give an
-informal motivation of the statistc, then present the paper's key
-assumptions in section~\ref{sec:1a} and present our formal theoretical
-results in section~\ref{sec:1b}.
+informal motivation of the statistic, then present the paper's key
+assumptions in Section~\ref{sec:1a} and present our formal theoretical
+results in Section~\ref{sec:1b}.
 
 Suppose for now that a researcher is interested in
 predicting the target variable $y_{t+1}$ with a vector of regressors
@@ -178,11 +176,7 @@ let $\btrue = (\E x_t x_t')^{-1} \E x_t y_{t+1}$ be the pseudotrue
 coefficient for the regression of $y_{t+1}$ on $x_t$ and define
 $\ep_{t+1} = y_{t+1} - x_t'\btrue$.  If this linear model is
 correctly specified, then $\ep_{t+1}$ is an \mds\ with respect
-to the information set
-\begin{equation*}
-\mathcal{F}_t \equiv \sigma((x_t, v_t, y_t), (x_{t-1}, v_{t-1},
-y_{t-1}),\dots),
-\end{equation*}
+to $\sigma((x_t, v_t, y_t), (x_{t-1}, v_{t-1}, y_{t-1}),\dots)$
 and we can see immediately that
 \begin{equation}
   \label{eq:4}
@@ -194,6 +188,7 @@ obeys an \mds\ \clt\ and is asymptotically normal as $P \to \infty$,%
   address in Section~\ref{sec:1b}.} %
 with $R$ an arbitrary starting value
 and $P = T - R$.
+
 Straightforward algebra \citep{ClW:07} shows that
 \begin{equation}
   \label{eq:5}
@@ -202,17 +197,16 @@ Straightforward algebra \citep{ClW:07} shows that
   x_t\btrue)^2 - (y_{t+1} - v_t)^2 + (x_t'\btrue - v_t)^2 \Big]
 \end{equation}
 almost surely.
-
-\citet{ClW:06,ClW:07} base their \oos\ statistics on the RHS of
+\citet{ClW:06,ClW:07} base their \oos\ statistics on the \allcaps{RHS} of
 Equation~\eqref{eq:5}, but use a second forecast of $y_{t+1}$ as
 $v_t$. (Call it $\yh_{t+1}$.) They use a rolling window of length
-$R$ to estimate $\yh_{t+1}$%
+$R$ to estimate $\yh_{t+1}$,%
 \footnote{Making $\yh_{t+1}$ a function of $y_t, x_{t-1}, z_{t-1}
 \dots, y_{t-R+1}, x_{t-R}$ and $z_{t-R}$, where $z_t$ is another weakly
 dependent random process} %
 and $R$ is kept finite as $T \to \infty$ so that
 $\yh_{t+1}$ inherits the weak dependence properties of the
-variables used to estimate it. Using a finite window length $R$ prevents
+variables used to estimate it. Using a finite window prevents
 the degeneracy that can arise when comparing nested models out-of-sample (see
 \citealp{ClM:01}, and \citealp{Mcc:07}), so the conditional variance
 of the \oos\ average remains positive and the average obeys a \clt.%
@@ -222,8 +216,8 @@ of the \oos\ average remains positive and the average obeys a \clt.%
 an \mds. In their 2006 paper, Clark and West assume that the
 coefficients on the benchmark model, $\btrue$, are zero under the null, making
 $\ep_{t+1}$ observed directly. This restriction is relaxed in
-their 2007 paper, where $\btrue$ is unknown and estimated with length-$R$
-rolling window. Now the estimated linear model's prediction errors,
+their 2007 paper, where $\btrue$ is unknown and estimated with the same length-$R$
+rolling window as the $\yh_{t+1}$. Now the estimated linear model's prediction errors,
 $\eph_{t+1}$, replace $\ep_{t+1}$ in the \oos\
 test statistic. Unfortunately, $\eph_{t+1}$ is not an
 \mds\ even when $\ep_{t+1}$ is, so the statistic is no longer
@@ -255,9 +249,9 @@ the \oos\ statistic has uniformly positive variance.  Just as in
 \citet{ClW:06,ClW:07}, these conditions are ensured if $v_t$ is
 another forecast of $y_{t+1}$ based on a fixed-length rolling window.
 
-This overview has presented an especially simple version of the result
+So far, we have presented an especially simple version of the result
 to make the intuition as clear as possible. The next section lists the
-specific assumptions for the more general case.
+specific assumptions for the more general case and defines additional notation.
 
 \subsection{Theoretical assumptions}
 \label{sec:1a}
@@ -492,7 +486,7 @@ tests' size, one to study power under stationarity, and one to study
 power if there is a single break in the relationship between the
 target and predictors.  The \dgp\ is:
 \begin{align*}
-  y_t &= \gamma_{1t} + \gamma_{2t} z_{t-1} + e_t &
+  y_{t+1} &= \gamma_{1t} + \gamma_{2t} x_{t} + \ep_{t+1} &
   \gamma_t &=
   \begin{cases}
     (0.5, 0)    & \text{size simulations} \\
@@ -500,16 +494,16 @@ target and predictors.  The \dgp\ is:
     (-0.5, 0)    & t \leq \tfrac{T}{2} \quad \text{power (break)} \\
     (1, 0.35) & t > \tfrac{T}{2} \quad \text{power (break)}
   \end{cases}\\\nonumber
-  z_t &= 0.15 + 0.95 z_{t-1} + v_t &
-  (e_t, v_t)' &\sim iid\ N\Bigg(\begin{pmatrix} 0 \\ 0
+  x_{t+1} &= 0.15 + 0.95 x_{t} + u_{t+1} &
+  (\ep_t, u_t)' &\sim iid\ N\Bigg(\begin{pmatrix} 0 \\ 0
   \end{pmatrix}
    , \begin{pmatrix} 18 & -
     0.5 \\ -0.5 & 0.025 \end{pmatrix}\Bigg)
   \\ R &= 120, 240 & P &= 120, 240, 360, 720.
 \end{align*}
-Both models are estimated by \ols. The benchmark model regresses $y_t$
-on a constant, and the alternative regresses $y_t$ on a constant and
-$z_{t-1}$.  \citet{ClW:07} argue that this \dgp\ mimics an asset
+Both models are estimated by \ols. The benchmark model regresses $y_{t+1}$
+on a constant, and the alternative regresses $y_{t+1}$ on a constant and
+$x_t$.  \citet{ClW:07} argue that this \dgp\ mimics an asset
 pricing application similar to \citepos{GoW:08} which we study in
 Section~\ref{sec:3}.
 
@@ -551,7 +545,7 @@ nominal size of 10\%.  For the stable alternative, our new statistic
 typically has slightly higher power than Clark and West's rolling
 window and lower power than their recursive window.  For example, when
 $R$ is 120 and $P$ is 720, the rolling-window test rejects at 66.8\%,
-our statistic at 73.0\%, and the recrusive window statistic at 82.3\%,
+our statistic at 73.0\%, and the recursive window statistic at 82.3\%,
 again for a nominal size of 10\%.  In general, the statistics perform
 similarly under stability.
 
@@ -583,14 +577,14 @@ Here, I conduct the same analysis, but using this paper's \mds\ test.
 The benchmark model is the excess return's sample mean (as in the
 original) and the alternative models are of the form
 \begin{equation*}
-  \mathit{excess~return}_{t} = \alpha_{0} + \alpha_{1}\
-  \mathit{predictor}_{t-1} + \ep_{t},
+  \mathit{excess~return}_{t+1} = \beta_{0} + \beta_{1}\
+  \mathit{predictor}_{t} + \ep_{t+1},
 \end{equation*}
-where $\alpha_{0}$ and
-$\alpha_{1}$ are estimated by \ols\ using a \windowlength-year window.
-The predictors used are listed in the ``predictor'' column of
-Table~\ref{tab:em1} \citep[see][for a detailed description of the
-variables]{GoW:08}.  We also consider \citepos{CaT:08} proposed
+where $\beta_{0}$ and
+$\beta_{1}$ are estimated by \ols\ using a \windowlength-year window.
+The predictors used are listed in the \emph{predictor} column of
+Table~\ref{tab:em1}. \citep[See][for a detailed description of the
+variables.]{GoW:08}  We also consider \citepos{CaT:08} proposed
 correction to the models, that the forecasts be bounded below by zero
 since negative forecasts are incredible, as well as two simple
 combination forecasts, the mean and the median (over both the original
@@ -606,57 +600,95 @@ beginning in 1927 and ending in 2009, and the rolling window uses
 \caption{Results from \oos\ comparison of equity premium prediction
   models; the benchmark is the recursive sample mean of the equity
   premium and each alternative model is a constant and single lag of
-  the variable listed in the ``predictor'' column.  The dataset begins
-  in 1927 and ends in 2009 and is annual data. The ``value'' column
-  lists the value of this paper's \oos\ statistic, the ``naive''
+  the variable listed in the \emph{predictor} column.  The dataset begins
+  in 1927 and ends in 2009 and is annual data. The \emph{value} column
+  lists the value of this paper's \oos\ statistic, the \emph{naive}
   column indicates whether the statistic is significant at standard
-  critical values, and the ``corrected'' column indicates significance
+  critical values, and the \emph{corrected} column indicates significance
   using critical values that
   account for the number of models.  See Section~\ref{sec:3} for details.}
 \label{tab:em1}
 \end{table}
 
 Table~\ref{tab:em1} presents the results for each model.  The column
-``value'' gives the value of the test statistic for each model, while
-the ``naive'' indicates whether the statistic is greater than the
-standard \bootsize\% critical value (\naivecriticalvalue) Three
-predictors are
-significant at the naive critical values for both the original and
+\emph{value} gives the value of the test statistic for each model,
+while \emph{naive} indicates whether the statistic is greater than the
+standard 10\% critical value (\naivecriticalvalue). Three predictors
+are significant at the naive critical values for both the original and
 bounded forecasts: the dividend yield, long term interest rate, and
-book to market ratio.
+book to market ratio, and the median forecast is significant as well.
+This could suggest that excess returns are not an \mds\ and that
+information in these three variables is useful for predicting returns.
 
 However, we know that this is an extremely optimistic assessment of
 the models' performance. We are conducting \nmod\ simultaneous
-hypothesis tests, so it is likely that some will reject by chance. A
-full treatment of this issue is beyond the scope of this paper,
-however, it is straightforward to use Theorem~\ref{res:1} and
-Lemma~\ref{lem:2} to derive an appropriate critical value as
-in~\citet{Whi:00}. Since $\sqrt{P} \fb \to^d N(0, \sigma^2)$ under
-the \mds\ null hypothesis, the continuous mapping theorem implies that
-$\max_i \sqrt{P} \fb_i/\sh_i \to^d \max_i W_i$, where $Z_i
-\sim N(0, D^{-1/2} \sigma^2 D^{-1/2})$ and $D = \diag(\sigma_1, \dots,
-\sigma_j)$. We can simulate from the $N(0, \hat D^{-1/2} \sh
-\hat D^{-1/2})$ distribution to generate a critical value for the
-\emph{largest} individual test statistic under the null ---
-\empiricalcriticalvalue, based on \empiricaldraws\ simulations. Using
-this critical value, none of the predictors are siginificant at
-\bootsize\%.%
+hypothesis tests, so it is likely that some will reject by chance.
+There are several approaches that could accommodate this multiplicity, and a full
+treatment is beyond the scope of this paper, however, it is
+straightforward to use Theorem~\ref{res:1} and Lemma~\ref{lem:2} to
+derive an appropriate critical value similar to~\citet{Whi:00}.
+
+Let $\fb_i$ be the \oos\ statistic associated with the $i$th alternative
+forecast, $\yh_{i,t+1}$. The arguments underlying our results apply essentially unchanged to
+multivariate $f_t$, so the continuous mapping theorem implies that
+\begin{equation*}
+  \max_{i=1,\dots,\nmod} \sqrt{P} \fb_i/\sigmah_{2i} \to^d \max_{i=1,\dots,\nmod} W_i,
+\end{equation*}
+where $W \sim N(0, V)$ and $V$ is the $\nmod
+\times \nmod$ correlation matrix with elements
+\begin{equation*}
+  V_{ij} = \lim \frac{\cov(\fb_i, \fb_j)}{\var(\fb_i)^{1/2} \var(\fb_j)^{1/2}}.
+\end{equation*}
+
+To estimate $V$, we use the correlation matrix associated with the
+multivariate analogue of $\sigmah_2$,
+\[
+\oavg{t}\Big[(\fh_t - \fb)(\fh_t - \fb)' + (\fh_t - \fb)(\gh_t - \gb)'
++ (\gh_t - \gb)(\fh_t - \fb)' + 2 (\gh_t - \gb)(\gh_t - \gb)' \Big]
+\]
+where $\fh_t$ and $\gh_t$ are vectors with $i$th elements
+\begin{gather*}
+  \fh_{it} = (y_{t+1} - x_t'\bh_t)^2 - (y_{t+1} - \yh_{i,t+1})^2 + (x_t'\bh_t - \yh_{i,t+1})^2
+  \intertext{and}
+  \gh_{it} = \Bigg[\oavg{s} (4 x_s'\bh_s - 2 y_{s+1} - 2 \yh_{i,s+1}) x_s'\Bigg]\,
+            \Bigg[\tfrac{1}{T-1} \sum_{s=1}^{T-1} x_s x_s'\Bigg]^{-1} x_t \eph_{t+1}
+\end{gather*}
+respectively. Call this estimate $\hat V$ and let $\hat c$ denote the
+$1 - \alpha$ quantile of the distribution of $\max_i \hat W_i$, with
+$\hat W \sim N(0, \hat V)$.  Then
+\begin{equation*}
+  \limsup_{T \to \infty} \Pr\Big[\max_{i=1,\dots,\nmod} \sqrt{P} \fb_i / \sigmah_{1i} > \hat c\Big] \leq \alpha,
+\end{equation*}
+under the null hypothesis that excess returns are an \mds\ with
+respect to all of the information contained in the variables listed in
+Table~\ref{tab:em1}, making $\hat c$ an asymptotically valid critical
+value.%
 \footnote{\citet{Han:05} makes the point that multiple one-sided
   comparisons can have poor power if irrelevant predictors are
   included in these tests and proposes a threshold for discarding very
   poor forecasts. His threshold is well below our worst performing
-  model, so this issue is not a concern here. Moreover, I need to
-  explain why it's not a concern for these statistics in general.} %
+  model, so this issue is not a concern here.} %
+
+We calculate $\hat c$ by generating \empiricaldraws\ draws from
+$N(0,\hat V)$, giving a value of \empiricalcriticalvalue, and the
+\emph{corrected} column of Table~\ref{tab:em1} denotes the models that
+remain significant at 10\% using this critical value. Using this
+critical value, none of the predictors are significant at 10\%, which
+gives additional support to \citepos{GoW:08} conclusion that excess
+returns are unpredictable and also demonstrates the importance of
+correcting for multiplicity in these studies.
 
 \section{Discussion}\label{sec:4}
 This paper presents an \oos\ test statistic similar to \poscw\ that is
 asymptotically normal when comparing nested or non-nested models.
 Normality is achieved by estimating the alternative model using a
-fixed-length rolling window --- as do Clark and West --- but estimating
-the benchmark model with a recursive window.  Simulations indicate
-that the new statistic behaves similarly to Clark and West's original
-test when the \dgp\ is stable but can have much higher power when the
-\dgp\ has structural breaks.
+fixed-length rolling window --- as do Clark and West --- but
+estimating the benchmark model with a recursive window.  Simulations
+indicate that the new statistic behaves similarly to Clark and West's
+original test when the \dgp\ is stable but can have much higher power
+when the \dgp\ has structural breaks. We also have presented an
+empirical study of the equity premium that demonstrates how to use
+these results with several alternative models.
 
 \bibliography{texextra/references}
 \end{document}
