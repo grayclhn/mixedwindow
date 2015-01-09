@@ -215,12 +215,12 @@ the degeneracy that can arise when comparing nested models out-of-sample (see
 of the \oos\ average remains positive and the average obeys a \clt.%
 \footnote{This approach was first introduced by \citet{GiW:06}.} %
 
-\citet{ClW:06,ClW:07} propose using this as a test of whether $\ep_{t+1}$ is
-an \mds. In their 2006 paper, Clark and West assume that the
+\citet{ClW:06,ClW:07} propose using this as a test of whether the benchmark is correctly specified.
+In their 2006 paper, Clark and West assume that the
 coefficients on the benchmark model, $\btrue$, are zero under the null, making
 $\ep_{t+1}$ observed directly. This restriction is relaxed in
 their 2007 paper, where $\btrue$ is unknown and estimated with the same length-$R$
-rolling window as the $\yh_{t+1}$. Now the estimated linear model's prediction errors,
+rolling window as $\yh_{t+1}$. Now the estimated linear model's prediction errors,
 $\eph_{t+1}$, replace $\ep_{t+1}$ in the \oos\
 test statistic. Unfortunately, $\eph_{t+1}$ is not an
 \mds\ even when $\ep_{t+1}$ is, so the statistic is no longer
@@ -262,12 +262,12 @@ specific assumptions for the more general case and defines additional notation.
 Consider the following environment. There is a single linear
 benchmark model of the target variable, $y_{t+1}$:
 \begin{equation}\label{eq:1}
-  y_{t+1} = x_t'\beta + \ep_{t+1}, \quad t = 1,\dots,T+1
+  y_{t+1} = x_t'\beta + \ep_{t+1}, \quad t = 1,\dots,T-1
 \end{equation}
-where $\beta$ is an unknown $k$-vector of parameters and $x_t$ is an
+where $\beta$ is an unknown vector of parameters and $x_t$ is an
 observed vector of predictors. The parameter $\beta$ is estimated with
 \ols\ using a recursive window as described by Equation~\eqref{eq:8}.
-The alternative model is denoted $\yh_{1,t+1}$ and is estimated with a
+The alternative model is denoted $\yh_{t+1}$ and is estimated with a
 rolling window of length $R$.
 
 The main conditions on the \dgp\ are summarized in the first
@@ -323,6 +323,8 @@ since the forecast equals positive infinity with probability $1/2$. It
 is easy to construct less obvious examples of problematic functions as
 well. Assumption~\ref{a3} implicitly rules out these functional forms
 by imposing moment conditions on the alternative models' forecasts.
+The stationarity condition holds whenever the vector
+$(\ep_{t+1}, x_t, z_t)$ is strictly stationary.
 
 Our next assumption ensures that the asymptotic variance of the \oos\
 average is positive.
@@ -342,12 +344,12 @@ model consist of only the first regressor of the benchmark. In \citet{Wes:96}, t
 assumption is a restriction on the \dgp\ as well as the forecasting
 models, but in this paper it is a restriction only on the models.
 
-The last assumption restricts the class of \hac\ variance estimators
+The final assumption restricts the class of \hac\ variance estimators
 we will consider. We use the same class of estimators studied by
 \citet{JoD:00} (their class $\mathcal{K}$); see their paper for
 further discussion.
 \begin{asmp}\label{a5}%
-  $K$ is a function from $\Re$ to $[-1,1]$ such that $K(0) = 1$, $K(x)
+  The kernel $K$ is a function from $\Re$ to $[-1,1]$ such that $K(0) = 1$, $K(x)
   = K(-x)$ for all $x$, $K(\cdot)$ is continuous at zero and all but a
   finite number of points, and
   \begin{gather*}
@@ -364,8 +366,8 @@ that contains the information available for forecasting $y_{t+1}$ is
 \begin{equation*}
   \Fs_t = \sigma(y_t, x_t, z_t, y_{t-1}, x_{t-1}, z_{t-1},\dots).
 \end{equation*}
-The adjusted \oos\ loss for the alternative model using a hypothetical
-value of $\beta$ to produce the benchmark forecast is denoted by
+The adjusted \oos\ loss difference using a hypothetical value of
+$\beta$ to produce the benchmark forecast is denoted by
 \begin{equation*}
   f_t(\beta) = (y_{t+1} - x_t'\beta)^2 - (y_{t+1} - \yh_{t+1})^2 + (x_t'\beta - \yh_{t+1})^2.
 \end{equation*}
@@ -412,44 +414,46 @@ follows from the weak dependence of the underlying series and from the
 design of the test statistic. These statistics have typically been
 used to test the null hypothesis that the benchmark model is correctly
 specified --- that $\{\ep_t, \Fs_t\}$ is an \mds\ --- which
-implies that $f_t(\btrue) - \E f_t(\btrue)$ is an \mds\ as discussed
+implies that $f_t$ is an \mds\ as discussed
 at the beginning of this section. This is especially appealing in our
 framework, since the benchmark can be theoretically motivated so the
 \mds\ null would be a test of rationality. For example, \citet{GoW:08}
 test whether excess returns for the S\&P 500 are predictable
-out-of-sample, and any deviation from an \mds\ is potentially
+out-of-sample, and any deviation of $\ep_{t+1}$ from an \mds\ is potentially
 interesting. But the \mds\ null hypothesis only affects the estimator
 of $\sigma^2$ (see Lemma~\ref{lem:2}); Theorem~\ref{res:1} continues
 to hold under any \dgp\ that satisfies Assumptions~\ref{a1}~--~\ref{a4}.
 
 In other settings, a researcher may want to test the weaker hypothesis
-that $\E \fb^* = 0$ but the benchmark may be misspecified. This
-approach can then be interpreted as an encompassing test as in
+that $\E \fb^* = 0$ but the benchmark may be misspecified. Our
+statistic can then be interpreted as an encompassing test as in
 \citet{HLN:98}, and would test whether the alternative model contains
-additional information that would make the benchmark model more
-accurate. This interpretation comes from the combination forecasting
+additional information that could make the benchmark model more
+accurate. This interpretation can be motivated by the combination forecasting
 model
 \begin{equation*}
-  \yh_{\mathit{avg},t+1} = (1 - w) x_t'\beta + w \yh_{t+1}
+  \yh_{\mathit{avg},t+1} = (1 - w) x_t'\btrue + w \yh_{t+1}
 \end{equation*}
 which can be rewritten in terms of forecast errors as
 \[
-e_{\mathit{avg},t+1} = e_{0,t+1} + w (e_{0,t+1} - e_{1,t+1})
+y_{t+1} - \yh_{\mathit{avg},t+1} = \ep_{t+1} + w (x_t'\btrue - \yh_{t+1}).
 \]
-with $e_{\mathit{avg},t+1} = y_{t+1} - \yh_{\mathit{avg},t+1}$,
-$e_{0,t+1} = y_{t+1} - x_t'\beta$, and $e_{1,t+1} = y_{t+1} -
-\yh_{1,t+1}$. The value
+The value
 \[
-w = \frac{\E e_{0,t+1} (e_{0,t+1} - e_{1,t+1})}{\E e_{0,t+1}^2}
+w = \frac{\E \ep_{t+1} (\yh_{t+1} - x_t'\btrue)}{\E (x_t'\btrue - \yh_{t+1})^2}
 \]
 minimizes the \mse\ of the combination forecast, so the combination
 model will have smaller \mse\ than the benchmark model, implying that
 the alternative uses information not in the benchmark, unless
-$e_{0,t+1}$ and $e_{0,t+1} - e_{1,t+1}$ are uncorrelated.
+$\ep_{t+1}$ and $\yh_{t+1} - x_t'\btrue$ are uncorrelated. This
+correlation is exactly the quantity measured by our statistic.
 
-The final Theorem puts together Theorem~\ref{res:1} and
-Lemma~\ref{lem:2} to produce our test statistics.  It is an immediate
-consequence of the previous two results and its proof is omitted.
+The final result puts together Theorem~\ref{res:1} and
+Lemma~\ref{lem:2} to produce our test statistics. The null hypothesis
+under misspecification is written in terms of $\E \ep_{t+1} \yh_{t+1}$
+and not $\E \ep_{t+1} (\yh_{t+1} - x_t'\btrue)$, since $\E \ep_{t+1}
+x_t = 0$ by construction. This result is an immediate consequence of
+the previous two results and its proof is omitted.
 
 \begin{thm}\label{thm:3}\input{mixedwindow_thm3}\end{thm}
 

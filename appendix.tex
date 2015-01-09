@@ -33,7 +33,7 @@ additional terms:
 \end{equation*}
 $F_t = F_t(\btrue)$, $\Fh_t = F_t(\bh_t)$, $F = \E F_t$, $B = (\E x_t
 x_t')^{-1}$, $B_t = (\sum_{s=1}^{t-1} x_s x_s' / (t-1))^{-1}$, and
-$H_t = \sum_{s=1}^{t-1} x_t \ep_{t+1} / (t-1)$.
+$H_t = \sum_{s=1}^{t-1} x_s \ep_{s+1} / (t-1)$.
 And let $\lVert \cdot \rVert$ denote the $L_2$ norm in $\Re^k$.
 
 \begin{rthm}{\ref{res:1}}\input{mixedwindow_thm1}\end{rthm}
@@ -43,7 +43,7 @@ And let $\lVert \cdot \rVert$ denote the $L_2$ norm in $\Re^k$.
   \begin{equation}\label{eq:6}
     \sqrt{P} (\fb - \E \fb^*)
     = \ocltb{t} ((f_t - \E f_t) + (\fh_t - f_t))
-      + \tfrac{1}{\sqrt{P}} \sum_{t=R+1}^{R'} (\fh_t - \E f_t).
+      + \tfrac{1}{\sqrt{P}} \osumc{t} (\fh_t - \E f_t).
   \end{equation}
   Lemma~\ref{res:a1} ensures that the second summation is $o_p(1)$, so
   we can use a Taylor expansion to rewrite~\eqref{eq:6} as
@@ -185,10 +185,11 @@ $\sigmah_1$ is essentially the same, but uses \citepos{JoD:00} Theorem
   element-by-element absolute values.
 \end{alem}
 
+\noindent%
 This Lemma establishes that \citepos{Wes:96} basic results hold under
 our weaker moment and dependence conditions and provides several
-extensions. To streamline the presentation, we'll assume in these
-proofs that $x_t$ is a scalar.
+extensions for the first few observations. To streamline the
+presentation, we'll assume in these proofs that $x_t$ is a scalar.
 \begin{proof}
   We will prove each part in order.
   \begin{enumerate}
