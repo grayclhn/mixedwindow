@@ -36,6 +36,11 @@ x_t')^{-1}$, $B_t = (\sum_{s=1}^{t-1} x_s x_s' / (t-1))^{-1}$, and
 $H_t = \sum_{s=1}^{t-1} x_s \ep_{s+1} / (t-1)$.
 And let $\lVert \cdot \rVert$ denote the $L_2$ norm in $\Re^k$.
 
+Note that Assumptions~\ref{a1} and~\ref{a3} imply that $f_t$, $g_t$,
+and $F_t$ are all strong mixing of size $-r/(r-2)$ or uniform mixing
+of size $-r/(2r-2)$ and are stationary with bounded $r$th moments.
+
+
 \begin{rthm}{\ref{res:1}}\input{mixedwindow_thm1}\end{rthm}
 \begin{proof}
   Let $R'$ be a new sequence such that $R' \to \infty$ as $T \to \infty$
@@ -65,13 +70,14 @@ And let $\lVert \cdot \rVert$ denote the $L_2$ norm in $\Re^k$.
   \begin{equation*}
     \ocltb{t} (f_t - \E f_t) + F B \ocltb{t} H_t \to N(0, \sigma^2).
   \end{equation*}
-  follows the same argument as in \citet{Wes:96}.
+  follows the same argument as in \citet{Wes:96} and \citet{Mcc:00}.
 \end{proof}
 
 \begin{rlem}{\ref{lem:2}}\input{mixedwindow_lem2}\end{rlem}
+\noindent%
 We will only prove $\sigmah_2 \to^p \sigma$. The result for
-$\sigmah_1$ is essentially the same, but uses \citepos{JoD:00} Theorem
-2.1 instead of an application of the \lln.
+$\sigmah_1$ is essentially the same and uses \citepos{JoD:00} Theorem
+2.1 for the \hac\ equivalent of Equations~\eqref{eq:1}--\eqref{eq:7}.
 \begin{proof}
   First, we can rewrite the components of the variance estimator as
   \begin{align*}
@@ -92,9 +98,11 @@ $\sigmah_1$ is essentially the same, but uses \citepos{JoD:00} Theorem
     \intertext{and}
     \oavg{t} (\gh_t - g_t)^2 \to^p 0. \label{eq:5}
   \end{gather}
-  The first two results are implied by the proof of Theorem~\ref{res:1}
-  and~\eqref{eq:1}, \eqref{eq:3}, and~\eqref{eq:7} follow from the \lln, so it
-  suffices to prove~\eqref{eq:4} and~\eqref{eq:5}.
+  The first two results are implied by the proof of
+  Theorem~\ref{res:1} and~\eqref{eq:1}, \eqref{eq:3}, and~\eqref{eq:7}
+  follow from the \lln, since each summand is an $L_1$-mixingale of
+  size $-1$ \citep[see, for example][Theorem 17.5]{Dav:94}, so it suffices to
+  prove~\eqref{eq:4} and~\eqref{eq:5}.
 
   As in the proof of Theorem~\ref{res:1}, let $R'$ be a new sequence such that $R' \to \infty$ as
   $T \to \infty$ and $R' = o(\sqrt{P})$.  Straightforward algebra reveals
@@ -186,15 +194,14 @@ $\sigmah_1$ is essentially the same, but uses \citepos{JoD:00} Theorem
 \end{alem}
 
 \noindent%
-This Lemma establishes that \citepos{Wes:96} basic results hold under
-our weaker moment and dependence conditions and provides several
-extensions for the first few observations. To streamline the
+To streamline the
 presentation, we'll assume in these proofs that $x_t$ is a scalar.
 \begin{proof}
   We will prove each part in order.
   \begin{enumerate}
   \item Our assumptions ensure that $x_t \ep_{t+1}$ is $L_2$-mixingale
-    of size $-1/2$; let $c_t$ and $\zeta_k$ denote its mixingale
+    of size $-1/2$ \citep[see Theorem 17.5 of][]{Dav:94}; let $c_t$
+    and $\zeta_k$ denote its mixingale
     constants and coefficients. Note that, for any $b$, $t^{b} x_t \ep_{t+1}$ is
     also an $L_2$-mixingale array with constants $t^{b} c_s$ and
     coefficients $\zeta_k$, since
@@ -261,9 +268,9 @@ We can write
   \Big\lVert \ocltb{t} (F_t - F) B \Big\rVert \;
   \omaxb{t} \lVert H_t \rVert.
 \end{equation*}
-From Lemma~\ref{res:a2}, $\omaxb{t} \lVert H_t \rVert \to^p 0$. The \clt\ implies
-that $\ocltb{t} (F_t - F) = O_p(1)$,
-establishing~\eqref{eq:11}. The proofs of \eqref{eq:12}
+From Lemma~\ref{res:a2}, $\omaxb{t} \lVert H_t \rVert \to^p
+0$. \citepos{Jon:97} \clt\ implies that $\ocltb{t} (F_t - F) =
+O_p(1)$, establishing~\eqref{eq:11}. The proofs of \eqref{eq:12}
 and~\eqref{eq:13} are similar.
 \end{proof}
 
