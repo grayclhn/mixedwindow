@@ -1,0 +1,32 @@
+An asymptotically normal out-of-sample test based on mixed estimation windows
+#+Date: April 23, 2015
+#+Author: Gray Calhoun \newline Iowa State University
+
+* Introduction
+** Very quick overview of the talk
+   + Out-of-sample tests: assess one or more models by
+     1) producing a series of forecasts
+     2) testing hypotheses about their properties (unbiasedness, MDS, etc.)
+     e.g. Meese and Rogoff (1983)
+
+   {{{s}}}
+
+   + Discuss some of the theory behind oos tests & some shortcomings
+   + Propose a new oos statistic
+     - Avoids some of the problems other oos statistics have
+     - Has high power against some forms of misspecification
+   + Monte Carlo evidence of finite-sample performance
+   + Extensions to evaluating many models (multiple hypothesis testing)
+   + Empirical exercise based on Goyal and Welch (2008)
+** What is an "out-of-sample" test?
+   + 
+* Theory
+* COMMENT slide setup
+#+BEAMER_FRAME_LEVEL: 2
+#+OPTIONS: toc:nil
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [presentation,fleqn,t,serif]
+#+STARTUP: beamer
+#+LaTeX_HEADER: \input{preamble}
+#+LaTeX_HEADER: \input{../tex/header}
+#+MACRO: s \vspace{\baselineskip}
