@@ -3,7 +3,7 @@ An asymptotically normal out-of-sample test based on mixed estimation windows
 #+Author: Gray Calhoun \newline Iowa State University
 
 * Introduction
-** Very quick overview of the talk
+** _Very quick overview of the talk_
    + Out-of-sample tests: assess one or more models by
      1) producing a series of forecasts
      2) testing hypotheses about their properties (unbiasedness, MDS, etc.)
@@ -18,9 +18,541 @@ An asymptotically normal out-of-sample test based on mixed estimation windows
    + Monte Carlo evidence of finite-sample performance
    + Extensions to evaluating many models (multiple hypothesis testing)
    + Empirical exercise based on Goyal and Welch (2008)
-** What is an "out-of-sample" test?
-   + 
-* Theory
+** _Background: What is an "out-of-sample" test?_
+     + Estimate the models initially on the first $R$ observations
+     + Construct a sequence of forecasts for the remaining $P$ observations
+       + $T = R + P - 1$
+     + e.g. for OLS with recursively updated estimates
+       \begin{gather}
+	 \hat y_{t+1} = x_t' \hat \beta_t \\
+	 \hat\beta_t = \Big(\sum_{s=1}^{t-1} x_s x_s'\Big)^{-1} \sum_{s=1}^{t-1} x_s y_{s+1}
+       \end{gather}
+     + Other updating options (using OLS as a simple example)
+       \begin{gather}
+	 \hat\beta_t = \Big(\sum_{s=1}^{R-1} x_s x_s'\Big)^{-1} \sum_{s=1}^{R-1} x_s y_{s+1} \qquad \text{fixed window} \\
+	 \hat\beta_t = \Big(\sum_{s=t-R+1}^{t-1} x_s x_s'\Big)^{-1} \sum_{s=t-R+1}^{t-1} x_s y_{s+1} \qquad \text{rolling window}
+       \end{gather}
+** _Background: What is an "out-of-sample" test?_
+   + Construct a test statistic using the forecasts and forecast errors.
+     \begin{equation}
+       \tfrac{1}{\sqrt{P}} \sum_{t=R}^{T-1} (y_{t+1} - \hat y_{t+1})
+     \end{equation}
+     is an oos t-test of the null that the forecast errors have zero mean
+   + As a matter of notation, suppress the "forecasting" aspect
+     \begin{equation}
+       \bar f \equiv \tfrac{1}{P} \osum{t} \hat f_t \equiv
+       \tfrac{1}{P} \osum{t} f_t(\hat\beta_t)
+     \end{equation}
+** _Background: How does the theory usually work?_
+   Assuming typical moment and weak dependence conditions are met:
+
+   * Diebold and Mariano (1995): if $\hat\beta_t$ is known and not
+     estimated, $\sqrt{P}\, \fb$ is asymptotically normal and you can
+     do a t-test
+   
+   * West (1996): expand each $f_t(\hat\beta_t)$ around pseudo-true
+     $\beta_0$, giving
+     \begin{multline}
+       \sqrt{P} (\bar f - \E f_t(\beta_0)) = \\
+         \tfrac{1}{\sqrt{P}} \sum_{t=R}^{T-1} (f_t(\beta_0) - \E f_t(\beta_0)) +
+         \tfrac{1}{\sqrt{P}} \sum_{t=R}^{T-1} \nabla f_t(\beta_0) (\hat\beta_t - \beta_0) + o_p(1)
+     \end{multline}
+   * As $P \to \infty$ the oos component obeys a CLT
+   * As $R \to \infty$ the second component obeys a CLT
+   * Statistic is asymptotically normal, but with potentially
+     different variance term than you would calculate from naive sd
+     over oos period
+** _Background: What about Clark and McCracken's asymptotics?_
+   + West's argument essentially always holds for a single model, but
+     can fail for multiple models
+   + For West's argument to hold, $f_t(\btrue)$ must have positive variance
+   + Examples where it can fail:
+     + Comparing MSE of two models when one nests the other (Clark and
+       McCracken, 2001; McCracken 2007)
+     + Comparing MSE when both models nest the same submodel (Clark
+       and McCracken, 2014)
+   + Test statistic is not asymptotically normal in general
+     + Overlapping case is potentially more difficult to handle than
+       nested case
+   + Aside: the fixed window statistic is pretty reliably
+     asymptotically normal and is probably underused
+** _Background: What about Giacomini and White's (2006) asymptotics?_
+   + Giacomini and White (2006) propose a way around this degeneracy:
+     use a fixed length rolling window
+     + Inherits weak dependence
+     + Prevents $\hat\beta_t \to^p \beta$
+   + This leads to a test for the null
+     \begin{equation}
+     \E\, f_t(\hat\beta_t) = 0
+     \end{equation}
+     where $\hat\beta_t$ is estimated with a rolling window of length
+     $R$
+     + Expectation integrates over $\hat\beta_t$
+   + Advantages: obeys CLT
+   + Disadvantages: not necessarily a hypothesis that we want to test
+** _Background: What about Clark and West's asymptotics?_
+   Clark and West (2006, 2007) propose an MSE correction
+   + Propose testing the null that the innovations to the benchmark
+     model are MDS by using
+     \begin{equation}
+     \hat f_t = (y_{t+1} - \hat y_{1,t+1})^2 - (y_{t+1} - \hat y_{2,t+1})^2 +
+                (\hat y_{1,t+1} - \hat y_{2,t+1})^2
+     \end{equation}
+     using fixed-length rolling window
+   + When $\hat y_{1,t+1}$ is not estimated, has mean zero under MDS null
+   + Extension to estimated null hypotheses breaks their proof
+** _This paper's approach to asymptotics_
+   + Use a statistic similar to Clark and West's
+     \begin{equation}
+     \hat f_t = (y_{t+1} - \hat y_{1,t+1})^2 - (y_{t+1} - \hat y_{2,t+1})^2 +
+                (\hat y_{1,t+1} - \hat y_{2,t+1})^2
+     \end{equation}
+   + Estimate the benchmark model with a recursive window
+     + Converges to pseudotrue value and is asymptotically normal
+   + Estimate the alternative model with a short rolling window
+     + Prevents degeneracy, so statistic is asymptotically normal
+* Basic assumptions
+** _Assumption 1 (DGP)_
+   + The data are generated by the relationship
+     \begin{equation}
+       y_{t+1} = x_t'\btrue + \ep_{t+1}
+     \end{equation}
+     for $t=1,2,\dots$, for some value $\btrue$,
+     + $\E x_t \ep_{t+1} = 0$
+     + $\E \ep_{t+1}^2 > 0$
+     + $\E x_t x_t'$ positive definite for all $t$.
+   + The process $(\ep_{t+1}, x_t, z_t)$ is stationary and strong
+     mixing of size $-r/(r-2)$ or uniform mixing of size $-r/(2r-2)$,
+     for $r > 2$.
+     + $z_t$ is an additional sequence of random vectors
+** _Assumption 2 (forecasting models)_
+   * The benchmark forecast is $x_t'\bh_t$, where $\bh_t$ is estimated
+     with a recursive window
+     \begin{equation}
+       \bh_t = \Bigg(\sum_{s=1}^{t-1} x_s \, x_s'\Bigg)^{-1} \sum_{s=1}^{t-1} x_s \, y_{s+1}
+       \qquad t = R,\dots,T-1
+     \end{equation}
+   * The alternative forecast satisfies
+     \begin{equation}
+       \yh_{t+1} = \psi(y_t,z_t,\dots,y_{t-R+1}, z_{t-R+1})
+     \end{equation}
+     where $\psi$ is a known measurable function and the window length,
+     $R$, remains finite as $T \to \infty$.
+   * The vector $(\ep_{t+1}, x_t, \yh_{t+1})$ has uniformly bounded $2\, r$ moments
+     * $r$ is first defined in Assumption 1
+** _Assumption 3 (positive definiteness of VCV)_
+   The asymptotic variance-covariance matrix
+   \begin{equation}
+     \var \Bigg(
+       \oclt{t} \begin{pmatrix} x_t \\ \yh_{t+1} \end{pmatrix} \ep_{t+1}
+       \Bigg)
+   \end{equation}
+   is uniformly positive definite (in $T$).
+** _Assumption 4 (kernel for HAC estimator)_
+   The kernel $K$ is a function from $\Re$ to $[-1,1]$ such that
+   * $K(0) = 1$,
+   * $K(x) = K(-x)$ for all $x$,
+   * $K(\cdot)$ is continuous at zero and all but a finite number of
+     points, and
+   \begin{gather*}
+     \int_{-\infty}^{\infty} \lvert K(x) \rvert\, dx < \infty,
+     \intertext{and}
+     \int_{-\infty}^{\infty} \Bigg\lvert
+     \int_{-\infty}^{\infty} K(z) e^{ixz}\,dz \Bigg\rvert\, dx < \infty.
+   \end{gather*}
+* Main result and remarks
+** _Theorem 1 (asymptotic normality)_
+   If Assumptions 1--3 hold then
+   \begin{equation*}
+     \sqrt{P} (\fb - \E \fb^*) \to^d N(0, \sigma^2),
+   \end{equation*}
+   with
+   \begin{align*}
+   \sigma^2 &= s_1 + 2(s_2 + s_3) \\
+    s_1  &= \lim \var(\sqrt{P}\, \fb^*), \\
+    s_2  &= \lim \cov(\sqrt{P}\, \fb^*, \sqrt{P}\, \gb^*), \\
+    s_3  &= \lim \var(\sqrt{P}\, \gb^*) \\
+    \fb^* &= \tfrac{1}{P}\osum{t} f_t(\btrue) \\
+    \gb^* &= \tfrac{1}{P}\osum{t} 2 \E\Big[(x_t'\btrue - \yh_{t+1})\, x_t'\Big] \, (\E x_t x_t')^{-1} x_t \ep_{t+1}
+   \end{align*}
+** _Sketch of a proof_
+   * Proof follows along the lines of West's (1996)
+   * One subtlety: $R$ is finite for the recursive window
+   * Let $R'$ be a new sequence such that $R' \to \infty$ as $T \to
+     \infty$ and $R' = o(\sqrt{P})$
+     \begin{multline}
+       \sqrt{P} (\fb - \E \fb^*) = \\
+         \ocltb{t} ((f_t - \E f_t) + (\fh_t - f_t)) + \tfrac{1}{\sqrt{P}} \osumc{t} (\fh_t - \E f_t).
+     \end{multline}
+   * First summation fits exactly into West's framework
+   * Second summation converges to zero in probability
+** _Lemma 2 (estimating variance)_
+   * If Assumptions 1--4 hold then
+     \begin{equation*}
+       \sigmah_1^2 \to^p \sigma^2.
+     \end{equation*}
+   * If Assumptions 1--3 hold and $\{\varepsilon_{t}, \Fs_t\}$ is an MDS then
+     \begin{equation*}
+       \sigmah_2^2 \to^p \sigma^2.
+     \end{equation*}
+
+     {{{s}}}
+
+     _We'll skip the proof_
+
+     {{{s}}}
+
+   *  Follows from repeated applications of LLN and
+      Cauchy-Schwarz inequalities
+
+** _Theorem 3 (combining previous two results)_
+   * If Assumptions 1--4 hold, then
+     \begin{equation}
+       \sqrt{P}\, \fb / \sigmah_1 \to^d N(0, 1)
+     \end{equation}
+     under the null hypothesis $\E(\varepsilon_{t+1} \yh_{t+1}) = 0$ for all $t = R,\dots,T-1$.
+
+     {{{s}}}
+
+   * If, instead, Assumptions 1--3 hold, then
+     \begin{equation}
+       \sqrt{P}\, \fb / \sigmah_2 \to^d N(0, 1)
+     \end{equation}
+     under the null hypothesis that $\{\varepsilon_t, \Fs_t\}$ is an MDS.
+* Monte Carlo experiment
+** _Monte Carlo DGP_
+   Use DGP related to one used by Clark and West (2007)
+   \begin{align*}
+    y_{t+1} &= \gamma_{1t} + \gamma_{2t} x_{t} + \ep_{t+1} \\
+   x_{t+1} &= 0.15 + 0.95 x_{t} + u_{t+1} \\ \\
+   {\ep_t \choose u_t} &\sim iid\ N\Bigg(\begin{pmatrix} 0 \\ 0 \end{pmatrix},
+   \begin{pmatrix} 18 & - 0.5 \\ -0.5 & 0.025 \end{pmatrix}\Bigg) \\ \\
+   \gamma_t &=
+   \begin{cases}
+    (0.5, 0)    & \text{size simulations} \\
+    (0.5, 0.35) & \text{power (stable)} \\
+    (-0.5, 0)    & t \leq \tfrac{T}{2} \quad \text{power (break)} \\
+    (1, 0.35) & t > \tfrac{T}{2} \quad \text{power (break)}
+   \end{cases}
+  \end{align*}
+** _Monte Carlo design parameters_
+   + $R = 120, 240$
+   + $P = 120, 240, 360, 720$
+   + Statistics are
+     + Mine
+     + Clark and West's (2006) with rolling window
+     + Clark and West's (2006) with recursive window
+   + Nominal size is 10%
+** Results for "size" DGP (nominal size 10%)
+#+BEGIN_LaTeX
+\begin{tabular}{ccccc} \\
+   \toprule R & P & Pr[CW roll.] & Pr[CW rec.] & Pr[new] \\
+   \midrule $120$ & $120$ & $\enskip7.2$ & $\enskip8.0$ & $\enskip\enskip7.5$ \\
+     & $240$ & $\enskip5.6$ & $\enskip5.6$ & $\enskip\enskip6.2$ \\
+     & $360$ & $\enskip7.2$ & $\enskip6.1$ & $\enskip\enskip7.2$ \\
+     & $720$ & $\enskip8.5$ & $\enskip5.4$ & $\enskip\enskip7.2$ \\ \\
+    $240$ & $120$ & $\enskip7.2$ & $\enskip7.2$ & $\enskip\enskip7.7$ \\
+     & $240$ & $\enskip6.3$ & $\enskip6.5$ & $\enskip\enskip7.1$ \\
+     & $360$ & $\enskip6.8$ & $\enskip5.9$ & $\enskip\enskip6.8$ \\
+     & $720$ & $\enskip7.0$ & $\enskip5.9$ & $\enskip\enskip7.3$ \\
+   \bottomrule \end{tabular}
+#+END_LaTeX
+
+   * All tests are slightly undersized
+   * Performance is pretty similar for all three
+   * (If you know of DGPs where the Clark and West approach
+     overrejects, please let me know...)
+** Results for "power" DGP (stable, nominal size 10%)
+#+BEGIN_LaTeX
+   \begin{tabular}{ccccc}
+   \toprule R & P & Pr[CW roll.] & Pr[CW rec.] & Pr[new] \\ \midrule
+   $120$ & $120$ & $26.2$ & $30.0$ & $\enskip29.2$ \\
+     & $240$ & $39.2$ & $47.2$ & $\enskip42.4$ \\
+     & $360$ & $47.3$ & $59.8$ & $\enskip51.1$ \\
+     & $720$ & $66.8$ & $82.3$ & $\enskip73.1$ \\\\
+   $240$ & $120$ & $34.5$ & $36.1$ & $\enskip34.1$ \\
+     & $240$ & $45.9$ & $50.1$ & $\enskip46.9$ \\
+     & $360$ & $56.7$ & $63.8$ & $\enskip56.9$ \\
+     & $720$ & $78.2$ & $87.0$ & $\enskip78.7$ \\
+   \bottomrule \end{tabular}
+#+END_LaTeX
+
+{{{s}}}
+
+   * Clark and West's statistic with rec. window has the highest power
+   * My test and their rolling window test are very close
+   * Adding "noise" to the alternative model decreases power here
+** Results for "power" DGP (unstable, nominal size 10%)
+#+BEGIN_LaTeX
+   \begin{tabular}{ccccc}
+   \toprule R & P & Pr[CW roll.] & Pr[CW rec.] & Pr[new] \\
+   \midrule
+   $120$ & $120$ & $25.9$ & $29.9$ & $\enskip62.2$ \\
+     & $240$ & $30.1$ & $31.0$ & $\enskip87.4$ \\
+     & $360$ & $35.5$ & $32.9$ & $\enskip96.5$ \\
+     & $720$ & $46.1$ & $38.2$ & $\enskip99.8$ \\ \\
+   $240$ & $120$ & $28.1$ & $30.6$ & $\enskip58.2$ \\
+     & $240$ & $37.6$ & $36.1$ & $\enskip87.7$ \\
+     & $360$ & $43.1$ & $39.0$ & $\enskip97.2$ \\
+     & $720$ & $56.9$ & $42.5$ & $100.0$ \\
+   \bottomrule \end{tabular}
+#+END_LaTeX
+
+{{{s}}}
+
+   * New test has the highest power by far, about twice the others'
+   * Clark and West's statistic with a rolling window is next
+   * Adding "noise" to the alternative model increases power here
+** _Intuition behind power results_
+   + Important aspect of the DGP: the break affects the parameters of
+     the benchmark model as well as the alternative
+   + After the break, recursive models
+     + Slowly incorporate post-break data and add it to pre-break data
+     + Implied pseudotrue $\beta_t$ averages the pre and post-break coefficient values
+     + Forecast performance is bad:
+       \begin{equation}
+       \E ((x_t'\beta_{post} + \varepsilon_t) - x_t'\hat\beta_t)^2
+       \end{equation}
+   + After the break, rolling models
+     + Slowly incorporate post-break data and add it to pre-break data
+     + Slowly discard pre-break data
+     + Pretty soon, the forecast is just based on post-break data
+     + Forecast performance is the same as it was before the break
+** _Using both strategies:_
+     + Benchmark model forecasts much worse after the break
+     + Alternative model forecasts well after the break
+     + Evidence against benchmark is very strong
+     + Result is more general than it looks: same ideas apply for
+       dynamic misspecification and unmodeled nonlinearities
+
+   {{{s}}}
+
+   _Summary of Monte Carlo results_
+
+   + Finite sample behavior of all of the statistics is fine
+   + Under "stable" DGPs, Clark and West's statistics and mine are close
+   + My test has much higher power against misspecification that
+     causes instability in the benchmark model
+     + Here we imposed a break directly
+     + Can be caused by unmodeled nonlinearity as well (STAR models, etc)
+* Empirical exercise
+** _Goyal and Welch (2008) empirical study_
+   * Goyal and Welch (2008) look out out-of-sample excess return
+     predictability
+     * excess returns measured as the difference between the yearly
+       log return of the S\&P 500 index and the T-bill interest rate
+   * They find that none of the variables thought to predict excess
+     returns based on in-sample evidence successfully predict
+     out-of-sample
+   * Benchmark model is the excess return's sample mean
+   * Alternative models are of the form
+     \begin{equation*}
+       \mathit{excess~return}_{t+1} = \beta_{0} + \beta_{1}\
+       \mathit{predictor}_{t} + \ep_{t+1},
+     \end{equation*}
+     * $\beta_{0}$ and $\beta_{1}$ are estimated by OLS using a
+       10-year window.
+** _List of predictors_
+*** Predictors 							      :BMCOL:
+   :PROPERTIES:
+   :BEAMER_col: 0.45
+   :END:
+   * long term rate
+   * book to market
+   * dividend yield
+   * dividend price ratio
+   * net equity
+   * dividend payout ratio
+   * treasury bill
+   * stock variance
+   * default return spread
+   * default yield spread
+   * inflation rate
+   * term spread
+   * earnings price ratio
+   * long term yield
+*** Other notes on forecasts 					      :BMCOL:
+   :PROPERTIES:
+   :BEAMER_col: 0.45
+   :END:
+   * Also consider Campbell and Thompson (2008) zero lower bound for each
+   * Consider mean and median combination forecasts
+   * Use annual data beginning in 1927 and ending in 2009
+** Summary of empirical results
+#+BEGIN_LaTeX
+\begin{tabular}{lccc}
+  \toprule Predictor & value & naive & corrected \\ 
+  \midrule book to market CT & $\enskip2.04$ & sig.\rlap{*} &  \\ 
+  long term rate CT & $\enskip1.64$ & sig.\rlap{*} &  \\ 
+  median & $\enskip1.59$ & sig. &  \\ 
+  long term rate & $\enskip1.56$ & sig. &  \\ 
+  book to market & $\enskip1.41$ & sig. &  \\ 
+  dividend yield CT & $\enskip1.30$ & sig. &  \\ 
+  dividend yield & $\enskip1.26$ &  &  \\ 
+  \vdots \\
+  long term yield CT & $\!\!-0.89$ &  &  \\ 
+\bottomrule \\ \end{tabular}
+#+END_LaTeX
+
+  * One-sided 10% critical value $\approx$ 1.28, 5% $\approx$ 1.64, 1% $\approx$ 2.32
+  * "CT" indicates that the model used Campbell and Thompson's cutoff
+  * Complete table is given in the paper (30 total rows)
+** _But but but but but but but_
+   + Comparing the test stats to 1.28 is seriously overoptimistic!
+   + If we test 30 different hypotheses at normal critical values,
+     we're going to reject some of them by chance, even if they're
+     true
+   + Lots of research on this problem over the last 10-15 years
+     + White's (2000) "Bootstrap Reality Check"
+     + Hansen's (2005) test of "Superior Predictive Ability"
+     + Romano and Wolf's (2005) "StepM"
+     + Lots of subsequent research
+** _Testing while accounting for multiplicity_
+   + Suppose we have $k$ oos test statistics, $\sqrt{P}\, \fb_i / \hat\sigma^i$.
+     + Each corresponds to the hypothesis $H_i:\ \E\, \fb_i^* = 0$
+   + Take the largest of them as the test statistic
+     \begin{equation}
+       \hat m = \max_{i=1,\dots,k} \sqrt{P}\, \fb_i / \hat\sigma_i
+     \end{equation}
+   + Find the distribution of $\hat m$ under "the null hypothesis"
+   + Estimate its $1 - \alpha$ quantile, use that as a critical value $\hat c$
+   + "Reject" if $\hat m > \hat c$
+** _What is the null hypothesis?_
+   + Econometrics papers (BRC, SPA, nested BRC) have focused on the joint null hypothesis
+     \[
+       H_i:\ \E \fb_i^* = 0, \quad \text{for all $i$}
+     \]
+     or the closely-related hypothesis of correct specification:
+     $\ep_t$ is an MDS with respect to the filtration
+     \[
+       \Fs_t = \sigma((z_{1t}, z_{2t},\dots,z_{kt}), (z_{1,t-1}, z_{2,t-1},\dots,z_{k,t-1}),\dots)
+     \]
+   + Makes it easy to derive asymp. distribution of $\hat m$
+   + Makes it impossible to determine which of the predictors is the
+     reason for the rejection
+     - i.e. no guarantee that if $\sqrt{P} \, \fb_i/\hat\sigma_i > \hat c$, then $\E \fb_i^* > 0$.
+** _Familywise Error Rate definition_
+   + Stats literature (StepM) has focused on variations of the
+     "Familywise Error Rate" (FWER, see Romano and Wolf, 2005, and Romano, Shaikh, and Wolf, 2008)
+     * Fortunately, one can show (Romano and Wolf, 2005) that the BRC
+       and SPA control FWER even though that wasn't their original focus
+   + Let $S$ be the set of indices for the hypotheses that are true, so
+     \[
+     S = \{s \mid \E\, \fb^*_i \leq 0\} \qquad \text{(i.e. null holds)}
+     \]
+   + Reject each individual null hypothesis with $\sqrt{P}\,\fb_i / \hat\sigma_i$
+   + $\hat c$ controls the FWER at level $\alpha$ if, for all $S$
+     \[
+       \pr[ \sqrt{P} \, \fb_i / \hat\sigma_i > \hat c\ \text{for at least one $i \in S$} ] \leq \alpha
+     \]
+   + Informally the probably of rejecting one or more of the true null
+     hypotheses is at most $\alpha$
+   + This lets us interpret individual rejections
+** _Our multiple-comparisons approach_
+   Using the same argument as in earlier theorems,
+   \[
+   \begin{pmatrix} \sqrt{P} (\fb_1 - \E \, \fb_1^*) \\
+   \vdots \\
+   \sqrt{P} (\fb_k - \E \, \fb_k^*)
+   \end{pmatrix} \to^d N(0, V)
+   \]
+   under individual nulls that $\E \, \fb_i^* = 0$, with
+   \[
+     V_{ij} = \lim \frac{\cov(\fb_i, \fb_j)}{\var(\fb_i)^{1/2} \var(\fb_j)^{1/2}}.
+   \]
+
+   * Simulate $(Z_1,\dots,Z_k)$ from $N(0,\hat V)$ and, for each draw, calculate 
+     \[
+     \max(Z_1,\dots,Z_k)
+     \]
+   * Calculate $1-\alpha$ quantile across simulations and use as $\hat c$
+** _Sketch of proof that our approach works_
+   * Takes $S$ as given and define $\hat c_S$ as the
+     $1-\alpha$ quantile of $\max_{i \in S} Z_i$, where $(Z_1,\dots,Z_k) \sim N(0,\hat V)$
+   * By construction, $\hat c_S \leq \hat c$, so
+     \begin{multline}
+       \lim \pr[ \sqrt{P} \, \fb_i / \hat\sigma_i > \hat c\ \text{for at least one $i \in S$} ] \leq \\
+       \pr[ \sqrt{P} \, \fb_i / \hat\sigma_i > \hat c_S\ \text{for at least one $i \in S$} ]
+     \end{multline}
+   * But we have
+     \begin{align}
+       \lim \pr[ \sqrt{P} \, \fb_i / \hat\sigma_i > \hat c_S\ \text{for at least one $i \in S$} ] \leq \alpha
+     \end{align}
+     by construction as well, completing the proof.
+** _Miscellaneous additional points_
+   * Usually in this literature the distribution is implemented with a
+     bootstrap; our approach is similar to Hubrich and West (2010)
+   * Nonparametric bootstrap for oos statistics is underdeveloped, but
+     see Calhoun (2015) in two weeks
+   * What about one-sided issues? (i.e. Hansen, 2005)
+     * One-sided tests can have very poor power in multiple testing unless "bad" statistics are screened out
+     * Theoretical concern here, but not a practical concern because of adjustment term
+     * In this exercise, we'd discard statistics less than $\approx - 1.7$
+   * Do we impose MDS when estimating V? Maybe...
+** _Testing the MDS null vs. just the zero mean null_
+   * For testing whether $\varepsilon_t$ is an MDS with respect to
+     \begin{equation}
+        \Fs_t = \sigma((z_{1t}, z_{2t},\dots,z_{kt}), (z_{1,t-1}, z_{2,t-1},\dots,z_{k,t-1}),\dots)
+     \end{equation}
+     we do not need a HAC estimator (standard composite test of a single null)
+   * For testing $\E \, \fb_i^* = 0$, we need an HAC estimator of $V$
+     * Given an ordered set $S \subset \{1,\dots,k\}$ with elements
+       $s_1,\dots,s_{\#S}$, let $\fb_S$ be the vector with \(i\)th element
+       $\fb_{s_i}$.
+     * Need consistent estimator of the variance covariance matrix of $\fb_S$
+   * For testing whether $\varepsilon_t$ is an MDS with respect to each
+     \begin{equation}
+        \Fs_{it} = \sigma(z_{it}, z_{i,t-1},\dots)
+     \end{equation}
+     individually, it's more complicated, but use a HAC estimator
+     * Combining the null hypotheses imposes that $\varepsilon_t$ is
+       an MDS with respect to $\Fs_{1t},\dots,\Fs_{kt}$
+     * Not the same as being MDS w/rt $\Fs_t$
+** _How we handle multiplicity in our application_
+   + Impose stronger null of MDS w/rt $\Fs_t$ and generate critical value
+   + If we reject any hypotheses with this stronger null, test with
+     HAC estimator of $V$ to learn which individual hypotheses to
+     reject
+   + Estimated critical value is 2.49 (using 1999 draws)
+** Summary of empirical results
+#+BEGIN_LaTeX
+\begin{tabular}{lccc}
+  \toprule Predictor & value & naive & corrected \\ 
+  \midrule book to market CT & $\enskip2.04$ & sig.\rlap{*} &  \\ 
+  long term rate CT & $\enskip1.64$ & sig.\rlap{*} &  \\ 
+  median & $\enskip1.59$ & sig. &  \\ 
+  long term rate & $\enskip1.56$ & sig. &  \\ 
+  book to market & $\enskip1.41$ & sig. &  \\ 
+  dividend yield CT & $\enskip1.30$ & sig. &  \\ 
+  dividend yield & $\enskip1.26$ &  &  \\ 
+  \vdots \\
+  long term yield CT & $\!\!-0.89$ &  &  \\ 
+\bottomrule \\ \end{tabular}
+#+END_LaTeX
+
+  * Correct 10% critical value $\approx$ 2.49
+  * "CT" indicates that the model used Campbell and Thompson's cutoff
+  * Complete table is given in the paper (30 total rows)
+** Summary of empirical analysis
+   * Evidence supports Goyal and Welch's (2008) conclusion: excess
+     returns are not predictable out of sample
+   * Be careful about accounting for the number of hypotheses being tested
+* Conclusion
+** Summary
+   + We've developed a new statistic for oos comparisons
+   + It works pretty well, especially against dynamic misspecification
+   + Asymptotically normal and easy to use
+   + Works for multiple testing as well
+
+   {{{s}}}
+
+   _Next steps_
+
+   {{{s}}}
+
+   * Bootstrap
+   * Use for real-time detection of model failure
+
 * COMMENT slide setup
 #+BEAMER_FRAME_LEVEL: 2
 #+OPTIONS: toc:nil
@@ -28,5 +560,14 @@ An asymptotically normal out-of-sample test based on mixed estimation windows
 #+LaTeX_CLASS_OPTIONS: [presentation,fleqn,t,serif]
 #+STARTUP: beamer
 #+LaTeX_HEADER: \input{preamble}
-#+LaTeX_HEADER: \input{../tex/header}
+#+LaTeX_HEADER: \input{../tex/setup}
 #+MACRO: s \vspace{\baselineskip}
+#+BEAMER_HEADER_EXTRA: \defbeamertemplate*{sec page}{default}[1][]
+#+BEAMER_HEADER_EXTRA: {
+#+BEAMER_HEADER_EXTRA:   \centering
+#+BEAMER_HEADER_EXTRA:     \begin{beamercolorbox}[sep=8pt,center,#1]{sec title}
+#+BEAMER_HEADER_EXTRA:       \usebeamerfont{sec title}\Huge\insertsection\par
+#+BEAMER_HEADER_EXTRA:     \end{beamercolorbox}
+#+BEAMER_HEADER_EXTRA: }
+#+BEAMER_HEADER_EXTRA: \newcommand*{\secpage}{\usebeamertemplate*{sec page}}
+#+BEAMER_HEADER_EXTRA: \AtBeginSection{\begin{frame}[c] \secpage \end{frame}}
