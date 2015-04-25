@@ -40,8 +40,8 @@ An asymptotically normal out-of-sample test based on mixed estimation windows
      is an oos t-test of the null that the forecast errors have zero mean
    + As a matter of notation, suppress the "forecasting" aspect
      \begin{equation}
-       \bar f \equiv \tfrac{1}{P} \osum{t} \hat f_t \equiv
-       \tfrac{1}{P} \osum{t} f_t(\hat\beta_t)
+       \bar f \equiv \tfrac{1}{P} \osum{t}\ \hat f_t \equiv
+       \tfrac{1}{P} \osum{t}\ f_t(\hat\beta_t)
      \end{equation}
 ** _Background: How does the theory usually work?_
    Assuming typical moment and weak dependence conditions are met:
@@ -53,8 +53,8 @@ An asymptotically normal out-of-sample test based on mixed estimation windows
    * West (1996): expand each $f_t(\hat\beta_t)$ around pseudo-true
      $\beta_0$, giving
      \begin{multline}
-       \sqrt{P} (\bar f - \E f_t(\beta_0)) = \\
-         \tfrac{1}{\sqrt{P}} \sum_{t=R}^{T-1} (f_t(\beta_0) - \E f_t(\beta_0)) +
+       \sqrt{P} (\bar f - \E f_t(\beta_0)) =
+         \tfrac{1}{\sqrt{P}} \sum_{t=R}^{T-1} (f_t(\beta_0) - \E f_t(\beta_0)) + \\
          \tfrac{1}{\sqrt{P}} \sum_{t=R}^{T-1} \nabla f_t(\beta_0) (\hat\beta_t - \beta_0) + o_p(1)
      \end{multline}
    * As $P \to \infty$ the oos component obeys a CLT
@@ -85,6 +85,10 @@ An asymptotically normal out-of-sample test based on mixed estimation windows
      \begin{equation}
      \E\, f_t(\hat\beta_t) = 0
      \end{equation}
+     or
+     \begin{equation}
+     \E( f_t(\hat\beta_t) \mid z_t, z_{t-1},\dots) = 0
+     \end{equation}
      where $\hat\beta_t$ is estimated with a rolling window of length
      $R$
      + Expectation integrates over $\hat\beta_t$
@@ -94,19 +98,22 @@ An asymptotically normal out-of-sample test based on mixed estimation windows
    Clark and West (2006, 2007) propose an MSE correction
    + Propose testing the null that the innovations to the benchmark
      model are MDS by using
-     \begin{equation}
-     \hat f_t = (y_{t+1} - \hat y_{1,t+1})^2 - (y_{t+1} - \hat y_{2,t+1})^2 +
-                (\hat y_{1,t+1} - \hat y_{2,t+1})^2
-     \end{equation}
+     \begin{align}
+     \hat f_t &= (y_{t+1} - \hat y_{1,t+1})^2 - (y_{t+1} - \hat y_{2,t+1})^2 +
+                (\hat y_{1,t+1} - \hat y_{2,t+1})^2 \\
+              &= (y_{t+1} - \hat y_{1,t+1}) (\hat y_{2,t+1} - \hat y_{1,t+1})
+     \end{align}
      using fixed-length rolling window
-   + When $\hat y_{1,t+1}$ is not estimated, has mean zero under MDS null
+   + Equivalent to a test of forecast encompassing
+   + When $\hat y_{1,t+1}$ is not estimated, $f_t$ has mean zero under MDS null
    + Extension to estimated null hypotheses breaks their proof
 ** _This paper's approach to asymptotics_
    + Use a statistic similar to Clark and West's
-     \begin{equation}
-     \hat f_t = (y_{t+1} - \hat y_{1,t+1})^2 - (y_{t+1} - \hat y_{2,t+1})^2 +
-                (\hat y_{1,t+1} - \hat y_{2,t+1})^2
-     \end{equation}
+     \begin{align}
+     \hat f_t &= (y_{t+1} - \hat y_{1,t+1})^2 - (y_{t+1} - \hat y_{2,t+1})^2 +
+                (\hat y_{1,t+1} - \hat y_{2,t+1})^2 \\
+              &= (y_{t+1} - \hat y_{1,t+1}) (\hat y_{2,t+1} - \hat y_{1,t+1})
+     \end{align}
    + Estimate the benchmark model with a recursive window
      + Converges to pseudotrue value and is asymptotically normal
    + Estimate the alternative model with a short rolling window
@@ -140,6 +147,7 @@ An asymptotically normal out-of-sample test based on mixed estimation windows
      $R$, remains finite as $T \to \infty$.
    * The vector $(\ep_{t+1}, x_t, \yh_{t+1})$ has uniformly bounded $2\, r$ moments
      * $r$ is first defined in Assumption 1
+   * Define $\Fs_t = \sigma(y_t, x_t, z_t, y_{t-1}, x_{t-1}, z_{t-1},\dots)$.
 ** _Assumption 3 (positive definiteness of VCV)_
    The asymptotic variance-covariance matrix
    \begin{equation}
@@ -181,8 +189,8 @@ An asymptotically normal out-of-sample test based on mixed estimation windows
    * Let $R'$ be a new sequence such that $R' \to \infty$ as $T \to
      \infty$ and $R' = o(\sqrt{P})$
      \begin{multline}
-       \sqrt{P} (\fb - \E \fb^*) = \\
-         \ocltb{t} ((f_t - \E f_t) + (\fh_t - f_t)) + \tfrac{1}{\sqrt{P}} \osumc{t} (\fh_t - \E f_t).
+       \sqrt{P} (\fb - \E \fb^*) =
+         \ocltb{t} ((f_t - \E f_t(\btrue)) + (\fh_t - f_t(\btrue))) \\ + \tfrac{1}{\sqrt{P}} \osumc{t} (\fh_t - \E f_t(\btrue)).
      \end{multline}
    * First summation fits exactly into West's framework
    * Second summation converges to zero in probability
@@ -245,7 +253,7 @@ An asymptotically normal out-of-sample test based on mixed estimation windows
    + Nominal size is 10%
 ** Results for "size" DGP (nominal size 10%)
 #+BEGIN_LaTeX
-\begin{tabular}{ccccc} \\
+\begin{tabular}{ccccc}
    \toprule R & P & Pr[CW roll.] & Pr[CW rec.] & Pr[new] \\
    \midrule $120$ & $120$ & $\enskip7.2$ & $\enskip8.0$ & $\enskip\enskip7.5$ \\
      & $240$ & $\enskip5.6$ & $\enskip5.6$ & $\enskip\enskip6.2$ \\
@@ -311,7 +319,8 @@ An asymptotically normal out-of-sample test based on mixed estimation windows
      + Implied pseudotrue $\beta_t$ averages the pre and post-break coefficient values
      + Forecast performance is bad:
        \begin{equation}
-       \E ((x_t'\beta_{post} + \varepsilon_t) - x_t'\hat\beta_t)^2
+       \E (y_{t+1} - x_t'\hat\beta_t)^2 =
+       \E ((x_t'\beta_{post} + \varepsilon_{t+1}) - x_t'\hat\beta_t)^2
        \end{equation}
    + After the break, rolling models
      + Slowly incorporate post-break data and add it to pre-break data
@@ -331,7 +340,7 @@ An asymptotically normal out-of-sample test based on mixed estimation windows
 
    + Finite sample behavior of all of the statistics is fine
    + Under "stable" DGPs, Clark and West's statistics and mine are close
-   + My test has much higher power against misspecification that
+   + Our new test has much higher power against misspecification that
      causes instability in the benchmark model
      + Here we imposed a break directly
      + Can be caused by unmodeled nonlinearity as well (STAR models, etc)
@@ -424,9 +433,9 @@ An asymptotically normal out-of-sample test based on mixed estimation windows
      \]
      or the closely-related hypothesis of correct specification:
      $\ep_t$ is an MDS with respect to the filtration
-     \[
-       \Fs_t = \sigma((z_{1t}, z_{2t},\dots,z_{kt}), (z_{1,t-1}, z_{2,t-1},\dots,z_{k,t-1}),\dots)
-     \]
+     \begin{multline}
+       \Fs_t = \sigma((y_t, x_t, z_{1t}, z_{2t},\dots,z_{kt}), \\ (y_{t-1}, x_{t-1}, z_{1,t-1}, z_{2,t-1},\dots,z_{k,t-1}),\dots)
+     \end{multline}
    + Makes it easy to derive asymp. distribution of $\hat m$
    + Makes it impossible to determine which of the predictors is the
      reason for the rejection
@@ -451,9 +460,9 @@ An asymptotically normal out-of-sample test based on mixed estimation windows
 ** _Our multiple-comparisons approach_
    Using the same argument as in earlier theorems,
    \[
-   \begin{pmatrix} \sqrt{P} (\fb_1 - \E \, \fb_1^*) \\
+   \begin{pmatrix} \sqrt{P} (\fb_1 - \E \, \fb_1^*)/\hat\sigma_1 \\
    \vdots \\
-   \sqrt{P} (\fb_k - \E \, \fb_k^*)
+   \sqrt{P} (\fb_k - \E \, \fb_k^*)/\hat\sigma_k
    \end{pmatrix} \to^d N(0, V)
    \]
    under individual nulls that $\E \, \fb_i^* = 0$, with
@@ -538,7 +547,7 @@ An asymptotically normal out-of-sample test based on mixed estimation windows
      returns are not predictable out of sample
    * Be careful about accounting for the number of hypotheses being tested
 * Conclusion
-** Summary
+** _Summary_
    + We've developed a new statistic for oos comparisons
    + It works pretty well, especially against dynamic misspecification
    + Asymptotically normal and easy to use
