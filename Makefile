@@ -1,13 +1,28 @@
-.PHONY: all clean burn libs dirs
-all: mixedwindow.pdf
+# Copyright (c) 2011-2015 Gray Calhoun.
+
+gitfiles = .gitignore .gitmodules
+version = $(shell git describe --tags --abbrev=0)
+zipfile = calhoun-mixedwindow-$(version).zip
+pdffile = calhoun-mixedwindow-$(version).pdf
+files = $(filter-out $(gitfiles), $(shell git ls-tree --full-tree -r --name-only HEAD)) \
+  $(foreach d,dbframe-R-library texextra oosanalysis-R-library, \
+    $(addprefix $d/,$(filter-out $(gitfiles), $(shell git -C $d ls-tree --full-tree -r --name-only HEAD))))
+
+.PHONY: all clean burn libs dirs zip
+all: $(pdffile) $(zipfile)
 
 .DELETE_ON_ERROR:
+.INTERMEDIATE: mixedwindow.pdf
 
 latexmk := latexmk
 Rscript := Rscript
 sqlite  := sqlite3
 LATEXMKFLAGS := -pdf -silent
 SHELL := /bin/bash
+
+zip: $(zipfile)
+$(zipfile): $(files)
+	zip $@ $(files)
 
 dirs: tex db
 tex db:
@@ -41,6 +56,9 @@ mc1 mc2:
 	     "$(foreach d, $^, detach database '$(notdir $d');)"\
 	  | $(sqlite) data/mcdata.db
 	touch $@
+
+$(pdffile): mixedwindow.pdf
+	cp $< $@
 
 results = mixedwindow_thm1.tex mixedwindow_lem2.tex mixedwindow_thm3.tex
 # 3/14/2013: removing the dependency on the second monte carlo since I don't
