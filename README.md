@@ -19,7 +19,7 @@ Download
 -------- 
 
 This code should be available at
-<https://git.ece.iastate.edu/gcalhoun/mixedwindow>. The latest version
+<https://github.com/grayclhn/mixedwindow>. The latest version
 of the paper accompanying this code should be available at
 <http://gray.clhn.org>.
 
@@ -62,4 +62,4 @@ Contact information
 Please email Gray Calhoun <gcalhoun@iastate.edu> with any questions or
 comments about these files. If you find an error, please email me or
 open a new issue at
-<https://git.ece.iastate.edu/gcalhoun/mixedwindow/issues>. Thanks!
+<https://github.com/grayclhn/mixedwindow/issues>. Thanks!
