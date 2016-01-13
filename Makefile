@@ -1,14 +1,14 @@
 # Copyright (c) 2011-2015 Gray Calhoun.
 
-gitfiles = .gitignore .gitmodules
-version = $(shell git describe --tags --abbrev=0)
-zipfile = calhoun-mixedwindow-$(version).zip
-pdffile = calhoun-mixedwindow-$(version).pdf
-files = $(filter-out $(gitfiles), $(shell git ls-tree --full-tree -r --name-only HEAD)) \
+gitfiles := .gitignore .gitmodules
+version := $(shell git describe --tags --abbrev=0)
+zipfile := calhoun-mixedwindow-$(version).zip
+pdffile := calhoun-mixedwindow-$(version).pdf
+files := $(filter-out $(gitfiles), $(shell git ls-tree --full-tree -r --name-only HEAD)) \
   $(foreach d,dbframe-R-library texextra oosanalysis-R-library, \
     $(addprefix $d/,$(filter-out $(gitfiles), $(shell git -C $d ls-tree --full-tree -r --name-only HEAD))))
 
-.PHONY: all clean burn libs dirs zip
+.PHONY: all clean burn libs dirs zip VERSION.tex
 all: $(pdffile) $(zipfile)
 
 .DELETE_ON_ERROR:
@@ -66,6 +66,9 @@ results = mixedwindow_thm1.tex mixedwindow_lem2.tex mixedwindow_thm3.tex
 mixedwindow.pdf: tex/mc1.tex tex/mcDef.tex tex/ap.tex # tex/mc2.tex
 mixedwindow.pdf: %.pdf: %.tex VERSION.tex $(results)
 	$(latexmk) $(LATEXMKFLAGS) $<
+
+VERSION.tex:
+	echo "\newcommand\VERSION{$$(texextra/version_git.sh)}" > $@
 
 clean: 
 	$(latexmk) -c mixedwindow.tex

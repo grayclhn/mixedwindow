@@ -26,6 +26,13 @@
 \newcommand\poscw{\citeauthor{ClW:06}'s \citeyearpar{ClW:06,ClW:07}}
 \newcommand\citen[1]{\citeauthor{#1}, \citeyear{#1}}
 
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\rhead{\footnotesize{\textit{\VERSION}}}
+\lhead{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
 \newtheorem{innerrthm}{Theorem}
 \newenvironment{rthm}[1]
   {\renewcommand\theinnerrthm{#1}\innerrthm}
