@@ -64,7 +64,7 @@ results = mixedwindow_thm1.tex mixedwindow_lem2.tex mixedwindow_thm3.tex
 # 3/14/2013: removing the dependency on the second monte carlo since I don't
 # think it's important for the main points of the paper.
 mixedwindow.pdf: tex/mc1.tex tex/mcDef.tex tex/ap.tex # tex/mc2.tex
-mixedwindow.pdf: %.pdf: %.tex VERSION.tex $(results)
+mixedwindow.pdf: %.pdf: %.tex VERSION.tex texextra/references.bib $(results)
 	$(latexmk) $(LATEXMKFLAGS) $<
 
 VERSION.tex:
