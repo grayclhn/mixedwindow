@@ -1,0 +1,62 @@
+version 0.4.0
+* Convert license to MIT
+
+version 0.3.3
+
+* Add flag to remove scientific notation from 'booktabs' tables.
+
+* Clean up some of the boilerplate documentation at the top of each
+  source file
+
+* Add a copy of the GPL
+
+version 0.3.2
+
+* Specifies files to ignore during installation
+
+version 0.3.1
+
+* Adds a list of files to ignore during R installation (.git, .gitignore)
+
+version 0.3.0
+
+* Moves the source code out of noweb
+
+version 0.2.7:
+
+* Adds a parallel version of 'replicate'
+
+version 0.2.6:
+
+* Adds a check to booktabs: warn if 'drop' lists columns not in 
+  the data frame.
+
+* Adds 'joins'
+
+version 0.2.5:
+
+* Find the equivalent of /dev/null on non-Linux OSes
+
+version 0.2.4:
+
+* Large reorganization of directory structure (again)
+
+version 0.2.3:
+
+* Fixed bug in booktabs: formatting the first column of a data frame
+
+version 0.2.2:
+
+* Made the licensing for this package more explicit.
+
+* Reorganized the directory structure to hopefully make things more
+  clear
+
+version 0.2.1: 
+
+* forgot to update news.  oops.
+
+version 0.2.0:
+
+* Starting to treat this project seriously and log things in a
+  standard way.

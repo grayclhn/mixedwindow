@@ -1,0 +1,11 @@
+RepParallel             Parallel version of 'replicate'
+booktabs                Construct a nice table from a data frame
+clear                   Remove a table from the database
+dbframe                 Create a 'dbframe' object
+dbframe-class           Class '"dbframe"'
+dbframe-package         An overview of the dbframe package
+insert<-                Insert a data frame into the sql database
+nrec                    Retrieve head or tail of a table
+rows                    Extract rows from a data frame and present as a
+                        list
+select                  Retrieve records from a dbframe

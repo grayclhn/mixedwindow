@@ -1,5 +1,3 @@
-VERSION.tex
-
 _region_.tex
 .Rhistory
 *~
@@ -18,7 +16,6 @@ _region_.tex
 *.bbl
 *.blg
 *.log
-*.pdf
 *.db
 *.toc
 *.tof
@@ -26,10 +23,4 @@ _region_.tex
 *.nav
 *.snm
 
-lib/
 auto/
-db/
-floats/
-tex/
-mc1
-mc2

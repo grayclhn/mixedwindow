@@ -1,0 +1,17 @@
+Aggregate               Some classes to simplify making predictions
+McCrackenData           Critical values for oos-t test from McCracken
+                        (2007)
+bootindex_circularblock
+                        Indices to induce block bootstraps
+clarkwest               Clark and West's (2006, 2007) Out-of-Sample
+                        Test
+dmw_mse                 Diebold-Mariano-West out-of-sample t-test
+extract_target          Convenience function to extract data from a
+                        model
+mccracken_criticalvalue
+                        Returns McCracken's (2007) oos-t critical
+                        values
+recursive_forecasts     Pseudo out-of-sample forecasts
+rvar                    Generate pseudo-random data from a Vector
+                        Autoregression
+stepm                   Romano and Wolf's (2005) StepM

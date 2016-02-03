@@ -1,0 +1,14 @@
+Package: oosanalysis
+Type: Package
+Title: Pseudo out-of-sample forecasting
+Date: 2011-12-29
+Author: Gray Calhoun
+Maintainer: Gray Calhoun <gray@clhn.org>
+Description: Functions for out-of-sample comparisons of forecasting models
+Depends: R(>= 2.10), MASS
+Suggests: testthat
+License: MIT + file LICENSE
+LazyLoad: yes
+LazyData: yes
+Version: 0.4.0
+Built: R 3.2.0; ; 2016-02-01 19:12:15 UTC; unix

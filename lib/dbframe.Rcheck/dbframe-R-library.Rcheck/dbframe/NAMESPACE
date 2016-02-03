@@ -1,0 +1,12 @@
+export(booktabs, clear, dbframe, dbname, rowid, "rowid<-",
+       "insert<-", readonly, rows, select, tablename, RepParallel)
+exportClasses(dbframe, dbframe_sqlite)
+
+importMethodsFrom(DBI, dbConnect)
+exportMethods(dbConnect)
+importFrom(utils, head, tail)
+importFrom(parallel, mclapply)
+S3method(head, dbframe)
+S3method(tail, dbframe)
+S3method(as.data.frame, dbframe)
+S3method(dim, dbframe)

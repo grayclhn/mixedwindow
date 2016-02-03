@@ -1,0 +1,44 @@
+v0.4.0:
+
+- Changes the package license from GPL to MIT
+
+v0.3.2:
+
+- Updates documentation
+- Tweaks implementation of DMW to reduce external function calls.
+
+v0.3.1:
+
+- Fixed some typos in rvar and moved files around in the directory
+- Unpacked code from noweb document and moved to a more traditional package
+  layout.
+
+v0.3.0:
+
+- Reworded the titles of some of the package files to reflect that
+  it's a stand alone document now.
+- Added the stationary bootstrap.
+- Fixed a bug in centering the mixedbootstrap.
+- Added a convenience wrapper to the DMW OOS t-test
+- Added critical values for McCracken's (2007) oos-t 
+- Added support for asymmetric two-sided testing in StepM (as in
+  Calhoun 2011) 
+- Gave users the option of estimating pi or setting it tin Inf in
+  mixedwindow.
+
+v0.2.2:
+
+- Fixed a bug in the Makefile dependency
+
+v0.2.1:
+
+- Fixed a bug in mixedbootstrap that causes it to return all NULL entries.
+- Changed mixedwindow to use pi = Inf instead of the estimated value
+- Updated code to simulate from VARs
+- Fixed dmw_lambda so that it works with pi = 0 or Inf
+
+v0.2.0:
+
+This is the first version that I'm going to start trying to care about
+things like a "NEWS" file, decent log messages when I commit, etc.
+The version number is somewhat arbitrary.
