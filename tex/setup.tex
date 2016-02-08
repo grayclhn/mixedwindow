@@ -28,10 +28,12 @@
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
-\rhead{\footnotesize{\textit{\VERSION}}}
-\lhead{}
+\renewcommand{\sectionmark}[1]{\markboth{}{\footnotesize{\thesection. #1}}}
+\renewcommand{\subsectionmark}[1]{\markboth{}{\footnotesize{\thesubsection. #1}}}
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
+\fancyhead[lo,le]{\textit{\footnotesize{\nouppercase{\rightmark}}}}
+\fancyhead[ro,re]{\textit{\footnotesize{\VERSION}}}
 
 \newtheorem{innerrthm}{Theorem}
 \newenvironment{rthm}[1]
