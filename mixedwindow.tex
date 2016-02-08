@@ -733,13 +733,12 @@ for the paper, ``An asymptotically normal out-of-sample test based on
 mixed estimation windows'' \citep{Cal:15}. Define the following
 additional terms:
 \begin{equation*}
-  F_t(\beta) = 2 (x_t'\beta - \yh_{t+1}) x_t',
+  F_t(\beta) = 2 (2 x_t'\beta - \yh_{t+1} - y_{t+1}) x_t',
 \end{equation*}
 $F_t = F_t(\btrue)$, $\Fh_t = F_t(\bh_t)$, $F = \E F_t$, $B = (\E x_t
 x_t')^{-1}$, $B_t = (\sum_{s=1}^{t-1} x_s x_s' / (t-1))^{-1}$, and
 $H_t = \sum_{s=1}^{t-1} x_s \ep_{s+1} / (t-1)$.
 And let $\lVert \cdot \rVert$ denote the $L_2$ norm in $\Re^k$.
-
 Note that Assumptions~\ref{a1} and~\ref{a3} imply that $f_t$, $g_t$,
 and $F_t$ are all strong mixing of size $-r/(r-2)$ or uniform mixing
 of size $-r/(2r-2)$ and are stationary with bounded $r$th moments.
