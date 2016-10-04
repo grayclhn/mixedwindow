@@ -34,3 +34,7 @@ floats/
 tex/
 mc1
 mc2
+
+*.sh
+*.stderr
+*.stdout
