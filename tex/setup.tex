@@ -3,6 +3,7 @@
     amsmath,
     amssymb,
     amsthm,
+    bashful,
     booktabs,
     enumerate,
     flexisym,
@@ -28,10 +29,12 @@
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
-\rhead{\footnotesize{\textit{\VERSION}}}
-\lhead{}
+\renewcommand{\sectionmark}[1]{\markboth{}{\footnotesize{\thesection. #1}}}
+\renewcommand{\subsectionmark}[1]{\markboth{}{\footnotesize{\thesubsection. #1}}}
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
+\fancyhead[lo,le]{\textit{\footnotesize{\nouppercase{\rightmark}}}}
+\fancyhead[ro,re]{\textit{\footnotesize{\VERSION}}}
 
 \newtheorem{innerrthm}{Theorem}
 \newenvironment{rthm}[1]
@@ -153,3 +156,14 @@
 \setcounter{dbltopnumber}{9}
 
 \frenchspacing
+
+% Check if shell commands can be executed
+\ifnum\pdfshellescape=1
+% Yes, enabled
+\newcommand{\VERSION}{\splice{echo `git log -1 --date=short --format=\%cd`},
+  commit\splice{echo `git rev-parse --short HEAD`}}
+\else
+% No, disabled
+\newcommand{\VERSION}{}
+\fi
+\date{\VERSION}

@@ -1,3 +1,6 @@
+VERSION.tex
+referee/
+
 _region_.tex
 .Rhistory
 *~
@@ -24,3 +27,13 @@ _region_.tex
 *.snm
 
 auto/
+db/
+floats/
+tex/
+mc1
+mc2
+
+*.sh
+*.stderr
+*.stdout
+
