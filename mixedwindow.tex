@@ -975,19 +975,18 @@ For any $c > 0$,
   \leq \\ \Pr\Big[\omaxb{t} \lvert (t-1)^a B H_t \rvert > \delta \Big]
 \end{multline*}
 which converges to zero by Lemma~\ref{res:a2}, so the first summation on
-the RHS of~\eqref{eq:A3} converges to zero i.p.
-
-For the second summation,
+the RHS of~\eqref{eq:A3} converges to zero i.p. For the second summation,
 \begin{equation*}
   \E \Bigg[ \ocltb{t} (F_t - F) B H_t
     \Ind\{\lvert (t-1)^a B H_t \rvert \leq \delta\}\Bigg]^2
-   = O\Bigg(\E \Bigg[ \tfrac{\delta}{\sqrt{P}} \osumb{t} \tfrac{F_t - F}{(t-1)^a} \Bigg]^2\Bigg).
+   = O\Bigg(\E \Bigg[ \tfrac{\delta}{\sqrt{P}}
+    \osumb{t} \tfrac{F_t - F}{(t-1)^a} \Bigg]^2\Bigg).
 \end{equation*}
 The expectation on the RHS is of order
 $P^{-1} \sum_{t=R'}^{T-1} (t-1)^{-2a}$, since $F_t / (t-1)^a$ is an
 $L_2$-mixingale of size $-1/2$ by construction (see the proof of
-Lemma~\ref{res:a2} for a more detailed discussion), and converges to
-zero by Kronecker's Lemma.
+Lemma~\ref{res:a2} for a more detailed discussion of the mixingale
+argument), and converges to zero by Kronecker's Lemma.
 \end{proof}
 
 \begin{proof}[Proof of~\eqref{eq:12}]
