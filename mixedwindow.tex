@@ -990,7 +990,23 @@ argument), and converges to zero by Kronecker's Lemma.
 \end{proof}
 
 \begin{proof}[Proof of~\eqref{eq:12}]
-TBD
+Note that
+\begin{equation*}
+  \Big\lvert \WesB \Big\rvert =
+  O_p\Big(\max_{t=R',\dots,T-1} \lvert B_t - B\rvert\Big)\
+  O_p\Bigg(\tfrac{1}{\sqrt{P}} \sum_{t=R'}^{T-1} \lvert H_t \rvert \Bigg).
+\end{equation*}
+Lemma~\ref{res:a2} implies that the first component converges to
+zero in probability, so it suffices to show that the second is
+$O_p(1)$. As discussed in the proof of Lemma~\ref{res:a2},
+$x_t \varepsilon_{t+1}$ is an $L_2$-mixingale
+of size $-1/2$ and
+\begin{equation*}
+  \tfrac{1}{\sqrt{P}} \sum_{t=R'}^{T-1} \lVert H_t \rVert_2
+  = O_p\Bigg(\tfrac{1}{\sqrt{P}} \sum_{t=R'}^{T-1} t^{-1/2}\Bigg)
+\end{equation*}
+The last summation is $O(1)$ by Lemma A1 of \citet{Wes:96}, completing
+the proof.
 \end{proof}
 
 \begin{proof}[Proof of~\eqref{eq:13}]
