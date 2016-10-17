@@ -1010,7 +1010,19 @@ the proof.
 \end{proof}
 
 \begin{proof}[Proof of~\eqref{eq:13}]
-TBD
+This proof is essentially the same as that of~\eqref{eq:12}. We have
+\begin{equation*}
+  \Big\lvert \WesC \Big\rvert =
+  O_p\Big(\max_{t=R',\dots,T-1} \lvert B_t - B\rvert\Big)\
+  O_p\Bigg(\tfrac{1}{\sqrt{P}} \sum_{t=R'}^{T-1} \lvert (F_t - F) H_t \rvert \Bigg)
+\end{equation*}
+where the first component converges to zero in probability. Then
+\begin{equation*}
+  \tfrac{1}{\sqrt{P}} \sum_{t=R'}^{T-1} \lVert (F_t - F) H_t \rVert_2
+  \leq \tfrac{1}{\sqrt{P}} \sum_{t=R'}^{T-1} \lVert F_t - F \rVert_2 \lVert  H_t \rVert_2
+  = O\Bigg(\tfrac{1}{\sqrt{P}} \sum_{t=R'}^{T-1} \lVert  H_t \rVert_2 \Bigg)
+\end{equation*}
+which is $O(1)$ as in the proof of~\eqref{eq:12}.
 \end{proof}
 
 \setcounter{secnumdepth}{1}
