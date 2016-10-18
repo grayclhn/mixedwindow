@@ -73,8 +73,9 @@
 \DeclareMathOperator*{\plim}{plim}
 %\DeclareMathOperator{\vec}{vec}
 \DeclareMathOperator{\vech}{vech}
-
+\DeclareMathOperator{\Ind}{1}
 \DeclareMathOperator{\pr}{Pr}
+\DeclareMathOperator{\tr}{trace}
 
 \newcommand{\iid}{\ensuremath\mathit{i.i.d.}}
 \newcommand{\bernoulli}{\ensuremath\mathit{bernoulli}}
@@ -164,6 +165,6 @@
   commit\splice{echo `git rev-parse --short HEAD`}}
 \else
 % No, disabled
-\newcommand{\VERSION}{}
+\newcommand{\VERSION}{\today}
 \fi
 \date{\VERSION}

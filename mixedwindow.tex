@@ -746,11 +746,11 @@ of size $-r/(2r-2)$ and are stationary with bounded $r$th moments.
   and $R' = o(\sqrt{P})$, and then rewrite the centered \oos\ average as
   \begin{equation}\label{eq:6}
     \sqrt{P} (\fb - \E \fb^*)
-    = \ocltb{t} ((f_t - \E f_t) + (\fh_t - f_t))
+    = \ocltb{t} (\fh_t - \E f_t)
       + \tfrac{1}{\sqrt{P}} \osumc{t} (\fh_t - \E f_t).
   \end{equation}
   Lemma~\ref{res:a1} ensures that the second summation is $o_p(1)$, so
-  we can use a Taylor expansion to rewrite~\eqref{eq:6} as
+  we can rewrite~\eqref{eq:6} as
   \begin{align*}
     \sqrt{P} (\fb - \E \fb^*)
     &= \ocltb{t} (f_t - \E f_t) + F B \ocltb{t} H_t \\
@@ -922,8 +922,8 @@ presentation, we'll assume in these proofs that $x_t$ is a scalar.
     \end{align*}
     where the second inequality follows from \citepos{Mcl:75} maximal
     inequality (also available as \citealp{Dav:94}, Theorem 16.9 and
-    Corollary 16.10). The summation converges to a constant as $T \to
-    \infty$ and $(R'-1)^{-2\delta} \to 0$, completing the proof.
+    Corollary 16.10). The summation converges to a constant and
+    $(R'-1)^{-2\delta} \to 0$ as $T \to \infty$, completing the proof.
 
   \item Now $t^{a-1} x_t \ep_{t+1}$ is an $L_2$-mixingale of size
     $-1/2$ and we can again use \citepos{Mcl:75} maximal inequality to get
@@ -962,17 +962,67 @@ presentation, we'll assume in these proofs that $x_t$ is a scalar.
   \eqref{eq:11}--\eqref{eq:13} hold.
 \end{alem}
 
-\begin{proof}
-We can write
+\begin{proof}[Proof of~\eqref{eq:11}]
+Choose $\delta > 0$ and $a \in (0,1/2)$ and write
+\begin{multline}\label{eq:A3}
+  \WesA =
+  \WesA \Ind\{ \lvert (t - 1)^a B H_t \rvert > \delta\} \\
+  + \WesA \Ind\{ \lvert (t - 1)^a B H_t \rvert \leq \delta\}
+\end{multline}
+For any $c > 0$,
+\begin{multline*}
+  \Pr\Bigg[ \Big\lvert \WesA \Ind\{ \lvert (t-1)^a B H_t \rvert > \delta\} \Big\rvert > c \Bigg]
+  \leq \\ \Pr\Big[\omaxb{t} \lvert (t-1)^a B H_t \rvert > \delta \Big]
+\end{multline*}
+which converges to zero by Lemma~\ref{res:a2}, so the first summation on
+the RHS of~\eqref{eq:A3} converges to zero i.p. For the second summation,
 \begin{equation*}
-  \Big\lvert \WesA \Big\rvert \leq
-  \Big\lVert \ocltb{t} (F_t - F) B \Big\rVert \;
-  \omaxb{t} \lVert H_t \rVert.
+  \E \Bigg[ \ocltb{t} (F_t - F) B H_t
+    \Ind\{\lvert (t-1)^a B H_t \rvert \leq \delta\}\Bigg]^2
+   = O\Bigg(\E \Bigg[ \tfrac{\delta}{\sqrt{P}}
+    \osumb{t} \tfrac{F_t - F}{(t-1)^a} \Bigg]^2\Bigg).
 \end{equation*}
-From Lemma~\ref{res:a2}, $\omaxb{t} \lVert H_t \rVert \to^p
-0$. \citepos{Jon:97} \clt\ implies that $\ocltb{t} (F_t - F) =
-O_p(1)$, establishing~\eqref{eq:11}. The proofs of \eqref{eq:12}
-and~\eqref{eq:13} are similar.
+The expectation on the RHS is of order
+$P^{-1} \sum_{t=R'}^{T-1} (t-1)^{-2a}$, since $F_t / (t-1)^a$ is an
+$L_2$-mixingale of size $-1/2$ by construction (see the proof of
+Lemma~\ref{res:a2} for a more detailed discussion of the mixingale
+argument), and converges to zero by Kronecker's Lemma.
+\end{proof}
+
+\begin{proof}[Proof of~\eqref{eq:12}]
+Note that
+\begin{equation*}
+  \Big\lvert \WesB \Big\rvert =
+  O_p\Big(\max_{t=R',\dots,T-1} \lvert B_t - B\rvert\Big)\
+  O_p\Bigg(\tfrac{1}{\sqrt{P}} \sum_{t=R'}^{T-1} \lvert H_t \rvert \Bigg).
+\end{equation*}
+Lemma~\ref{res:a2} implies that the first component converges to
+zero in probability, so it suffices to show that the second is
+$O_p(1)$. As discussed in the proof of Lemma~\ref{res:a2},
+$x_t \varepsilon_{t+1}$ is an $L_2$-mixingale
+of size $-1/2$ and
+\begin{equation*}
+  \tfrac{1}{\sqrt{P}} \sum_{t=R'}^{T-1} \lVert H_t \rVert_2
+  = O_p\Bigg(\tfrac{1}{\sqrt{P}} \sum_{t=R'}^{T-1} t^{-1/2}\Bigg)
+\end{equation*}
+The last summation is $O(1)$ by Lemma A1 of \citet{Wes:96}, completing
+the proof.
+\end{proof}
+
+\begin{proof}[Proof of~\eqref{eq:13}]
+This proof is essentially the same as that of~\eqref{eq:12}. We have
+\begin{equation*}
+  \Big\lvert \WesC \Big\rvert =
+  O_p\Big(\max_{t=R',\dots,T-1} \lvert B_t - B\rvert\Big)\
+  O_p\Bigg(\tfrac{1}{\sqrt{P}} \sum_{t=R'}^{T-1} \lvert (F_t - F) H_t \rvert \Bigg)
+\end{equation*}
+where the first component converges to zero in probability. Then
+\begin{equation*}
+  \tfrac{1}{\sqrt{P}} \sum_{t=R'}^{T-1} \lVert (F_t - F) H_t \rVert_2
+  \leq \tfrac{1}{\sqrt{P}} \sum_{t=R'}^{T-1} \lVert F_t - F \rVert_2 \lVert  H_t \rVert_2
+  = O\Bigg(\tfrac{1}{\sqrt{P}} \sum_{t=R'}^{T-1} \lVert  H_t \rVert_2 \Bigg)
+\end{equation*}
+which is $O(1)$ as in the proof of~\eqref{eq:12}.
 \end{proof}
 
 \setcounter{secnumdepth}{1}
