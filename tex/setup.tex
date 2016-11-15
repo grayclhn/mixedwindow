@@ -3,7 +3,6 @@
     amsmath,
     amssymb,
     amsthm,
-    bashful,
     booktabs,
     enumerate,
     flexisym,
@@ -171,6 +170,7 @@
 % Check if shell commands can be executed
 \ifnum\pdfshellescape=1
 % Yes, enabled
+\usepackage{bashful}
 \newcommand{\VERSION}{\splice{echo `git log -1 --date=short --format=\%cd`},
   commit\splice{echo `git rev-parse --short HEAD`}}
 \else
