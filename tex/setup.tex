@@ -8,6 +8,7 @@
     enumerate,
     flexisym,
     graphicx,
+    mathtools,
     setspace,
     slantsc,
     tabularx,
@@ -18,23 +19,18 @@
 
 \usepackage[small]{caption}
 \usepackage[T1]{fontenc}
-\usepackage[margin=1.25in]{geometry}
 \usepackage[charter]{mathdesign}
-\usepackage[letterspace=35]{microtype}
-\usepackage[sort,round,comma]{natbib}
-\bibliographystyle{abbrvnat}
 \newcommand\citepos[2][]{\citeauthor{#2}'s \citeyearpar[#1]{#2}}
 \newcommand\poscw{\citeauthor{ClW:06}'s \citeyearpar{ClW:06,ClW:07}}
 \newcommand\citen[1]{\citeauthor{#1}, \citeyear{#1}}
 
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\renewcommand{\sectionmark}[1]{\markboth{}{\footnotesize{\thesection. #1}}}
-\renewcommand{\subsectionmark}[1]{\markboth{}{\footnotesize{\thesubsection. #1}}}
-\renewcommand{\headrulewidth}{0pt}
-\renewcommand{\footrulewidth}{0pt}
-\fancyhead[lo,le]{\textit{\footnotesize{\nouppercase{\rightmark}}}}
-\fancyhead[ro,re]{\textit{\footnotesize{\VERSION}}}
+\usepackage{accents}
+\newlength{\dhatheight}
+\newcommand{\dhat}[1]{%
+    \settoheight{\dhatheight}{\ensuremath{\hat{#1}}}%
+    \addtolength{\dhatheight}{-0.35ex}%
+    \hat{\vphantom{\rule{1pt}{\dhatheight}}%
+    \smash{\hat{#1}}}}
 
 \newtheorem{innerrthm}{Theorem}
 \newenvironment{rthm}[1]
@@ -83,6 +79,7 @@
 \newcommand{\Bh}{\hat{B}}
 \newcommand{\btrue}[1][]{\if#1*\hat\beta_{T+1}\else\beta_0\fi}
 \newcommand{\bh}{\hat{\beta}}
+\newcommand{\bhh}{\dhat{\beta}}
 \newcommand{\bt}{\tilde{\beta}}
 \newcommand{\ep}{\varepsilon}
 \newcommand{\eph}{\hat{\varepsilon}}
@@ -98,6 +95,7 @@
 \newcommand{\Sigmah}{\hat\Sigma}
 \newcommand{\sigmah}{\hat\sigma}
 \newcommand{\yh}{\hat{y}}
+\newcommand{\yhh}{\dhat{y}}
 
 \newcommand{\X}{\ensuremath{\mathrm{X}}}
 \newcommand{\R}{\ensuremath{\mathrm{R}}}
