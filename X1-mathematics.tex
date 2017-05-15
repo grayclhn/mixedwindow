@@ -1,0 +1,312 @@
+\section{Supplemental appendix (not for publication)}
+\newcommand{\WesA}[1][]{\ocltb{t}
+  (F_t^{#1} - F) B^{#1} H_t^{#1}}
+\newcommand{\WesB}[1][]{\ocltb{t} F (B_t^{#1} -
+  B^{#1}) H_t^{#1}}
+\newcommand{\WesC}[1][]{\ocltb{t}
+  (F_t^{#1} - F) (B_t^{#1} - B^{#1}) H_t^{#1}}
+
+This appendix contains mathematical proofs and some supporting Lemmas
+for the paper, ``An asymptotically normal out-of-sample test based on
+mixed estimation windows'' \citep{Cal:15}. Define the following
+additional terms:
+\begin{equation*}
+  F_t(\beta) = 2 (2 x_t'\beta - \yh_{t+1} - y_{t+1}) x_t',
+\end{equation*}
+$F_t = F_t(\btrue)$, $\Fh_t = F_t(\bh_t)$, $F = \E F_t$, $B = (\E x_t
+x_t')^{-1}$, $B_t = (\sum_{s=1}^{t-1} x_s x_s' / (t-1))^{-1}$, and
+$H_t = \sum_{s=1}^{t-1} x_s \ep_{s+1} / (t-1)$.
+And let $\lVert \cdot \rVert$ denote the $L_2$ norm in $\Re^k$.
+Note that Assumptions~\ref{a1} and~\ref{a3} imply that $f_t$, $g_t$,
+and $F_t$ are all strong mixing of size $-r/(r-2)$ or uniform mixing
+of size $-r/(2r-2)$ and are stationary with bounded $r$th moments.
+
+\subsection{Proof of Theorem \ref{res:1}}
+  Let $R'$ be a new sequence such that $R' \to \infty$ as $T \to \infty$
+  and $R' = o(\sqrt{P})$, and then rewrite the centered \oos\ average as
+  \begin{equation}\label{eq:6}
+    \sqrt{P} (\fb - \E \fb^*)
+    = \ocltb{t} (\fh_t - \E f_t)
+      + \tfrac{1}{\sqrt{P}} \osumc{t} (\fh_t - \E f_t).
+  \end{equation}
+  Lemma~\ref{res:a1} ensures that the second summation is $o_p(1)$, so
+  we can rewrite~\eqref{eq:6} as
+  \begin{align*}
+    \sqrt{P} (\fb - \E \fb^*)
+    &= \ocltb{t} (f_t - \E f_t) + F B \ocltb{t} H_t \\
+    & \quad + \WesA + \WesB \\ & \quad + \WesC + \oclt{t} w_t + o_p(1)
+  \end{align*}
+  where $w_t$ equals $2 (\bh_t - \btrue)' x_t x_t' (\bh_t - \btrue)$.
+  Lemma~\ref{res:a4} shows that
+  \begin{gather}
+    \WesA \to^{p} 0 \label{eq:11} \\
+    \WesB \to^{p} 0 \label{eq:12} \\
+    \intertext{and}
+    \WesC \to^{p} 0 \label{eq:13}
+  \end{gather}
+  and Lemma~\ref{res:a2} along with the \clt\ ensures that $\oclt{t}
+  w_t = o_{p}(1)$. The proof that
+  \begin{equation*}
+    \ocltb{t} (f_t - \E f_t) + F B \ocltb{t} H_t \to N(0, \sigma^2).
+  \end{equation*}
+  follows the same argument as in \citet{Wes:96} and \citet{Mcc:00}.
+
+\subsection{Proof of Lemma~\ref{lem:2}}
+
+We will only prove $\sigmah_2 \to^p \sigma$. The result for
+$\sigmah_1$ is essentially the same and uses \citepos{JoD:00} Theorem
+2.1 for the \hac\ equivalent of Equations~\eqref{eq:1}--\eqref{eq:7}.
+
+  First, we can rewrite the components of the variance estimator as
+  \begin{align*}
+    \sh_{21} &= \oavg{t} \Big[(f_t - \E f_t) + (\fh_t - f_t) - (\fb - \E f_t)\Big]^2 \\
+    \sh_{22} &= \oavg{t} \Big[(f_t - \E f_t) + (\fh_t - f_t) - (\fb - \E f_t)\Big]
+                        \Big[(g_t - \E g_t) + (\gh_t - g_t) - (\gb - \E g_t)\Big]
+    \intertext{and}
+    \sh_{23} &= \oavg{t} \Big[(g_t - \E g_t) + (\gh_t - g_t) - (\gb + \E g_t)\Big]^2
+  \end{align*}
+  so $\sigmah_2 \to^p \sigma$ as long as the following hold:
+  $\fb - \E \fb^* \to^p 0$,
+  $\gb - \E \gb^* \to^p 0$,
+  \begin{gather}
+    \oavg{t} (f_t - \E f_t)^2 \to^p \lim \var(\sqrt{P} \fb^*) \label{eq:1} \\
+    \oavg{t} (g_t - \E g_t)^2 \to^p \lim \var(\sqrt{P} \gb^*) \label{eq:3} \\
+    \oavg{t} (f_t - \E f_t) (g_t - \E g_t) \to^p \lim \cov(\sqrt{P} \fb^*, \sqrt{P} \gb^*) \label{eq:7} \\
+    \oavg{t} (\fh_t - f_t)^2 \to^p 0, \label{eq:4}
+    \intertext{and}
+    \oavg{t} (\gh_t - g_t)^2 \to^p 0. \label{eq:5}
+  \end{gather}
+  The first two results are implied by the proof of
+  Theorem~\ref{res:1} and~\eqref{eq:1}, \eqref{eq:3}, and~\eqref{eq:7}
+  follow from the \lln, since each summand is an $L_1$-mixingale of
+  size $-1$ \citep[see, for example][Theorem 17.5]{Dav:94}, so it suffices to
+  prove~\eqref{eq:4} and~\eqref{eq:5}.
+
+  As in the proof of Theorem~\ref{res:1}, let $R'$ be a new sequence such that $R' \to \infty$ as
+  $T \to \infty$ and $R' = o(\sqrt{P})$.  Straightforward algebra reveals
+  that~\eqref{eq:4} holds if
+  \begin{gather}
+    \oavg{t} ((\bh_t - \btrue)' x_t)^4 \to^p 0 \label{eq:10}
+    \intertext{and}
+    \oavg{t} (x_t'(\bh_t - \btrue))^2 (2 x_t'\btrue - y_{t+1} - \yh_{t+1})^2 \to^p 0.\label{eq:14}
+  \end{gather}
+  The \allcaps{LHS} of~\eqref{eq:10} is bounded by
+  \begin{align*}
+    \oavg{t} &\|\bh_t - \btrue\|^4 \|x_t\|^4\\
+    &= \oavgc{t} \|\bh_t - \btrue\|^4 \|x_t\|^4 + \oavgb{t} \|\bh_t - \btrue\|^4 \|x_t\|^4 \\
+    &\leq \omaxc{t} \|\bh_t - \btrue\|^4 \,  \oavgc{t} \|x_t\|^4 + \omaxb{t} \|\bh_t - \btrue\|^4 \,  \oavgb{t} \|x_t\|^4 \\
+    &= O_p(R'/P) + o_p(1)
+  \end{align*}
+  by Lemma~\ref{res:a2} and the \lln.
+  A similar argument holds for the second term:
+  \begin{align*}
+    \oavg{t} (x_t'(\bh_t - \btrue))^2 &(2 x_t'\btrue - y_{t+1} - \yh_{t+1})^2 \\
+    &= \oavgc{t} (x_t'(\bh_t - \btrue))^2 (2 x_t'\btrue - y_{t+1} - \yh_{t+1})^2 \\
+    &\quad+ \oavgb{t} \big(x_t'(\bh_t - \btrue)\big)^2 (2 x_t'\btrue - y_{t+1} - \yh_{t+1})^2 \\
+    &\leq \omaxc{t} \|\bh_t - \btrue\|^2 \oavgc{t} \|x_t (2 x_t'\btrue - y_{t+1} - \yh_{t+1})\|^2 \\
+    &\quad+ \omaxb{t} \|\bh_t - \btrue\|^2 \oavgb{t} \|x_t (2 x_t'\btrue - y_{t+1} - \yh_{t+1})\|^2 \\
+    &= O_p(R'/P) + o_p(1)
+  \end{align*}
+  again by Lemma~\ref{res:a2} and the \lln. Both terms converge to
+  zero in probability by construction. The proof of~\eqref{eq:5} is similar.
+
+\subsection{Supporting results}
+
+\phantomsection
+\addcontentsline{toc}{subsubsection}{Lemma \ref{res:a1}}
+\begin{alem}\label{res:a1}
+  Suppose the conditions of Theorem~\ref{res:1} hold, and define $R'$
+  to be a sequence that satisfies $R' \to \infty$ as $T \to \infty$
+  and $R' = o(\sqrt{P})$. Then
+  \begin{equation*}
+    \ocltc{t} (\fh_t - \E f_t) \to^p 0.
+  \end{equation*}
+\end{alem}
+
+\begin{proof}
+  We can rewrite this summation as
+  \begin{multline*}
+    \ocltc{t} (\fh_t - \E f_t) = \ocltc{t} (f_t - \E f_t) + \\
+    \ocltc{t} (4 x_t'\btrue - 2 y_{t+1} - 2 \yh_{i,t+1}) x_t'(\bh_t - \btrue)
+    + \ocltc{t} (x_t'\bh_t - x_t'\btrue)^2.
+  \end{multline*}
+  Each of these individual summations can be shown to converge to
+  zero in probability. First,
+  \begin{equation*}
+    \E \Big\lvert \ocltc{t} (f_t - \E f_t) \Big\rvert
+    \leq \ocltc{t} \E\lvert f_t - \E f_t \rvert
+    = O(R'/\sqrt{P}).
+  \end{equation*}
+  Also,
+  \begin{align*}
+    \Big\lvert \ocltc{t} & (4 x_t'\btrue - 2 y_{t+1} - 2 \yh_{i,t+1}) x_t'(\bh_t - \btrue) \Big\rvert \\
+    &\leq \ocltc{t} \big\lVert (4 x_t'\btrue - 2 y_{t+1} - 2 \yh_{i,t+1}) x_t \big\rVert
+    \omaxc{t} \lVert  \bh_t - \btrue \rVert \\
+    & = O_p(R'/\sqrt{P})
+  \end{align*}
+  and
+  \begin{equation*}
+    \Big\lvert \ocltc{t} (x_t'\bh_t - x_t'\btrue)^2 \Big\rvert
+    \leq \ocltc{t} \lVert x_t \rVert^2 \omaxc{t} \lVert \bh_t - \btrue \rVert^2
+    = O_p(R'/\sqrt{P}).
+  \end{equation*}
+  by Lemma~\ref{res:a2} and the \lln. Since $R'/\sqrt{P} \to 0$ by
+  construction, this completes the proof.
+\end{proof}
+
+\phantomsection
+\addcontentsline{toc}{subsubsection}{Lemma \ref{res:a2}}
+\begin{alem}\label{res:a2}
+  Suppose $a \in [0,1/2)$ and Assumptions~\ref{a1}~--~\ref{a4}
+  hold, and let $R'$ be a sequence such that $R' \to \infty$ as $T \to
+  \infty$ and $R' = o(\sqrt{P})$. Then
+  \begin{enumerate}
+  \item $\omaxb{t} | (t-1)^a H_t | \to^p 0$,
+  \item $\omaxc{t} | (t-1)^a H_t | = O_p(1)$,
+  \item $\omaxb{t} | B_t - B | \to^p 0$,
+  \item $\omaxc{t} | B_t - B | = O_p(1)$,
+  \item $\omaxb{t} | (t-1)^a(\bh_t - \btrue) | \to^{p} 0$, and
+  \item $\omaxc{t} | (t-1)^a(\bh_t - \btrue) | = O_p(1)$,
+  \end{enumerate}
+  where the absolute value is taken as the largest of the
+  element-by-element absolute values.
+\end{alem}
+
+\noindent%
+To streamline the
+presentation, we'll assume in these proofs that $x_t$ is a scalar.
+\begin{proof}
+  We will prove each part in order.
+  \begin{enumerate}
+  \item Our assumptions ensure that $x_t \ep_{t+1}$ is $L_2$-mixingale
+    of size $-1/2$ \citep[see Theorem 17.5 of][]{Dav:94}; let $c_t$
+    and $\zeta_k$ denote its mixingale
+    constants and coefficients. Note that, for any $b$, $t^{b} x_t \ep_{t+1}$ is
+    also an $L_2$-mixingale array with constants $t^{b} c_s$ and
+    coefficients $\zeta_k$, since
+    \begin{align*}
+      \| \E_{t-k} t^{b} x_t \ep_{t+1} \| &= t^{b} \| \E_{t-k} x_t \ep_{t+1} \| \\
+      &\leq (t^{b} c_t) \zeta_k
+    \end{align*}
+    and
+    \begin{align*}
+      \| t^{b} x_t \ep_{t+1} - t^{b} \E_{t+k} x_t \ep_{t+1} \| &= t^{b} \|  x_t \ep_{t+1} - \E_{t+k} x_t \ep_{t+1} \| \\
+      &\leq (t^{b} c_t) \zeta_{k+1}.
+    \end{align*}
+
+    Let $\delta$ be a positive number less than $1/2 - \alpha$, so
+    \begin{align*}
+      \E\Bigg[\omaxb{t} \Big|(t-1)^{a-1} & \sum_{s=1}^{t-1} x_s \ep_{s+1} \Big|^2\Bigg] \\
+      &\leq (R'-1)^{-2\delta} \E\Bigg[\omaxb{t} \Big| \sum_{s=1}^{t-1} x_s \ep_{s+1} (s-1)^{a-1+\delta} \Big|^2\Bigg] \\
+      &\leq (R'-1)^{-2\delta} O(1) \sum_{s=1}^{T-1} (s-1)^{2(a - 1 + \delta)}
+    \end{align*}
+    where the second inequality follows from \citepos{Mcl:75} maximal
+    inequality (also available as \citealp{Dav:94}, Theorem 16.9 and
+    Corollary 16.10). The summation converges to a constant and
+    $(R'-1)^{-2\delta} \to 0$ as $T \to \infty$, completing the proof.
+
+  \item Now $t^{a-1} x_t \ep_{t+1}$ is an $L_2$-mixingale of size
+    $-1/2$ and we can again use \citepos{Mcl:75} maximal inequality to get
+    \begin{align*}
+      \E \Big\lvert \omaxc{t} \Big((t-1)^{a - 1} \sum_{s=1}^{t-1} x_s \ep_{s+1} \Big)^2 \Big\rvert
+      &\leq \E \Big\lvert \omax{t} \Big(\sum_{s=1}^{t-1} s^{a-1} x_s \ep_{s+1} \Big)^2 \Big\rvert \\
+      &= O(1) \sum_{s=1}^{R'-1} s^{2a - 2}
+    \end{align*}
+    which converges to a finite limit.
+  \item The same argument used in Part 1 implies that $\omaxb{t} |
+    B_t^{-1} - B^{-1}| \to^p 0$. Since matrix inversion is continuous,
+    the result follows.
+  \item Holds by Assumptions~\ref{a1} and~\ref{a3}.
+  \item We have
+    \begin{align*}
+      \omaxb{t} | (t-1)^a (\hat{\beta}_t - \btrue) |
+      &\leq \omaxb{t} |\hat{B}_t - B|
+      \omaxb{t} \Big|(t-1)^{a-1} \sum_{s=1}^{t-1} x_s \ep_{s+1} \Big| \\
+      &\quad + \omaxb{t} \Big| B (t-1)^{a-1} \sum_{s=1}^{t-1} x_s \ep_{s+1} \Big|
+    \end{align*}
+    and both terms converge to zero in probability by Parts 1 and 3.
+  \item Similar to the previous argument, we have
+    \begin{align*}
+      \omaxc{t} | (t-1)^a (\hat{\beta}_t - \btrue) |
+      & \leq \omaxc{t} | \hat{B}_t - B | \omaxc{t} \Big|(t-1)^{a-1} \sum_{s=1}^{t-1} x_s \ep_{s+1} \Big| \\
+      &\quad + \omaxc{t} \Big| B (t-1)^{a-1} \sum_{s=1}^{t-1} x_s \ep_{s+1} \Big|.
+    \end{align*}
+    Both terms are $O_p(1)$ by Parts 2 and 4. \qedhere
+  \end{enumerate}
+\end{proof}
+
+\phantomsection
+\addcontentsline{toc}{subsubsection}{Lemma \ref{res:a4}}
+\begin{alem}\label{res:a4}
+  Under the conditions of Theorem~\ref{res:1}, Equations
+  \eqref{eq:11}--\eqref{eq:13} hold.
+\end{alem}
+
+\begin{proof}[Proof of~\eqref{eq:11}]
+Choose $\delta > 0$ and $a \in (0,1/2)$ and write
+\begin{multline}\label{eq:A3}
+  \WesA =
+  \WesA \Ind\{ \lvert (t - 1)^a B H_t \rvert > \delta\} \\
+  + \WesA \Ind\{ \lvert (t - 1)^a B H_t \rvert \leq \delta\}
+\end{multline}
+For any $c > 0$,
+\begin{multline*}
+  \Pr\Bigg[ \Big\lvert \WesA \Ind\{ \lvert (t-1)^a B H_t \rvert > \delta\} \Big\rvert > c \Bigg]
+  \leq \\ \Pr\Big[\omaxb{t} \lvert (t-1)^a B H_t \rvert > \delta \Big]
+\end{multline*}
+which converges to zero by Lemma~\ref{res:a2}, so the first summation on
+the RHS of~\eqref{eq:A3} converges to zero i.p. For the second summation,
+\begin{equation*}
+  \E \Bigg[ \ocltb{t} (F_t - F) B H_t
+    \Ind\{\lvert (t-1)^a B H_t \rvert \leq \delta\}\Bigg]^2
+   = O\Bigg(\E \Bigg[ \tfrac{\delta}{\sqrt{P}}
+    \osumb{t} \tfrac{F_t - F}{(t-1)^a} \Bigg]^2\Bigg).
+\end{equation*}
+The expectation on the RHS is of order
+$P^{-1} \sum_{t=R'}^{T-1} (t-1)^{-2a}$, since $F_t / (t-1)^a$ is an
+$L_2$-mixingale of size $-1/2$ by construction (see the proof of
+Lemma~\ref{res:a2} for a more detailed discussion of the mixingale
+argument), and converges to zero by Kronecker's Lemma.
+\end{proof}
+
+\begin{proof}[Proof of~\eqref{eq:12}]
+Note that
+\begin{equation*}
+  \Big\lvert \WesB \Big\rvert =
+  O_p\Big(\max_{t=R',\dots,T-1} \lvert B_t - B\rvert\Big)\
+  O_p\Bigg(\tfrac{1}{\sqrt{P}} \sum_{t=R'}^{T-1} \lvert H_t \rvert \Bigg).
+\end{equation*}
+Lemma~\ref{res:a2} implies that the first component converges to
+zero in probability, so it suffices to show that the second is
+$O_p(1)$. As discussed in the proof of Lemma~\ref{res:a2},
+$x_t \varepsilon_{t+1}$ is an $L_2$-mixingale
+of size $-1/2$ and
+\begin{equation*}
+  \tfrac{1}{\sqrt{P}} \sum_{t=R'}^{T-1} \lVert H_t \rVert_2
+  = O_p\Bigg(\tfrac{1}{\sqrt{P}} \sum_{t=R'}^{T-1} t^{-1/2}\Bigg)
+\end{equation*}
+The last summation is $O(1)$ by Lemma A1 of \citet{Wes:96}, completing
+the proof.
+\end{proof}
+
+\begin{proof}[Proof of~\eqref{eq:13}]
+This proof is essentially the same as that of~\eqref{eq:12}. We have
+\begin{equation*}
+  \Big\lvert \WesC \Big\rvert =
+  O_p\Big(\max_{t=R',\dots,T-1} \lvert B_t - B\rvert\Big)\
+  O_p\Bigg(\tfrac{1}{\sqrt{P}} \sum_{t=R'}^{T-1} \lvert (F_t - F) H_t \rvert \Bigg)
+\end{equation*}
+where the first component converges to zero in probability. Then
+\begin{equation*}
+  \tfrac{1}{\sqrt{P}} \sum_{t=R'}^{T-1} \lVert (F_t - F) H_t \rVert_2
+  \leq \tfrac{1}{\sqrt{P}} \sum_{t=R'}^{T-1} \lVert F_t - F \rVert_2 \lVert  H_t \rVert_2
+  = O\Bigg(\tfrac{1}{\sqrt{P}} \sum_{t=R'}^{T-1} \lVert  H_t \rVert_2 \Bigg)
+\end{equation*}
+which is $O(1)$ as in the proof of~\eqref{eq:12}.
+\end{proof}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "mixedwindow"
+%%% TeX-command-extra-options: "-shell-escape"
+%%% End:

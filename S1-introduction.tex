@@ -1,0 +1,96 @@
+\section{Introduction}
+
+This paper proposes an out-of-sample (\oos) test statistic that is
+asymptotically normal and correctly centered even when the models
+studied are nested. The test is based on one proposed by
+\citet{ClW:06,ClW:07}, but we propose estimating the benchmark model
+with a recursive window and the alternative model with a fixed length
+rolling window. The rolling window ensures asymptotic normality, as in
+\citet{GiW:06}, and the recursive window allows the null hypothesis to
+be a statement about the specification of the Data Generating Process,
+which is the focus of the vast majority of the \oos\ testing
+literature.%
+\footnote{In particular, this is the focus of \citet{Wes:96},
+  \citet{ClM:01}, \citet{Mcc:07}, \citet{ClW:06}, \citet{ClW:07}, and
+  many others but not \citet{GiW:06}. See \citet{Wes:06} and
+  \citet{ClM:13} for a thorough overview of this literature.} %
+This combination of estimation windows also gives our test statistic
+high power against alternatives that cause the benchmark model
+to be unstable --- structural breaks, time-varying coefficients, or
+forms of nonlinearity, for example --- which is a common motivation
+for using these tests.
+
+\oos\ tests are common in International Macroeconomics,
+Macroeconomics, and Finance (see, for example, \citealt{MeR:83};
+\citealt{StW:03}; and \citealt{GoW:08}) and there is a substantial
+literature developing the theoretical properties of these statistics,
+beginning primarily with \citet{DiM:95} and
+\citet{Wes:96}.
+In a pair of papers,
+\citet{ClW:06,ClW:07} develop an \oos\ test of the null hypothesis
+that a small benchmark model is correctly specified.  Their test
+compares the forecasting performance of a pair of nested models, and
+the null hypothesis is that the innovations in the smaller model form
+a Martingale Difference Sequence (\mds).  This test procedure is popular, and
+one assumes that this is due in part to the statistic's convenience,
+the statistic is approximately normal after adjusting for the
+estimation error of the larger model.  Normality comes from a
+fixed-length rolling window, as in \citet{GiW:06}, and the adjustment
+centers the statistic to have mean-zero under the null.  This statistic is especially
+convenient because other \oos\ tests for similar hypotheses
+(\citealt{CCS:01}; \citealt{ClM:01,ClM:05}; \citealt{CoS:02,CoS:04};
+and \citealt{Mcc:07}; among others) have a nonstandard limit
+distribution and place restrictions on the models under consideration,
+while other asymptotically normal statistics test a different null
+hypothesis \citep{GiW:06} or place assumptions on the models and \dgp\
+that are often violated in empirical work (\citealt{DiM:95};
+\citealt{Wes:96}; \citealt{WeM:98};
+\citealt{Mcc:00}).%
+\footnote{\citet{DiM:95} assume that the models are
+  not estimated. \citet{Wes:96}, \citet{WeM:98}, and \citet{Mcc:00}
+  assume that the models do not converge to the same limit,
+  which rules out nesting.} %
+However, Clark and West's statistic is only ``approximately normal''
+in an informal sense.  Clark and West present Monte Carlo evidence of
+the statistic's distribution, but only prove that the statistic is
+asymptotically normal with mean zero when the benchmark model is
+not estimated \citep{ClW:06}. Estimating the parameters of the smaller
+model invalidates their proof.
+
+This paper proposes a modified version of Clark and West's (2006,
+2007) statistic and shows that it is
+asymptotically normal even when the smaller model is estimated.  To
+achieve normality, the pseudotrue benchmark model must be estimated
+consistently, but the larger alternative model must continue to be
+estimated inconsistently so that the test statistic is not degenerate
+when the models are nested. We can meet both needs by
+using different window strategies for each model: the benchmark model
+is estimated using a recursive window and the alternative with a
+fixed-length rolling window.
+This approach has the further advantage over existing \oos\ tests for
+nested models that the alternative can be essentially arbitrary as
+long as high level moment conditions hold. In particular, researchers
+can use model selection techniques like the \aic\ or \bic\ to
+determine the number of lags to include, the particular exogenous
+variables to include, etc. Moreover, although we focus on nested
+models in this paper, the approach can be used with non-nested models
+as well. As \citet{ClM:11b} have recently argued,
+\citepos{Wes:96} results do not hold when the true \dgp\ is nested by
+the benchmark and alternative models, which is allowable under the
+null hypothesis of interest. (\citealp{ClM:11b}, call this scenario ``overlapping models.'')
+
+The next section presents the intuition and theory for our new
+statistic.  Section~\ref{sec:2} presents simulations that compare our
+pairwise \oos\ test to \poscw\ original statistics.
+Section~\ref{sec:3} demonstrates the use of our statistic by
+reanalyzing \citepos{GoW:08} study of excess return predictability and
+demonstrates how our results can be used in settings with many
+alternative models. Section~\ref{sec:4} concludes. Our results follow
+from arguments similar to \citepos{Wes:96} and have been put in a
+separate appendix along with some supporting lemmas \citep{Cal:15b}.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "mixedwindow"
+%%% TeX-command-extra-options: "-shell-escape"
+%%% End:

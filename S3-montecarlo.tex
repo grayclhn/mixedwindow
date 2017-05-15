@@ -1,0 +1,95 @@
+\section{Monte Carlo Results}\label{sec:2}
+This section presents Monte Carlo experiments demonstrating that
+this paper's modified version of \citepos{ClW:07} statistic performs
+similarly to their original test in the situations they study, but can
+have substantially higher power when the \dgp\ has a structural
+break.%
+\footnote{All of these simulations were programmed in R
+  \citep[version 2.14.0]{R} and use the \allcaps{MASS}
+  \citep[7.3-22]{VeR:02} package.} %
+
+The \dgp\ has three different parametrizations: one to study the
+tests' size, one to study power under stationarity, and one to study
+power if there is a single break in the relationship between the
+target and predictors.  The \dgp\ is:
+\begin{align*}
+  y_{t+1} &= \gamma_{1t} + \gamma_{2t} x_{t} + \ep_{t+1} &
+  \gamma_t &=
+  \begin{cases}
+    (0.5, 0)    & \text{size simulations} \\
+    (0.5, 0.35) & \text{power (stable)} \\
+    (-0.5, 0)    & t \leq \tfrac{T}{2} \quad \text{power (break)} \\
+    (1, 0.35) & t > \tfrac{T}{2} \quad \text{power (break)}
+  \end{cases}\\\nonumber
+  x_{t+1} &= 0.15 + 0.95 x_{t} + u_{t+1} &
+  (\ep_t, u_t)' &\sim iid\ N\Bigg(\begin{pmatrix} 0 \\ 0
+  \end{pmatrix}
+   , \begin{pmatrix} 18 & -
+    0.5 \\ -0.5 & 0.025 \end{pmatrix}\Bigg)
+  \\ R &= 120, 240 & P &= 120, 240, 360, 720.
+\end{align*}
+Both models are estimated by \ols. The benchmark model regresses $y_{t+1}$
+on a constant, and the alternative regresses $y_{t+1}$ on a constant and
+$x_t$.  \citet{ClW:07} argue that this \dgp\ mimics an asset
+pricing application similar to \citepos{GoW:08} which we study in
+Section~\ref{sec:3}.
+
+For comparison, we study this paper's new statistic as well as
+\poscw\ rolling-window and recursive-window test statistics.  Clark and West
+only prove that their rolling-window statistic is asymptotically
+normal, and only then if the benchmark model is not estimated, but
+their recursive-window statistic is popular in practice and in
+simulations tends to perform similarly to their rolling window test.
+We use all three of these statistics to test the null that the
+benchmark model's innovation is an \mds.%
+\footnote{\citet{ClW:07}
+  report the performance of the tests proposed by \citet{CCS:01} and
+  \citet{ClM:05} as well, and of tests based on the naive Gaussian
+  statistic.} %
+
+\begin{table}[tb]
+  \centering
+  \input{tex/mc1}
+  \caption{Size and power of the \oos\ tests in the simulations
+    described by Section~\ref{sec:2}, at
+    \testsize\% confidence.  These percentages are calculated from \totalsims\
+    samples.  Pr[\allcaps{CW} roll.] shows the fraction of simulations for
+    which Clark and West's (2007) rolling-window statistic rejects;
+    Pr[\allcaps{CW} rec.] shows the fraction of simulations for which
+    their recursive-window statistic rejects; and Pr[new] shows the fraction of
+    simulations for which this paper's test rejects.}
+\label{tab:mc1}
+\end{table}
+
+Table~\ref{tab:mc1} presents the simulation results.  For all of the
+stable parameter values, the proposed new statistic has similar
+rejection probability to \citepos{ClW:07}.  Both of Clark and West's
+tests are generally slightly undersized relative to our new test,
+which is itself slightly undersized: when $R$ is 120 and $P$ is 360
+our test statistic has size 7.6\% and Clark and West's rolling and
+recursive window tests have size 7.5\% and 6.2\% respectively, at a
+nominal size of 10\%.  For the stable alternative, our new statistic
+typically has slightly higher power than Clark and West's rolling
+window and lower power than their recursive window.  For example, when
+$R$ is 120 and $P$ is 720, the rolling-window test rejects at 66.8\%,
+our statistic at 73.0\%, and the recursive window statistic at 82.3\%,
+again for a nominal size of 10\%.  In general, the statistics perform
+similarly under stability.
+
+For the simulations with a single break, the new statistic has
+considerably higher power than \poscw\ original tests across all of
+the choices of $R$ and $P$; the rejection probability is more than
+twice as large for most parametrizations.  When $R$ is 120 and $P$ is
+360 with a nominal size of 10\%, for example, the new statistic
+rejects at 96.4\% while the rolling and recursive window statistics
+reject at 35.5\% and 32.9\% respectively.  Results for other choices
+of nominal size and sample split give similar results.  So mixing
+window strategies can give a large power advantage when testing for
+time-varying predictability, and performs similarly to the original
+test when testing for stable outperformance.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "mixedwindow"
+%%% TeX-command-extra-options: "-shell-escape"
+%%% End:

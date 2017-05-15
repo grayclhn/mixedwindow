@@ -1,0 +1,331 @@
+\section[Asymptotic normality]{Theoretical results supporting the asymptotically normal \oos\ statistic}
+\label{sec:1}
+
+This section presents the new \oos\ statistic; first we give an
+informal motivation of the statistic, then present the paper's key
+assumptions in Section~\ref{sec:1a} and present our formal theoretical
+results in Section~\ref{sec:1b}.
+
+Suppose for now that a researcher is interested in
+predicting the target variable $y_{t+1}$ with a vector of regressors
+$x_t$, that $v_t$ is another random process that is believed to
+potentially contain information about $y_{t+1}$, and that
+$(y_t, x_t, v_t)$ is stationary and weakly dependent.
+In addition,
+let $\btrue = (\E x_t x_t')^{-1} \E x_t y_{t+1}$ be the pseudotrue
+coefficient for the regression of $y_{t+1}$ on $x_t$ and define
+$\ep_{t+1} = y_{t+1} - x_t'\btrue$.  If this linear model is
+correctly specified, then $\ep_{t+1}$ is an \mds\ with respect
+to $\sigma((x_t, v_t, y_t), (x_{t-1}, v_{t-1}, y_{t-1}),\dots)$
+and we can see immediately that
+\begin{equation}
+  \label{eq:4}
+  \oclt{t} \ep_{t+1} (v_t - x_t'\btrue)
+\end{equation}
+obeys an \mds\ \clt\ and is asymptotically normal as $P \to \infty$,%
+\footnote{This claim assumes that the asymptotic variance of the
+  sample average is uniformly positive, a requirement that we will
+  address in Section~\ref{sec:1b}.} %
+with $R$ an arbitrary starting value
+and $P = T - R$.
+
+Straightforward algebra \citep{ClW:07} shows that
+\begin{equation}
+  \label{eq:5}
+  \tfrac{1}{\sqrt{P}} \osum{t} \ep_{t+1} (v_t -
+  x_t'\btrue) = \tfrac{1}{2 \sqrt{P}} \osum{t} \Big[(y_{t+1} -
+  x_t\btrue)^2 - (y_{t+1} - v_t)^2 + (x_t'\btrue - v_t)^2 \Big]
+\end{equation}
+almost surely.
+\citet{ClW:06,ClW:07} base their \oos\ statistics on the \allcaps{RHS} of
+Equation~\eqref{eq:5}, but use a second forecast of $y_{t+1}$ as
+$v_t$. (Call it $\yh_{t+1}$.) They use a rolling window of length
+$R$ to estimate $\yh_{t+1}$,%
+\footnote{Making $\yh_{t+1}$ a function of $y_t, x_{t-1}, z_{t-1}
+\dots, y_{t-R+1}, x_{t-R}$ and $z_{t-R}$, where $z_t$ is another weakly
+dependent random process} %
+and $R$ is kept finite as $T \to \infty$ so that
+$\yh_{t+1}$ inherits the weak dependence properties of the
+variables used to estimate it. Using a finite window prevents
+the degeneracy that can arise when comparing nested models out-of-sample (see
+\citealp{ClM:01}, and \citealp{Mcc:07}), so the conditional variance
+of the \oos\ average remains positive and the average obeys a \clt.%
+\footnote{This approach was first introduced by \citet{GiW:06}.} %
+
+\citet{ClW:06,ClW:07} propose using this as a test of whether the benchmark is correctly specified.
+In their 2006 paper, Clark and West assume that the
+coefficients on the benchmark model, $\btrue$, are zero under the null, making
+$\ep_{t+1}$ observed directly. This restriction is relaxed in
+their 2007 paper, where $\btrue$ is unknown and estimated with the same length-$R$
+rolling window as $\yh_{t+1}$. Now the estimated linear model's prediction errors,
+$\eph_{t+1}$, replace $\ep_{t+1}$ in the \oos\
+test statistic. Unfortunately, $\eph_{t+1}$ is not an
+\mds\ even when $\ep_{t+1}$ is, so the statistic is no longer
+asymptotically mean-zero normal, even though this approximation
+performs well in simulations. Since the window length is finite,
+the estimator of $\btrue$ does not converge to $\btrue$.
+
+This paper proposes using the same basic \oos\ statistic,
+but using a recursive window to estimate $\btrue$ and produce
+$\eph_{t+1}$:
+\begin{align}
+  \label{eq:8}
+  \bh_t &= \Big(\sum_{s=1}^{t-1} x_{s} x_{s}'\Big)^{-1}
+  \sum_{s=1}^{t-1} x_{s} y_{s+1}
+  && \text{and}
+  &
+  \eph_{t+1} &= y_{t+1} - x_t'\bh_t
+\end{align}
+for each $t$.%
+\footnote{The matrix inversion in $\bh_t$ can be replaced with a
+  pseudo-inverse if necessary for some values of $t$ without changing
+  the forecast.} %
+\citepos{Wes:96} Theorem 4.1 implies that
+\begin{equation*}
+  \oclt{t} \Big[(y_{t+1} -
+  x_t\bh_t)^2 - (y_{t+1} - v_t)^2 + (x_t'\bh_t - v_t)^2 \Big]
+\end{equation*}
+is asymptotically normal with mean zero under Clark and West's
+\mds\ null for fairly
+arbitrary processes $v_t$, as long as $v_t$ is weakly dependent and
+the \oos\ statistic has uniformly positive variance.  Just as in
+\citet{ClW:06,ClW:07}, these conditions are ensured if $v_t$ is
+another forecast of $y_{t+1}$ based on a fixed-length rolling window.
+
+So far, we have presented an especially simple version of the result
+to make the intuition as clear as possible. The next section lists the
+specific assumptions for the more general case and defines additional notation.
+
+\subsection{Theoretical assumptions}
+\label{sec:1a}
+
+Consider the following environment. There is a single linear
+benchmark model of the target variable, $y_{t+1}$:
+\begin{equation}\label{eq:1}
+  y_{t+1} = x_t'\beta + \ep_{t+1}, \quad t = 1,\dots,T-1
+\end{equation}
+where $\beta$ is an unknown vector of parameters and $x_t$ is an
+observed vector of predictors. The parameter $\beta$ is estimated with
+\ols\ using a recursive window as described by Equation~\eqref{eq:8}.
+The alternative model is denoted $\yh_{t+1}$ and is estimated with a
+rolling window of length $R$.
+
+The main conditions on the \dgp\ are summarized in the first
+assumption.  The weak dependence and moment conditions are
+standard. The assumption of strict stationarity is stronger than
+necessary in practice --- once the alternative forecasting method is
+known, it is only necessary that the \oos\ adjusted loss difference be
+weak stationary, and even that can be relaxed further --- but this
+stronger assumption ensures that the results hold generally.
+
+\phantomsection
+\addcontentsline{toc}{subsubsection}{Assumption \ref{a1}}
+\begin{asmp}\label{a1}%
+  The data are generated by the relationship
+  \begin{equation}
+    y_{t+1} = x_t'\btrue + \ep_{t+1}
+  \end{equation}
+  for $t=1,2,\dots$, for some value $\btrue$, with $\E x_t \ep_{t+1} =
+  0$, $\E \ep_{t+1}^2 > 0$, and $\E x_t x_t'$ positive definite for
+  all $t$. Also assume that there is an additional sequence of random
+  vectors $z_t$ and the process $(\ep_{t+1}, x_t, z_t)$ is stationary
+  and strong mixing of size $-r/(r-2)$ or uniform mixing of size
+  $-r/(2r-2)$, for $r > 2$.
+\end{asmp}
+
+The next assumption defines the forecasting models and adds additional
+constraints to the \dgp.
+
+\phantomsection
+\addcontentsline{toc}{subsubsection}{Assumption \ref{a3}}
+\begin{asmp}\label{a3}%
+  The benchmark forecast is $x_t'\bh_t$, where $\bh_t$ is constructed
+  with a recursive window according to~\eqref{eq:8}. The alternative
+  forecast satisfies
+  \begin{equation}
+    \yh_{t+1} = \psi(y_t,z_t,\dots,y_{t-R+1}, z_{t-R+1})
+  \end{equation}
+  where $\psi$ is a known measurable function and the window length,
+  $R$, remains finite as $T \to \infty$. Moreover, the vector
+  $(\ep_{t+1}, x_t, \yh_{t+1})$ has uniformly bounded $2 r$ moments
+  where $r$ is first defined in Assumption~\ref{a1}.
+\end{asmp}
+
+The requirement that the alternative forecast satisfies moment
+conditions, rather than the underlying predictors $z_t$, is somewhat
+unappealing but necessary. The function $\psi$ that generates these
+forecasts is otherwise nearly unrestricted, so even well-behaved predictors
+could produce arbitrarily badly-behaved forecasts. For example, if
+\begin{equation*}
+  z_t \sim \iid~\bernoulli(1/2),
+\end{equation*}
+setting $\psi(y_t, z_t) = 1/z_t$ would prevent a \clt\ from holding
+since the forecast equals positive infinity with probability $1/2$. It
+is easy to construct less obvious examples of problematic functions as
+well. Assumption~\ref{a3} implicitly rules out these functional forms
+by imposing moment conditions on the alternative models' forecasts.
+
+Our next assumption ensures that the asymptotic variance of the \oos\
+average is positive.
+\phantomsection
+\addcontentsline{toc}{subsubsection}{Assumption \ref{a4}}
+\begin{asmp}\label{a4}%
+  The asymptotic variance-covariance matrix
+  \begin{equation}
+    \var \Bigg(
+      \oclt{t} \begin{pmatrix} x_t \\ \yh_{t+1} \end{pmatrix} \ep_{t+1}
+      \Bigg)
+  \end{equation}
+  is uniformly positive definite (in $T$).
+\end{asmp}
+This assumption is much less restrictive than in \cite{Wes:96}.  As in
+\cite{GiW:06} and \citet{ClW:06,ClW:07}, the assumption only serves to
+rule out pathological cases --- for example, letting the alternative
+model consist of only the first regressor of the benchmark. In \citet{Wes:96}, this
+assumption is a restriction on the \dgp\ as well as the forecasting
+models, but in this paper it is a restriction only on the models.
+
+The final assumption restricts the class of \hac\ variance estimators
+we will consider. We use the same class of estimators studied by
+\citet{JoD:00} (their class $\mathcal{K}$); see their paper for
+further discussion.
+\phantomsection
+\addcontentsline{toc}{subsubsection}{Assumption \ref{a5}}
+\begin{asmp}\label{a5}%
+  The kernel $K$ is a function from $\Re$ to $[-1,1]$ such that $K(0) = 1$, $K(x)
+  = K(-x)$ for all $x$, $K(\cdot)$ is continuous at zero and all but a
+  finite number of points, and
+  \begin{gather*}
+    \int_{-\infty}^{\infty} \lvert K(x) \rvert\, dx < \infty,
+    \intertext{and}
+    \int_{-\infty}^{\infty} \Bigg\lvert
+    \int_{-\infty}^{\infty} K(z) e^{ixz}\,dz \Bigg\rvert\, dx < \infty.
+  \end{gather*}
+\end{asmp}
+
+Last, we define some notation that will be used to derive the
+theoretical properties of our \oos\ statistics.  The information set
+that contains the information available for forecasting $y_{t+1}$ is
+\begin{equation*}
+  \Fs_t = \sigma(y_t, x_t, z_t, y_{t-1}, x_{t-1}, z_{t-1},\dots).
+\end{equation*}
+The adjusted \oos\ loss difference using a hypothetical value of
+$\beta$ to produce the benchmark forecast is denoted by
+\begin{equation*}
+  f_t(\beta) = (y_{t+1} - x_t'\beta)^2 - (y_{t+1} - \yh_{t+1})^2 + (x_t'\beta - \yh_{t+1})^2.
+\end{equation*}
+Define the additional terms $\fh_t = f_t(\bh_t)$, $f_t = f_t(\btrue)$,
+\begin{gather*}
+  \gh_t = 2 \Bigg[\oavg{s} (x_s'\bh_s - \yh_{s+1}) x_s'\Bigg]\,
+          \Bigg[\tfrac{1}{T-1} \sum_{s=1}^{T-1} x_s x_s'\Bigg]^{-1} x_t \eph_{t+1}
+  \intertext{and}
+  g_t = 2 \E\Big[(x_t'\btrue - \yh_{t+1}) x_t'\Big] \, (\E x_t x_t')^{-1} x_t \ep_{t+1}
+\end{gather*}
+and the \oos\ averages $\fb = \osum{t} \fh_t/P$, $\fb^* = \osum{t}
+f_t/P$, $\gb = \osum{t} \gh_t/P$, and $\gb^* = \osum{t} g_t/P$.
+
+\subsection{Theoretical results}
+\label{sec:1b}
+
+Asymptotic normality of the \oos\ average now follows directly from the
+first three assumptions without other conditions. The proof is
+presented in the Appendix and follows \citet{Wes:96} closely.
+
+\phantomsection
+\addcontentsline{toc}{subsubsection}{Theorem \ref{res:1}}
+\begin{thm}\label{res:1}\input{mixedwindow_thm1}\end{thm}
+
+To use this result, we need a consistent estimator of
+$\sigma^2$. Define the \hac\ covariance estimator $\sigmah^2_1 =
+\sh_{11} + 2 (\sh_{12} + \sh_{13})$ and the \mds\ covariance estimator
+$\sigmah^2_2 = \sh_{21} + 2(\sh_{22} + \sh_{23})$ with
+\begin{align*}
+  \sh_{11} &= \oavg{s,t} (\fh_s - \fb) (\fh_t - \fb) K(\tfrac{t-s}{P}), &
+  \sh_{21} &= \oavg{t} (\fh_t - \fb)^2, \\
+  \sh_{12} &= \oavg{s,t} (\fh_s - \fb)(\gh_t - \gb) K(\tfrac{t-s}{P}), &
+  \sh_{22} &= \oavg{t} (\fh_t - \fb)(\gh_t - \gb),
+\intertext{and}
+  \sh_{13} &= \oavg{s,t} (\gh_s - \gb) (\gh_t - \gb), &
+  \sh_{23} &= \oavg{t} (\gh_t - \gb)^2.
+\end{align*}
+
+These estimators are consistent under similar assumptions to
+Theorem~\ref{res:1}.
+
+\phantomsection
+\addcontentsline{toc}{subsubsection}{Lemma \ref{lem:2}}
+\begin{lem}\label{lem:2}\input{mixedwindow_lem2}\end{lem}
+
+Note that these results allow misspecification; asymptotic normality
+follows from the weak dependence of the underlying series and from the
+design of the test statistic. These statistics have typically been
+used to test the null hypothesis that the benchmark model is correctly
+specified --- that $\{\ep_t, \Fs_t\}$ is an \mds\ --- which
+implies that $f_t$ is an \mds\ as discussed
+at the beginning of this section. This is especially appealing in our
+framework, since the benchmark can be theoretically motivated so the
+\mds\ null would be a test of rationality. For example, \citet{GoW:08}
+test whether excess returns for the S\&P 500 are predictable
+out-of-sample, and any deviation of $\ep_{t+1}$ from an \mds\ is potentially
+interesting. But the \mds\ null hypothesis only affects the estimator
+of $\sigma^2$ (see Lemma~\ref{lem:2}); Theorem~\ref{res:1} continues
+to hold under any \dgp\ that satisfies Assumptions~\ref{a1}~--~\ref{a4}.
+
+In other settings, a researcher may want to test the weaker hypothesis
+that $\E \fb^* = 0$ but the benchmark may be misspecified. Our
+statistic can then be interpreted as an encompassing test as in
+\citet{HLN:98}, and would test whether the alternative model contains
+additional information that could make the benchmark model more
+accurate. This interpretation can be motivated by the combination forecasting
+model
+\begin{equation*}
+  \yh_{\mathit{avg},t+1} = (1 - w) x_t'\btrue + w \yh_{t+1}
+\end{equation*}
+which can be rewritten in terms of forecast errors as
+\[
+y_{t+1} - \yh_{\mathit{avg},t+1} = \ep_{t+1} + w (x_t'\btrue - \yh_{t+1}).
+\]
+The value
+\[
+w = \frac{\E \ep_{t+1} (\yh_{t+1} - x_t'\btrue)}{\E (x_t'\btrue - \yh_{t+1})^2}
+\]
+minimizes the \mse\ of the combination forecast, so the combination
+model will have smaller \mse\ than the benchmark model, implying that
+the alternative uses information not in the benchmark, unless
+$\ep_{t+1}$ and $\yh_{t+1} - x_t'\btrue$ are uncorrelated. This
+correlation is exactly the quantity measured by our statistic.
+
+The final result puts together Theorem~\ref{res:1} and
+Lemma~\ref{lem:2} to produce our test statistics. The null hypothesis
+under misspecification is written in terms of $\E \ep_{t+1} \yh_{t+1}$
+and not $\E \ep_{t+1} (\yh_{t+1} - x_t'\btrue)$, since $\E \ep_{t+1}
+x_t = 0$ by construction. This result is an immediate consequence of
+the previous two results and its proof is omitted.
+
+\phantomsection
+\addcontentsline{toc}{subsubsection}{Theorem \ref{thm:3}}
+\begin{thm}\label{thm:3}\input{mixedwindow_thm3}\end{thm}
+
+The test statistic proposed in Theorem~\ref{thm:3} can be easily
+extended in several ways. For longer-horizon forecasts (two or more
+periods ahead), $\sigmah_1$ will remain consistent but $\sigmah_2$
+will not --- the forecast errors for a correctly specified
+$h$-step-ahead forecast have an MA($h-1$) dependence structure --- but
+using a generalized $\sigmah_2$ that reflects this covariance
+structure restores consistency. To test optimality under loss
+functions other than squared-error, one can replace the forecast error
+with the generalized forecast error \citep[see, for
+example][]{PaT:07,PaT:07b} and replace the \ols\ estimator of $\beta$ with the
+corresponding $M$-estimator. And the benchmark model can be replaced
+in general with a nonlinear model that satisfies the assumptions of
+\citet{Wes:96} or \citet{Mcc:00} by making the appropriate changes to
+$f_t$ and $g_t$. (See \citealp{Wes:96}, and \citealp{Mcc:00},
+for details.) The general approach of using a recursive window to
+estimate the benchmark and a fixed-length rolling window to estimate
+the alternative applies quite broadly.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "mixedwindow"
+%%% TeX-command-extra-options: "-shell-escape"
+%%% End:
