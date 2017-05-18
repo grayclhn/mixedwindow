@@ -24,13 +24,13 @@ of size $-r/(2r-2)$ and are stationary with bounded $r$th moments.
 \subsection{Proof of Theorem \ref{res:1}}
   Let $R'$ be a new sequence such that $R' \to \infty$ as $T \to \infty$
   and $R' = o(\sqrt{P})$, and then rewrite the centered \oos\ average as
-  \begin{equation}\label{eq:6}
+  \begin{equation}\label{eq:5}
     \sqrt{P} (\fb - \E \fb^*)
     = \ocltb{t} (\fh_t - \E f_t)
       + \tfrac{1}{\sqrt{P}} \osumc{t} (\fh_t - \E f_t).
   \end{equation}
   Lemma~\ref{res:a1} ensures that the second summation is $o_p(1)$, so
-  we can rewrite~\eqref{eq:6} as
+  we can rewrite~\eqref{eq:5} as
   \begin{align*}
     \sqrt{P} (\fb - \E \fb^*)
     &= \ocltb{t} (f_t - \E f_t) + F B \ocltb{t} H_t \\
@@ -39,10 +39,10 @@ of size $-r/(2r-2)$ and are stationary with bounded $r$th moments.
   where $w_t$ equals $2 (\bh_t - \btrue)' x_t x_t' (\bh_t - \btrue)$.
   Lemma~\ref{res:a4} shows that
   \begin{gather}
-    \WesA \to^{p} 0 \label{eq:11} \\
-    \WesB \to^{p} 0 \label{eq:12} \\
+    \WesA \to^{p} 0 \label{eq:6} \\
+    \WesB \to^{p} 0 \label{eq:7} \\
     \intertext{and}
-    \WesC \to^{p} 0 \label{eq:13}
+    \WesC \to^{p} 0 \label{eq:8}
   \end{gather}
   and Lemma~\ref{res:a2} along with the \clt\ ensures that $\oclt{t}
   w_t = o_{p}(1)$. The proof that
@@ -55,7 +55,7 @@ of size $-r/(2r-2)$ and are stationary with bounded $r$th moments.
 
 We will only prove $\sigmah_2 \to^p \sigma$. The result for
 $\sigmah_1$ is essentially the same and uses \citepos{JoD:00} Theorem
-2.1 for the \hac\ equivalent of Equations~\eqref{eq:1}--\eqref{eq:7}.
+2.1 for the \hac\ equivalent of Equations~\eqref{eq:9}--\eqref{eq:11}.
 
   First, we can rewrite the components of the variance estimator as
   \begin{align*}
@@ -69,28 +69,28 @@ $\sigmah_1$ is essentially the same and uses \citepos{JoD:00} Theorem
   $\fb - \E \fb^* \to^p 0$,
   $\gb - \E \gb^* \to^p 0$,
   \begin{gather}
-    \oavg{t} (f_t - \E f_t)^2 \to^p \lim \var(\sqrt{P} \fb^*) \label{eq:1} \\
-    \oavg{t} (g_t - \E g_t)^2 \to^p \lim \var(\sqrt{P} \gb^*) \label{eq:3} \\
-    \oavg{t} (f_t - \E f_t) (g_t - \E g_t) \to^p \lim \cov(\sqrt{P} \fb^*, \sqrt{P} \gb^*) \label{eq:7} \\
-    \oavg{t} (\fh_t - f_t)^2 \to^p 0, \label{eq:4}
+    \oavg{t} (f_t - \E f_t)^2 \to^p \lim \var(\sqrt{P} \fb^*) \label{eq:9} \\
+    \oavg{t} (g_t - \E g_t)^2 \to^p \lim \var(\sqrt{P} \gb^*) \label{eq:10} \\
+    \oavg{t} (f_t - \E f_t) (g_t - \E g_t) \to^p \lim \cov(\sqrt{P} \fb^*, \sqrt{P} \gb^*) \label{eq:11} \\
+    \oavg{t} (\fh_t - f_t)^2 \to^p 0, \label{eq:12}
     \intertext{and}
-    \oavg{t} (\gh_t - g_t)^2 \to^p 0. \label{eq:5}
+    \oavg{t} (\gh_t - g_t)^2 \to^p 0. \label{eq:13}
   \end{gather}
   The first two results are implied by the proof of
-  Theorem~\ref{res:1} and~\eqref{eq:1}, \eqref{eq:3}, and~\eqref{eq:7}
+  Theorem~\ref{res:1} and~\eqref{eq:9}, \eqref{eq:10}, and~\eqref{eq:11}
   follow from the \lln, since each summand is an $L_1$-mixingale of
   size $-1$ \citep[see, for example][Theorem 17.5]{Dav:94}, so it suffices to
-  prove~\eqref{eq:4} and~\eqref{eq:5}.
+  prove~\eqref{eq:12} and~\eqref{eq:13}.
 
   As in the proof of Theorem~\ref{res:1}, let $R'$ be a new sequence such that $R' \to \infty$ as
   $T \to \infty$ and $R' = o(\sqrt{P})$.  Straightforward algebra reveals
-  that~\eqref{eq:4} holds if
+  that~\eqref{eq:12} holds if
   \begin{gather}
-    \oavg{t} ((\bh_t - \btrue)' x_t)^4 \to^p 0 \label{eq:10}
+    \oavg{t} ((\bh_t - \btrue)' x_t)^4 \to^p 0 \label{eq:14}
     \intertext{and}
-    \oavg{t} (x_t'(\bh_t - \btrue))^2 (2 x_t'\btrue - y_{t+1} - \yh_{t+1})^2 \to^p 0.\label{eq:14}
+    \oavg{t} (x_t'(\bh_t - \btrue))^2 (2 x_t'\btrue - y_{t+1} - \yh_{t+1})^2 \to^p 0.\label{eq:15}
   \end{gather}
-  The \allcaps{LHS} of~\eqref{eq:10} is bounded by
+  The \allcaps{LHS} of~\eqref{eq:14} is bounded by
   \begin{align*}
     \oavg{t} &\|\bh_t - \btrue\|^4 \|x_t\|^4\\
     &= \oavgc{t} \|\bh_t - \btrue\|^4 \|x_t\|^4 + \oavgb{t} \|\bh_t - \btrue\|^4 \|x_t\|^4 \\
@@ -108,7 +108,7 @@ $\sigmah_1$ is essentially the same and uses \citepos{JoD:00} Theorem
     &= O_p(R'/P) + o_p(1)
   \end{align*}
   again by Lemma~\ref{res:a2} and the \lln. Both terms converge to
-  zero in probability by construction. The proof of~\eqref{eq:5} is similar.
+  zero in probability by construction. The proof of~\eqref{eq:13} is similar.
 
 \subsection{Supporting results}
 
@@ -239,10 +239,10 @@ presentation, we'll assume in these proofs that $x_t$ is a scalar.
 \addcontentsline{toc}{subsubsection}{Lemma \ref{res:a4}}
 \begin{alem}\label{res:a4}
   Under the conditions of Theorem~\ref{res:1}, Equations
-  \eqref{eq:11}--\eqref{eq:13} hold.
+  \eqref{eq:6}--\eqref{eq:8} hold.
 \end{alem}
 
-\begin{proof}[Proof of~\eqref{eq:11}]
+\begin{proof}[Proof of~\eqref{eq:6}]
 Choose $\delta > 0$ and $a \in (0,1/2)$ and write
 \begin{multline}\label{eq:A3}
   \WesA =
@@ -269,7 +269,7 @@ Lemma~\ref{res:a2} for a more detailed discussion of the mixingale
 argument), and converges to zero by Kronecker's Lemma.
 \end{proof}
 
-\begin{proof}[Proof of~\eqref{eq:12}]
+\begin{proof}[Proof of~\eqref{eq:7}]
 Note that
 \begin{equation*}
   \Big\lvert \WesB \Big\rvert =
@@ -289,8 +289,8 @@ The last summation is $O(1)$ by Lemma A1 of \citet{Wes:96}, completing
 the proof.
 \end{proof}
 
-\begin{proof}[Proof of~\eqref{eq:13}]
-This proof is essentially the same as that of~\eqref{eq:12}. We have
+\begin{proof}[Proof of~\eqref{eq:8}]
+This proof is essentially the same as that of~\eqref{eq:7}. We have
 \begin{equation*}
   \Big\lvert \WesC \Big\rvert =
   O_p\Big(\max_{t=R',\dots,T-1} \lvert B_t - B\rvert\Big)\
@@ -302,7 +302,7 @@ where the first component converges to zero in probability. Then
   \leq \tfrac{1}{\sqrt{P}} \sum_{t=R'}^{T-1} \lVert F_t - F \rVert_2 \lVert  H_t \rVert_2
   = O\Bigg(\tfrac{1}{\sqrt{P}} \sum_{t=R'}^{T-1} \lVert  H_t \rVert_2 \Bigg)
 \end{equation*}
-which is $O(1)$ as in the proof of~\eqref{eq:12}.
+which is $O(1)$ as in the proof of~\eqref{eq:7}.
 \end{proof}
 
 %%% Local Variables:
