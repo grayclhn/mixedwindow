@@ -233,7 +233,18 @@ presented in the Appendix and follows \citet{Wes:96} closely.
 
 \phantomsection
 \addcontentsline{toc}{subsubsection}{Theorem \ref{res:1}}
-\begin{thm}\label{res:1}\input{mixedwindow_thm1}\end{thm}
+\begin{thm}\label{res:1}
+  If Assumptions~\ref{a1}--\ref{a4} hold then
+  \begin{equation*}
+    \sqrt{P} (\fb - \E \fb^*) \to^d N(0, \sigma^2),
+  \end{equation*}
+  with $\sigma^2 = s_1 + 2(s_2 + s_3)$ and
+  \begin{align*}
+    s_1  &= \lim \var(\sqrt{P}\, \fb^*), &
+    s_2  &= \lim \cov(\sqrt{P}\, \fb^*, \sqrt{P}\, \gb^*), &
+    s_3  &= \lim \var(\sqrt{P}\, \gb^*).
+  \end{align*}
+\end{thm}
 
 To use this result, we need a consistent estimator of
 $\sigma^2$. Define the \hac\ covariance estimator $\sigmah^2_1 =
@@ -254,7 +265,17 @@ Theorem~\ref{res:1}.
 
 \phantomsection
 \addcontentsline{toc}{subsubsection}{Lemma \ref{lem:2}}
-\begin{lem}\label{lem:2}\input{mixedwindow_lem2}\end{lem}
+\begin{lem}\label{lem:2}
+  If Assumptions~\ref{a1}--\ref{a5} hold then
+  \begin{equation*}
+    \sigmah_1^2 \to^p \sigma^2.
+  \end{equation*}
+  If Assumptions~\ref{a1}--\ref{a4} hold and $\{\varepsilon_{t},
+  \Fs_t\}$ is an \mds\ then
+  \begin{equation*}
+    \sigmah_2^2 \to^p \sigma^2.
+  \end{equation*}
+\end{lem}
 
 Note that these results allow misspecification; asymptotic normality
 follows from the weak dependence of the underlying series and from the
@@ -304,7 +325,19 @@ the previous two results and its proof is omitted.
 
 \phantomsection
 \addcontentsline{toc}{subsubsection}{Theorem \ref{thm:3}}
-\begin{thm}\label{thm:3}\input{mixedwindow_thm3}\end{thm}
+\begin{thm}\label{thm:3}
+  If Assumptions~\ref{a1}--\ref{a5} hold, then
+  \begin{equation*}
+    \sqrt{P} \fb / \sigmah_1 \to^d N(0, 1)
+  \end{equation*}
+  under the null hypothesis $\E(\varepsilon_{t+1} \yh_{t+1}) = 0$ for
+  all $t = R,\dots,T-1$.  If, instead, Assumptions~\ref{a1}--\ref{a4}
+  hold, then
+  \begin{equation*}
+    \sqrt{P} \fb / \sigmah_2 \to^d N(0, 1)
+  \end{equation*}
+  under the null hypothesis that $\{\varepsilon_t, \Fs_t\}$ is an \mds.
+\end{thm}
 
 The test statistic proposed in Theorem~\ref{thm:3} can be easily
 extended in several ways. For longer-horizon forecasts (two or more
